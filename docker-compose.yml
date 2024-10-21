@@ -1,0 +1,9 @@
+version: "3.8"
+services:
+
+  checkard:
+    build: ./
+    container_name: checkard
+    volumes:
+      - ./:/usr/src/app
+      - /usr/src/app/node_modules
