@@ -17,6 +17,7 @@
 - [License](#license)
 - [Stack](#stack)
 
+
 ## Synopsis
 
 **[Checkard.js](https://github.com/DWTechs/Checkard.js)** is an open source dynamic type checking library for Javascript, Typescript and Node.js to test if a given variable is what it is supposed to be (
@@ -44,13 +45,16 @@ Function, object, ascii, boolean, integer, string, json, email...)
 
 Those are the oldest targeted versions. The library should work properly on older devices but we do not support it officially.  
 
+
 ## Installation
 
 ```bash
 $ npm i @dwtechs/checkard
 ```
 
+
 ## Usage
+
 
 ### ES6 / TypeScript
 
@@ -66,6 +70,7 @@ if (!isArray(variable, '=', 2)) {
 }
 ```
 
+
 ### CommonJS
 
 ```javascript
@@ -80,6 +85,7 @@ if (!ch.isArray(variable, '=', 2)) {
 }
 ```
 
+
 ### IIFE
 
 ```html
@@ -87,16 +93,18 @@ if (!ch.isArray(variable, '=', 2)) {
 ```
 
 ```javascript
-if (CH.isFunction(variable)) {
+if (ch.isFunction(variable)) {
   //variable is a function
 }
 
-if (!CH.isArray(variable, '=', 2)) {
+if (!ch.isArray(variable, '=', 2)) {
   //variable is not an array of length 2
 }
 ```
 
+
 ## API Reference
+
 
 ### Types
 
@@ -105,6 +113,7 @@ if (!CH.isArray(variable, '=', 2)) {
 Comparator = '='|'<'|'>'|'<='|'>=';
 
 ```
+
 
 ### Primitive
 
@@ -160,6 +169,7 @@ isAscii(code: any, extended: boolean = false): boolean {}
 
 ```
 
+
 ### Valid number
 
 ```javascript
@@ -180,6 +190,7 @@ isValidFloat( number: any,
               typeCheck: boolean = true ): boolean {}
 
 ```
+
 
 ### String
 
@@ -213,6 +224,7 @@ containsNumber(string: any, min?: number|null, max?: number|null): boolean {}
 
 ```
 
+
 ### Date
 
 ```javascript
@@ -228,6 +240,7 @@ isTimestamp(number: any, typeCheck: boolean = true): boolean {}
 isValidTimestamp(number: any, min: number = -2208989361000, max: number = 7258114800000, typeCheck: boolean = true): boolean {}
 
 ```
+
 
 ### Array
 
