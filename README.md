@@ -285,6 +285,21 @@ isNode(node: any): boolean {}
 ```
 
 
+### Normalize
+
+```javascript
+
+ucfirst(string: any, everyWords?: boolean = true): string | any {}
+
+normalizeNickname(nickname: any, firstName: any, lastName: any): string {}
+
+normalizeName(string: any): string {}
+
+normalizeEmail(string: any): string {}
+
+```
+
+
 ## Contributors
 
 Checkard.js is still in development and we would be glad to get all the help you can provide.

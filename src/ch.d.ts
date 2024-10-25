@@ -40,7 +40,10 @@ declare function isDate(date: any): date is Date;
 declare function isValidDate(date: any, min?: Date, max?: Date): date is Date;
 declare function isTimestamp(ts:any, typeCheck?: boolean): ts is number;
 declare function isValidTimestamp(ts: any, min?: number, max?: number, typeCheck?: boolean): ts is number;
-
+declare function ucfirst();
+declare function normalizeNickname();
+declare function normalizeName();
+declare function normalizeEmail();
 
 export { isBoolean, 
          isNil,
@@ -80,4 +83,8 @@ export { isBoolean,
          isDate,
          isValidDate,
          isTimestamp,
-         isValidTimestamp };
+         isValidTimestamp,
+         ucfirst,
+         normalizeNickname,
+         normalizeName,
+         normalizeEmail };
