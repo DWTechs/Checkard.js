@@ -24,8 +24,8 @@ const files   = [
     dest: `${dest}ch.cjs.js`
   },
   {
-    src:  `${src}ch.js`,
-    dest: `${dest}ch.js`
+    src:  `${src}ch.mjs`,
+    dest: `${dest}ch.mjs`
   },
 ];
 
