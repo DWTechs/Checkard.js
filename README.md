@@ -121,10 +121,10 @@ Comparator = '='|'<'|'>'|'<='|'>=';
 
 isBoolean(bool: any): boolean {}
 
-isString(string: any, emptyCheck: boolean = false): boolean {}
+isString(string: any, emptyCheck?: boolean = false): boolean {}
 
 // If typeCheck = false values like '4', '0', '8e4', '+true', '0x44' return true
-isNumber(number: any, typeCheck: boolean = true): boolean {}
+isNumber(number: any, typeCheck?: boolean = true): boolean {}
 
 isSymbol(sym: any): boolean {}
 
@@ -137,7 +137,7 @@ isSymbol(sym: any): boolean {}
 
 isFunction(func: any): boolean {}
 
-isObject(obj: any, emptyCheck: boolean = false): boolean {}
+isObject(obj: any, emptyCheck?: boolean = false): boolean {}
 
 //Check whether val is null or undefined
 isNil(val: any): boolean {}
@@ -149,23 +149,23 @@ isNil(val: any): boolean {}
 
 ```javascript
 
-isInteger(number: any, typeCheck: boolean = true): boolean {}
+isInteger(number: any, typeCheck?: boolean = true): boolean {}
 
-isFloat(number: any, typeCheck: boolean = true): boolean {}
+isFloat(number: any, typeCheck?: boolean = true): boolean {}
 
-isEven(number: any, typeCheck: boolean = true): boolean {}
+isEven(number: any, typeCheck?: boolean = true): boolean {}
 
-isOdd(number: any, typeCheck: boolean = true): boolean {}
+isOdd(number: any, typeCheck?: boolean = true): boolean {}
 
-isOrigin(number: any, typeCheck: boolean = true): boolean {}
+isOrigin(number: any, typeCheck?: boolean = true): boolean {}
 
-isPositive(number: any, typeCheck: boolean = true): boolean {}
+isPositive(number: any, typeCheck?: boolean = true): boolean {}
 
-isNegative(number: any, typeCheck: boolean = true): boolean {}
+isNegative(number: any, typeCheck?: boolean = true): boolean {}
 
-isPowerOfTwo(number: any, typeCheck: boolean = true): boolean {}
+isPowerOfTwo(number: any, typeCheck?: boolean = true): boolean {}
 
-isAscii(code: any, extended: boolean = false): boolean {}
+isAscii(code: any, extended?: boolean = false): boolean {}
 
 ```
 
@@ -175,19 +175,19 @@ isAscii(code: any, extended: boolean = false): boolean {}
 ```javascript
 
 isValidNumber(number: any, 
-              min: number = -999999999, 
-              max: number = 999999999, 
-              typeCheck: boolean = true ): boolean {}
+              min?: number = -999999999, 
+              max?: number = 999999999, 
+              typeCheck?: boolean = true ): boolean {}
 
 isValidInteger(number: any, 
-               min: number = -999999999, 
-               max: number = 999999999, 
-               typeCheck: boolean = true ): boolean {}
+               min?: number = -999999999, 
+               max?: number = 999999999, 
+               typeCheck?: boolean = true ): boolean {}
 
 isValidFloat( number: any, 
-              min: number = -999999999.9, 
-              max: number = 999999999.9, 
-              typeCheck: boolean = true ): boolean {}
+              min?: number = -999999999.9, 
+              max?: number = 999999999.9, 
+              typeCheck?: boolean = true ): boolean {}
 
 ```
 
@@ -197,12 +197,12 @@ isValidFloat( number: any,
 ```javascript
 
 isStringOfLength( string: any, 
-                  min: number = 0, 
-                  max: number = 999999999 ): boolean {}
+                  min?: number = 0, 
+                  max?: number = 999999999 ): boolean {}
 
 isJson(string: any): boolean {}
 
-isRegex(regex: any, typeCheck: boolean = true): boolean {}
+isRegex(regex: any, typeCheck?: boolean = true): boolean {}
 
 isEmail(email: any): boolean {}
 
@@ -231,13 +231,13 @@ containsNumber(string: any, min?: number|null, max?: number|null): boolean {}
 
 isDate(date: any): boolean {}
 
-isValidDate(date: any, min: Date = new Date('1/1/1900'), max: Date = new Date('1/1/2200')): boolean {}
+isValidDate(date: any, min?: Date = new Date('1/1/1900'), max?: Date = new Date('1/1/2200')): boolean {}
 
-isTimestamp(number: any, typeCheck: boolean = true): boolean {}
+isTimestamp(number: any, typeCheck?: boolean = true): boolean {}
 
 // default min = 1/1/1900 (month/day/year)
 // default max = 1/1/2200 (month/day/year)
-isValidTimestamp(number: any, min: number = -2208989361000, max: number = 7258114800000, typeCheck: boolean = true): boolean {}
+isValidTimestamp(number: any, min?: number = -2208989361000, max?: number = 7258114800000, typeCheck?: boolean = true): boolean {}
 
 ```
 
