@@ -1,6 +1,6 @@
 {
   "name": "@dwtechs/checkard",
-  "version": "2.25.0",
+  "version": "2.26.0",
   "description": "An open source dynamic type checking library for Javascript, Typescript and Node.js to test if a given variable is what it is supposed to be.",
   "keywords": [
     "type checking",

@@ -74,7 +74,7 @@ if (!isArray(variable, '=', 2)) {
 ### CommonJS
 
 ```javascript
-const ch = require("@dwtechs/checkard/dist/ch.cjs");
+const ch = require("@dwtechs/checkard/dist/ch");
 
 if (ch.isFunction(variable)) {
   //variable is a function
