@@ -4,7 +4,7 @@ const config =  {
   input: "build/es6/ch.js",
   output: {
     name: "ch",
-    file: "build/ch.mjs",
+    file: "build/ch.js",
     format: "es"
   },
   external: [],
