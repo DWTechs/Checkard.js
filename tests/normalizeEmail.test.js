@@ -17,24 +17,12 @@ test("sends true to normalizeEmail", () => {
   expect(normalizeEmail(true)).toBe(false);
 });
 
-test("sends empty string to normalizeEmail", () => {
-  expect(normalizeEmail("")).toBe(true);
-});
-
-test("sends empty string to normalizeEmail with empty check", () => {
-  expect(normalizeEmail("", true)).toBe(false);
-});
-
 test("sends false to normalizeEmail", () => {
   expect(normalizeEmail(false)).toBe(false);
 });
 
 test("sends string to normalizeEmail", () => {
-  expect(normalizeEmail("string")).toBe(true);
-});
-
-test("sends string to normalizeEmail with empty check", () => {
-  expect(normalizeEmail("string", true)).toBe(true);
+  expect(normalizeEmail("string")).toBe(false);
 });
 
 test("sends positive even integer to normalizeEmail", () => {
@@ -93,10 +81,6 @@ test("sends array to normalizeEmail", () => {
   expect(normalizeEmail(["white", "grey", "black"])).toBe(false);
 });
 
-test("sends array to normalizeEmail with empty check", () => {
-  expect(normalizeEmail(["white", "grey", "black"], true)).toBe(false);
-});
-
 var json = `{
   "actor": {
     "name": "Tom Cruise",
@@ -108,11 +92,7 @@ var json = `{
 }`;
 
 test("sends json to normalizeEmail", () => {
-  expect(normalizeEmail(json)).toBe(true);
-});
-
-test("sends json to normalizeEmail with empty check", () => {
-  expect(normalizeEmail(json, true)).toBe(true);
+  expect(normalizeEmail(json)).toBe(false);
 });
 
 var invalidjson = `{
@@ -126,11 +106,7 @@ var invalidjson = `{
 }`;
 
 test("sends invalid json to normalizeEmail", () => {
-  expect(normalizeEmail(invalidjson)).toBe(true);
-});
-
-test("sends invalid json to normalizeEmail with empty check", () => {
-  expect(normalizeEmail(invalidjson, true)).toBe(true);
+  expect(normalizeEmail(invalidjson)).toBe(false);
 });
 
 function testFunction() {
@@ -155,4 +131,101 @@ test("sends node to normalizeEmail", () => {
 
 test("sends regex to normalizeEmail", () => {
   expect(normalizeEmail(/ab+c/i)).toBe(false);
+});
+
+test("sends abc-@mail.com to normalizeEmail", () => {
+  expect(normalizeEmail("abc-@mail.com")).toBe(false);
+});
+
+test("sends abc.@mail.com to normalizeEmail", () => {
+  expect(normalizeEmail("abc.@mail.com")).toBe(false);
+});
+
+test("sends abc..def@mail.com to normalizeEmail", () => {
+  expect(normalizeEmail("abc..def@mail.com")).toBe(false);
+});
+
+test("sends .abc@mail.com to normalizeEmail", () => {
+  expect(normalizeEmail(".abc@mail.com")).toBe(false);
+});
+
+test("sends abc#def@mail.com to normalizeEmail", () => {
+  expect(normalizeEmail("abc#def@mail.com")).toBe(false);
+});
+
+test("sends abc.def@mail.c to normalizeEmail", () => {
+  expect(normalizeEmail("abc.def@mail.c")).toBe(false);
+});
+
+test("sends abc.def@mail#archive.com to normalizeEmail", () => {
+  expect(normalizeEmail("abc.def@mail#archive.com")).toBe(false);
+});
+
+test("sends abc.def@mail to normalizeEmail", () => {
+  expect(normalizeEmail("abc.def@mail")).toBe(false);
+});
+
+test("sends abc.def@mail..com to normalizeEmail", () => {
+  expect(normalizeEmail("abc.def@mail..com")).toBe(false);
+});
+
+test("sends abc-d@mail.com to normalizeEmail", () => {
+  expect(normalizeEmail("abc-d@mail.com")).toBe("abc-d@mail.com");
+});
+
+test("sends abc.def@mail.com to normalizeEmail", () => {
+  expect(normalizeEmail("abc.def@mail.com")).toBe("abc.def@mail.com");
+});
+
+test("sends abc@mail.com to normalizeEmail", () => {
+  expect(normalizeEmail("abc@mail.com")).toBe("abc@mail.com");
+});
+
+test("sends abc_def@mail.com to normalizeEmail", () => {
+  expect(normalizeEmail("abc_def@mail.com")).toBe("abc_def@mail.com");
+});
+
+test("sends abc.def@mail.cc to normalizeEmail", () => {
+  expect(normalizeEmail("abc.def@mail.cc")).toBe("abc.def@mail.cc");
+});
+
+test("sends abc.def@mail-archive.com to normalizeEmail", () => {
+  expect(normalizeEmail("abc.def@mail-archive.com")).toBe("abc.def@mail-archive.com");
+});
+
+test("sends abc.def@mail.org to normalizeEmail", () => {
+  expect(normalizeEmail("abc.def@mail.org")).toBe("abc.def@mail.org");
+});
+
+test("sends abc.def@mail.com to normalizeEmail", () => {
+  expect(normalizeEmail("abc.def@mail.com")).toBe("abc.def@mail.com");
+});
+
+
+test("sends aBc-d@Mail.com to normalizeEmail", () => {
+  expect(normalizeEmail("aBc-d@Mail.com")).toBe("abc-d@mail.com");
+});
+
+test("sends abc.Def@mail.cOm to normalizeEmail", () => {
+  expect(normalizeEmail("abc.Def@mail.cOm")).toBe("abc.def@mail.com");
+});
+
+test("sends Abc@Mail.coM to normalizeEmail", () => {
+  expect(normalizeEmail("Abc@Mail.coM")).toBe("abc@mail.com");
+});
+
+test("sends abc_Def@mAil.com to normalizeEmail", () => {
+  expect(normalizeEmail("abc_Def@mAil.com")).toBe("abc_def@mail.com");
+});
+
+test("sends abC.deF@mail.cc to normalizeEmail", () => {
+  expect(normalizeEmail("abC.deF@mail.cc")).toBe("abc.def@mail.cc");
+});
+
+test("sends abc.def@maiL-Archive.com to normalizeEmail", () => {
+  expect(normalizeEmail("abc.def@maiL-Archive.com")).toBe("abc.def@mail-archive.com");
+});
+
+test("sends ABF.DEF@MAIL-TOTO.COM to normalizeEmail", () => {
+  expect(normalizeEmail("ABF.DEF@MAIL-TOTO.COM")).toBe("abf.def@mail-toto.com");
 });

@@ -320,6 +320,35 @@ function isValidTimestamp(t, min = -2208989361000, max = 7258114800000, type = t
     return isTimestamp(t, type) && t >= min && t <= max;
 }
 
+function ucfirst(s, everyWords = true) {
+    if (!isString(s, true))
+        return false;
+    const newStr = s.toLowerCase();
+    if (everyWords) {
+        const words = newStr.split(" ");
+        for (let i = 0; i < words.length; i++) {
+            words[i] = words[i].charAt(0).toUpperCase() + words[i].slice(1);
+        }
+        return words.join(" ");
+    }
+    return newStr.charAt(0).toUpperCase() + newStr.slice(1);
+}
+function normalizeNickname(nickname, firstName, lastName) {
+    return isString(nickname, true) || (isString(firstName, true) && isString(lastName, true)) ? createNickname(nickname, firstName, lastName) : false;
+}
+function normalizeName(s) {
+    return ucfirst(s, true);
+}
+function normalizeEmail(s) {
+    return isEmail(s) ? s.toLowerCase() : false;
+}
+function createNickname(nickname, firstName, lastName) {
+    const n = nickname || firstName[0] + lastName;
+    return n.toLowerCase()
+        .normalize("NFD")
+        .replace(/\p{Diacritic}/gu, "");
+}
+
 exports.containsLowerCase = containsLowerCase;
 exports.containsNumber = containsNumber;
 exports.containsSpecialCharacter = containsSpecialCharacter;
@@ -359,3 +388,7 @@ exports.isValidFloat = isValidFloat;
 exports.isValidInteger = isValidInteger;
 exports.isValidNumber = isValidNumber;
 exports.isValidTimestamp = isValidTimestamp;
+exports.normalizeEmail = normalizeEmail;
+exports.normalizeName = normalizeName;
+exports.normalizeNickname = normalizeNickname;
+exports.ucfirst = ucfirst;

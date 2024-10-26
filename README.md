@@ -237,7 +237,7 @@ isTimestamp(number: any, typeCheck?: boolean = true): boolean {}
 
 // default min = 1/1/1900 (month/day/year)
 // default max = 1/1/2200 (month/day/year)
-isValidTimestamp(number: any, min?: number = -2208989361000, max?: number = 7258114800000, typeCheck?: boolean = true): boolean {}
+isValidTimestamp(number: any, min?: number = -2208989361000, max?: number = 7258114800000, typeCheck?: boolean = true): boolea {}
 
 ```
 
@@ -289,16 +289,35 @@ isNode(node: any): boolean {}
 
 ```javascript
 
-ucfirst(string: any, everyWords?: boolean = true): string | any {}
+ucfirst(string: string, everyWords?: boolean = true): string | false {}
 
-normalizeNickname(nickname: any, firstName: any, lastName: any): string {}
+normalizeNickname(nickname: string, firstName: string, lastName: string): string | false {}
 
-normalizeName(string: any): string {}
+normalizeName(string: string): string | false {}
 
-normalizeEmail(string: any): string {}
+normalizeEmail(string: string): string | false {}
 
 ```
 
+example : 
+
+```javascript
+
+function normalizeInputs(req, res, next) {
+  const users = req.body.rows;
+  log.debug(`Normalize values for ${users.length} users`);
+
+  for (const u of users) {
+    const { firstName, lastName, nickname, email } = u;
+    u.firstname = str.normalizeName(firstName);
+    u.lastname = str.normalizeName(lastName);
+    u.nickname = str.normalizeNickname(nickname, firstName, lastName);
+    u.email = str.normalizeName(email);
+  }
+  next();
+}
+
+```
 
 ## Contributors
 

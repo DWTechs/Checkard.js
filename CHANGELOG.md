@@ -1,3 +1,11 @@
+# 2.26.0 (Oct 27th 2024)
+
+- Add normalization functionalities to the library  
+- Add ucfirst method
+- Add normalizeNickname method
+- Add normalizeName method
+- Add normalizeEmail method
+
 # 2.25.0 (Oct 22th 2024)
 
 - CheckHard.js becomes Checkard.js 

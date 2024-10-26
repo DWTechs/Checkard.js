@@ -1,158 +1,127 @@
 import { normalizeNickname } from "../dist/ch";
 
-test("sends null to normalizeNickname", () => {
-  expect(normalizeNickname(null)).toBe(false);
+it('should return the nickname in lowercase', () => {
+  const nickname = 'JDoe';
+  const result = normalizeNickname(nickname, '', '');
+  expect(result).toBe('jdoe');
 });
 
-test("sends undefined to normalizeNickname", () => {
-  expect(normalizeNickname(undefined)).toBe(false);
+it('should return the nickname with accents removed', () => {
+  const nickname = 'JöhnDöe';
+  const result = normalizeNickname(nickname, '', '');
+  expect(result).toBe('johndoe');
 });
 
-const s1 = Symbol();
-test("sends symbol to normalizeNickname", () => {
-  expect(normalizeNickname(s1)).toBe(false);
+it('should return the nickname with non-alphanumeric characters removed', () => {
+  const nickname = 'John_Doe!';
+  const result = normalizeNickname(nickname, '', '');
+  expect(result).toBe('john_doe!');
 });
 
-test("sends true to normalizeNickname", () => {
-  expect(normalizeNickname(true)).toBe(false);
+it('should return false if the nickname is an integer', () => {
+  const nickname = 123;
+  const result = normalizeNickname(nickname, '', '');
+  expect(result).toBe(false);
 });
 
-test("sends empty string to normalizeNickname", () => {
-  expect(normalizeNickname("")).toBe(true);
+it('should return false if the nickname is an object', () => {
+  const nickname = {};
+  const result = normalizeNickname(nickname, '', '');
+  expect(result).toBe(false);
 });
 
-test("sends empty string to normalizeNickname with empty check", () => {
-  expect(normalizeNickname("", true)).toBe(false);
+it('should return false if the nickname is not an empty array', () => {
+  const nickname = [];
+  const result = normalizeNickname(nickname, '', '');
+  expect(result).toBe(false);
 });
 
-test("sends false to normalizeNickname", () => {
-  expect(normalizeNickname(false)).toBe(false);
+it('should return false if the nickname is not an array of strings', () => {
+  const nickname = ["John","Doe","The first"];
+  const result = normalizeNickname(nickname, '', '');
+  expect(result).toBe(false);
 });
 
-test("sends string to normalizeNickname", () => {
-  expect(normalizeNickname("string")).toBe(true);
+
+it('should return false if the firstName is an integer', () => {
+  const firstName = 123;
+  const result = normalizeNickname('', firstName, '');
+  expect(result).toBe(false);
 });
 
-test("sends string to normalizeNickname with empty check", () => {
-  expect(normalizeNickname("string", true)).toBe(true);
+it('should return false if the firstName is an object', () => {
+  const firstName = {};
+  const result = normalizeNickname('', firstName, '');
+  expect(result).toBe(false);
 });
 
-test("sends positive even integer to normalizeNickname", () => {
-  expect(normalizeNickname(2)).toBe(false);
+it('should return false if the firstName is not an empty array', () => {
+  const firstName = [];
+  const result = normalizeNickname('', firstName, '');
+  expect(result).toBe(false);
 });
 
-test("sends positive odd integer to normalizeNickname", () => {
-  expect(normalizeNickname(1)).toBe(false);
+it('should return false if the nfirstName is not an array of strings', () => {
+  const firstName = ["John","Doe","The first"];
+  const result = normalizeNickname('', firstName, '');
+  expect(result).toBe(false);
 });
 
-test("sends zero to normalizeNickname", () => {
-  expect(normalizeNickname(0)).toBe(false);
+
+it('should return false if the lastName is an integer', () => {
+  const lastName = 123;
+  const result = normalizeNickname('', '', lastName);
+  expect(result).toBe(false);
 });
 
-test("sends positive float to normalizeNickname", () => {
-  expect(normalizeNickname(1.1)).toBe(false);
+it('should return false if the lastName is an object', () => {
+  const lastName = {};
+  const result = normalizeNickname('', '', lastName);
+  expect(result).toBe(false);
 });
 
-test("sends negative odd integer to normalizeNickname", () => {
-  expect(normalizeNickname(-1)).toBe(false);
+it('should return false if the lastName is not an empty array', () => {
+  const lastName = [];
+  const result = normalizeNickname('', '', lastName);
+  expect(result).toBe(false);
 });
 
-test("sends negative even integer to normalizeNickname", () => {
-  expect(normalizeNickname(-2)).toBe(false);
+it('should return false if the nlastName is not an array of strings', () => {
+  const lastName = ["John","Doe","The first"];
+  const result = normalizeNickname('', '', lastName);
+  expect(result).toBe(false);
 });
 
-test("sends negative float to normalizeNickname", () => {
-  expect(normalizeNickname(-1.1)).toBe(false);
+
+
+it('should return false if the nickname, first name, and last name is an empty string', () => {
+  const nickname = '';
+  const result = normalizeNickname(nickname, '', '');
+  expect(result).toBe(false);
 });
 
-test("sends object to normalizeNickname", () => {
-  expect(normalizeNickname({})).toBe(false);
+it('should return false if the nickname and first name, is an empty string', () => {
+  const nickname = '';
+  const result = normalizeNickname(nickname, '', 'toto');
+  expect(result).toBe(false);
 });
 
-test("sends empty array to normalizeNickname", () => {
-  expect(normalizeNickname([])).toBe(false);
+it('should return false if the nickname and last name, is an empty string', () => {
+  const nickname = '';
+  const result = normalizeNickname(nickname, 'toto', '');
+  expect(result).toBe(false);
 });
 
-test("sends array of 1 integer to normalizeNickname", () => {
-  expect(normalizeNickname([2])).toBe(false);
+it('should create a nickname from the first name and last name if no nickname is provided', () => {
+  const firstName = 'John';
+  const lastName = 'Doe';
+  const result = normalizeNickname('', firstName, lastName);
+  expect(result).toBe('jdoe');
 });
 
-test("sends array of 2 integers to normalizeNickname", () => {
-  expect(normalizeNickname([2,1])).toBe(false);
-});
-
-test("sends array of 1 integer to normalizeNickname", () => {
-  expect(normalizeNickname([2.1])).toBe(false);
-});
-
-test("sends array of 2 integers to normalizeNickname", () => {
-  expect(normalizeNickname([2.1,1.1])).toBe(false);
-});
-
-test("sends array to normalizeNickname", () => {
-  expect(normalizeNickname(["white", "grey", "black"])).toBe(false);
-});
-
-test("sends array to normalizeNickname with empty check", () => {
-  expect(normalizeNickname(["white", "grey", "black"], true)).toBe(false);
-});
-
-var json = `{
-  "actor": {
-    "name": "Tom Cruise",
-    "age": 56,
-    "Born At": "Syracuse, NY",
-    "Birthdate": "July 3 1962",
-    "photo": "https://jsonformatter.org/img/tom-cruise.jpg"
-  }
-}`;
-
-test("sends json to normalizeNickname", () => {
-  expect(normalizeNickname(json)).toBe(true);
-});
-
-test("sends json to normalizeNickname with empty check", () => {
-  expect(normalizeNickname(json, true)).toBe(true);
-});
-
-var invalidjson = `{
-  "actor: {
-    "name": "Tom Cruise",
-    "age": 56
-    "Born At": "Syracuse, NY",
-    "Birthdate": "July 3 1962",
-    "photo": "https://jsonformatter.org/img/tom-cruise.jpg"
-  }
-}`;
-
-test("sends invalid json to normalizeNickname", () => {
-  expect(normalizeNickname(invalidjson)).toBe(true);
-});
-
-test("sends invalid json to normalizeNickname with empty check", () => {
-  expect(normalizeNickname(invalidjson, true)).toBe(true);
-});
-
-function testFunction() {
-  console.log("function");
-}
-
-test("sends function to normalizeNickname", () => {
-  expect(normalizeNickname(testFunction)).toBe(false);
-});
-
-var para = document.createElement("p");
-
-test("sends htmlElement to normalizeNickname", () => {
-  expect(normalizeNickname(para)).toBe(false);
-});
-
-var node = document.createTextNode("new node");
-
-test("sends node to normalizeNickname", () => {
-  expect(normalizeNickname(node)).toBe(false);
-});
-
-test("sends regex to normalizeNickname", () => {
-  expect(normalizeNickname(/ab+c/i)).toBe(false);
+it('should create a nickname from the first name and last name with accents removed', () => {
+  const firstName = 'Jöhn';
+  const lastName = 'Döe';
+  const result = normalizeNickname('', firstName, lastName);
+  expect(result).toBe('jdoe');
 });

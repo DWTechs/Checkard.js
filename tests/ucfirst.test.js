@@ -18,23 +18,38 @@ test("sends true to ucfirst", () => {
 });
 
 test("sends empty string to ucfirst", () => {
-  expect(ucfirst("")).toBe(true);
+  expect(ucfirst("")).toBe(false);
 });
 
-test("sends empty string to ucfirst with empty check", () => {
-  expect(ucfirst("", true)).toBe(false);
+test("sends empty string to ucfirst without everyWords", () => {
+  expect(ucfirst("", false)).toBe(false);
 });
 
 test("sends false to ucfirst", () => {
   expect(ucfirst(false)).toBe(false);
 });
 
+const str = "string";
+const strRes = "String";
+
 test("sends string to ucfirst", () => {
-  expect(ucfirst("string")).toBe(true);
+  expect(ucfirst(str)).toBe(strRes);
 });
 
-test("sends string to ucfirst with empty check", () => {
-  expect(ucfirst("string", true)).toBe(true);
+test("sends string to ucfirst without everyWords", () => {
+  expect(ucfirst(str, false)).toBe(strRes);
+});
+
+const strstr = "string string";
+const strstrRes = "String string";
+const strstrResEW = "String String";
+
+test("sends string string to ucfirst", () => {
+  expect(ucfirst(strstr, true)).toBe(strstrResEW);
+});
+
+test("sends string string to ucfirst without everyWords", () => {
+  expect(ucfirst(strstr, false)).toBe(strstrRes);
 });
 
 test("sends positive even integer to ucfirst", () => {
@@ -97,40 +112,30 @@ test("sends array to ucfirst with empty check", () => {
   expect(ucfirst(["white", "grey", "black"], true)).toBe(false);
 });
 
-var json = `{
+const json = `{
   "actor": {
-    "name": "Tom Cruise",
-    "age": 56,
-    "Born At": "Syracuse, NY",
-    "Birthdate": "July 3 1962",
-    "photo": "https://jsonformatter.org/img/tom-cruise.jpg"
+    "name": "Tom Cruise"
+  }
+}`;
+
+const jsonResEW = `{
+  "actor": {
+    "name": "tom Cruise"
+  }
+}`;
+
+const jsonRes = `{
+  "actor": {
+    "name": "tom cruise"
   }
 }`;
 
 test("sends json to ucfirst", () => {
-  expect(ucfirst(json)).toBe(true);
+  expect(ucfirst(json)).toBe(jsonResEW);
 });
 
-test("sends json to ucfirst with empty check", () => {
-  expect(ucfirst(json, true)).toBe(true);
-});
-
-var invalidjson = `{
-  "actor: {
-    "name": "Tom Cruise",
-    "age": 56
-    "Born At": "Syracuse, NY",
-    "Birthdate": "July 3 1962",
-    "photo": "https://jsonformatter.org/img/tom-cruise.jpg"
-  }
-}`;
-
-test("sends invalid json to ucfirst", () => {
-  expect(ucfirst(invalidjson)).toBe(true);
-});
-
-test("sends invalid json to ucfirst with empty check", () => {
-  expect(ucfirst(invalidjson, true)).toBe(true);
+test("sends json to ucfirst without everyWords", () => {
+  expect(ucfirst(json, false)).toBe(jsonRes);
 });
 
 function testFunction() {
