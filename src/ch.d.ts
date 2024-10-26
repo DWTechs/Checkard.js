@@ -1,46 +1,58 @@
 
 export declare type Comparator = '='|'<'|'>'|'<='|'>=';
 
-declare function isBoolean(bool: any): bool is boolean;
-declare function isNil(nil: any): nil is null | undefined;
-declare function isSymbol(sym: any): sym is Symbol;
-declare function isJson(str: any): str is JSON;
-declare function isFunction(func: any): func is Function;
-declare function isObject<T = any>(obj: any, emptyCheck?: boolean): obj is object & T;
-declare function isArray<T = any>(ar: any, comparator?: Comparator|null, length?: number|null): ar is Array<T>;
-declare function isAscii(code: any, extended?: boolean): code is number;
-declare function isInteger(num: any, typeCheck?: boolean): num is number;
-declare function isValidInteger( num: any, min?: number, max?: number, typeCheck?: boolean): num is number;
-declare function isFloat(num: any, typeCheck?: boolean): num is number;
-declare function isValidFloat( num: any, min?: number, max?: number, typeCheck?: boolean): num is number;
-declare function isNumber(num: any, typeCheck?: boolean): num is number;
-declare function isValidNumber( num: any, min?: number, max?: number, typeCheck?: boolean): num is number;
-declare function isString(str: any, emptyCheck?: boolean): str is string;
-declare function isStringOfLength(str: any, min?: number, max?: number,): str is string;
-declare function isHtmlElement(htmlElement: any): htmlElement is HTMLElement;
-declare function isHtmlEventAttribute(htmlEventAttribute: any): htmlEventAttribute is string;
-declare function isNode(node: any): node is Node;
-declare function isRegex(regex: any, typeCheck?: boolean): regex is RegExp;
-declare function isEven(num: any, typeCheck?: boolean): num is number;
-declare function isOdd(num: any, typeCheck?: boolean): num is number;
-declare function isOrigin(num: any, typeCheck?: boolean): num is number;
-declare function isPositive(num: any, typeCheck?: boolean): num is number;
-declare function isNegative(num: any, typeCheck?: boolean): num is number;
-declare function isPowerOfTwo(num: any, typeCheck?: boolean): num is number;
-declare function isEmail(email: any): email is string;
-declare function isIpAddress(ipAddress: any): ipAddress is string;
-declare function isJWT(t: any): t is string;
-declare function isSlug(slug: any): slug is string;
-declare function isHexadecimal(str: any): str is string;
-declare function containsUpperCase(str: any): str is string;
-declare function containsLowerCase(str: any): str is string;
-declare function containsSpecialCharacter(str: any): str is string;
-declare function containsNumber(str: any, min?: number, max?: number): str is string;
-declare function isDate(date: any): date is Date;
-declare function isValidDate(date: any, min?: Date, max?: Date): date is Date;
-declare function isTimestamp(ts:any, typeCheck?: boolean): ts is number;
-declare function isValidTimestamp(ts: any, min?: number, max?: number, typeCheck?: boolean): ts is number;
+declare function isObject<T = any>(o: any, empty?: boolean): o is object & T;
+declare function isNil(n: any): n is null | undefined;
 
+declare function isBoolean(b: any): b is boolean;
+declare function isString(s: any, empty?: boolean): s is string;
+declare function isNumber(n: any, type?: boolean): n is number;
+declare function isSymbol(s: any): s is symbol;
+
+declare function isFunction(func: any): func is Function;
+
+declare function isArray<T = any>(a: any, comp?: Comparator | null, len?: number | null): a is Array<T>;
+
+declare function isAscii(c: any, ext?: boolean): c is number;
+declare function isInteger(n: any, type?: boolean): n is number;
+declare function isFloat(n: any, type?: boolean): n is number;
+declare function isEven(n: any, type?: boolean): n is number;
+declare function isOdd(n: any, type?: boolean): n is number;
+declare function isOrigin(n: any, type?: boolean): n is number;
+declare function isPositive(n: any, type?: boolean): n is number;
+declare function isNegative(n: any, type?: boolean): n is number;
+declare function isPowerOfTwo(n: any, type?: boolean): n is number;
+
+declare function isValidNumber(n: any, min?: number, max?: number, type?: boolean): n is number;
+declare function isValidInteger(n: any, min?: number, max?: number, type?: boolean): n is number;
+declare function isValidFloat(n: any, min?: number, max?: number, type?: boolean): n is number;
+
+declare function isHtmlElement(h: any): h is HTMLElement;
+declare function isHtmlEventAttribute(h: any): h is string;
+declare function isNode(n: any): n is Node;
+
+declare function isStringOfLength(s: any, min?: number, max?: number): s is string;
+declare function isJson(s: any): s is JSON;
+declare function isRegex(r: any, type?: boolean): r is RegExp;
+declare function isEmail(e: any): e is string;
+declare function isIpAddress(i: any): i is string;
+declare function isJWT(t: any): t is string;
+declare function isSlug(s: any): s is string;
+declare function containsUpperCase(s: any): s is string;
+declare function containsLowerCase(s: any): s is string;
+declare function containsSpecialCharacter(s: any): s is string;
+declare function isHexadecimal(s: any): s is string;
+declare function containsNumber(s: any, min?: number | null, max?: number | null): s is string;
+
+declare function isDate(d: any): d is Date;
+declare function isValidDate(d: any, min?: Date, max?: Date): d is Date;
+declare function isTimestamp(t: any, type?: boolean): t is number;
+declare function isValidTimestamp(t: any, min?: number, max?: number, type?: boolean): t is number;
+
+declare function ucfirst(s: string, everyWords?: boolean): string | false;
+declare function normalizeNickname(nickname: string, firstName: string, lastName: string): string | false;
+declare function normalizeName(s: string): string | false;
+declare function normalizeEmail(s: string): string | false;
 
 export { isBoolean, 
          isNil,
@@ -80,4 +92,8 @@ export { isBoolean,
          isDate,
          isValidDate,
          isTimestamp,
-         isValidTimestamp };
+         isValidTimestamp,
+         ucfirst,
+         normalizeNickname,
+         normalizeName,
+         normalizeEmail };

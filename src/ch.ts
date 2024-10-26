@@ -45,3 +45,9 @@ export {  isDate,
           isValidDate,
           isTimestamp,
           isValidTimestamp } from './date';
+
+export {  ucfirst,
+          normalizeNickname,
+          normalizeName,
+          normalizeEmail } from './normalize';
+  
