@@ -37,11 +37,11 @@ var ch = (function (exports) {
     function isBoolean(b) {
       return typeof b === "boolean";
     }
-    function isString(s, empty) {
-      if (empty === void 0) {
-        empty = false;
+    function isString(s, required) {
+      if (required === void 0) {
+        required = false;
       }
-      return typeof s === "string" && (empty ? !!s : true);
+      return typeof s === "string" && (required ? !!s : true);
     }
     function isNumber(n, type) {
       if (type === void 0) {
@@ -247,6 +247,10 @@ var ch = (function (exports) {
     function isSlug(s) {
       return isString(s) && slugReg.test(s);
     }
+    var hexadecimal = /^(#|0x|0h)?[0-9A-F]+$/i;
+    function isHexadecimal(s) {
+      return isString(s) && hexadecimal.test(s);
+    }
     var upperCaseReg = /[A-Z]+/;
     function containsUpperCase(s) {
       return isString(s) && upperCaseReg.test(s);
@@ -258,10 +262,6 @@ var ch = (function (exports) {
     var specialReg = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?°`€£§]+/;
     function containsSpecialCharacter(s) {
       return isString(s) && specialReg.test(s);
-    }
-    var hexadecimal = /^(#|0x|0h)?[0-9A-F]+$/i;
-    function isHexadecimal(s) {
-      return isString(s) && hexadecimal.test(s);
     }
     var numberReg = /\d/;
     var lengthReg = /[^0-9]/g;
@@ -276,6 +276,23 @@ var ch = (function (exports) {
         return isMin && isMax;
       }
       return false;
+    }
+    var defaultOptions = {
+      lowerCase: true,
+      upperCase: true,
+      number: true,
+      specialCharacter: true,
+      minLength: 12,
+      maxLength: 64
+    };
+    function isValidPassword(s, options) {
+      if (options === void 0) {
+        options = defaultOptions;
+      }
+      var o = Object.assign(Object.assign({}, defaultOptions), options);
+      if (!isString(s, true)) return false;
+      var l = s.length;
+      return l >= o.minLength && l <= o.maxLength && (o.lowerCase ? containsLowerCase(s) : true) && (o.upperCase ? containsUpperCase(s) : true) && (o.number ? containsNumber(s, 1, null) : true) && (o.specialCharacter ? containsSpecialCharacter(s) : true);
     }
 
     function isHtmlElement(h) {
@@ -464,6 +481,7 @@ var ch = (function (exports) {
     exports.isValidFloat = isValidFloat;
     exports.isValidInteger = isValidInteger;
     exports.isValidNumber = isValidNumber;
+    exports.isValidPassword = isValidPassword;
     exports.isValidTimestamp = isValidTimestamp;
     exports.normalizeEmail = normalizeEmail;
     exports.normalizeName = normalizeName;

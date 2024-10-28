@@ -31,10 +31,11 @@ export {  isStringOfLength,
           isIpAddress,
           isJWT,
           isSlug,
+          isHexadecimal,
+          isValidPassword,
           containsUpperCase,
           containsLowerCase,
           containsSpecialCharacter,
-          isHexadecimal,
           containsNumber } from './string';
 
 export {  isHtmlElement,

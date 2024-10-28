@@ -25,13 +25,22 @@ https://github.com/DWTechs/Checkard.js
 */
 
 
-export declare type Comparator = '='|'<'|'>'|'<='|'>=';
+type Comparator = '='|'<'|'>'|'<='|'>=';
+type PasswordOptions = {
+  lowerCase: boolean;
+  upperCase: boolean;
+  number: boolean;
+  specialCharacter: boolean;
+  maxLength: number;
+  minLength: number;
+};
+export type { Comparator, PasswordOptions };
 
 declare function isObject<T = any>(o: any, empty?: boolean): o is object & T;
 declare function isNil(n: any): n is null | undefined;
 
 declare function isBoolean(b: any): b is boolean;
-declare function isString(s: any, empty?: boolean): s is string;
+declare function isString(s: any, required?: boolean): s is string;
 declare function isNumber(n: any, type?: boolean): n is number;
 declare function isSymbol(s: any): s is symbol;
 
@@ -64,11 +73,12 @@ declare function isEmail(e: any): e is string;
 declare function isIpAddress(i: any): i is string;
 declare function isJWT(t: any): t is string;
 declare function isSlug(s: any): s is string;
+declare function isHexadecimal(s: any): s is string;
 declare function containsUpperCase(s: any): s is string;
 declare function containsLowerCase(s: any): s is string;
 declare function containsSpecialCharacter(s: any): s is string;
-declare function isHexadecimal(s: any): s is string;
 declare function containsNumber(s: any, min?: number | null, max?: number | null): s is string;
+declare function isValidPassword(s: any, options?: PasswordOptions): s is string;
 
 declare function isDate(d: any): d is Date;
 declare function isValidDate(d: any, min?: Date, max?: Date): d is Date;
@@ -115,6 +125,7 @@ export { isBoolean,
          containsLowerCase,
          containsSpecialCharacter,
          containsNumber,
+         isValidPassword,
          isDate,
          isValidDate,
          isTimestamp,

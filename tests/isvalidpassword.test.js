@@ -18,32 +18,61 @@ const long = "Coco!astic0tCoco!astic0tCoco!astic0tCoco!astic0tCoco!astic0tCoco!"
 
 
 test("sends valid to isValidPassword", () => {
-  expect(isValidPassword(valid)).toBe(true);
+  expect(isValidPassword(valid, options)).toBe(true);
 });
 
 test("sends missingSpecialChar to isValidPassword", () => {
-  expect(isValidPassword(missingSpecialChar)).toBe(false);
+  expect(isValidPassword(missingSpecialChar, options)).toBe(false);
 });
 
 test("sends missingNumber to isValidPassword", () => {
-  expect(isValidPassword(missingNumber)).toBe(false);
+  expect(isValidPassword(missingNumber, options)).toBe(false);
 });
 
 test("sends missingUpperCase to isValidPassword", () => {
-  expect(isValidPassword(missingUpperCase)).toBe(false);
+  expect(isValidPassword(missingUpperCase, options)).toBe(false);
 });
 
 test("sends missingLowerCase to isValidPassword", () => {
-  expect(isValidPassword(missingLowerCase)).toBe(false);
+  expect(isValidPassword(missingLowerCase, options)).toBe(false);
 });
 
 test("sends short to isValidPassword", () => {
-  expect(isValidPassword(short)).toBe(false);
+  expect(isValidPassword(short, options)).toBe(false);
 });
 
 test("sends long to isValidPassword", () => {
+  expect(isValidPassword(long, options)).toBe(false);
+});
+
+test("sends valid to isValidPassword with default options", () => {
+  expect(isValidPassword(valid)).toBe(true);
+});
+
+test("sends missingSpecialChar to isValidPassword with default options", () => {
+  expect(isValidPassword(missingSpecialChar)).toBe(false);
+});
+
+test("sends missingNumber to isValidPassword with default options", () => {
+  expect(isValidPassword(missingNumber)).toBe(false);
+});
+
+test("sends missingUpperCase to isValidPassword with default options", () => {
+  expect(isValidPassword(missingUpperCase)).toBe(false);
+});
+
+test("sends missingLowerCase to isValidPassword with default options", () => {
+  expect(isValidPassword(missingLowerCase)).toBe(false);
+});
+
+test("sends short to isValidPassword with default options", () => {
+  expect(isValidPassword(short)).toBe(false);
+});
+
+test("sends long to isValidPassword with default options", () => {
   expect(isValidPassword(long)).toBe(false);
 });
+
 
 test("sends null to isValidPassword", () => {
   expect(isValidPassword(null)).toBe(false);
@@ -63,7 +92,7 @@ test("sends true to isValidPassword", () => {
 });
 
 test("sends empty string to isValidPassword", () => {
-  expect(isValidPassword("")).toBe(true);
+  expect(isValidPassword("")).toBe(false);
 });
 
 test("sends empty string to isValidPassword with empty check", () => {
@@ -153,14 +182,14 @@ var json = `{
 }`;
 
 test("sends json to isValidPassword", () => {
-  expect(isValidPassword(json)).toBe(true);
+  expect(isValidPassword(json)).toBe(false);
 });
 
 test("sends json to isValidPassword with empty check", () => {
-  expect(isValidPassword(json, true)).toBe(true);
+  expect(isValidPassword(json, true)).toBe(false);
 });
 
-var invalidjson = `{
+var invalidjson = `{;
   "actor: {
     "name": "Tom Cruise",
     "age": 56
@@ -171,11 +200,11 @@ var invalidjson = `{
 }`;
 
 test("sends invalid json to isValidPassword", () => {
-  expect(isValidPassword(invalidjson)).toBe(true);
+  expect(isValidPassword(invalidjson)).toBe(false);
 });
 
 test("sends invalid json to isValidPassword with empty check", () => {
-  expect(isValidPassword(invalidjson, true)).toBe(true);
+  expect(isValidPassword(invalidjson, false)).toBe(false);
 });
 
 function testFunction() {

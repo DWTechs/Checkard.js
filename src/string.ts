@@ -136,10 +136,10 @@ function isValidPassword(s: any, options: PasswordOptions = defaultOptions): s i
   if (!isString(s, true)) return false;
   const l = s.length;
   return l >= o.minLength && l <= o.maxLength
-    && o.lowerCase ? containsLowerCase(s) : true 
-    && o.upperCase ? containsUpperCase(s) : true 
-    && o.number ? containsNumber(s, 1, null) : true
-    && o.specialCharacter ? containsSpecialCharacter(s) : true;
+    && (o.lowerCase ? containsLowerCase(s) : true)
+    && (o.upperCase ? containsUpperCase(s) : true)
+    && (o.number ? containsNumber(s, 1, null) : true)
+    && (o.specialCharacter ? containsSpecialCharacter(s) : true);
 }
 
 export {
