@@ -339,7 +339,7 @@ function normalizeInputs(req, res, next) {
 
 ## Contributors
 
-Checkard.js is still in development and we would be glad to get all the help you can provide.
+Checkard.js is under continuous development and we would be glad to get all the help you can provide.
 To contribute please read **[contributor.md](https://github.com/DWTechs/Checkard.js/blob/main/contributor.md)** for detailed installation guide.
 
 
