@@ -26,8 +26,8 @@ Function, object, ascii, boolean, integer, string, json, email...)
 - No dependency
 - Very lightweight
 - Thoroughly tested
-- Works in browsers and Node.js
-- Works in Javascript and Typescript
+- Works with browsers and Node.js
+- Works with Javascript and Typescript
 - Old browsers support
 
 
