@@ -275,15 +275,15 @@ example :
 
 let ar = ['dog','cat','bird'];
 
-if (isArray(array)) {
+if (isArray(ar)) {
   // check if ar is an array
 }
 
-if (isArray(array, '=', 2)) {
+if (isArray(ar, '=', 2)) {
   // check if ar is an array of length 2
 }
 
-if (isArray(array, '>=', 1)) {
+if (isArray(ar, '>=', 1)) {
   // check if ar is an array of length greater than or equal to 1
 }
 
