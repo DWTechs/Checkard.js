@@ -113,6 +113,13 @@ if (!ch.isArray(variable, '=', 2)) {
 
 Comparator = '='|'<'|'>'|'<='|'>=';
 
+PasswordOptions = {
+  lowercase: boolean,
+  uppercase: boolean,
+  number: boolean,
+  specialCharacter: boolean
+}
+
 ```
 
 
@@ -214,6 +221,16 @@ isJWT(t: any): boolean {}
 isSlug(slug: any): boolean {}
 
 isHexadecimal(string: any): boolean {}
+
+const PwdDefaultOptions = {
+  lowerCase: true,
+  upperCase: true,
+  number: true,
+  specialCharacter: true,
+  minLength: 12,
+  maxLength: 64,
+};
+isValidPassword(string: any, options: PasswordOptions = PwdDefaultOptions): boolean {}
 
 containsUpperCase(string: any): boolean {}
 

@@ -1,6 +1,16 @@
 
 type Comparator = '='|'<'|'>'|'<='|'>=';
 
+type PasswordOptions = {
+  lowerCase: boolean,
+  upperCase: boolean,
+  number: boolean,
+  specialCharacter: boolean,
+  maxLength: number,
+  minLength: number
+}
+
 export type {
-  Comparator
+  Comparator,
+  PasswordOptions
 };

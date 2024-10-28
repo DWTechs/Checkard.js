@@ -1,3 +1,7 @@
+# 2.27.0 (Oct 29th 2024)
+
+- Add isValidPassword method 
+
 # 2.26.0 (Oct 26th 2024)
 
 - Add normalization functionalities 
