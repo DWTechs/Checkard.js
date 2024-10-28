@@ -4,8 +4,8 @@ function isBoolean(b: any): b is boolean {
   return typeof b === "boolean";
 }
 
-function isString(s: any, empty = false): s is string {
-  return typeof s === "string" && (empty ? !!s : true);
+function isString(s: any, required = false): s is string {
+  return typeof s === "string" && (required ? !!s : true);
 }
 
 function isNumber(n: any, type = true): n is number {

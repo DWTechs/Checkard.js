@@ -5,7 +5,7 @@ declare function isObject<T = any>(o: any, empty?: boolean): o is object & T;
 declare function isNil(n: any): n is null | undefined;
 
 declare function isBoolean(b: any): b is boolean;
-declare function isString(s: any, empty?: boolean): s is string;
+declare function isString(s: any, required?: boolean): s is string;
 declare function isNumber(n: any, type?: boolean): n is number;
 declare function isSymbol(s: any): s is symbol;
 
