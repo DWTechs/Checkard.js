@@ -1,6 +1,6 @@
-# 2.26.0 (Oct 27th 2024)
+# 2.26.0 (Oct 26th 2024)
 
-- Add normalization functionalities to the library  
+- Add normalization functionalities 
 - Add ucfirst method
 - Add normalizeNickname method
 - Add normalizeName method

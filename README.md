@@ -26,8 +26,8 @@ Function, object, ascii, boolean, integer, string, json, email...)
 - No dependency
 - Very lightweight
 - Thoroughly tested
-- Works in browsers and Node.js
-- Works in Javascript and Typescript
+- Works with browsers and Node.js
+- Works with Javascript and Typescript
 - Old browsers support
 
 
@@ -75,6 +75,7 @@ if (!isArray(variable, '=', 2)) {
 
 ```javascript
 const ch = require("@dwtechs/checkard/dist/ch");
+// you can use "require("@dwtechs/checkard"); with Node.js 16 and above"
 
 if (ch.isFunction(variable)) {
   //variable is a function
@@ -121,7 +122,7 @@ Comparator = '='|'<'|'>'|'<='|'>=';
 
 isBoolean(bool: any): boolean {}
 
-isString(string: any, emptyCheck?: boolean = false): boolean {}
+isString(string: any, required?: boolean = false): boolean {}
 
 // If typeCheck = false values like '4', '0', '8e4', '+true', '0x44' return true
 isNumber(number: any, typeCheck?: boolean = true): boolean {}
