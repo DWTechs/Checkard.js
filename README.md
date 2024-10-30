@@ -68,6 +68,12 @@ if (isFunction(variable)) {
 if (!isArray(variable, '=', 2)) {
   //variable is not an array of length 2
 }
+
+if (!isString(firstName, true))
+    return next({ status: 400, msg: "Missing first name" });
+if (!isString(lastName, true))
+    return next({ status: 400, msg: "Missing last name" });
+
 ```
 
 
@@ -84,6 +90,12 @@ if (ch.isFunction(variable)) {
 if (!ch.isArray(variable, '=', 2)) {
   //variable is not an array of length 2
 }
+
+if (!ch.isString(firstName, true))
+    return next({ status: 400, msg: "Missing first name" });
+if (!ch.isString(lastName, true))
+    return next({ status: 400, msg: "Missing last name" });
+
 ```
 
 
