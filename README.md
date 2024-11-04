@@ -254,6 +254,27 @@ containsNumber(string: any, min?: number|null, max?: number|null): boolean {}
 
 ```
 
+Exemple : 
+
+```javascript
+
+const PwdOptions = {
+  lowerCase: false,
+  upperCase: false,
+  number: false,
+  specialCharacter: false,
+  minLength: 12,
+  maxLength: 16,
+};
+const password = 'test1234';
+
+if (isValidPassword(password, PwdOptions)) {
+  // check if password is valid compared to PwdOptions
+}
+
+```
+
+
 
 ### Date
 
