@@ -63,10 +63,8 @@ function normalizeEmail(s: string): string | false {
 /**
  * Creates a normalized nickname for a user.
  *
- * If a nickname is given, the function will return that nickname with
- * any accents and diacritics removed. If no nickname is given, the
- * function will create a nickname based on the first letter of the
- * first name and the last name.
+ * If no nickname is given, the function will create a nickname
+ * based on the first letter of the first name and the last name.
  *
  * @param {string} nickname - The nickname of the user.
  * @param {string} firstName - The first name of the user.
@@ -77,7 +75,7 @@ function createNickname(nickname: string, firstName: string, lastName: string): 
   const n = nickname || firstName[0] + lastName; // first letter of first name + last name
   return n.toLowerCase()
           .normalize("NFD") // remove accents
-          .replace(/\p{Diacritic}/gu, ""); // remove diacritics
+          .replace(/\p{Diacritic}|[^a-zA-Z\s_-]/gu, ""); // remove diacritics and any non alpha characters exceot - and _
 }
 
 export {

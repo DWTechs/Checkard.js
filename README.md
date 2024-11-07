@@ -288,7 +288,7 @@ isTimestamp(number: any, typeCheck?: boolean = true): boolean {}
 
 // default min = 1/1/1900 (month/day/year)
 // default max = 1/1/2200 (month/day/year)
-isValidTimestamp(number: any, min?: number = -2208989361000, max?: number = 7258114800000, typeCheck?: boolean = true): boolea {}
+isValidTimestamp(number: any, min?: number = -2208989361000, max?: number = 7258114800000, typeCheck?: boolean = true): boolean {}
 
 ```
 
@@ -342,6 +342,7 @@ isNode(node: any): boolean {}
 
 ucfirst(string: string, everyWords?: boolean = true): string | false {}
 
+// accept a-z - and _ characters
 normalizeNickname(nickname: string, firstName: string, lastName: string): string | false {}
 
 normalizeName(string: string): string | false {}
