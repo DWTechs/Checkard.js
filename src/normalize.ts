@@ -71,11 +71,11 @@ function normalizeEmail(s: string): string | false {
  * @param {string} lastName - The last name of the user.
  * @return {string} The normalized nickname.
  */
-function createNickname(nickname: string, firstName: string, lastName: string): string {
+function createNickname(nickname: string, firstName: string, lastName: string): string | false {
   const n = nickname || firstName[0] + lastName; // first letter of first name + last name
   return n.toLowerCase()
           .normalize("NFD") // remove accents
-          .replace(/\p{Diacritic}|[^a-zA-Z\s_-]/gu, ""); // remove diacritics and any non alpha characters exceot - and _
+          .replace(/\p{Diacritic}|[^a-zA-Z\s_-]/gu, "") || false; // remove diacritics and any non alpha characters exceot - and _
 }
 
 export {

@@ -365,7 +365,7 @@ function createNickname(nickname, firstName, lastName) {
     const n = nickname || firstName[0] + lastName;
     return n.toLowerCase()
         .normalize("NFD")
-        .replace(/\p{Diacritic}/gu, "");
+        .replace(/\p{Diacritic}|[^a-zA-Z\s_-]/gu, "") || false;
 }
 
 exports.containsLowerCase = containsLowerCase;

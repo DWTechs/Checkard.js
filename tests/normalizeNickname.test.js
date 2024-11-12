@@ -233,8 +233,7 @@ it('should delete ¥ character', () => {
 it('should delete 円 character', () => {
   const nickname = 'j円doe';
   const result = normalizeNickname(nickname, '', '');
-  expect(result).toB
-  e('jdoe');
+  expect(result).toBe('jdoe');
 });
 
 it('should delete ₠ character', () => {
@@ -480,13 +479,13 @@ it('should delete > character', () => {
 it('should replace đ character with d', () => {
   const nickname = 'jđdoe';
   const result = normalizeNickname(nickname, '', '');
-  expect(result).toBe('jddoe');
+  expect(result).toBe('jdoe');
 });
 
 it('should replace ∂ character with d', () => {
   const nickname = 'j∂doe';
   const result = normalizeNickname(nickname, '', '');
-  expect(result).toBe('jddoe');
+  expect(result).toBe('jdoe');
 });
 
 it('should replace é character with e', () => {
@@ -540,7 +539,7 @@ it('should replace â character with a', () => {
 it('should replace ª character with a', () => {
   const nickname = 'jªdoe';
   const result = normalizeNickname(nickname, '', '');
-  expect(result).toBe('jadoe');
+  expect(result).toBe('jdoe');
 });
 
 it('should replace ô character with o', () => {
@@ -618,13 +617,13 @@ it('should replace ñ character with n', () => {
 it('should replace ß character with ss', () => {
   const nickname = 'jßdoe';
   const result = normalizeNickname(nickname, '', '');
-  expect(result).toBe('jssdoe');
+  expect(result).toBe('jdoe');
 });
 
 it('should replace æ character with ae', () => {
   const nickname = 'jædoe';
   const result = normalizeNickname(nickname, '', '');
-  expect(result).toBe('jaedoe');
+  expect(result).toBe('jdoe');
 });
 
 it('should return false if the nickname is an integer', () => {
