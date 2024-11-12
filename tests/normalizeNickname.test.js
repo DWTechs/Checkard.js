@@ -156,6 +156,20 @@ it('should delete @ character', () => {
   expect(result).toBe('jdoe');
 });
 
+it('should delete ® character', () => {
+  const nickname = 'j®doe';
+  const result = normalizeNickname(nickname, '', '');
+  expect(result).toBe('jdoe');
+});
+
+it('should delete ¢ character', () => {
+  const nickname = 'j¢doe';
+  const result = normalizeNickname(nickname, '', '');
+  expect(result).toBe('jdoe');
+});
+
+
+
 it('should delete ) character', () => {
   const nickname = 'j)doe';
   const result = normalizeNickname(nickname, '', '');
@@ -206,6 +220,217 @@ it('should delete $ character', () => {
 
 it('should delete £ character', () => {
   const nickname = 'j£doe';
+  const result = normalizeNickname(nickname, '', '');
+  expect(result).toBe('jdoe');
+});
+
+it('should delete ¥ character', () => {
+  const nickname = 'j¥doe';
+  const result = normalizeNickname(nickname, '', '');
+  expect(result).toBe('jdoe');
+});
+
+it('should delete 円 character', () => {
+  const nickname = 'j円doe';
+  const result = normalizeNickname(nickname, '', '');
+  expect(result).toB
+  e('jdoe');
+});
+
+it('should delete ₠ character', () => {
+  const nickname = 'j₠doe';
+  const result = normalizeNickname(nickname, '', '');
+  expect(result).toBe('jdoe');
+});
+
+it('should delete ₣ character', () => {
+  const nickname = 'j₣doe';
+  const result = normalizeNickname(nickname, '', '');
+  expect(result).toBe('jdoe');
+});
+
+it('should delete ₤ character', () => {
+  const nickname = 'j₤doe';
+  const result = normalizeNickname(nickname, '', '');
+  expect(result).toBe('jdoe');
+});
+
+it('should delete ₥ character', () => {
+  const nickname = 'j₥doe';
+  const result = normalizeNickname(nickname, '', '');
+  expect(result).toBe('jdoe');
+});
+
+it('should delete ₦ character', () => {
+  const nickname = 'j₦doe';
+  const result = normalizeNickname(nickname, '', '');
+  expect(result).toBe('jdoe');
+});
+
+it('should delete ₧ character', () => {
+  const nickname = 'j₧doe';
+  const result = normalizeNickname(nickname, '', '');
+  expect(result).toBe('jdoe');
+});
+
+it('should delete ₨ character', () => {
+  const nickname = 'j₨doe';
+  const result = normalizeNickname(nickname, '', '');
+  expect(result).toBe('jdoe');
+});
+
+it('should delete ₩ character', () => {
+  const nickname = 'j₩doe';
+  const result = normalizeNickname(nickname, '', '');
+  expect(result).toBe('jdoe');
+});
+
+it('should delete ₪ character', () => {
+  const nickname = 'j₪doe';
+  const result = normalizeNickname(nickname, '', '');
+  expect(result).toBe('jdoe');
+});
+
+it('should delete ₫ character', () => {
+  const nickname = 'j₫doe';
+  const result = normalizeNickname(nickname, '', '');
+  expect(result).toBe('jdoe');
+});
+
+it('should delete ₭ character', () => {
+  const nickname = 'j₭doe';
+  const result = normalizeNickname(nickname, '', '');
+  expect(result).toBe('jdoe');
+});
+
+it('should delete ₮ character', () => {
+  const nickname = 'j₮doe';
+  const result = normalizeNickname(nickname, '', '');
+  expect(result).toBe('jdoe');
+});
+
+it('should delete ₯ character', () => {
+  const nickname = 'j₯doe';
+  const result = normalizeNickname(nickname, '', '');
+  expect(result).toBe('jdoe');
+});
+
+it('should delete ₰ character', () => {
+  const nickname = 'j₰doe';
+  const result = normalizeNickname(nickname, '', '');
+  expect(result).toBe('jdoe');
+});
+
+it('should delete ₱ character', () => {
+  const nickname = 'j₱doe';
+  const result = normalizeNickname(nickname, '', '');
+  expect(result).toBe('jdoe');
+});
+
+it('should delete ₲ character', () => {
+  const nickname = 'j₲doe';
+  const result = normalizeNickname(nickname, '', '');
+  expect(result).toBe('jdoe');
+});
+
+it('should delete ₳ character', () => {
+  const nickname = 'j₳doe';
+  const result = normalizeNickname(nickname, '', '');
+  expect(result).toBe('jdoe');
+});
+
+it('should delete ₴ character', () => {
+  const nickname = 'j₴doe';
+  const result = normalizeNickname(nickname, '', '');
+  expect(result).toBe('jdoe');
+});
+
+it('should delete ₵ character', () => {
+  const nickname = 'j₵doe';
+  const result = normalizeNickname(nickname, '', '');
+  expect(result).toBe('jdoe');
+});
+
+it('should delete ₸ character', () => {
+  const nickname = 'j₸doe';
+  const result = normalizeNickname(nickname, '', '');
+  expect(result).toBe('jdoe');
+});
+
+it('should delete ₹ character', () => {
+  const nickname = 'j₹doe';
+  const result = normalizeNickname(nickname, '', '');
+  expect(result).toBe('jdoe');
+});
+
+it('should delete ₺ character', () => {
+  const nickname = 'j₺doe';
+  const result = normalizeNickname(nickname, '', '');
+  expect(result).toBe('jdoe');
+});
+
+it('should delete ₽ character', () => {
+  const nickname = 'j₽doe';
+  const result = normalizeNickname(nickname, '', '');
+  expect(result).toBe('jdoe');
+});
+
+it('should delete ₿ character', () => {
+  const nickname = 'j₿doe';
+  const result = normalizeNickname(nickname, '', '');
+  expect(result).toBe('jdoe');
+});
+
+it('should delete ℠ character', () => {
+  const nickname = 'j℠doe';
+  const result = normalizeNickname(nickname, '', '');
+  expect(result).toBe('jdoe');
+});
+
+it('should delete ™ character', () => {
+  const nickname = 'j™doe';
+  const result = normalizeNickname(nickname, '', '');
+  expect(result).toBe('jdoe');
+});
+
+it('should delete ∆ character', () => {
+  const nickname = 'j∆doe';
+  const result = normalizeNickname(nickname, '', '');
+  expect(result).toBe('jdoe');
+});
+
+it('should delete ∑ character', () => {
+  const nickname = 'j∑doe';
+  const result = normalizeNickname(nickname, '', '');
+  expect(result).toBe('jdoe');
+});
+
+it('should delete ∞ character', () => {
+  const nickname = 'j∞doe';
+  const result = normalizeNickname(nickname, '', '');
+  expect(result).toBe('jdoe');
+});
+
+it('should delete ♥ character', () => {
+  const nickname = 'j♥doe';
+  const result = normalizeNickname(nickname, '', '');
+  expect(result).toBe('jdoe');
+});
+
+it('should delete 元 character', () => {
+  const nickname = 'j元doe';
+  const result = normalizeNickname(nickname, '', '');
+  expect(result).toBe('jdoe');
+});
+
+it('should delete ﷼ character', () => {
+  const nickname = 'j﷼doe';
+  const result = normalizeNickname(nickname, '', '');
+  expect(result).toBe('jdoe');
+});
+
+it('should delete ° character', () => {
+  const nickname = 'j°doe';
   const result = normalizeNickname(nickname, '', '');
   expect(result).toBe('jdoe');
 });
