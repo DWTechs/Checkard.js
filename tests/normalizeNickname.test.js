@@ -210,6 +210,12 @@ it('should delete £ character', () => {
   expect(result).toBe('jdoe');
 });
 
+it('should delete € character', () => {
+  const nickname = 'j€doe';
+  const result = normalizeNickname(nickname, '', '');
+  expect(result).toBe('jdoe');
+});
+
 it('should delete ¤ character', () => {
   const nickname = 'j¤doe';
   const result = normalizeNickname(nickname, '', '');
