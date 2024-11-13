@@ -254,7 +254,7 @@ containsNumber(string: any, min?: number|null, max?: number|null): boolean {}
 
 ```
 
-Exemple : 
+Example : 
 
 ```javascript
 
