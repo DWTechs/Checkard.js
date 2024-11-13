@@ -1,4 +1,4 @@
-
+import type { PasswordOptions } from './types';
 import { isString, isSymbol } from './primitive';
 
 function isStringOfLength( s: any,
@@ -81,6 +81,11 @@ function isSlug(s: any): s is string {
   return isString(s) && slugReg.test(s);
 }
 
+const hexadecimal = /^(#|0x|0h)?[0-9A-F]+$/i;
+function isHexadecimal(s: any): s is string {
+  return isString(s) && hexadecimal.test(s);
+}
+
 const upperCaseReg = /[A-Z]+/;
 function containsUpperCase(s: any): s is string {
   return isString(s) && upperCaseReg.test(s);
@@ -94,11 +99,6 @@ function containsLowerCase(s: any): s is string {
 const specialReg = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?°`€£§]+/;
 function containsSpecialCharacter(s: any): s is string {
   return isString(s) && specialReg.test(s);
-}
-
-const hexadecimal = /^(#|0x|0h)?[0-9A-F]+$/i;
-function isHexadecimal(s: any): s is string {
-  return isString(s) && hexadecimal.test(s);
 }
 
 const numberReg = /\d/;
@@ -119,8 +119,27 @@ function containsNumber(s: any, min?: number|null, max?: number|null): s is stri
     return isMin && isMax;
   }
     
-  return false; 
-  
+  return false;   
+}
+
+const defaultOptions = {
+  lowerCase: true,
+  upperCase: true,
+  number: true,
+  specialCharacter: true,
+  minLength: 12,
+  maxLength: 64,
+};
+
+function isValidPassword(s: any, options: PasswordOptions = defaultOptions): s is string {
+  const o = { ...defaultOptions, ...options };
+  if (!isString(s, true)) return false;
+  const l = s.length;
+  return l >= o.minLength && l <= o.maxLength
+    && (o.lowerCase ? containsLowerCase(s) : true)
+    && (o.upperCase ? containsUpperCase(s) : true)
+    && (o.number ? containsNumber(s, 1, null) : true)
+    && (o.specialCharacter ? containsSpecialCharacter(s) : true);
 }
 
 export {
@@ -132,6 +151,7 @@ export {
   isJWT,
   isSlug,
   isHexadecimal,
+  isValidPassword,
   containsUpperCase,
   containsLowerCase,
   containsSpecialCharacter,

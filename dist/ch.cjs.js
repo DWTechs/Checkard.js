@@ -36,8 +36,8 @@ function getTag(t) {
 function isBoolean(b) {
     return typeof b === "boolean";
 }
-function isString(s, empty = false) {
-    return typeof s === "string" && (empty ? !!s : true);
+function isString(s, required = false) {
+    return typeof s === "string" && (required ? !!s : true);
 }
 function isNumber(n, type = true) {
     return !isSymbol(n) && !((n === null || n === void 0 ? void 0 : n.constructor) === Array) && (type ? Number(n) === n : isNumeric(n));
@@ -174,6 +174,10 @@ const slugReg = /^[^\s-_](?!.*?[-_]{2,})[a-z0-9-\\][^\s]*[^-_\s]$/;
 function isSlug(s) {
     return isString(s) && slugReg.test(s);
 }
+const hexadecimal = /^(#|0x|0h)?[0-9A-F]+$/i;
+function isHexadecimal(s) {
+    return isString(s) && hexadecimal.test(s);
+}
 const upperCaseReg = /[A-Z]+/;
 function containsUpperCase(s) {
     return isString(s) && upperCaseReg.test(s);
@@ -185,10 +189,6 @@ function containsLowerCase(s) {
 const specialReg = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?°`€£§]+/;
 function containsSpecialCharacter(s) {
     return isString(s) && specialReg.test(s);
-}
-const hexadecimal = /^(#|0x|0h)?[0-9A-F]+$/i;
-function isHexadecimal(s) {
-    return isString(s) && hexadecimal.test(s);
 }
 const numberReg = /\d/;
 const lengthReg = /[^0-9]/g;
@@ -207,6 +207,25 @@ function containsNumber(s, min, max) {
         return isMin && isMax;
     }
     return false;
+}
+const defaultOptions = {
+    lowerCase: true,
+    upperCase: true,
+    number: true,
+    specialCharacter: true,
+    minLength: 12,
+    maxLength: 64,
+};
+function isValidPassword(s, options = defaultOptions) {
+    const o = Object.assign(Object.assign({}, defaultOptions), options);
+    if (!isString(s, true))
+        return false;
+    const l = s.length;
+    return l >= o.minLength && l <= o.maxLength
+        && (o.lowerCase ? containsLowerCase(s) : true)
+        && (o.upperCase ? containsUpperCase(s) : true)
+        && (o.number ? containsNumber(s, 1, null) : true)
+        && (o.specialCharacter ? containsSpecialCharacter(s) : true);
 }
 
 function isHtmlElement(h) {
@@ -346,7 +365,7 @@ function createNickname(nickname, firstName, lastName) {
     const n = nickname || firstName[0] + lastName;
     return n.toLowerCase()
         .normalize("NFD")
-        .replace(/\p{Diacritic}/gu, "");
+        .replace(/\p{Diacritic}|[^a-zA-Z\s_-]/gu, "") || false;
 }
 
 exports.containsLowerCase = containsLowerCase;
@@ -387,6 +406,7 @@ exports.isValidDate = isValidDate;
 exports.isValidFloat = isValidFloat;
 exports.isValidInteger = isValidInteger;
 exports.isValidNumber = isValidNumber;
+exports.isValidPassword = isValidPassword;
 exports.isValidTimestamp = isValidTimestamp;
 exports.normalizeEmail = normalizeEmail;
 exports.normalizeName = normalizeName;

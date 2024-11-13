@@ -68,6 +68,12 @@ if (isFunction(variable)) {
 if (!isArray(variable, '=', 2)) {
   //variable is not an array of length 2
 }
+
+if (!isString(firstName, true))
+    return next({ status: 400, msg: "Missing first name" });
+if (!isString(lastName, true))
+    return next({ status: 400, msg: "Missing last name" });
+
 ```
 
 
@@ -84,6 +90,12 @@ if (ch.isFunction(variable)) {
 if (!ch.isArray(variable, '=', 2)) {
   //variable is not an array of length 2
 }
+
+if (!ch.isString(firstName, true))
+    return next({ status: 400, msg: "Missing first name" });
+if (!ch.isString(lastName, true))
+    return next({ status: 400, msg: "Missing last name" });
+
 ```
 
 
@@ -112,6 +124,13 @@ if (!ch.isArray(variable, '=', 2)) {
 ```javascript
 
 Comparator = '='|'<'|'>'|'<='|'>=';
+
+PasswordOptions = {
+  lowercase: boolean,
+  uppercase: boolean,
+  number: boolean,
+  specialCharacter: boolean
+}
 
 ```
 
@@ -215,6 +234,16 @@ isSlug(slug: any): boolean {}
 
 isHexadecimal(string: any): boolean {}
 
+const PwdDefaultOptions = {
+  lowerCase: true,
+  upperCase: true,
+  number: true,
+  specialCharacter: true,
+  minLength: 12,
+  maxLength: 64,
+};
+isValidPassword(string: any, options: PasswordOptions = PwdDefaultOptions): boolean {}
+
 containsUpperCase(string: any): boolean {}
 
 containsLowerCase(string: any): boolean {}
@@ -224,6 +253,27 @@ containsSpecialCharacter(string: any): boolean {}
 containsNumber(string: any, min?: number|null, max?: number|null): boolean {}
 
 ```
+
+Exemple : 
+
+```javascript
+
+const PwdOptions = {
+  lowerCase: false,
+  upperCase: false,
+  number: false,
+  specialCharacter: false,
+  minLength: 12,
+  maxLength: 16,
+};
+const password = 'test1234';
+
+if (isValidPassword(password, PwdOptions)) {
+  // check if password is valid compared to PwdOptions
+}
+
+```
+
 
 
 ### Date
@@ -238,7 +288,7 @@ isTimestamp(number: any, typeCheck?: boolean = true): boolean {}
 
 // default min = 1/1/1900 (month/day/year)
 // default max = 1/1/2200 (month/day/year)
-isValidTimestamp(number: any, min?: number = -2208989361000, max?: number = 7258114800000, typeCheck?: boolean = true): boolea {}
+isValidTimestamp(number: any, min?: number = -2208989361000, max?: number = 7258114800000, typeCheck?: boolean = true): boolean {}
 
 ```
 
@@ -258,15 +308,15 @@ example :
 
 let ar = ['dog','cat','bird'];
 
-if (isArray(array)) {
+if (isArray(ar)) {
   // check if ar is an array
 }
 
-if (isArray(array, '=', 2)) {
+if (isArray(ar, '=', 2)) {
   // check if ar is an array of length 2
 }
 
-if (isArray(array, '>=', 1)) {
+if (isArray(ar, '>=', 1)) {
   // check if ar is an array of length greater than or equal to 1
 }
 
@@ -292,6 +342,7 @@ isNode(node: any): boolean {}
 
 ucfirst(string: string, everyWords?: boolean = true): string | false {}
 
+// accept a-z - and _ characters
 normalizeNickname(nickname: string, firstName: string, lastName: string): string | false {}
 
 normalizeName(string: string): string | false {}
@@ -322,7 +373,7 @@ function normalizeInputs(req, res, next) {
 
 ## Contributors
 
-Checkard.js is still in development and we would be glad to get all the help you can provide.
+Checkard.js is under continuous development and we would be glad to get all the help you can provide.
 To contribute please read **[contributor.md](https://github.com/DWTechs/Checkard.js/blob/main/contributor.md)** for detailed installation guide.
 
 

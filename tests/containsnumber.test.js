@@ -370,7 +370,17 @@ test("sends regex to containsNumber", () => {
   expect(containsNumber(/ab+c/i, 1)).toBe(false);
 });
 
+test("sends Coco!asticot to containsNumber", () => {
+  expect(containsNumber("Coco!asticot", 1)).toBe(false);
+});
 
+test("sends Coco!astic0t to containsNumber", () => {
+  expect(containsNumber("Coco!astic0t", 1)).toBe(true);
+});
+
+test("sends Coco!ast1c0t to containsNumber", () => {
+  expect(containsNumber("Coco!ast1c0t", 1)).toBe(true);
+});
 
 
 
@@ -535,6 +545,17 @@ test("sends regex to containsNumber", () => {
   expect(containsNumber(/ab+c/i, 2)).toBe(false);
 });
 
+test("sends Coco!asticot to containsNumber", () => {
+  expect(containsNumber("Coco!asticot", 2)).toBe(false);
+});
+
+test("sends Coco!astic0t to containsNumber", () => {
+  expect(containsNumber("Coco!astic0t", 2)).toBe(false);
+});
+
+test("sends Coco!ast1c0t to containsNumber", () => {
+  expect(containsNumber("Coco!ast1c0t", 2)).toBe(true);
+});
 
 
 
@@ -710,6 +731,21 @@ test("sends regex to containsNumber", () => {
   expect(containsNumber(/ab+c/i, 1, 3)).toBe(false);
 });
 
+test("sends Coco!asticot to containsNumber", () => {
+  expect(containsNumber("Coco!asticot", 1, 3)).toBe(false);
+});
+
+test("sends Coco!astic0t to containsNumber", () => {
+  expect(containsNumber("Coco!astic0t", 1, 3)).toBe(true);
+});
+
+test("sends Coco!ast1c0t to containsNumber", () => {
+  expect(containsNumber("Coco!ast1c0t", 1, 3)).toBe(true);
+});
+
+test("sends C0c0!ast1c0t to containsNumber", () => {
+  expect(containsNumber("C0c0!ast1c0t", 1, 3)).toBe(false);
+});
 
 
 
@@ -880,4 +916,20 @@ test("sends node to containsNumber", () => {
 
 test("sends regex to containsNumber", () => {
   expect(containsNumber(/ab+c/i, 2, 3)).toBe(false);
+});
+
+test("sends Coco!asticot to containsNumber", () => {
+  expect(containsNumber("Coco!asticot", 2, 3)).toBe(false);
+});
+
+test("sends Coco!astic0t to containsNumber", () => {
+  expect(containsNumber("Coco!astic0t", 2, 3)).toBe(false);
+});
+
+test("sends Coco!ast1c0t to containsNumber", () => {
+  expect(containsNumber("Coco!ast1c0t", 2, 3)).toBe(true);
+});
+
+test("sends C0c0!ast1c0t to containsNumber", () => {
+  expect(containsNumber("C0c0!ast1c0t", 2, 3)).toBe(false);
 });
