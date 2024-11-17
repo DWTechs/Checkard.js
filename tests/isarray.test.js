@@ -173,6 +173,10 @@ test("sends string to isArray with length test of 2", () => {
   expect(isArray("string", '=', 2)).toBe(false);
 });
 
+test("sends string of length 6 to isArray with length test of 6", () => {
+  expect(isArray("string", '=', 6)).toBe(false);
+});
+
 test("sends positive even integer to isArray with length test of 2", () => {
   expect(isArray(2, '=', 2)).toBe(false);
 });
@@ -229,7 +233,6 @@ test("sends array to isArray with length test lower than or equal to 4", () => {
   expect(isArray(["white", "grey", "black"], '<=', 4)).toBe(true);
 });
 
-
 test("sends array of length 3 to isArray with length test of 2", () => {
   expect(isArray(["white", "grey", "black"], '=', 2)).toBe(false);
 });
@@ -276,6 +279,10 @@ test("sends empty array of length 0 to isArray with wrong comparator", () => {
 
 test("sends empty array to isArray with length test greater than 0", () => {
   expect(isArray([], '>', 0)).toBe(false);
+});
+
+test("sends string of length 6 to isArray with length test greater than 0", () => {
+  expect(isArray("string", '=', 6)).toBe(false);
 });
 
 test("sends empty array to isArray with length test greater than 0", () => {
