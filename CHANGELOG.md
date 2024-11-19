@@ -1,4 +1,4 @@
-# 2.27.0 (Nov O7th 2024)
+# 2.27.0 (Nov 13th 2024)
 
 - Add isValidPassword method 
 - Update normalizeNickname method to exclude special characters
