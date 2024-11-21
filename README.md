@@ -302,7 +302,7 @@ isArray(array: any, comparator?: Comparator|null, length?: number|null): boolean
 
 ```
 
-example : 
+Example : 
 
 ```javascript
 
@@ -351,7 +351,7 @@ normalizeEmail(string: string): string | false {}
 
 ```
 
-example : 
+Example : 
 
 ```javascript
 
