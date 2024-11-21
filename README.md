@@ -26,8 +26,8 @@ Function, object, ascii, boolean, integer, string, json, email...)
 - No dependency
 - Very lightweight
 - Thoroughly tested
-- Works with browsers and Node.js
-- Works with Javascript and Typescript
+- Works in Javascript, Typescript and Node.js
+- Can be used as CommonJS module, EcmaScrypt module or IIFE 
 - Old browsers support
 
 
