@@ -14,7 +14,6 @@
   - [IIFE](#iife)
 - [API Reference](#api-reference)
 - [Contributors](#contributors)
-- [License](#license)
 - [Stack](#stack)
 
 
@@ -123,9 +122,9 @@ if (!ch.isArray(variable, '=', 2)) {
 
 ```javascript
 
-Comparator = '='|'<'|'>'|'<='|'>=';
+type Comparator = '='|'<'|'>'|'<='|'>=';
 
-PasswordOptions = {
+type PasswordOptions = {
   lowercase: boolean,
   uppercase: boolean,
   number: boolean,
