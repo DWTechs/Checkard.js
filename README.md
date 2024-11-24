@@ -6,7 +6,7 @@
 [![minified size](https://img.shields.io/bundlephobia/min/@dwtechs/checkard?color=brightgreen)](https://www.npmjs.com/package/@dwtechs/checkard)
 
 - [Synopsis](#synopsis)
-- [Browsers](#browsers)
+- [Support](#support)
 - [Installation](#installation)
 - [Usage](#usage)
   - [ES6](#es6)
@@ -25,12 +25,12 @@ Function, object, ascii, boolean, integer, string, json, email...)
 - No dependency
 - Very lightweight
 - Thoroughly tested
-- Works with browsers and Node.js
-- Works with Javascript and Typescript
+- Works in Javascript, Typescript and Node.js
+- Can be used as CommonJS module, EcmaScrypt module or IIFE 
 - Old browsers support
 
 
-## Browsers
+## Support
 
 - android: 2.2,
 - chrome: 34,
@@ -40,7 +40,8 @@ Function, object, ascii, boolean, integer, string, json, email...)
 - ios: 4.2,
 - opera: 28,
 - safari: 5.1,
-- samsung: 4
+- samsung: 4,
+- Node.js: 14
 
 Those are the oldest targeted versions. The library should work properly on older devices but we do not support it officially.  
 
@@ -383,5 +384,5 @@ To contribute please read **[contributor.md](https://github.com/DWTechs/Checkard
 | repository      |        [Github](https://github.com/)         |     hosting for software development version control using Git |
 | package manager |     [npm](https://www.npmjs.com/get-npm)     |                                default node.js package manager |
 | language        | [TypeScript](https://www.typescriptlang.org) | static type checking along with the latest ECMAScript features |
-| module bundler  |      [Rollup.js](https://rollupjs.org)       |                        advanced module bundler for ES6 modules |
+| module bundler  |      [Rollup](https://rollupjs.org)       |                        advanced module bundler for ES6 modules |
 | unit testing    |          [Jest](https://jestjs.io/)          |                  delightful testing with a focus on simplicity |
