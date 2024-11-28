@@ -364,7 +364,7 @@ const levelsObject = {
   debug: 3,
 };
 
-// Basic usage
+// Basic usage : 
 console.log(isCustomType("debug", levelsArray)); // true
 console.log(isCustomType("debug", levelsObject)); // true
 console.log(isCustomType("debag", levelsArray)); // false
