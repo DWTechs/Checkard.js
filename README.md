@@ -364,10 +364,19 @@ const levelsObject = {
   debug: 3,
 };
 
+// Basic usage
 console.log(isCustomType("debug", levelsArray)); // true
 console.log(isCustomType("debug", levelsObject)); // true
 console.log(isCustomType("debag", levelsArray)); // false
 console.log(isCustomType("debag", levelsObject)); // false
+
+// Typical usage : 
+const defaultLvl = "warn";
+function setLevel(level: Levels): Levels {
+  return isCustomType(level, levelsArray) ? level : defaultLvl;
+}
+let lvl = setLevel("error"); // lvl = "error"
+let lvl = setLevel("infos"); // lvl = "error"
 
 ```
 
