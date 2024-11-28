@@ -1,6 +1,6 @@
 # 2.28.0 (Dec 02th 2024)
 
-- Add isCustomType method to check if a value is included in an array or properties in an object
+- Add isCustomType method to check if a value is included in an array or in properties in an object
 
 # 2.27.0 (Nov 13th 2024)
 

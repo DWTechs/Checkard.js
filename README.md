@@ -341,7 +341,7 @@ isNode(node: any): boolean {}
 
 ### Custom type
 
-This method lets you check if a value is included in an array or properties in an object.
+This method lets you check if a value is included in an array or in properties in an object.
 
 ```javascript
 
