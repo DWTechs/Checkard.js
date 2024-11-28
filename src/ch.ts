@@ -47,6 +47,8 @@ export {  isDate,
           isTimestamp,
           isValidTimestamp } from './date';
 
+export {  isCustomType } from './custom';
+
 export {  ucfirst,
           normalizeNickname,
           normalizeName,

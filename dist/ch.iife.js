@@ -414,6 +414,12 @@ var ch = (function (exports) {
       return isTimestamp(t, type) && t >= min && t <= max;
     }
 
+    function isCustomType(val, customType) {
+      if (isObject(customType)) return Object.keys(customType).includes(val);
+      if (isArray(customType, '>', 0)) return customType.includes(val);
+      return false;
+    }
+
     function ucfirst(s, everyWords) {
       if (everyWords === void 0) {
         everyWords = true;
@@ -450,6 +456,7 @@ var ch = (function (exports) {
     exports.isArray = isArray;
     exports.isAscii = isAscii;
     exports.isBoolean = isBoolean;
+    exports.isCustomType = isCustomType;
     exports.isDate = isDate;
     exports.isEmail = isEmail;
     exports.isEven = isEven;

@@ -339,6 +339,14 @@ function isValidTimestamp(t, min = -2208989361000, max = 7258114800000, type = t
     return isTimestamp(t, type) && t >= min && t <= max;
 }
 
+function isCustomType(val, customType) {
+    if (isObject(customType))
+        return Object.keys(customType).includes(val);
+    if (isArray(customType, '>', 0))
+        return customType.includes(val);
+    return false;
+}
+
 function ucfirst(s, everyWords = true) {
     if (!isString(s, true))
         return false;
@@ -375,6 +383,7 @@ exports.containsUpperCase = containsUpperCase;
 exports.isArray = isArray;
 exports.isAscii = isAscii;
 exports.isBoolean = isBoolean;
+exports.isCustomType = isCustomType;
 exports.isDate = isDate;
 exports.isEmail = isEmail;
 exports.isEven = isEven;

@@ -302,13 +302,16 @@ isValidTimestamp(number: any, min?: number = -2208989361000, max?: number = 7258
 // Check if 'array' is an array and optionally if it is of length =, <, >, <= or >= than 'length'
 isArray(array: any, comparator?: Comparator|null, length?: number|null): boolean {}
 
+// This method lets you check if a value is included in an array or in properties of an object.
+isIn<T>(val: any, list: T): boolean
+
 ```
 
 Usage axample : 
 
 ```javascript
 
-import { isArray } from "@dwtechs/checkard";
+import { isArray, isIn } from "@dwtechs/checkard";
 
 let ar = ['dog','cat','bird'];
 
@@ -323,6 +326,32 @@ if (isArray(ar, '=', 2)) {
 if (isArray(ar, '>=', 1)) {
   // check if ar is an array of length greater than or equal to 1
 }
+
+
+// an array of restricted values
+const levelsArray = [ "error", "warn", "info", "debug" ];
+// You can also use an object to describe the custom type.
+const levelsObject = {
+  error: 0,
+  warn: 1,
+  info: 2,
+  debug: 3,
+};
+
+// Basic usage : 
+console.log(isIn("debug", levelsArray)); // true
+console.log(isIn("debug", levelsObject)); // true
+console.log(isIn("debag", levelsArray)); // false
+console.log(isIn("debag", levelsObject)); // false
+
+// Typical usage : 
+const defaultLvl = "warn";
+function setLevel(level: Levels): Levels {
+  return isIn(level, levelsArray) ? level : defaultLvl;
+}
+let lvl = setLevel("error"); // lvl = "error"
+let lvl = setLevel("infos"); // lvl = "error"
+
 
 ```
 
@@ -339,46 +368,6 @@ isNode(node: any): boolean {}
 
 ```
 
-### Custom type
-
-This method lets you check if a value is included in an array or in properties in an object.
-
-```javascript
-
-isCustomType(val: string | number, customType: number[] | string[] | Record<string, any> ): a is customType
-
-```
-
-Example
-
-```javascript
-
-import { isCustomType } from "@dwtechs/checkard";
-// an array of restricted values
-const levelsArray = [ "error", "warn", "info", "debug" ];
-// You can also use an object to describe the custom type.
-const levelsObject = {
-  error: 0,
-  warn: 1,
-  info: 2,
-  debug: 3,
-};
-
-// Basic usage : 
-console.log(isCustomType("debug", levelsArray)); // true
-console.log(isCustomType("debug", levelsObject)); // true
-console.log(isCustomType("debag", levelsArray)); // false
-console.log(isCustomType("debag", levelsObject)); // false
-
-// Typical usage : 
-const defaultLvl = "warn";
-function setLevel(level: Levels): Levels {
-  return isCustomType(level, levelsArray) ? level : defaultLvl;
-}
-let lvl = setLevel("error"); // lvl = "error"
-let lvl = setLevel("infos"); // lvl = "error"
-
-```
 
 ### Normalize
 
