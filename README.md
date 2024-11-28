@@ -80,8 +80,8 @@ if (!isString(lastName, true))
 ### CommonJS
 
 ```javascript
-const ch = require("@dwtechs/checkard/dist/ch");
-// you can use "require("@dwtechs/checkard"); with Node.js 16 and above"
+const ch = require("@dwtechs/checkard");
+// you may need to use "require("@dwtechs/checkard/dist/ch"); with Node.js old versions"
 
 if (ch.isFunction(variable)) {
   //variable is a function
@@ -254,19 +254,21 @@ containsNumber(string: any, min?: number|null, max?: number|null): boolean {}
 
 ```
 
-Example : 
+Usage example : 
 
 ```javascript
 
+import { isValidPassword } from "@dwtechs/checkard";
+
 const PwdOptions = {
-  lowerCase: false,
-  upperCase: false,
-  number: false,
+  lowerCase: true,
+  upperCase: true,
+  number: true,
   specialCharacter: false,
   minLength: 12,
   maxLength: 16,
 };
-const password = 'test1234';
+const password = 'teSt1234';
 
 if (isValidPassword(password, PwdOptions)) {
   // check if password is valid compared to PwdOptions
@@ -302,9 +304,11 @@ isArray(array: any, comparator?: Comparator|null, length?: number|null): boolean
 
 ```
 
-Example : 
+Usage axample : 
 
 ```javascript
+
+import { isArray } from "@dwtechs/checkard";
 
 let ar = ['dog','cat','bird'];
 
@@ -335,6 +339,37 @@ isNode(node: any): boolean {}
 
 ```
 
+### Custom type
+
+This method lets you check if a value is included in an array or properties in an object.
+
+```javascript
+
+isCustomType(val: string | number, customType: number[] | string[] | Record<string, any> ): a is customType
+
+```
+
+Example
+
+```javascript
+
+import { isCustomType } from "@dwtechs/checkard";
+// an array of restricted values
+const levelsArray = [ "error", "warn", "info", "debug" ];
+// You can also use an object to describe the custom type.
+const levelsObject = {
+  error: 0,
+  warn: 1,
+  info: 2,
+  debug: 3,
+};
+
+console.log(isCustomType("debug", levelsArray)); // true
+console.log(isCustomType("debug", levelsObject)); // true
+console.log(isCustomType("debag", levelsArray)); // false
+console.log(isCustomType("debag", levelsObject)); // false
+
+```
 
 ### Normalize
 
@@ -355,16 +390,18 @@ Example :
 
 ```javascript
 
+const ch = require("@dwtechs/checkard");
+
 function normalizeInputs(req, res, next) {
   const users = req.body.rows;
   log.debug(`Normalize values for ${users.length} users`);
 
   for (const u of users) {
     const { firstName, lastName, nickname, email } = u;
-    u.firstname = str.normalizeName(firstName);
-    u.lastname = str.normalizeName(lastName);
-    u.nickname = str.normalizeNickname(nickname, firstName, lastName);
-    u.email = str.normalizeName(email);
+    u.firstname = ch.normalizeName(firstName);
+    u.lastname = ch.normalizeName(lastName);
+    u.nickname = ch.normalizeNickname(nickname, firstName, lastName);
+    u.email = ch.normalizeName(email);
   }
   next();
 }
