@@ -44,6 +44,9 @@ function isSymbol(s) {
     const type = typeof s;
     return type === 'symbol' || (type === 'object' && s != null && getTag(s) === '[object Symbol]');
 }
+function isNil(n) {
+    return n == null;
+}
 
 function isFunction(func) {
     return Boolean(func && getTag(func) === "[object Function]");
@@ -104,12 +107,15 @@ function isValidFloat(n, min = -999999999.9, max = 999999999.9, type = true) {
 function isArray(a, comp, len) {
     return (a === null || a === void 0 ? void 0 : a.constructor) === Array ? (comp && isValidInteger(len, 0, 999999999)) ? comparisons.hasOwnProperty(comp) ? comparisons[comp](a.length, len) : false : true : false;
 }
+function isIn(val, arr) {
+    return isArray(arr, '>', 0) ? arr.includes(val) : false;
+}
 
 function isObject(o, empty = false) {
     return o !== null && typeof o === "object" && !isArray(o) && (empty ? !!Object.keys(o).length : true);
 }
-function isNil(n) {
-    return n == null;
+function isProperty(val, obj) {
+    return isObject(obj) ? Object.keys(obj).includes(val) : false;
 }
 
 function isStringOfLength(s, min = 0, max = 999999999) {
@@ -337,14 +343,6 @@ function isValidTimestamp(t, min = -2208989361000, max = 7258114800000, type = t
     return isTimestamp(t, type) && t >= min && t <= max;
 }
 
-function isCustomType(val, customType) {
-    if (isObject(customType))
-        return Object.keys(customType).includes(val);
-    if (isArray(customType, '>', 0))
-        return customType.includes(val);
-    return false;
-}
-
 function ucfirst(s, everyWords = true) {
     if (!isString(s, true))
         return false;
@@ -374,4 +372,4 @@ function createNickname(nickname, firstName, lastName) {
         .replace(/\p{Diacritic}|[^a-zA-Z\s_-]/gu, "") || false;
 }
 
-export { containsLowerCase, containsNumber, containsSpecialCharacter, containsUpperCase, isArray, isAscii, isBoolean, isCustomType, isDate, isEmail, isEven, isFloat, isFunction, isHexadecimal, isHtmlElement, isHtmlEventAttribute, isInteger, isIpAddress, isJWT, isJson, isNegative, isNil, isNode, isNumber, isObject, isOdd, isOrigin, isPositive, isPowerOfTwo, isRegex, isSlug, isString, isStringOfLength, isSymbol, isTimestamp, isValidDate, isValidFloat, isValidInteger, isValidNumber, isValidPassword, isValidTimestamp, normalizeEmail, normalizeName, normalizeNickname, ucfirst };
+export { containsLowerCase, containsNumber, containsSpecialCharacter, containsUpperCase, isArray, isAscii, isBoolean, isDate, isEmail, isEven, isFloat, isFunction, isHexadecimal, isHtmlElement, isHtmlEventAttribute, isIn, isInteger, isIpAddress, isJWT, isJson, isNegative, isNil, isNode, isNumber, isObject, isOdd, isOrigin, isPositive, isPowerOfTwo, isProperty, isRegex, isSlug, isString, isStringOfLength, isSymbol, isTimestamp, isValidDate, isValidFloat, isValidInteger, isValidNumber, isValidPassword, isValidTimestamp, normalizeEmail, normalizeName, normalizeNickname, ucfirst };
