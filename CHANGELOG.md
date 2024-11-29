@@ -1,6 +1,7 @@
 # 2.28.0 (Nov 28th 2024)
 
-- Add isIn method to check if a value is included in an array or in properties of an object
+- Add isIn() method to check if a value is included in an array
+- Add isProperty() method to check if a value is included as a property in an object
 
 # 2.27.0 (Nov 13th 2024)
 

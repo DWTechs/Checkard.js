@@ -24,18 +24,6 @@ test('should return false for invalid number in number array', () => {
   expect(isIn(val, list)).toBe(false);
 });
 
-test('should return true for valid key in object array', () => {
-  const val = 'key1';
-  const list = { key1: 'value1', key2: 'value2' };
-  expect(isIn(val, list)).toBe(true);
-});
-
-test('should return false for invalid key in object array', () => {
-  const val = 'invalidKey';
-  const list = { key1: 'value1', key2: 'value2' };
-  expect(isIn(val, list)).toBe(false);
-});
-
 test('should return true for valid boolean in boolean array', () => {
   const val = false;
   const list = [true, false, 'NA'];

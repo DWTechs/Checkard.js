@@ -6,8 +6,8 @@ function isArray<T = any>(a: any, comp?: Comparator|null, len?: number|null): a 
   return a?.constructor === Array ? (comp && isValidInteger(len, 0, 999999999)) ? comparisons.hasOwnProperty(comp) ? comparisons[comp](a.length, len) : false : true : false;
 }
 
-function isIn<T>(val: any, list: T): boolean {
-  return isArray(list, '>', 0) ? list.includes(val) : false;
+function isIn(val: any, arr: any[]): boolean {
+  return isArray(arr, '>', 0) ? arr.includes(val) : false;
 }
 
 export {

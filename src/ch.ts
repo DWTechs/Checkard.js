@@ -5,10 +5,12 @@ export {  isBoolean,
 
 export {  isFunction } from './function';
 
-export {  isObject, 
+export {  isObject,
+          isProperty,
           isNil } from './structural';
 
-export {  isArray } from './array';
+export {  isArray,
+          isIn } from './array';
 
 export {  isAscii,
           isInteger,
@@ -46,8 +48,6 @@ export {  isDate,
           isValidDate,
           isTimestamp,
           isValidTimestamp } from './date';
-
-export {  isCustomType } from './custom';
 
 export {  ucfirst,
           normalizeNickname,

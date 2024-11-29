@@ -159,11 +159,33 @@ isFunction(func: any): boolean {}
 
 isObject(obj: any, emptyCheck?: boolean = false): boolean {}
 
+// This method lets you check if a value is included as a property of an object.
+isProperty<T>(val: any, arr: T): boolean
+
 //Check whether val is null or undefined
 isNil(val: any): boolean {}
 
 ```
 
+Usage axample : 
+
+```javascript
+
+import { isProperty } from "@dwtechs/checkard";
+
+// an object to describe the custom type.
+const levels = {
+  error: 0,
+  warn: 1,
+  info: 2,
+  debug: 3,
+};
+
+// Basic usage : 
+console.log(isProperty("debug", levels)); // true
+console.log(isProperty("debag", levels)); // false
+
+```
 
 ### Number
 
@@ -302,8 +324,8 @@ isValidTimestamp(number: any, min?: number = -2208989361000, max?: number = 7258
 // Check if 'array' is an array and optionally if it is of length =, <, >, <= or >= than 'length'
 isArray(array: any, comparator?: Comparator|null, length?: number|null): boolean {}
 
-// This method lets you check if a value is included in an array or in properties of an object.
-isIn<T>(val: any, list: T): boolean
+// This method lets you check if a value is included in an array.
+isIn<T>(val: any, arr: T): boolean
 
 ```
 
@@ -329,25 +351,16 @@ if (isArray(ar, '>=', 1)) {
 
 
 // an array of restricted values
-const levelsArray = [ "error", "warn", "info", "debug" ];
-// You can also use an object to describe the custom type.
-const levelsObject = {
-  error: 0,
-  warn: 1,
-  info: 2,
-  debug: 3,
-};
+const levels = [ "error", "warn", "info", "debug" ];
 
 // Basic usage : 
-console.log(isIn("debug", levelsArray)); // true
-console.log(isIn("debug", levelsObject)); // true
-console.log(isIn("debag", levelsArray)); // false
-console.log(isIn("debag", levelsObject)); // false
+console.log(isIn("debug", levels)); // true
+console.log(isIn("debag", levels)); // false
 
 // Typical usage : 
 const defaultLvl = "warn";
 function setLevel(level: Levels): Levels {
-  return isIn(level, levelsArray) ? level : defaultLvl;
+  return isIn(level, levels) ? level : defaultLvl;
 }
 let lvl = setLevel("error"); // lvl = "error"
 let lvl = setLevel("infos"); // lvl = "error"
