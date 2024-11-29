@@ -308,7 +308,7 @@ isIn<T>(val: any, arr: T): boolean {}
 
 ```
 
-Usage axample : 
+Usage example : 
 
 ```javascript
 
