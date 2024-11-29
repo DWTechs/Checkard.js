@@ -272,13 +272,22 @@ if (isValidPassword(password, PwdOptions)) {
 
 isDate(date: any): boolean {}
 
-isValidDate(date: any, min?: Date = new Date('1/1/1900'), max?: Date = new Date('1/1/2200')): boolean {}
+isValidDate(
+    date: any, 
+    min?: Date = new Date('1/1/1900'), 
+    max?: Date = new Date('1/1/2200')
+  ): boolean {}
 
 isTimestamp(number: any, typeCheck?: boolean = true): boolean {}
 
 // default min = 1/1/1900 (month/day/year)
 // default max = 1/1/2200 (month/day/year)
-isValidTimestamp(number: any, min?: number = -2208989361000, max?: number = 7258114800000, typeCheck?: boolean = true): boolean {}
+isValidTimestamp(
+    number: any, 
+    min?: number = -2208989361000, 
+    max?: number = 7258114800000, 
+    typeCheck?: boolean = true
+  ): boolean {}
 
 ```
 
@@ -288,7 +297,11 @@ isValidTimestamp(number: any, min?: number = -2208989361000, max?: number = 7258
 ```javascript
 
 // Check if 'array' is an array and optionally if it is of length =, <, >, <= or >= than 'length'
-isArray(array: any, comparator?: Comparator|null, length?: number|null): boolean {}
+isArray(
+    array: any, 
+    comparator?: Comparator|null, 
+    length?: number|null
+  ): boolean {}
 
 // This method lets you check if a value is included in an array.
 isIn<T>(val: any, arr: T): boolean
@@ -399,7 +412,11 @@ isNode(node: any): boolean {}
 ucfirst(string: string, everyWords?: boolean = true): string | false {}
 
 // accept a-z - and _ characters
-normalizeNickname(nickname: string, firstName: string, lastName: string): string | false {}
+normalizeNickname(
+  nickname: string, 
+  firstName: string, 
+  lastName: string
+): string | false {}
 
 normalizeName(string: string): string | false {}
 
