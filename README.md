@@ -344,7 +344,6 @@ function setLevel(level: Levels): Levels {
 let lvl = setLevel("error"); // lvl = "error"
 let lvl = setLevel("infos"); // lvl = "error"
 
-
 ```
 
 
@@ -352,13 +351,10 @@ let lvl = setLevel("infos"); // lvl = "error"
 
 ```javascript
 
-isFunction(func: any): boolean {}
-
 isObject(obj: any, emptyCheck?: boolean = false): boolean {}
 
 // This method lets you check if a value is included as a property of an object.
 isProperty<T>(val: any, arr: T): boolean
-
 
 ```
 
