@@ -1,13 +1,13 @@
 export {  isBoolean,
           isNumber,
           isString,
-          isSymbol } from './primitive';
+          isSymbol,
+          isNil } from './primitive';
 
 export {  isFunction } from './function';
 
 export {  isObject,
-          isProperty,
-          isNil } from './structural';
+          isProperty } from './object';
 
 export {  isArray,
           isIn } from './array';

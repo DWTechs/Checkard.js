@@ -8,12 +8,7 @@ function isProperty<T>(val: any, obj: object): boolean {
   return isObject<T>(obj) ? Object.keys(obj).includes(val) : false;
 }
 
-function isNil(n: any): n is null | undefined {
-  return n == null;
-}
-
 export {
-  isNil,
-  isObject,
-  isProperty,
-};
+    isObject,
+    isProperty,
+  };

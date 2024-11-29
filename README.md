@@ -148,44 +148,11 @@ isNumber(number: any, typeCheck?: boolean = true): boolean {}
 
 isSymbol(sym: any): boolean {}
 
-```
-
-
-### Structural
-
-```javascript
-
-isFunction(func: any): boolean {}
-
-isObject(obj: any, emptyCheck?: boolean = false): boolean {}
-
-// This method lets you check if a value is included as a property of an object.
-isProperty<T>(val: any, arr: T): boolean
-
 //Check whether val is null or undefined
 isNil(val: any): boolean {}
 
 ```
 
-Usage axample : 
-
-```javascript
-
-import { isProperty } from "@dwtechs/checkard";
-
-// an object to describe the custom type.
-const levels = {
-  error: 0,
-  warn: 1,
-  info: 2,
-  debug: 3,
-};
-
-// Basic usage : 
-console.log(isProperty("debug", levels)); // true
-console.log(isProperty("debag", levels)); // false
-
-```
 
 ### Number
 
@@ -299,7 +266,6 @@ if (isValidPassword(password, PwdOptions)) {
 ```
 
 
-
 ### Date
 
 ```javascript
@@ -365,6 +331,50 @@ function setLevel(level: Levels): Levels {
 let lvl = setLevel("error"); // lvl = "error"
 let lvl = setLevel("infos"); // lvl = "error"
 
+
+```
+
+
+### Object
+
+```javascript
+
+isFunction(func: any): boolean {}
+
+isObject(obj: any, emptyCheck?: boolean = false): boolean {}
+
+// This method lets you check if a value is included as a property of an object.
+isProperty<T>(val: any, arr: T): boolean
+
+
+```
+
+Usage example : 
+
+```javascript
+
+import { isProperty } from "@dwtechs/checkard";
+
+// an object to describe the custom type.
+const levels = {
+  error: 0,
+  warn: 1,
+  info: 2,
+  debug: 3,
+};
+
+// Basic usage : 
+console.log(isProperty("debug", levels)); // true
+console.log(isProperty("debag", levels)); // false
+
+```
+
+
+### Function
+
+```javascript
+
+isFunction(func: any): boolean {}
 
 ```
 
