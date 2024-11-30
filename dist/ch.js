@@ -115,7 +115,8 @@ function isObject(o, empty = false) {
     return o !== null && typeof o === "object" && !isArray(o) && (empty ? !!Object.keys(o).length : true);
 }
 function isProperty(val, obj) {
-    return isObject(obj) ? Object.keys(obj).includes(val) : false;
+    const v = String(val);
+    return isString(v, true) && isObject(obj) ? Object.keys(obj).includes(v) : false;
 }
 
 function isStringOfLength(s, min = 0, max = 999999999) {

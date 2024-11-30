@@ -304,7 +304,7 @@ isArray(
   ): boolean {}
 
 // This method lets you check if a value is included in an array.
-isIn<T>(val: any, arr: T): boolean {}
+isIn(val: any, arr: any[]): boolean {}
 
 ```
 
@@ -354,7 +354,7 @@ let lvl = setLevel("infos"); // lvl = "error"
 isObject(obj: any, emptyCheck?: boolean = false): boolean {}
 
 // This method lets you check if a value is included as a property of an object.
-isProperty<T>(val: any, arr: T): boolean {}
+isProperty(val: any, obj: { [key: string]: any }): boolean {}
 
 ```
 

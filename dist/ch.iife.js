@@ -189,7 +189,8 @@ var ch = (function (exports) {
       return o !== null && typeof o === "object" && !isArray(o) && (empty ? !!Object.keys(o).length : true);
     }
     function isProperty(val, obj) {
-      return isObject(obj) ? Object.keys(obj).includes(val) : false;
+      var v = String(val);
+      return isString(v, true) && isObject(obj) ? Object.keys(obj).includes(v) : false;
     }
 
     function isStringOfLength(s, min, max) {
