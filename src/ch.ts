@@ -1,14 +1,16 @@
 export {  isBoolean,
           isNumber,
           isString,
-          isSymbol } from './primitive';
+          isSymbol,
+          isNil } from './primitive';
 
 export {  isFunction } from './function';
 
-export {  isObject, 
-          isNil } from './structural';
+export {  isObject,
+          isProperty } from './object';
 
-export {  isArray } from './array';
+export {  isArray,
+          isIn } from './array';
 
 export {  isAscii,
           isInteger,

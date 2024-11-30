@@ -80,8 +80,8 @@ if (!isString(lastName, true))
 ### CommonJS
 
 ```javascript
-const ch = require("@dwtechs/checkard/dist/ch");
-// you can use "require("@dwtechs/checkard"); with Node.js 16 and above"
+const ch = require("@dwtechs/checkard");
+// you may need to use "require("@dwtechs/checkard/dist/ch"); with Node.js old versions"
 
 if (ch.isFunction(variable)) {
   //variable is a function
@@ -147,17 +147,6 @@ isString(string: any, required?: boolean = false): boolean {}
 isNumber(number: any, typeCheck?: boolean = true): boolean {}
 
 isSymbol(sym: any): boolean {}
-
-```
-
-
-### Structural
-
-```javascript
-
-isFunction(func: any): boolean {}
-
-isObject(obj: any, emptyCheck?: boolean = false): boolean {}
 
 //Check whether val is null or undefined
 isNil(val: any): boolean {}
@@ -254,19 +243,21 @@ containsNumber(string: any, min?: number|null, max?: number|null): boolean {}
 
 ```
 
-Example : 
+Usage example : 
 
 ```javascript
 
+import { isValidPassword } from "@dwtechs/checkard";
+
 const PwdOptions = {
-  lowerCase: false,
-  upperCase: false,
-  number: false,
+  lowerCase: true,
+  upperCase: true,
+  number: true,
   specialCharacter: false,
   minLength: 12,
   maxLength: 16,
 };
-const password = 'test1234';
+const password = 'teSt1234';
 
 if (isValidPassword(password, PwdOptions)) {
   // check if password is valid compared to PwdOptions
@@ -275,20 +266,28 @@ if (isValidPassword(password, PwdOptions)) {
 ```
 
 
-
 ### Date
 
 ```javascript
 
 isDate(date: any): boolean {}
 
-isValidDate(date: any, min?: Date = new Date('1/1/1900'), max?: Date = new Date('1/1/2200')): boolean {}
+isValidDate(
+    date: any, 
+    min?: Date = new Date('1/1/1900'), 
+    max?: Date = new Date('1/1/2200')
+  ): boolean {}
 
 isTimestamp(number: any, typeCheck?: boolean = true): boolean {}
 
 // default min = 1/1/1900 (month/day/year)
 // default max = 1/1/2200 (month/day/year)
-isValidTimestamp(number: any, min?: number = -2208989361000, max?: number = 7258114800000, typeCheck?: boolean = true): boolean {}
+isValidTimestamp(
+    number: any, 
+    min?: number = -2208989361000, 
+    max?: number = 7258114800000, 
+    typeCheck?: boolean = true
+  ): boolean {}
 
 ```
 
@@ -298,13 +297,22 @@ isValidTimestamp(number: any, min?: number = -2208989361000, max?: number = 7258
 ```javascript
 
 // Check if 'array' is an array and optionally if it is of length =, <, >, <= or >= than 'length'
-isArray(array: any, comparator?: Comparator|null, length?: number|null): boolean {}
+isArray(
+    array: any, 
+    comparator?: Comparator|null, 
+    length?: number|null
+  ): boolean {}
+
+// This method lets you check if a value is included in an array.
+isIn(val: any, arr: any[]): boolean {}
 
 ```
 
-Example : 
+Usage example : 
 
 ```javascript
+
+import { isArray, isIn } from "@dwtechs/checkard";
 
 let ar = ['dog','cat','bird'];
 
@@ -319,6 +327,63 @@ if (isArray(ar, '=', 2)) {
 if (isArray(ar, '>=', 1)) {
   // check if ar is an array of length greater than or equal to 1
 }
+
+
+// an array of restricted values
+const levels = [ "error", "warn", "info", "debug" ];
+
+// Basic usage : 
+console.log(isIn("debug", levels)); // true
+console.log(isIn("debag", levels)); // false
+
+// Typical usage : 
+const defaultLvl = "warn";
+function setLevel(level: Levels): Levels {
+  return isIn(level, levels) ? level : defaultLvl;
+}
+let lvl = setLevel("error"); // lvl = "error"
+let lvl = setLevel("infos"); // lvl = "error"
+
+```
+
+
+### Object
+
+```javascript
+
+isObject(obj: any, emptyCheck?: boolean = false): boolean {}
+
+// This method lets you check if a value is included in an object properties.
+isProperty(val: any, obj: { [key: string]: any }): boolean {}
+
+```
+
+Usage example : 
+
+```javascript
+
+import { isProperty } from "@dwtechs/checkard";
+
+// an object to describe the custom type.
+const levels = {
+  error: 0,
+  warn: 1,
+  info: 2,
+  debug: 3,
+};
+
+// Basic usage : 
+console.log(isProperty("debug", levels)); // true
+console.log(isProperty("debag", levels)); // false
+
+```
+
+
+### Function
+
+```javascript
+
+isFunction(func: any): boolean {}
 
 ```
 
@@ -343,7 +408,11 @@ isNode(node: any): boolean {}
 ucfirst(string: string, everyWords?: boolean = true): string | false {}
 
 // accept a-z - and _ characters
-normalizeNickname(nickname: string, firstName: string, lastName: string): string | false {}
+normalizeNickname(
+  nickname: string, 
+  firstName: string, 
+  lastName: string
+): string | false {}
 
 normalizeName(string: string): string | false {}
 
@@ -355,16 +424,18 @@ Example :
 
 ```javascript
 
+const ch = require("@dwtechs/checkard");
+
 function normalizeInputs(req, res, next) {
   const users = req.body.rows;
   log.debug(`Normalize values for ${users.length} users`);
 
   for (const u of users) {
     const { firstName, lastName, nickname, email } = u;
-    u.firstname = str.normalizeName(firstName);
-    u.lastname = str.normalizeName(lastName);
-    u.nickname = str.normalizeNickname(nickname, firstName, lastName);
-    u.email = str.normalizeName(email);
+    u.firstname = ch.normalizeName(firstName);
+    u.lastname = ch.normalizeName(lastName);
+    u.nickname = ch.normalizeNickname(nickname, firstName, lastName);
+    u.email = ch.normalizeName(email);
   }
   next();
 }

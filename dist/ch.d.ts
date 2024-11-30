@@ -37,6 +37,8 @@ type PasswordOptions = {
 export type { Comparator, PasswordOptions };
 
 declare function isObject<T = any>(o: any, empty?: boolean): o is object & T;
+declare function isProperty(val: any, obj: { [key: string]: any }): boolean;
+
 declare function isNil(n: any): n is null | undefined;
 
 declare function isBoolean(b: any): b is boolean;
@@ -47,6 +49,7 @@ declare function isSymbol(s: any): s is symbol;
 declare function isFunction(func: any): func is Function;
 
 declare function isArray<T = any>(a: any, comp?: Comparator | null, len?: number | null): a is Array<T>;
+declare function isIn(val: any, arr: any[]): boolean;
 
 declare function isAscii(c: any, ext?: boolean): c is number;
 declare function isInteger(n: any, type?: boolean): n is number;
@@ -96,7 +99,9 @@ export { isBoolean,
          isJson,
          isFunction,
          isObject,
+         isProperty,
          isArray,
+         isIn,
          isAscii,
          isInteger,
          isValidInteger,

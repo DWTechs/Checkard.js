@@ -1,4 +1,3 @@
-import babel from "@rollup/plugin-babel";
 
 const config =  {
   input: "build/es6/ch.js",
@@ -8,11 +7,7 @@ const config =  {
     format: "es"
   },
   external: [],
-  plugins: [
-    babel({
-      // exclude: "node_modules/**" // only transpile our source code
-    }),
-  ]
+  plugins: []
 };
 
 export default config;

@@ -1,3 +1,8 @@
+# 2.28.0 (Nov 30th 2024)
+
+- Add isIn() method to check if a value is included in an array
+- Add isProperty() method to check if a value is included in an object properties
+
 # 2.27.0 (Nov 13th 2024)
 
 - Add isValidPassword method 

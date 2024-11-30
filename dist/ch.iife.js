@@ -53,6 +53,9 @@ var ch = (function (exports) {
       var type = typeof s;
       return type === 'symbol' || type === 'object' && s != null && getTag(s) === '[object Symbol]';
     }
+    function isNil(n) {
+      return n == null;
+    }
 
     function isFunction(func) {
       return Boolean(func && getTag(func) === "[object Function]");
@@ -175,6 +178,9 @@ var ch = (function (exports) {
     function isArray(a, comp, len) {
       return (a === null || a === void 0 ? void 0 : a.constructor) === Array ? comp && isValidInteger(len, 0, 999999999) ? comparisons.hasOwnProperty(comp) ? comparisons[comp](a.length, len) : false : true : false;
     }
+    function isIn(val, arr) {
+      return isArray(arr, '>', 0) ? arr.includes(val) : false;
+    }
 
     function isObject(o, empty) {
       if (empty === void 0) {
@@ -182,8 +188,9 @@ var ch = (function (exports) {
       }
       return o !== null && typeof o === "object" && !isArray(o) && (empty ? !!Object.keys(o).length : true);
     }
-    function isNil(n) {
-      return n == null;
+    function isProperty(val, obj) {
+      var v = String(val);
+      return isString(v, true) && isObject(obj) ? Object.keys(obj).includes(v) : false;
     }
 
     function isStringOfLength(s, min, max) {
@@ -458,6 +465,7 @@ var ch = (function (exports) {
     exports.isHexadecimal = isHexadecimal;
     exports.isHtmlElement = isHtmlElement;
     exports.isHtmlEventAttribute = isHtmlEventAttribute;
+    exports.isIn = isIn;
     exports.isInteger = isInteger;
     exports.isIpAddress = isIpAddress;
     exports.isJWT = isJWT;
@@ -471,6 +479,7 @@ var ch = (function (exports) {
     exports.isOrigin = isOrigin;
     exports.isPositive = isPositive;
     exports.isPowerOfTwo = isPowerOfTwo;
+    exports.isProperty = isProperty;
     exports.isRegex = isRegex;
     exports.isSlug = isSlug;
     exports.isString = isString;
