@@ -1,3 +1,8 @@
+# 2.29.0 (Dec 19th 2024)
+
+- Add isValidArray() method to check if a value is an array
+- Add isValidString() method to check if a value is included in an object properties
+
 # 2.28.0 (Nov 30th 2024)
 
 - Add isIn() method to check if a value is included in an array
