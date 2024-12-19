@@ -305,7 +305,7 @@ isArray(
 
 isArrayOfLength(
     array: any, 
-    min = -999999999, 
+    min = 0, 
     max = 999999999): boolean {}
 
 // This method lets you check if a value is included in an array.
