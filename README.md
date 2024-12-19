@@ -141,8 +141,6 @@ PasswordOptions = {
 
 isBoolean(bool: any): boolean {}
 
-isString(string: any, required?: boolean = false): boolean {}
-
 // If typeCheck = false values like '4', '0', '8e4', '+true', '0x44' return true
 isNumber(number: any, typeCheck?: boolean = true): boolean {}
 
@@ -204,6 +202,8 @@ isValidFloat( number: any,
 ### String
 
 ```javascript
+
+isString(string: any, required?: boolean = false): boolean {}
 
 isStringOfLength( string: any, 
                   min?: number = 0, 
@@ -303,8 +303,14 @@ isArray(
     length?: number|null
   ): boolean {}
 
+
+isArrayOfLength(
+    array: any, 
+    min = -999999999, 
+    max = 999999999): boolean {}
+
 // This method lets you check if a value is included in an array.
-isIn(val: any, arr: any[]): boolean {}
+isIn(value: any, arr: any[]): boolean {}
 
 ```
 

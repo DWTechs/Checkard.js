@@ -1,13 +1,18 @@
 import type { PasswordOptions } from './types';
-import { isString, isSymbol } from './primitive';
+import { isSymbol } from './primitive';
+
+function isString(s: any, required = false): s is string {
+  return typeof s === "string" && (required ? !!s : true);
+}
 
 function isStringOfLength( s: any,
     min = 0, 
     max = 999999999 ): s is string {
-  if (!isString(s,false))
-    return false;
-  const l = s.length;
-  return l >= min && l <= max;
+  if (isString(s,false)){
+    const l = s.length;
+    return l >= min && l <= max;
+  }
+  return false;
 }
 
 function isJson(s: any): s is JSON {
@@ -143,6 +148,7 @@ function isValidPassword(s: any, options: PasswordOptions = defaultOptions): s i
 }
 
 export {
+  isString,
   isStringOfLength,
   isJson,
   isRegex,

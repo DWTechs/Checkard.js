@@ -16,7 +16,6 @@ declare function isProperty(val: any, obj: { [key: string]: any }): boolean;
 declare function isNil(n: any): n is null | undefined;
 
 declare function isBoolean(b: any): b is boolean;
-declare function isString(s: any, required?: boolean): s is string;
 declare function isNumber(n: any, type?: boolean): n is number;
 declare function isSymbol(s: any): s is symbol;
 
@@ -43,6 +42,7 @@ declare function isHtmlElement(h: any): h is HTMLElement;
 declare function isHtmlEventAttribute(h: any): h is string;
 declare function isNode(n: any): n is Node;
 
+declare function isString(s: any, required?: boolean): s is string;
 declare function isStringOfLength(s: any, min?: number, max?: number): s is string;
 declare function isJson(s: any): s is JSON;
 declare function isRegex(r: any, type?: boolean): r is RegExp;

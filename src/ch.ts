@@ -1,6 +1,5 @@
 export {  isBoolean,
           isNumber,
-          isString,
           isSymbol,
           isNil } from './primitive';
 
@@ -26,7 +25,8 @@ export {  isValidNumber,
           isValidInteger,
           isValidFloat } from './validnumber';
 
-export {  isStringOfLength,
+export {  isString,
+          isStringOfLength,
           isJson,
           isRegex,
           isEmail,
