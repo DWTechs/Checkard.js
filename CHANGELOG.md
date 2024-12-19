@@ -1,7 +1,6 @@
 # 2.29.0 (Dec 19th 2024)
 
-- Add isValidArray() method to check if a value is an array
-- Add isValidString() method to check if a value is included in an object properties
+- Add isArrayOfLength() method to check array length with min and max
 
 # 2.28.0 (Nov 30th 2024)
 
@@ -36,7 +35,7 @@
 
 # 2.23.0 (Jan 14th 2024)
 
-- Add isStringOfLength() method
+- Add isStringOfLength() method to check min and max length
 
 # 2.22.0 (Dec 29th 2023)
 
