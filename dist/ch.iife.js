@@ -172,6 +172,19 @@ var ch = (function (exports) {
     function isArray(a, comp, len) {
       return (a === null || a === void 0 ? void 0 : a.constructor) === Array ? comp && isValidInteger(len, 0, 999999999) ? comparisons.hasOwnProperty(comp) ? comparisons[comp](a.length, len) : false : true : false;
     }
+    function isArrayOfLength(a, min, max) {
+      if (min === void 0) {
+        min = -999999999;
+      }
+      if (max === void 0) {
+        max = 999999999;
+      }
+      if (isArray(a, null, null)) {
+        var n = a.length;
+        return n >= min && n <= max;
+      }
+      return false;
+    }
     function isIn(val, arr) {
       return isArray(arr, '>', 0) ? arr.includes(val) : false;
     }
@@ -457,6 +470,7 @@ var ch = (function (exports) {
     exports.containsSpecialCharacter = containsSpecialCharacter;
     exports.containsUpperCase = containsUpperCase;
     exports.isArray = isArray;
+    exports.isArrayOfLength = isArrayOfLength;
     exports.isAscii = isAscii;
     exports.isBoolean = isBoolean;
     exports.isDate = isDate;

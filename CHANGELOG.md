@@ -1,3 +1,7 @@
+# 2.29.1 (Dec 20th 2024)
+
+- Fix isArrayOfLength() method and add more tests
+
 # 2.29.0 (Dec 19th 2024)
 
 - Add isArrayOfLength() method to check array length with min and max

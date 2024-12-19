@@ -104,6 +104,13 @@ function isValidFloat(n, min = -999999999.9, max = 999999999.9, type = true) {
 function isArray(a, comp, len) {
     return (a === null || a === void 0 ? void 0 : a.constructor) === Array ? (comp && isValidInteger(len, 0, 999999999)) ? comparisons.hasOwnProperty(comp) ? comparisons[comp](a.length, len) : false : true : false;
 }
+function isArrayOfLength(a, min = -999999999, max = 999999999) {
+    if (isArray(a, null, null)) {
+        const n = a.length;
+        return n >= min && n <= max;
+    }
+    return false;
+}
 function isIn(val, arr) {
     return isArray(arr, '>', 0) ? arr.includes(val) : false;
 }
@@ -374,4 +381,4 @@ function createNickname(nickname, firstName, lastName) {
         .replace(/\p{Diacritic}|[^a-zA-Z\s_-]/gu, "") || false;
 }
 
-export { containsLowerCase, containsNumber, containsSpecialCharacter, containsUpperCase, isArray, isAscii, isBoolean, isDate, isEmail, isEven, isFloat, isFunction, isHexadecimal, isHtmlElement, isHtmlEventAttribute, isIn, isInteger, isIpAddress, isJWT, isJson, isNegative, isNil, isNode, isNumber, isObject, isOdd, isOrigin, isPositive, isPowerOfTwo, isProperty, isRegex, isSlug, isString, isStringOfLength, isSymbol, isTimestamp, isValidDate, isValidFloat, isValidInteger, isValidNumber, isValidPassword, isValidTimestamp, normalizeEmail, normalizeName, normalizeNickname, ucfirst };
+export { containsLowerCase, containsNumber, containsSpecialCharacter, containsUpperCase, isArray, isArrayOfLength, isAscii, isBoolean, isDate, isEmail, isEven, isFloat, isFunction, isHexadecimal, isHtmlElement, isHtmlEventAttribute, isIn, isInteger, isIpAddress, isJWT, isJson, isNegative, isNil, isNode, isNumber, isObject, isOdd, isOrigin, isPositive, isPowerOfTwo, isProperty, isRegex, isSlug, isString, isStringOfLength, isSymbol, isTimestamp, isValidDate, isValidFloat, isValidInteger, isValidNumber, isValidPassword, isValidTimestamp, normalizeEmail, normalizeName, normalizeNickname, ucfirst };

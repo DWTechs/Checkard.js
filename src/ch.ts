@@ -9,6 +9,7 @@ export {  isObject,
           isProperty } from './object';
 
 export {  isArray,
+          isArrayOfLength,
           isIn } from './array';
 
 export {  isAscii,
