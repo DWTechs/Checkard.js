@@ -36,9 +36,6 @@ function getTag(t) {
 function isBoolean(b) {
     return typeof b === "boolean";
 }
-function isString(s, required = false) {
-    return typeof s === "string" && (required ? !!s : true);
-}
 function isNumber(n, type = true) {
     return !isSymbol(n) && !((n === null || n === void 0 ? void 0 : n.constructor) === Array) && (type ? Number(n) === n : isNumeric(n));
 }
@@ -113,19 +110,15 @@ function isIn(val, arr) {
     return isArray(arr, '>', 0) ? arr.includes(val) : false;
 }
 
-function isObject(o, empty = false) {
-    return o !== null && typeof o === "object" && !isArray(o) && (empty ? !!Object.keys(o).length : true);
+function isString(s, required = false) {
+    return typeof s === "string" && (required ? !!s : true);
 }
-function isProperty(val, obj) {
-    const v = String(val);
-    return isString(v, true) && isObject(obj) ? Object.keys(obj).includes(v) : false;
-}
-
 function isStringOfLength(s, min = 0, max = 999999999) {
-    if (!isString(s, false))
-        return false;
-    const l = s.length;
-    return l >= min && l <= max;
+    if (isString(s, false)) {
+        const l = s.length;
+        return l >= min && l <= max;
+    }
+    return false;
 }
 function isJson(s) {
     if (!isString(s))
@@ -233,6 +226,14 @@ function isValidPassword(s, options = defaultOptions) {
         && (o.upperCase ? containsUpperCase(s) : true)
         && (o.number ? containsNumber(s, 1, null) : true)
         && (o.specialCharacter ? containsSpecialCharacter(s) : true);
+}
+
+function isObject(o, empty = false) {
+    return o !== null && typeof o === "object" && !isArray(o) && (empty ? !!Object.keys(o).length : true);
+}
+function isProperty(val, obj) {
+    const v = String(val);
+    return isString(v, true) && isObject(obj) ? Object.keys(obj).includes(v) : false;
 }
 
 function isHtmlElement(h) {

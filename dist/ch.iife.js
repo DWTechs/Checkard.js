@@ -37,12 +37,6 @@ var ch = (function (exports) {
     function isBoolean(b) {
       return typeof b === "boolean";
     }
-    function isString(s, required) {
-      if (required === void 0) {
-        required = false;
-      }
-      return typeof s === "string" && (required ? !!s : true);
-    }
     function isNumber(n, type) {
       if (type === void 0) {
         type = true;
@@ -182,17 +176,12 @@ var ch = (function (exports) {
       return isArray(arr, '>', 0) ? arr.includes(val) : false;
     }
 
-    function isObject(o, empty) {
-      if (empty === void 0) {
-        empty = false;
+    function isString(s, required) {
+      if (required === void 0) {
+        required = false;
       }
-      return o !== null && typeof o === "object" && !isArray(o) && (empty ? !!Object.keys(o).length : true);
+      return typeof s === "string" && (required ? !!s : true);
     }
-    function isProperty(val, obj) {
-      var v = String(val);
-      return isString(v, true) && isObject(obj) ? Object.keys(obj).includes(v) : false;
-    }
-
     function isStringOfLength(s, min, max) {
       if (min === void 0) {
         min = 0;
@@ -200,9 +189,11 @@ var ch = (function (exports) {
       if (max === void 0) {
         max = 999999999;
       }
-      if (!isString(s, false)) return false;
-      var l = s.length;
-      return l >= min && l <= max;
+      if (isString(s, false)) {
+        var l = s.length;
+        return l >= min && l <= max;
+      }
+      return false;
     }
     function isJson(s) {
       if (!isString(s)) return false;
@@ -300,6 +291,17 @@ var ch = (function (exports) {
       if (!isString(s, true)) return false;
       var l = s.length;
       return l >= o.minLength && l <= o.maxLength && (o.lowerCase ? containsLowerCase(s) : true) && (o.upperCase ? containsUpperCase(s) : true) && (o.number ? containsNumber(s, 1, null) : true) && (o.specialCharacter ? containsSpecialCharacter(s) : true);
+    }
+
+    function isObject(o, empty) {
+      if (empty === void 0) {
+        empty = false;
+      }
+      return o !== null && typeof o === "object" && !isArray(o) && (empty ? !!Object.keys(o).length : true);
+    }
+    function isProperty(val, obj) {
+      var v = String(val);
+      return isString(v, true) && isObject(obj) ? Object.keys(obj).includes(v) : false;
     }
 
     function isHtmlElement(h) {

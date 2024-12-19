@@ -1,5 +1,5 @@
 import { isArray } from './array';
-import { isString } from './primitive';
+import { isString } from './string';
 
 function isObject<T = any>(o: any, empty = false): o is object & T {
   return o !== null && typeof o === "object" && !isArray(o) && (empty ? !!Object.keys(o).length : true);

@@ -1,4 +1,4 @@
-import { isString } from './primitive';
+import { isString } from './string';
 import { isEmail } from './string';
 
 /**
