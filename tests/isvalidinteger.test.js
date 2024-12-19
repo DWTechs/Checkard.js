@@ -65,6 +65,23 @@ test("sends positive float to isValidInteger", () => {
   expect(isValidInteger(1.1)).toBe(false);
 });
 
+test("sends positive float to isValidInteger with interval", () => {
+  expect(isValidInteger(10.5, 1, 100)).toBe(false);
+});
+
+test("sends positive float to isValidInteger with interval at the lowest value", () => {
+  expect(isValidInteger(10.5, 10, 100)).toBe(false);
+});
+
+test("sends positive float to isValidInteger with interval at the highest value", () => {
+  expect(isValidInteger(99.9, 10, 100)).toBe(false);
+});
+
+test("sends positive float to isValidInteger with interval above the highest value", () => {
+  expect(isValidInteger(100.1, 10, 100)).toBe(false);
+});
+
+
 test("sends positive big float to isValidInteger", () => {
   expect(isValidInteger(999999999.1)).toBe(false);
 });

@@ -6,7 +6,7 @@
 [![minified size](https://img.shields.io/bundlephobia/min/@dwtechs/checkard?color=brightgreen)](https://www.npmjs.com/package/@dwtechs/checkard)
 
 - [Synopsis](#synopsis)
-- [Browsers](#browsers)
+- [Support](#support)
 - [Installation](#installation)
 - [Usage](#usage)
   - [ES6](#es6)
@@ -14,7 +14,6 @@
   - [IIFE](#iife)
 - [API Reference](#api-reference)
 - [Contributors](#contributors)
-- [License](#license)
 - [Stack](#stack)
 
 
@@ -31,7 +30,7 @@ Function, object, ascii, boolean, integer, string, json, email...)
 - Old browsers support
 
 
-## Browsers
+## Support
 
 - android: 2.2,
 - chrome: 34,
@@ -41,7 +40,8 @@ Function, object, ascii, boolean, integer, string, json, email...)
 - ios: 4.2,
 - opera: 28,
 - safari: 5.1,
-- samsung: 4
+- samsung: 4,
+- Node.js: 14
 
 Those are the oldest targeted versions. The library should work properly on older devices but we do not support it officially.  
 
@@ -123,9 +123,9 @@ if (!ch.isArray(variable, '=', 2)) {
 
 ```javascript
 
-Comparator = '='|'<'|'>'|'<='|'>=';
+type Comparator = '='|'<'|'>'|'<='|'>=';
 
-PasswordOptions = {
+type PasswordOptions = {
   lowercase: boolean,
   uppercase: boolean,
   number: boolean,
