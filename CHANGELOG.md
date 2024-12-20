@@ -1,3 +1,7 @@
+# 2.29.2 (Dec 21th 2024)
+
+- Fix declaration file for isArrayOfLength() method
+
 # 2.29.1 (Dec 20th 2024)
 
 - Fix isArrayOfLength() method and add more tests

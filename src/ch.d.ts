@@ -22,6 +22,7 @@ declare function isSymbol(s: any): s is symbol;
 declare function isFunction(func: any): func is Function;
 
 declare function isArray<T = any>(a: any, comp?: Comparator | null, len?: number | null): a is Array<T>;
+declare function isArrayOfLength<T = any>(a: any, min?: number, max?: number): a is Array<T>;
 declare function isIn(val: any, arr: any[]): boolean;
 
 declare function isAscii(c: any, ext?: boolean): c is number;
@@ -75,6 +76,7 @@ export { isBoolean,
          isObject,
          isProperty,
          isArray,
+         isArrayOfLength,
          isIn,
          isAscii,
          isInteger,
