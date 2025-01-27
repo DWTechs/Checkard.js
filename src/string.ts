@@ -8,7 +8,7 @@ function isString(s: any, required = false): s is string {
 function isStringOfLength( s: any,
     min = 0, 
     max = 999999999 ): s is string {
-  if (isString(s,false)){
+  if (isString(s,false)) {
     const l = s.length;
     return l >= min && l <= max;
   }
@@ -16,7 +16,7 @@ function isStringOfLength( s: any,
 }
 
 function isJson(s: any): s is JSON {
-  if (!isString(s))
+  if (!isString(s, true))
     return false;
 
   try {
@@ -60,7 +60,7 @@ function isIpAddress(i: any): i is string {
 
 const b64Reg = /^[A-Za-z0-9\-_]+={0,2}$/;
 function isJWT(t: any): t is string {
-  if (!isString(t))
+  if (!isString(t, true))
     return false;
 
   const p = t.split('.');
@@ -83,27 +83,36 @@ function isJWT(t: any): t is string {
 
 const slugReg = /^[^\s-_](?!.*?[-_]{2,})[a-z0-9-\\][^\s]*[^-_\s]$/;
 function isSlug(s: any): s is string {
-  return isString(s) && slugReg.test(s);
+  return isString(s, true) && slugReg.test(s);
 }
 
 const hexadecimal = /^(#|0x|0h)?[0-9A-F]+$/i;
 function isHexadecimal(s: any): s is string {
-  return isString(s) && hexadecimal.test(s);
+  return isString(s, true) && hexadecimal.test(s);
+}
+
+const regex = /^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=|[A-Za-z0-9+\/]{4})$/;
+// const regex = /^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/
+function isBase64(s: any, urlEncoded = false): boolean {
+  // let base64Pattern = urlEncoded
+  //       ? /^(?:[A-Za-z0-9-_]{4})*(?:[A-Za-z0-9-_]{2}(?:==)?|[A-Za-z0-9-_]{3}=?)?$/
+  //       : /^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/;
+  return isString(s, true) && regex.test(s);
 }
 
 const upperCaseReg = /[A-Z]+/;
 function containsUpperCase(s: any): s is string {
-  return isString(s) && upperCaseReg.test(s);
+  return isString(s, true) && upperCaseReg.test(s);
 }
 
 const lowerCaseReg = /[a-z]+/;
 function containsLowerCase(s: any): s is string {
-  return isString(s) && lowerCaseReg.test(s);
+  return isString(s, true) && lowerCaseReg.test(s);
 }
 
 const specialReg = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?°`€£§]+/;
 function containsSpecialCharacter(s: any): s is string {
-  return isString(s) && specialReg.test(s);
+  return isString(s, true) && specialReg.test(s);
 }
 
 const numberReg = /\d/;
@@ -112,7 +121,7 @@ function containsNumber(s: any, min?: number|null, max?: number|null): s is stri
   if (numberReg.test(s)) {
     let isMin = true;
     let isMax = true;
-    if (isString(s)) {
+    if (isString(s, true)) {
       if (min)
         isMin = s.replace(lengthReg, '').length >= min;
       if (max)
@@ -157,6 +166,7 @@ export {
   isJWT,
   isSlug,
   isHexadecimal,
+  isBase64,
   isValidPassword,
   containsUpperCase,
   containsLowerCase,
