@@ -75,6 +75,7 @@ declare function isJson(s: any): s is JSON;
 declare function isRegex(r: any, type?: boolean): r is RegExp;
 declare function isEmail(e: any): e is string;
 declare function isIpAddress(i: any): i is string;
+declare function isBase64(s: any, urlEncoded?: boolean): boolean 
 declare function isJWT(t: any): t is string;
 declare function isSlug(s: any): s is string;
 declare function isHexadecimal(s: any): s is string;
@@ -125,6 +126,7 @@ export { isBoolean,
          isRegex,
          isEmail,
          isIpAddress,
+         isBase64,
          isJWT,
          isSlug,
          isHexadecimal,

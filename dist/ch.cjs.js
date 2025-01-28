@@ -128,7 +128,7 @@ function isStringOfLength(s, min = 0, max = 999999999) {
     return false;
 }
 function isJson(s) {
-    if (!isString(s))
+    if (!isString(s, true))
         return false;
     try {
         JSON.parse(s);
@@ -157,9 +157,15 @@ const ipReg = /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-
 function isIpAddress(i) {
     return !isSymbol(i) && ipReg.test(i);
 }
+function isBase64(s, urlEncoded = false) {
+    const regex = urlEncoded
+        ? /^(?:[A-Za-z0-9-_]{4})*(?:[A-Za-z0-9-_]{2}(?:==)?|[A-Za-z0-9-_]{3}=?)?$/
+        : /^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/;
+    return isString(s, true) && regex.test(s);
+}
 const b64Reg = /^[A-Za-z0-9\-_]+={0,2}$/;
 function isJWT(t) {
-    if (!isString(t))
+    if (!isString(t, true))
         return false;
     const p = t.split('.');
     if (p.length !== 3)
@@ -179,23 +185,23 @@ function isJWT(t) {
 }
 const slugReg = /^[^\s-_](?!.*?[-_]{2,})[a-z0-9-\\][^\s]*[^-_\s]$/;
 function isSlug(s) {
-    return isString(s) && slugReg.test(s);
+    return isString(s, true) && slugReg.test(s);
 }
 const hexadecimal = /^(#|0x|0h)?[0-9A-F]+$/i;
 function isHexadecimal(s) {
-    return isString(s) && hexadecimal.test(s);
+    return isString(s, true) && hexadecimal.test(s);
 }
 const upperCaseReg = /[A-Z]+/;
 function containsUpperCase(s) {
-    return isString(s) && upperCaseReg.test(s);
+    return isString(s, true) && upperCaseReg.test(s);
 }
 const lowerCaseReg = /[a-z]+/;
 function containsLowerCase(s) {
-    return isString(s) && lowerCaseReg.test(s);
+    return isString(s, true) && lowerCaseReg.test(s);
 }
 const specialReg = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?°`€£§]+/;
 function containsSpecialCharacter(s) {
-    return isString(s) && specialReg.test(s);
+    return isString(s, true) && specialReg.test(s);
 }
 const numberReg = /\d/;
 const lengthReg = /[^0-9]/g;
@@ -203,7 +209,7 @@ function containsNumber(s, min, max) {
     if (numberReg.test(s)) {
         let isMin = true;
         let isMax = true;
-        if (isString(s)) {
+        if (isString(s, true)) {
             if (min)
                 isMin = s.replace(lengthReg, '').length >= min;
             if (max)
@@ -390,6 +396,7 @@ exports.containsUpperCase = containsUpperCase;
 exports.isArray = isArray;
 exports.isArrayOfLength = isArrayOfLength;
 exports.isAscii = isAscii;
+exports.isBase64 = isBase64;
 exports.isBoolean = isBoolean;
 exports.isDate = isDate;
 exports.isEmail = isEmail;

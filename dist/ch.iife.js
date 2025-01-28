@@ -209,7 +209,7 @@ var ch = (function (exports) {
       return false;
     }
     function isJson(s) {
-      if (!isString(s)) return false;
+      if (!isString(s, true)) return false;
       try {
         JSON.parse(s);
       } catch (e) {
@@ -237,9 +237,16 @@ var ch = (function (exports) {
     function isIpAddress(i) {
       return !isSymbol(i) && ipReg.test(i);
     }
+    function isBase64(s, urlEncoded) {
+      if (urlEncoded === void 0) {
+        urlEncoded = false;
+      }
+      var regex = urlEncoded ? /^(?:[A-Za-z0-9-_]{4})*(?:[A-Za-z0-9-_]{2}(?:==)?|[A-Za-z0-9-_]{3}=?)?$/ : /^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/;
+      return isString(s, true) && regex.test(s);
+    }
     var b64Reg = /^[A-Za-z0-9\-_]+={0,2}$/;
     function isJWT(t) {
-      if (!isString(t)) return false;
+      if (!isString(t, true)) return false;
       var p = t.split('.');
       if (p.length !== 3) return false;
       var header = p[0];
@@ -256,23 +263,23 @@ var ch = (function (exports) {
     }
     var slugReg = /^[^\s-_](?!.*?[-_]{2,})[a-z0-9-\\][^\s]*[^-_\s]$/;
     function isSlug(s) {
-      return isString(s) && slugReg.test(s);
+      return isString(s, true) && slugReg.test(s);
     }
     var hexadecimal = /^(#|0x|0h)?[0-9A-F]+$/i;
     function isHexadecimal(s) {
-      return isString(s) && hexadecimal.test(s);
+      return isString(s, true) && hexadecimal.test(s);
     }
     var upperCaseReg = /[A-Z]+/;
     function containsUpperCase(s) {
-      return isString(s) && upperCaseReg.test(s);
+      return isString(s, true) && upperCaseReg.test(s);
     }
     var lowerCaseReg = /[a-z]+/;
     function containsLowerCase(s) {
-      return isString(s) && lowerCaseReg.test(s);
+      return isString(s, true) && lowerCaseReg.test(s);
     }
     var specialReg = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?°`€£§]+/;
     function containsSpecialCharacter(s) {
-      return isString(s) && specialReg.test(s);
+      return isString(s, true) && specialReg.test(s);
     }
     var numberReg = /\d/;
     var lengthReg = /[^0-9]/g;
@@ -280,7 +287,7 @@ var ch = (function (exports) {
       if (numberReg.test(s)) {
         var isMin = true;
         var isMax = true;
-        if (isString(s)) {
+        if (isString(s, true)) {
           if (min) isMin = s.replace(lengthReg, '').length >= min;
           if (max) isMax = s.replace(lengthReg, '').length <= max;
         } else if (min) isMin = min <= 1;
@@ -472,6 +479,7 @@ var ch = (function (exports) {
     exports.isArray = isArray;
     exports.isArrayOfLength = isArrayOfLength;
     exports.isAscii = isAscii;
+    exports.isBase64 = isBase64;
     exports.isBoolean = isBoolean;
     exports.isDate = isDate;
     exports.isEmail = isEmail;

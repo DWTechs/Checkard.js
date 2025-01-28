@@ -58,6 +58,15 @@ function isIpAddress(i: any): i is string {
   return !isSymbol(i) && ipReg.test(i);
 }
 
+// const regex = /^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=|[A-Za-z0-9+\/]{4})$/;
+// const regex = /^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/
+function isBase64(s: any, urlEncoded = false): boolean {
+  const regex = urlEncoded
+    ? /^(?:[A-Za-z0-9-_]{4})*(?:[A-Za-z0-9-_]{2}(?:==)?|[A-Za-z0-9-_]{3}=?)?$/
+    : /^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/;
+  return isString(s, true) && regex.test(s);
+}
+
 const b64Reg = /^[A-Za-z0-9\-_]+={0,2}$/;
 function isJWT(t: any): t is string {
   if (!isString(t, true))
@@ -89,15 +98,6 @@ function isSlug(s: any): s is string {
 const hexadecimal = /^(#|0x|0h)?[0-9A-F]+$/i;
 function isHexadecimal(s: any): s is string {
   return isString(s, true) && hexadecimal.test(s);
-}
-
-const regex = /^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=|[A-Za-z0-9+\/]{4})$/;
-// const regex = /^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/
-function isBase64(s: any, urlEncoded = false): boolean {
-  // let base64Pattern = urlEncoded
-  //       ? /^(?:[A-Za-z0-9-_]{4})*(?:[A-Za-z0-9-_]{2}(?:==)?|[A-Za-z0-9-_]{3}=?)?$/
-  //       : /^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/;
-  return isString(s, true) && regex.test(s);
 }
 
 const upperCaseReg = /[A-Z]+/;
@@ -163,10 +163,10 @@ export {
   isRegex,
   isEmail,
   isIpAddress,
+  isBase64,
   isJWT,
   isSlug,
   isHexadecimal,
-  isBase64,
   isValidPassword,
   containsUpperCase,
   containsLowerCase,

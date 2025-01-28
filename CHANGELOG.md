@@ -1,3 +1,7 @@
+# 2.30.0 (Jan 29th 2025)
+
+- Add isBase64() method to check if a value is a valid base64 string
+
 # 2.29.2 (Dec 21th 2024)
 
 - Fix declaration file for isArrayOfLength() method
