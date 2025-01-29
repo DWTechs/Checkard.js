@@ -58,8 +58,43 @@ function isIpAddress(i: any): i is string {
   return !isSymbol(i) && ipReg.test(i);
 }
 
-// const regex = /^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=|[A-Za-z0-9+\/]{4})$/;
-// const regex = /^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/
+// base64 regex explained : 
+// ^: Asserts the position at the start of the string.
+// (?:[A-Za-z0-9-_]{4})*:
+// - (?: ... ): A non-capturing group that matches the enclosed pattern but does not capture it for back-references.
+// - [A-Za-z0-9-_]{4}: Matches exactly 4 characters that can be uppercase letters (A-Z), lowercase letters (a-z), digits (0-9), hyphens (-), or underscores (_).
+// - *: Matches 0 or more occurrences of the preceding non-capturing group.
+//
+// (?:[A-Za-z0-9-]{2}(?:==)?|[A-Za-z0-9-]{3}=?)?:
+// - (?: ... ): Another non-capturing group.
+// - [A-Za-z0-9-_]{2}(?:==)?: Matches exactly 2 characters from the set [A-Za-z0-9-_], followed optionally by ==.
+// - [A-Za-z0-9-_]{2}: Matches exactly 2 characters from the set.
+// - (?:==)?: A non-capturing group that optionally matches ==.
+// - |: Alternation operator, meaning "or".
+// 
+// [A-Za-z0-9-_]{3}=?: Matches exactly 3 characters from the set [A-Za-z0-9-_], followed optionally by =.
+// - [A-Za-z0-9-_]{3}: Matches exactly 3 characters from the set.
+// - =?: Optionally matches =.
+// ?: Matches 0 or 1 occurrence of the preceding non-capturing group.
+// $: Asserts the position at the end of the string.
+//
+// This regular expression validates a Base64 URL-encoded string by ensuring that:
+// The string consists of groups of 4 characters from the set [A-Za-z0-9-_].
+// Optionally, the string can end with:
+// - 2 characters from the set [A-Za-z0-9-_] followed by ==, or
+// - 3 characters from the set [A-Za-z0-9-_] followed by =.
+// 
+// Valid matches:
+// - abcd
+// - abcdabcd
+// - abcdabcdab==
+// - abcdabcdabc=
+// Invalid matches:
+// - abc
+// - abcdabc
+// - abcdabcdab=
+// - abcdabcdabc==
+
 function isBase64(s: any, urlEncoded = false): boolean {
   const regex = urlEncoded
     ? /^(?:[A-Za-z0-9-_]{4})*(?:[A-Za-z0-9-_]{2}(?:==)?|[A-Za-z0-9-_]{3}=?)?$/

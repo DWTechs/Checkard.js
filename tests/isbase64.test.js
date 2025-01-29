@@ -41,6 +41,86 @@ test("sends invalid JWT to isBase64 urlEncoded = true", () => {
   expect(isBase64("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ", true)).toBe(false);
 });
 
+test("sends valid base64 string 'abcd' to isBase64 urlEncoded = false", () => {
+  expect(isBase64("abcd")).toBe(true);
+});
+
+test("sends valid base64 string 'abcdabcd' to isBase64 urlEncoded = false", () => {
+  expect(isBase64("abcdabcd")).toBe(true);
+});
+
+test("sends valid base64 string 'abcdabcdab==' to isBase64 urlEncoded = false", () => {
+  expect(isBase64("abcdabcdab==")).toBe(true);
+});
+
+test("sends valid base64 string 'abcdabcdabc=' to isBase64 urlEncoded = false", () => {
+  expect(isBase64("abcdabcdabc=")).toBe(true);
+});
+
+test("sends invalid base64 string 'abc' to isBase64 urlEncoded = false", () => {
+  expect(isBase64("abc")).toBe(false);
+});
+
+test("sends invalid base64 string 'abcdabc' to isBase64 urlEncoded = false", () => {
+  expect(isBase64("abcdabc")).toBe(false);
+});
+
+test("sends invalid base64 string 'abcdabcdab=' to isBase64 urlEncoded = false", () => {
+  expect(isBase64("abcdabcdab=")).toBe(false);
+});
+
+test("sends invalid base64 string 'abcdabcdabc==' to isBase64 urlEncoded = false", () => {
+  expect(isBase64("abcdabcdabc==")).toBe(false);
+});
+
+test("sends valid base64 string 'abcd' to isBase64 urlEncoded = true", () => {
+  expect(isBase64("abcd", true)).toBe(true);
+});
+
+test("sends valid base64 string 'abcdabcd' to isBase64 urlEncoded = true", () => {
+  expect(isBase64("abcdabcd", true)).toBe(true);
+});
+
+test("sends valid base64 string 'abcdabcdab==' to isBase64 urlEncoded = true", () => {
+  expect(isBase64("abcdabcdab==", true)).toBe(true);
+});
+
+test("sends valid base64 string 'abcdabcdabc=' to isBase64 urlEncoded = true", () => {
+  expect(isBase64("abcdabcdabc=", true)).toBe(true);
+});
+
+test("sends invalid base64 string 'abc' to isBase64 urlEncoded = true", () => {
+  expect(isBase64("abc", true)).toBe(false);
+});
+
+test("sends invalid base64 string 'abcdabc' to isBase64 urlEncoded = true", () => {
+  expect(isBase64("abcdabc", true)).toBe(false);
+});
+
+test("sends invalid base64 string 'abcdabcdab=' to isBase64 urlEncoded = true", () => {
+  expect(isBase64("abcdabcdab=", true)).toBe(false);
+});
+
+test("sends invalid base64 string 'abcdabcdabc==' to isBase64 urlEncoded = true", () => {
+  expect(isBase64("abcdabcdabc==", true)).toBe(false);
+});
+
+test("sends valid base64 string 'abcdabcdab/=' not urlencoded to isBase64 urlEncoded = true", () => {
+  expect(isBase64("abcdabcdab/=", true)).toBe(false);
+});
+
+test("sends valid base64 string 'abcdabcdab/=' not urlencoded to isBase64 urlEncoded = false", () => {
+  expect(isBase64("abcdabcdab/=", false)).toBe(true);
+});
+
+test("sends valid base64 string 'abcd+bcdab/=' not urlencoded to isBase64 urlEncoded = true", () => {
+  expect(isBase64("abcd+bcdab/=", true)).toBe(false);
+});
+
+test("sends valid base64 string 'abcd+bcdab/=' not urlencoded to isBase64 urlEncoded = false", () => {
+  expect(isBase64("abcd+bcdab/=", false)).toBe(true);
+});
+
 test("sends positive even integer to isBase64 urlEncoded = false", () => {
   expect(isBase64(2)).toBe(false);
 });
