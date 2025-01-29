@@ -217,7 +217,7 @@ isEmail(email: any): boolean {}
 
 isIpAddress(ipAddress: any): boolean {}
 
-isBase64(string: any, urlEncoded?: boolean): boolean
+isBase64(string: any, urlEncoded?: boolean): boolean {}
 
 isJWT(token: any): boolean {}
 
