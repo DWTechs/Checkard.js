@@ -65,7 +65,7 @@ function isIpAddress(i: any): i is string {
 // - [A-Za-z0-9-_]{4}: Matches exactly 4 characters that can be uppercase letters (A-Z), lowercase letters (a-z), digits (0-9), hyphens (-), or underscores (_).
 // - *: Matches 0 or more occurrences of the preceding non-capturing group.
 //
-// (?:[A-Za-z0-9-]{2}(?:==)?|[A-Za-z0-9-]{3}=?)?:
+// (?:[A-Za-z0-9-]{2}(?:==)?:
 // - (?: ... ): Another non-capturing group.
 // - [A-Za-z0-9-_]{2}(?:==)?: Matches exactly 2 characters from the set [A-Za-z0-9-_], followed optionally by ==.
 // - [A-Za-z0-9-_]{2}: Matches exactly 2 characters from the set.
