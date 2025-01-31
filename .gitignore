@@ -4,5 +4,6 @@ build/
 .tscache/
 npm-debug.log
 tests/coverage/
+tstests/build/
 .size-snapshot.json
 .npmrc

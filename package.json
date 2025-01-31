@@ -26,13 +26,13 @@
   "contributors": [],
   "scripts": {
     "start": "",
-    "build": "node ./scripts/clear.cjs && tsc && npm run rollup && npm run uglify && node ./scripts/copy.cjs && npm run test",
+    "build": "node ./scripts/clear.cjs && tsc -p tsconfig.lib.json && npm run rollup && npm run uglify && node ./scripts/copy.cjs && npm run test",
     "rollup:mjs": "rollup --config rollup.config.mjs",
     "rollup:iife": "rollup --config rollup.config.iife.mjs",
     "rollup:cjs": "rollup --config rollup.config.cjs.mjs",
     "rollup": "npm run rollup:mjs && npm run rollup:iife && npm run rollup:cjs",
     "uglify": "uglifyjs build/ch.iife.js --config-file uglify.config.json --output build/ch.iife.min.js",
-    "test": "jest --coverage"
+    "test": "jest --coverage && tsc -p tsconfig.test.json"
   },
   "files": [
     "dist/"
