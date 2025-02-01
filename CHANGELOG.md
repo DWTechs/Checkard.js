@@ -3,7 +3,8 @@
 - Add isBase64() method to check if a value is a valid base64 string
 - Add "own" property to isProperty() method to check inherited properties only
 - Add "enumerable" property to isProperty() method to check enumerable properties only
-- improve the return type of isProperty() method
+- Improve the return type of isProperty() method
+- Change "any" types to "unknown"
 
 # 2.29.2 (Dec 21th 2024)
 
