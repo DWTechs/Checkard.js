@@ -15,12 +15,12 @@ function isStringOfLength( s: unknown,
   return false;
 }
 
-function isJson(s: unknown): s is JSON {
-  if (!isString(s, true))
+function isJson(j: unknown): j is JSON {
+  if (!isString(j, true))
     return false;
 
   try {
-    JSON.parse(s);
+    JSON.parse(j);
   } catch (e) {
     return false;
   }
@@ -95,7 +95,7 @@ function isIpAddress(i: unknown): i is string {
 // - abcdabcdab=
 // - abcdabcdabc==
 
-function isBase64(s: unknown, urlEncoded = false): boolean {
+function isBase64(s: unknown, urlEncoded = false): s is string {
   const regex = urlEncoded
     ? /^(?:[A-Za-z0-9-_]{4})*(?:[A-Za-z0-9-_]{2}==|[A-Za-z0-9-_]{3}=)?$/
     : /^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/;

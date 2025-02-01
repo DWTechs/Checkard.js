@@ -9,9 +9,11 @@ function isObject<T = unknown>(o: unknown, empty = false): o is object & T {
 // own: boolean - whether to check inherited properties only
 // enumerable: boolean - whether to check enumerable properties only
 function isProperty<K extends PropertyKey>(
-  v: K, obj: { [key: PropertyKey]: unknown }, 
+  v: K, 
+  obj: { [key: PropertyKey]: unknown }, 
   own = true, 
-  enumerable = true): obj is Record<K, { [key: PropertyKey]: unknown }> {
+  enumerable = true): obj is Record<K, { [key: PropertyKey]: unknown }>
+{
   
   if ((!isString(v, true) && !isNumber(v, true) && !isSymbol(v)) || !isObject(obj))
     return false;

@@ -139,15 +139,15 @@ type PasswordOptions = {
 
 ```javascript
 
-isBoolean(bool: unknown): boolean {}
+isBoolean(b: unknown): boolean {}
 
 // If typeCheck = false values like '4', '0', '8e4', '+true', '0x44' return true
-isNumber(number: unknown, typeCheck?: boolean = true): boolean {}
+isNumber(n: unknown, typeCheck?: boolean = true): boolean {} // n is number
 
-isSymbol(sym: unknown): boolean {}
+isSymbol(s: unknown): boolean {} // s is symbol
 
 //Check whether val is null or undefined
-isNil(val: unknown): boolean {}
+isNil(n: unknown): boolean {} // n is null | undefined
 
 ```
 
@@ -156,23 +156,23 @@ isNil(val: unknown): boolean {}
 
 ```javascript
 
-isInteger(number: unknown, typeCheck?: boolean = true): boolean {}
+isInteger(n: unknown, typeCheck?: boolean = true): boolean {} // n is number
 
-isFloat(number: unknown, typeCheck?: boolean = true): boolean {}
+isFloat(n: unknown, typeCheck?: boolean = true): boolean {} // n is number
 
-isEven(number: unknown, typeCheck?: boolean = true): boolean {}
+isEven(n: unknown, typeCheck?: boolean = true): boolean {} // n is number
 
-isOdd(number: unknown, typeCheck?: boolean = true): boolean {}
+isOdd(n: unknown, typeCheck?: boolean = true): boolean {} // n is number
 
-isOrigin(number: unknown, typeCheck?: boolean = true): boolean {}
+isOrigin(n: unknown, typeCheck?: boolean = true): boolean {} // n is number
 
-isPositive(number: unknown, typeCheck?: boolean = true): boolean {}
+isPositive(n: unknown, typeCheck?: boolean = true): boolean {} // n is number
 
-isNegative(number: unknown, typeCheck?: boolean = true): boolean {}
+isNegative(n: unknown, typeCheck?: boolean = true): boolean {} // n is number
 
-isPowerOfTwo(number: unknown, typeCheck?: boolean = true): boolean {}
+isPowerOfTwo(n: unknown, typeCheck?: boolean = true): boolean {} // n is number
 
-isAscii(code: unknown, extended?: boolean = false): boolean {}
+isAscii(c: unknown, extended?: boolean = true): boolean {} // n is number
 
 ```
 
@@ -181,20 +181,20 @@ isAscii(code: unknown, extended?: boolean = false): boolean {}
 
 ```javascript
 
-isValidNumber(number: unknown, 
+isValidNumber(n: unknown, 
               min?: number = -999999999, 
               max?: number = 999999999, 
-              typeCheck?: boolean = true ): boolean {}
+              typeCheck?: boolean = true ): boolean {} // n is number
 
-isValidInteger(number: unknown, 
+isValidInteger(n: unknown, 
                min?: number = -999999999, 
                max?: number = 999999999, 
-               typeCheck?: boolean = true ): boolean {}
+               typeCheck?: boolean = true ): boolean {} // n is number
 
-isValidFloat( number: unknown, 
+isValidFloat( n: unknown, 
               min?: number = -999999999.9, 
               max?: number = 999999999.9, 
-              typeCheck?: boolean = true ): boolean {}
+              typeCheck?: boolean = true ): boolean {} // n is number
 
 ```
 
@@ -203,27 +203,27 @@ isValidFloat( number: unknown,
 
 ```javascript
 
-isString(string: unknown, required?: boolean = false): boolean {}
+isString(s: unknown, required?: boolean = false): boolean {} // s is string
 
-isStringOfLength( string: unknown, 
+isStringOfLength( s: unknown, 
                   min?: number = 0, 
-                  max?: number = 999999999 ): boolean {}
+                  max?: number = 999999999 ): boolean {} // s is string
 
-isJson(string: unknown): boolean {}
+isJson(j: unknown): boolean {} // j is JSON
 
-isRegex(regex: unknown, typeCheck?: boolean = true): boolean {}
+isRegex(r: unknown, typeCheck?: boolean = true): boolean {} // r is RegExp
 
-isEmail(email: unknown): boolean {}
+isEmail(e: unknown): boolean {} // e is string
 
-isIpAddress(ipAddress: unknown): boolean {}
+isIpAddress(i: unknown): boolean {} // i is string
 
-isBase64(string: unknown, urlEncoded?: boolean): boolean {}
+isBase64(s: unknown, urlEncoded?: boolean = false): boolean {} // s is string
 
-isJWT(token: unknown): boolean {}
+isJWT(t: unknown): boolean {} // t is string
 
-isSlug(slug: unknown): boolean {}
+isSlug(s: unknown): boolean {} // s is string
 
-isHexadecimal(string: unknown): boolean {}
+isHexadecimal(s: unknown): boolean {} // s is string
 
 const PwdDefaultOptions = {
   lowerCase: true,
@@ -233,15 +233,15 @@ const PwdDefaultOptions = {
   minLength: 12,
   maxLength: 64,
 };
-isValidPassword(string: unknown, options: PasswordOptions = PwdDefaultOptions): boolean {}
+isValidPassword(s: unknown, options: PasswordOptions = PwdDefaultOptions): boolean {} // s is string
 
-containsUpperCase(string: unknown): boolean {}
+containsUpperCase(s: unknown): boolean {} // s is string
 
-containsLowerCase(string: unknown): boolean {}
+containsLowerCase(s: unknown): boolean {} // s is string
 
-containsSpecialCharacter(string: unknown): boolean {}
+containsSpecialCharacter(s: unknown): boolean {} // s is string
 
-containsNumber(string: unknown, min?: number|null, max?: number|null): boolean {}
+containsNumber(s: unknown, min?: number|null, max?: number|null): boolean {} // s is string
 
 ```
 
@@ -272,24 +272,24 @@ if (isValidPassword(password, PwdOptions)) {
 
 ```javascript
 
-isDate(date: unknown): boolean {}
+isDate(d: unknown): boolean {} // d is Date
 
 isValidDate(
-    date: unknown, 
+    d: unknown, 
     min?: Date = new Date('1/1/1900'), 
     max?: Date = new Date('1/1/2200')
-  ): boolean {}
+  ): boolean {} // d is Date
 
-isTimestamp(number: unknown, typeCheck?: boolean = true): boolean {}
+isTimestamp(t: unknown, typeCheck?: boolean = true): boolean {} // t is number
 
 // default min = 1/1/1900 (month/day/year)
 // default max = 1/1/2200 (month/day/year)
 isValidTimestamp(
-    number: unknown, 
+    t: unknown, 
     min?: number = -2208989361000, 
     max?: number = 7258114800000, 
     typeCheck?: boolean = true
-  ): boolean {}
+  ): boolean {} // t is number
 
 ```
 
@@ -300,18 +300,18 @@ isValidTimestamp(
 
 // Check if 'array' is an array and optionally if it is of length =, <, >, <= or >= than 'length'
 isArray(
-    array: unknown, 
+    a: unknown, 
     comparator?: Comparator|null, 
     length?: number|null
-  ): boolean {}
+  ): boolean {} // a is Array<T>
 
 isArrayOfLength(
-    array: unknown, 
+    a: unknown, 
     min = 0, 
-    max = 999999999): boolean {}
+    max = 999999999): boolean {} // a is Array<T>
 
 // This method lets you check if a value is included in an array.
-isIn(value: unknown, arr: unknown[]): boolean {}
+isIn(v: unknown, arr: unknown[]): boolean {}
 
 ```
 
@@ -358,10 +358,15 @@ let lvl = setLevel("infos"); // lvl = "error"
 
 ```javascript
 
-isObject(obj: unknown, emptyCheck?: boolean = false): boolean {}
+isObject(o: unknown, emptyCheck?: boolean = false): boolean {} // o is object & T
 
 // This method lets you check if a value is included in an object properties.
-isProperty(v: unknown, obj: { [key: string]: unknown }): boolean 
+isProperty(
+    v: unknown, 
+    obj: { [key: string]: unknown },
+    own: boolean = true,
+    enumerable: boolean = true
+): boolean // obj is Record<K, { [key: PropertyKey]: unknown }>
 
 ```
 
@@ -390,7 +395,7 @@ console.log(isProperty("debag", levels)); // false
 
 ```javascript
 
-isFunction(func: unknown): boolean {}
+isFunction(f: unknown): boolean {} // f is (...args: unknown[]) => unknown
 
 ```
 
@@ -399,11 +404,11 @@ isFunction(func: unknown): boolean {}
 
 ```javascript
 
-isHtmlElement(htmlElement: unknown): boolean {}
+isHtmlElement(h: unknown): boolean {} // h is HTMLElement
 
-isHtmlEventAttribute(htmlEventAttribute: unknown): boolean {}
+isHtmlEventAttribute(h: unknown): boolean {} // h is string
 
-isNode(node: unknown): boolean {}
+isNode(n: unknown): boolean {} // n is Node
 
 ```
 
@@ -421,9 +426,9 @@ normalizeNickname(
   lastName: string
 ): string | false {}
 
-normalizeName(string: string): string | false {}
+normalizeName(s: string): string | false {}
 
-normalizeEmail(string: string): string | false {}
+normalizeEmail(s: string): string | false {}
 
 ```
 

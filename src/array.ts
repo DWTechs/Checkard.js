@@ -12,9 +12,11 @@ function isArray<T = unknown>(a: unknown, comp?: Comparator|null, len?: number|n
     : false;
 }
 
-function isArrayOfLength<T = unknown>(a: unknown, 
-                               min = -999999999, 
-                               max = 999999999): a is Array<T> {
+function isArrayOfLength<T = unknown>(
+  a: unknown, 
+  min = -999999999, 
+  max = 999999999): a is Array<T> 
+{
   if (isArray(a, null, null)) {
     const n = a.length;
     return n >= min && n <= max;
@@ -22,8 +24,8 @@ function isArrayOfLength<T = unknown>(a: unknown,
   return false;
 }
 
-function isIn(val: unknown, arr: unknown[]): boolean {
-  return isArray(arr, '>', 0) ? arr.includes(val) : false;
+function isIn(v: unknown, arr: unknown[]): boolean {
+  return isArray(arr, '>', 0) ? arr.includes(v) : false;
 }
 
 export {

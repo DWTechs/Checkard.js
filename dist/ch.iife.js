@@ -51,8 +51,8 @@ var ch = (function (exports) {
       return n == null;
     }
 
-    function isFunction(func) {
-      return Boolean(func && getTag(func) === "[object Function]");
+    function isFunction(f) {
+      return Boolean(f && getTag(f) === "[object Function]");
     }
 
     var comparisons = {
@@ -185,8 +185,8 @@ var ch = (function (exports) {
       }
       return false;
     }
-    function isIn(val, arr) {
-      return isArray(arr, '>', 0) ? arr.includes(val) : false;
+    function isIn(v, arr) {
+      return isArray(arr, '>', 0) ? arr.includes(v) : false;
     }
 
     function isString(s, required) {
@@ -208,10 +208,10 @@ var ch = (function (exports) {
       }
       return false;
     }
-    function isJson(s) {
-      if (!isString(s, true)) return false;
+    function isJson(j) {
+      if (!isString(j, true)) return false;
       try {
-        JSON.parse(s);
+        JSON.parse(j);
       } catch (e) {
         return false;
       }

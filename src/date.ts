@@ -11,7 +11,7 @@ function isValidDate(d: unknown, min: Date = minDate, max: Date = maxDate): d is
   return isDate(d) && d >= min && d <= max;
 }
 
-function isTimestamp(t:unknown, type = true): t is number {
+function isTimestamp(t: unknown, type = true): t is number {
   return isInteger(t, type) && isNumeric(new Date(Number.parseInt(String(t))).getTime());
 }
 

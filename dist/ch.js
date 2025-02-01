@@ -45,8 +45,8 @@ function isNil(n) {
     return n == null;
 }
 
-function isFunction(func) {
-    return Boolean(func && getTag(func) === "[object Function]");
+function isFunction(f) {
+    return Boolean(f && getTag(f) === "[object Function]");
 }
 
 const comparisons = {
@@ -117,8 +117,8 @@ function isArrayOfLength(a, min = -999999999, max = 999999999) {
     }
     return false;
 }
-function isIn(val, arr) {
-    return isArray(arr, '>', 0) ? arr.includes(val) : false;
+function isIn(v, arr) {
+    return isArray(arr, '>', 0) ? arr.includes(v) : false;
 }
 
 function isString(s, required = false) {
@@ -131,11 +131,11 @@ function isStringOfLength(s, min = 0, max = 999999999) {
     }
     return false;
 }
-function isJson(s) {
-    if (!isString(s, true))
+function isJson(j) {
+    if (!isString(j, true))
         return false;
     try {
-        JSON.parse(s);
+        JSON.parse(j);
     }
     catch (e) {
         return false;
