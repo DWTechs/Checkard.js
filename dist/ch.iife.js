@@ -241,7 +241,7 @@ var ch = (function (exports) {
       if (urlEncoded === void 0) {
         urlEncoded = false;
       }
-      var regex = urlEncoded ? /^(?:[A-Za-z0-9-_]{4})*(?:[A-Za-z0-9-_]{2}(?:==)?|[A-Za-z0-9-_]{3}=?)?$/ : /^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/;
+      var regex = urlEncoded ? /^(?:[A-Za-z0-9-_]{4})*(?:[A-Za-z0-9-_]{2}==|[A-Za-z0-9-_]{3}=)?$/ : /^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/;
       return isString(s, true) && regex.test(s);
     }
     var b64Reg = /^[A-Za-z0-9\-_]+={0,2}$/;
@@ -319,9 +319,20 @@ var ch = (function (exports) {
       }
       return o !== null && typeof o === "object" && !isArray(o) && (empty ? !!Object.keys(o).length : true);
     }
-    function isProperty(val, obj) {
-      var v = String(val);
-      return isString(v, true) && isObject(obj) ? Object.keys(obj).includes(v) : false;
+    function isProperty(v, obj, own, enumerable) {
+      if (own === void 0) {
+        own = true;
+      }
+      if (enumerable === void 0) {
+        enumerable = true;
+      }
+      if (!isString(v, true) && !isNumber(v, true) && !isSymbol(v) || !isObject(obj)) return false;
+      if (!(v in obj)) return false;
+      var isOwn = true;
+      var isEnum = true;
+      if (own) isOwn = Object.prototype.hasOwnProperty.call(obj, v);
+      if (enumerable) isEnum = Object.prototype.propertyIsEnumerable.call(obj, v);
+      return isOwn && isEnum;
     }
 
     function isHtmlElement(h) {

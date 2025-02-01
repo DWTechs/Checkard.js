@@ -97,7 +97,7 @@ function isIpAddress(i: any): i is string {
 
 function isBase64(s: any, urlEncoded = false): boolean {
   const regex = urlEncoded
-    ? /^(?:[A-Za-z0-9-_]{4})*(?:[A-Za-z0-9-_]{2}(?:==)?|[A-Za-z0-9-_]{3}=?)?$/
+    ? /^(?:[A-Za-z0-9-_]{4})*(?:[A-Za-z0-9-_]{2}==|[A-Za-z0-9-_]{3}=)?$/
     : /^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/;
   return isString(s, true) && regex.test(s);
 }

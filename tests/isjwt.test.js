@@ -34,7 +34,7 @@ test("sends valid long JWT to isJWT 1", () => {
 });
 
 test("sends valid long JWT to isJWT 2", () => {
-  expect(isJwt("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJPbmxpbmUgSldUIEJ1aWxkZXIiLCJpYXQiOjE3MzgzMzcwMjQsImV4cCI6MTc2OTg3MzAyNCwiYXVkIjoid3d3LmV4YW1wbGUuY29tIiwic3ViIjoianJvY2tldEBleGFtcGxlLmNvbSIsIkdpdmVuTmFtZSI6IlRvdG8iLCJTdXJuYW1lIjoiUm9ja2V0IiwiRW1haWwiOiJqcm9ja2V0QGV4YW1wbGUuY29tIiwiUm9sZSI6ImFkbWluIn0.7AAr1p_nO9MVu_nnZNamEsrVZhrBtqqEfxcYAtS2aOQ")).toBe(true);
+  expect(isJWT("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJPbmxpbmUgSldUIEJ1aWxkZXIiLCJpYXQiOjE3MzgzMzcwMjQsImV4cCI6MTc2OTg3MzAyNCwiYXVkIjoid3d3LmV4YW1wbGUuY29tIiwic3ViIjoianJvY2tldEBleGFtcGxlLmNvbSIsIkdpdmVuTmFtZSI6IlRvdG8iLCJTdXJuYW1lIjoiUm9ja2V0IiwiRW1haWwiOiJqcm9ja2V0QGV4YW1wbGUuY29tIiwiUm9sZSI6ImFkbWluIn0.7AAr1p_nO9MVu_nnZNamEsrVZhrBtqqEfxcYAtS2aOQ")).toBe(true);
 });
 
 test("sends invalid JWT to isJWT", () => {

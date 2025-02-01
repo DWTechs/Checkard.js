@@ -1,37 +1,35 @@
 import { isArray } from './array';
 import { isString } from './string';
+import { isNumber, isSymbol } from './primitive';
 
 function isObject<T = any>(o: any, empty = false): o is object & T {
   return o !== null && typeof o === "object" && !isArray(o) && (empty ? !!Object.keys(o).length : true);
 }
 
-function isProperty<K extends PropertyKey>(val: K, obj: { [key: PropertyKey]: any }, inherited = false, nonEnumerable = false): obj is Record<K, { [key: PropertyKey]: any }> {
-  const v = String(val);
-  if (!isString(v, true) || !isObject(obj))
+// own: boolean - whether to check inherited properties only
+// enumerable: boolean - whether to check enumerable properties only
+function isProperty<K extends PropertyKey>(v: K, obj: { [key: PropertyKey]: any }, own = true, enumerable = true): obj is Record<K, { [key: PropertyKey]: any }> {
+  
+  if ((!isString(v, true) && !isNumber(v, true) && !isSymbol(v)) || !isObject(obj))
+    
     return false;
   
-  if (inherited && nonEnumerable)
-    return v in obj;
-  else if (inherited && !nonEnumerable) {
-    let currentObj = obj;
-    while (currentObj) {
-      if (Object.prototype.propertyIsEnumerable.call(currentObj, v)) {
-        return true;
-      }
-      currentObj = Object.getPrototypeOf(currentObj);
-    }
+  if (!(v in obj)) // check broadly for property
     return false;
-    // return Object.prototype.hasOwnProperty.call(obj, v)
-  } else if (!inherited && nonEnumerable)
-    return Object.prototype.propertyIsEnumerable.call(obj, v);
-  else if (!inherited && !nonEnumerable)
-    return Object.prototype.hasOwnProperty.call(obj, v);
+
+  let isOwn = true;
+  let isEnum = true;
+  
+  if (own) // check if val is own property. enumerable or not
+    isOwn = Object.prototype.hasOwnProperty.call(obj, v);
+
+  if (enumerable) // check if val is enumerable
+    isEnum = Object.prototype.propertyIsEnumerable.call(obj, v);
+  
+  return isOwn && isEnum;
+
 }
 
-function isOwnNonEnumerableProperty(obj: object, key: string): boolean {
-  const descriptor = Object.getOwnPropertyDescriptor(obj, key);
-  return descriptor !== undefined && !descriptor.enumerable;
-}
 
 export {
     isObject,

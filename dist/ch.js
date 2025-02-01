@@ -157,7 +157,7 @@ function isIpAddress(i) {
 }
 function isBase64(s, urlEncoded = false) {
     const regex = urlEncoded
-        ? /^(?:[A-Za-z0-9-_]{4})*(?:[A-Za-z0-9-_]{2}(?:==)?|[A-Za-z0-9-_]{3}=?)?$/
+        ? /^(?:[A-Za-z0-9-_]{4})*(?:[A-Za-z0-9-_]{2}==|[A-Za-z0-9-_]{3}=)?$/
         : /^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/;
     return isString(s, true) && regex.test(s);
 }
@@ -242,9 +242,18 @@ function isValidPassword(s, options = defaultOptions) {
 function isObject(o, empty = false) {
     return o !== null && typeof o === "object" && !isArray(o) && (empty ? !!Object.keys(o).length : true);
 }
-function isProperty(val, obj) {
-    const v = String(val);
-    return isString(v, true) && isObject(obj) ? Object.keys(obj).includes(v) : false;
+function isProperty(v, obj, own = true, enumerable = true) {
+    if ((!isString(v, true) && !isNumber(v, true) && !isSymbol(v)) || !isObject(obj))
+        return false;
+    if (!(v in obj))
+        return false;
+    let isOwn = true;
+    let isEnum = true;
+    if (own)
+        isOwn = Object.prototype.hasOwnProperty.call(obj, v);
+    if (enumerable)
+        isEnum = Object.prototype.propertyIsEnumerable.call(obj, v);
+    return isOwn && isEnum;
 }
 
 function isHtmlElement(h) {
