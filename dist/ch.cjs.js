@@ -27,7 +27,7 @@ https://github.com/DWTechs/Checkard.js
 'use strict';
 
 function isNumeric(n) {
-    return !isNaN(n - parseFloat(n));
+    return !Number.isNaN(Number(n) - Number.parseFloat(n));
 }
 function getTag(t) {
     return t == null ? t === undefined ? '[object Undefined]' : '[object Null]' : toString.call(t);
@@ -71,7 +71,7 @@ function isInteger(n, type = true) {
 function isFloat(n, type = true) {
     if (isSymbol(n))
         return false;
-    const modulo = n % 1 !== 0;
+    const modulo = Number(n) % 1 !== 0;
     return type ? (Number(n) === n && modulo) : (Number(n) == n && modulo);
 }
 function isEven(n, type = true) {
@@ -104,7 +104,13 @@ function isValidFloat(n, min = -999999999.9, max = 999999999.9, type = true) {
 }
 
 function isArray(a, comp, len) {
-    return (a === null || a === void 0 ? void 0 : a.constructor) === Array ? (comp && isValidInteger(len, 0, 999999999)) ? comparisons.hasOwnProperty(comp) ? comparisons[comp](a.length, len) : false : true : false;
+    return (a === null || a === void 0 ? void 0 : a.constructor) === Array
+        ? (comp && isValidInteger(len, 0, 999999999))
+            ? Object.prototype.hasOwnProperty.call(comparisons, comp)
+                ? comparisons[comp](a.length, len)
+                : false
+            : true
+        : false;
 }
 function isArrayOfLength(a, min = -999999999, max = 999999999) {
     if (isArray(a, null, null)) {
@@ -155,7 +161,7 @@ function isEmail(e) {
 }
 const ipReg = /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
 function isIpAddress(i) {
-    return !isSymbol(i) && ipReg.test(i);
+    return !isSymbol(i) && ipReg.test(String(i));
 }
 function isBase64(s, urlEncoded = false) {
     const regex = urlEncoded
@@ -323,7 +329,6 @@ function isHtmlEventAttribute(h) {
         case "ondurationchange":
         case "onemptied":
         case "onended":
-        case "onerror":
         case "onloadeddata":
         case "onloadedmetadata":
         case "onloadstart":
@@ -355,7 +360,7 @@ function isNode(n) {
 }
 
 function isDate(d) {
-    return !isNaN(d) && d instanceof Date;
+    return !Number.isNaN(d) && d instanceof Date;
 }
 const minDate = new Date('1/1/1900');
 const maxDate = new Date('1/1/2200');
@@ -363,7 +368,7 @@ function isValidDate(d, min = minDate, max = maxDate) {
     return isDate(d) && d >= min && d <= max;
 }
 function isTimestamp(t, type = true) {
-    return isInteger(t, type) && isNumeric(new Date(parseInt(t + '')).getTime());
+    return isInteger(t, type) && isNumeric(new Date(Number.parseInt(String(t))).getTime());
 }
 function isValidTimestamp(t, min = -2208989361000, max = 7258114800000, type = true) {
     return isTimestamp(t, type) && t >= min && t <= max;

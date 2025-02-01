@@ -1,14 +1,14 @@
 
-function isHtmlElement(h: any): h is HTMLElement {
+function isHtmlElement(h: unknown): h is HTMLElement {
   return Boolean(typeof HTMLElement === "object"
     ? h instanceof HTMLElement
     : h &&
       typeof h === "object" &&
-      h.nodeType === 1 &&
-      typeof h.nodeName === "string"); //DOM2
+      (h as Node).nodeType === 1 &&
+      typeof (h as Node).nodeName === "string"); //DOM2
 }
 
-function isHtmlEventAttribute(h: any): h is string {
+function isHtmlEventAttribute(h: unknown): h is string {
   switch (h) {
     case "onafterprint": // run after the document is printed
     case "onbeforeprint": // run before the document is printed
@@ -65,10 +65,9 @@ function isHtmlEventAttribute(h: any): h is string {
     case "ondurationchange": // run when the length of the media changes
     case "onemptied": // run when something bad happens and the file is suddenly unavailable (like unexpectedly disconnects)
     case "onended": // run when the media has reach the end (a useful event for messages like "thanks for listening")
-    case "onerror": // run when an error occurs when the file is being loaded
     case "onloadeddata": // run when media data is loaded
     case "onloadedmetadata": // run when meta data (like dimensions and duration) are loaded
-    case "onloadstart": // run just as the file begins to load before anything is actually loaded
+    case "onloadstart": // run just as the file begins to load before unknownthing is actually loaded
     case "onpause": // run when the media is paused either by the user or programmatically
     case "onplay": // run when the media is ready to start playing
     case "onplaying": // run when the media actually has started playing
@@ -88,13 +87,13 @@ function isHtmlEventAttribute(h: any): h is string {
   }
 }
 
-function isNode(n: any): n is Node {
+function isNode(n: unknown): n is Node {
     return Boolean(typeof Node === "object"
       ? n instanceof Node
       : n &&
         typeof n === "object" &&
-        typeof n.nodeType === "number" &&
-        typeof n.nodeName === "string");
+        typeof (n as Node).nodeType === "number" &&
+        typeof (n as Node).nodeName === "string");
 }
 
 export {

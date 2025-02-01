@@ -10,7 +10,7 @@ import { isInteger, isFloat } from './number';
  * @param type - do type check
  * @returns true if the value is a valid number, false otherwise
  */
-function isValidNumber( n: any, 
+function isValidNumber( n: unknown, 
                         min = -999999999, 
                         max = 999999999,
                         type = true ): n is number {
@@ -26,7 +26,7 @@ function isValidNumber( n: any,
  * @param type - do type check
  * @returns true if the value is a valid integer, false otherwise
  */
-function isValidInteger( n: any, 
+function isValidInteger( n: unknown, 
                          min = -999999999, 
                          max = 999999999,
                          type = true ): n is number {
@@ -42,7 +42,7 @@ function isValidInteger( n: any,
  * @param type - do type check
  * @returns true if the value is a valid float, false otherwise
  */
-function isValidFloat( n: any, 
+function isValidFloat( n: unknown, 
                        min = -999999999.9, 
                        max = 999999999.9,
                        type = true ): n is number {

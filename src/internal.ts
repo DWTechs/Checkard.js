@@ -11,8 +11,8 @@
  * @param n The value to check.
  * @returns true if the value is numeric, false otherwise.
  */
-function isNumeric(n: any): n is number {
-  return !isNaN(n - parseFloat(n));
+function isNumeric(n: unknown): n is number {
+  return !Number.isNaN(Number(n) - Number.parseFloat(n as string));
 }
 
 /**
@@ -25,7 +25,7 @@ function isNumeric(n: any): n is number {
  * @param t The value to get the internal [[Prototype]] property of.
  * @returns A string of the form "[object <type>]".
  */
-function getTag(t: any): string {
+function getTag(t: unknown): string {
   return t == null ? t === undefined ? '[object Undefined]' : '[object Null]' : toString.call(t);
 }
 

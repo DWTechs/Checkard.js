@@ -1,7 +1,8 @@
 # 2.30.0 (Jan 29th 2025)
 
 - Add isBase64() method to check if a value is a valid base64 string
-- Add inherited property to osProperty() method to check inherited properties or not
+- Add "own" property to isProperty() method to check inherited properties only
+- Add "enumerable" property to isProperty() method to check enumerable properties only
 - improve the return type of isProperty() method
 
 # 2.29.2 (Dec 21th 2024)

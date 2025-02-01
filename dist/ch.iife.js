@@ -28,7 +28,7 @@ var ch = (function (exports) {
     'use strict';
 
     function isNumeric(n) {
-      return !isNaN(n - parseFloat(n));
+      return !Number.isNaN(Number(n) - Number.parseFloat(n));
     }
     function getTag(t) {
       return t == null ? t === undefined ? '[object Undefined]' : '[object Null]' : toString.call(t);
@@ -92,7 +92,7 @@ var ch = (function (exports) {
         type = true;
       }
       if (isSymbol(n)) return false;
-      var modulo = n % 1 !== 0;
+      var modulo = Number(n) % 1 !== 0;
       return type ? Number(n) === n && modulo : Number(n) == n && modulo;
     }
     function isEven(n, type) {
@@ -170,7 +170,7 @@ var ch = (function (exports) {
     }
 
     function isArray(a, comp, len) {
-      return (a === null || a === void 0 ? void 0 : a.constructor) === Array ? comp && isValidInteger(len, 0, 999999999) ? comparisons.hasOwnProperty(comp) ? comparisons[comp](a.length, len) : false : true : false;
+      return (a === null || a === void 0 ? void 0 : a.constructor) === Array ? comp && isValidInteger(len, 0, 999999999) ? Object.prototype.hasOwnProperty.call(comparisons, comp) ? comparisons[comp](a.length, len) : false : true : false;
     }
     function isArrayOfLength(a, min, max) {
       if (min === void 0) {
@@ -235,7 +235,7 @@ var ch = (function (exports) {
     }
     var ipReg = /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
     function isIpAddress(i) {
-      return !isSymbol(i) && ipReg.test(i);
+      return !isSymbol(i) && ipReg.test(String(i));
     }
     function isBase64(s, urlEncoded) {
       if (urlEncoded === void 0) {
@@ -395,7 +395,6 @@ var ch = (function (exports) {
         case "ondurationchange":
         case "onemptied":
         case "onended":
-        case "onerror":
         case "onloadeddata":
         case "onloadedmetadata":
         case "onloadstart":
@@ -422,7 +421,7 @@ var ch = (function (exports) {
     }
 
     function isDate(d) {
-      return !isNaN(d) && d instanceof Date;
+      return !Number.isNaN(d) && d instanceof Date;
     }
     var minDate = new Date('1/1/1900');
     var maxDate = new Date('1/1/2200');
@@ -439,7 +438,7 @@ var ch = (function (exports) {
       if (type === void 0) {
         type = true;
       }
-      return isInteger(t, type) && isNumeric(new Date(parseInt(t + '')).getTime());
+      return isInteger(t, type) && isNumeric(new Date(Number.parseInt(String(t))).getTime());
     }
     function isValidTimestamp(t, min, max, type) {
       if (min === void 0) {
