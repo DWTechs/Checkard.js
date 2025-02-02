@@ -9,29 +9,44 @@ function isObject<T = unknown>(o: unknown, empty = false): o is object & T {
 // own: boolean - whether to check inherited properties only
 // enumerable: boolean - whether to check enumerable properties only
 function isProperty<K extends PropertyKey>(
-  v: K, 
   obj: { [key: PropertyKey]: unknown }, 
+  k: K, 
   own = true, 
   enumerable = true): obj is Record<K, { [key: PropertyKey]: unknown }>
 {
   
-  if ((!isString(v, true) && !isNumber(v, true) && !isSymbol(v)) || !isObject(obj))
+  if ((!isString(k, true) && !isNumber(k, true) && !isSymbol(k)) || !isObject(obj))
     return false;
   
-  if (!(v in obj)) // check broadly for property
+  // property broad check 
+  if (!(k in obj))
     return false;
 
-  let isOwn = true;
-  let isEnum = true;
-  
-  if (own) // check if val is own property. enumerable or not
-    isOwn = Object.prototype.hasOwnProperty.call(obj, v);
+  // own property check
+  if (own && !Object.prototype.hasOwnProperty.call(obj, k)) 
+    return false;
 
-  if (enumerable) // check if val is enumerable
-    isEnum = Object.prototype.propertyIsEnumerable.call(obj, v);
+  // enumerable property check
+  if (enumerable && !isEnumerable(obj, k, own))
+    return false;
   
-  return isOwn && isEnum;
+  return true;
 
+}
+
+// checks for enumerables
+function isEnumerable(obj: object, key: PropertyKey, own: boolean): boolean {
+  if (own)
+    return Object.prototype.propertyIsEnumerable.call(obj, key);
+
+  let currentObj = obj;
+  while (currentObj) {
+    const descriptor = Object.getOwnPropertyDescriptor(currentObj, key);
+    if (descriptor)
+      return !!descriptor?.enumerable;
+    currentObj = Object.getPrototypeOf(currentObj);
+  }
+  return false;
 }
 
 

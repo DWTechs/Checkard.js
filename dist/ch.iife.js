@@ -319,20 +319,28 @@ var ch = (function (exports) {
       }
       return o !== null && typeof o === "object" && !isArray(o) && (empty ? !!Object.keys(o).length : true);
     }
-    function isProperty(v, obj, own, enumerable) {
+    function isProperty(obj, k, own, enumerable) {
       if (own === void 0) {
         own = true;
       }
       if (enumerable === void 0) {
         enumerable = true;
       }
-      if (!isString(v, true) && !isNumber(v, true) && !isSymbol(v) || !isObject(obj)) return false;
-      if (!(v in obj)) return false;
-      var isOwn = true;
-      var isEnum = true;
-      if (own) isOwn = Object.prototype.hasOwnProperty.call(obj, v);
-      if (enumerable) isEnum = Object.prototype.propertyIsEnumerable.call(obj, v);
-      return isOwn && isEnum;
+      if (!isString(k, true) && !isNumber(k, true) && !isSymbol(k) || !isObject(obj)) return false;
+      if (!(k in obj)) return false;
+      if (own && !Object.prototype.hasOwnProperty.call(obj, k)) return false;
+      if (enumerable && !isEnumerable(obj, k, own)) return false;
+      return true;
+    }
+    function isEnumerable(obj, key, own) {
+      if (own) return Object.prototype.propertyIsEnumerable.call(obj, key);
+      var currentObj = obj;
+      while (currentObj) {
+        var descriptor = Object.getOwnPropertyDescriptor(currentObj, key);
+        if (descriptor) return !!(descriptor === null || descriptor === void 0 ? void 0 : descriptor.enumerable);
+        currentObj = Object.getPrototypeOf(currentObj);
+      }
+      return false;
     }
 
     function isHtmlElement(h) {

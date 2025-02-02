@@ -250,18 +250,28 @@ function isValidPassword(s, options = defaultOptions) {
 function isObject(o, empty = false) {
     return o !== null && typeof o === "object" && !isArray(o) && (empty ? !!Object.keys(o).length : true);
 }
-function isProperty(v, obj, own = true, enumerable = true) {
-    if ((!isString(v, true) && !isNumber(v, true) && !isSymbol(v)) || !isObject(obj))
+function isProperty(obj, k, own = true, enumerable = true) {
+    if ((!isString(k, true) && !isNumber(k, true) && !isSymbol(k)) || !isObject(obj))
         return false;
-    if (!(v in obj))
+    if (!(k in obj))
         return false;
-    let isOwn = true;
-    let isEnum = true;
+    if (own && !Object.prototype.hasOwnProperty.call(obj, k))
+        return false;
+    if (enumerable && !isEnumerable(obj, k, own))
+        return false;
+    return true;
+}
+function isEnumerable(obj, key, own) {
     if (own)
-        isOwn = Object.prototype.hasOwnProperty.call(obj, v);
-    if (enumerable)
-        isEnum = Object.prototype.propertyIsEnumerable.call(obj, v);
-    return isOwn && isEnum;
+        return Object.prototype.propertyIsEnumerable.call(obj, key);
+    let currentObj = obj;
+    while (currentObj) {
+        const descriptor = Object.getOwnPropertyDescriptor(currentObj, key);
+        if (descriptor)
+            return !!(descriptor === null || descriptor === void 0 ? void 0 : descriptor.enumerable);
+        currentObj = Object.getPrototypeOf(currentObj);
+    }
+    return false;
 }
 
 function isHtmlElement(h) {
