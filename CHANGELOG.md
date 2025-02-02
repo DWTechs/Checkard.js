@@ -4,7 +4,7 @@
 - Add "own" property to isProperty() method to check inherited properties only
 - Add "enumerable" property to isProperty() method to check enumerable properties only
 - Improve the return type of isProperty() method
-- Change "any" types to "unknown"
+- Change "any" types to "unknown" for every methods
 
 # 2.29.2 (Dec 21th 2024)
 
