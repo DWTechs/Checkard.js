@@ -327,9 +327,9 @@ var ch = (function (exports) {
         enumerable = true;
       }
       if (!isString(k, true) && !isNumber(k, true) && !isSymbol(k) || !isObject(obj)) return false;
-      if (!(k in obj)) return false;
       if (own && !Object.prototype.hasOwnProperty.call(obj, k)) return false;
       if (enumerable && !isEnumerable(obj, k, own)) return false;
+      if (!(k in obj)) return false;
       return true;
     }
     function isEnumerable(obj, key, own) {

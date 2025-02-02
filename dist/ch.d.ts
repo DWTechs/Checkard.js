@@ -37,11 +37,11 @@ type PasswordOptions = {
 export type { Comparator, PasswordOptions };
 
 declare function isObject<T = unknown>(o: unknown, empty?: boolean): o is object & T;
-declare function isProperty<K extends PropertyKey>(v: K, obj: {
-  [key: PropertyKey]: unknown;
-}, own?: boolean, enumerable?: boolean): obj is Record<K, {
-  [key: PropertyKey]: unknown;
-}>;
+declare function isProperty<K extends PropertyKey>(
+  obj: { [key: PropertyKey]: unknown; },
+  k: K,  
+  own?: boolean, enumerable?: boolean
+): obj is Record<K, { [key: PropertyKey]: unknown; }>;
 
 declare function isNil(n: unknown): n is null | undefined;
 

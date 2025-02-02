@@ -361,9 +361,11 @@ let lvl = setLevel("infos"); // lvl = "error"
 isObject(o: unknown, emptyCheck?: boolean = false): boolean {} // o is object & T
 
 // This method lets you check if a value is included in an object properties.
+// own: boolean - whether to check inherited properties only
+// enumerable: boolean - whether to check enumerable properties only
 isProperty(
-    v: unknown, 
     obj: { [key: string]: unknown },
+    k: unknown,
     own: boolean = true,
     enumerable: boolean = true
 ): boolean // obj is Record<K, { [key: PropertyKey]: unknown }>

@@ -18,16 +18,16 @@ function isProperty<K extends PropertyKey>(
   if ((!isString(k, true) && !isNumber(k, true) && !isSymbol(k)) || !isObject(obj))
     return false;
   
-  // property broad check 
-  if (!(k in obj))
-    return false;
-
   // own property check
   if (own && !Object.prototype.hasOwnProperty.call(obj, k)) 
     return false;
 
   // enumerable property check
   if (enumerable && !isEnumerable(obj, k, own))
+    return false;
+
+  // property broad check 
+  if (!(k in obj))
     return false;
   
   return true;
