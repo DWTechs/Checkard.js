@@ -48,12 +48,12 @@ declare function isHtmlEventAttribute(h: unknown): h is string;
 declare function isNode(n: unknown): n is Node;
 
 declare function isString(s: unknown, required?: boolean): s is string;
-declare function isStringOfLength(s: unknown, min?: number, max?: number): s is string;
+declare function isStringOfLength(s: unknown, min?: number, max?: number): boolean;
 declare function isJson(s: unknown): s is JSON;
 declare function isRegex(r: unknown, type?: boolean): r is RegExp;
 declare function isEmail(e: unknown): e is string;
 declare function isIpAddress(i: unknown): i is string;
-declare function isBase64(s: unknown, urlEncoded?: boolean): boolean 
+declare function isBase64(s: unknown, urlEncoded?: boolean): boolean;
 declare function isJWT(t: unknown): t is string;
 declare function isSlug(s: unknown): s is string;
 declare function isHexadecimal(s: unknown): s is string;
