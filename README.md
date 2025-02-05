@@ -311,7 +311,11 @@ isArrayOfLength(
     max = 999999999): boolean {} // a is Array<T>
 
 // This method lets you check if a value is included in an array.
-isIn(v: unknown, arr: unknown[]): boolean {}
+isIn(
+    arr: unknown[], 
+    v: unknown, 
+    fromIndex?: number = 0
+  ): boolean {}
 
 ```
 

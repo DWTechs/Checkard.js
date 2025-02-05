@@ -38,10 +38,10 @@ export type { Comparator, PasswordOptions };
 
 declare function isObject<T = unknown>(o: unknown, empty?: boolean): o is object & T;
 declare function isProperty<K extends PropertyKey>(
-  obj: { [key: PropertyKey]: unknown; },
+  obj: { [key: PropertyKey]: unknown } | null | undefined,
   k: K,  
   own?: boolean, enumerable?: boolean
-): obj is Record<K, { [key: PropertyKey]: unknown; }>;
+): obj is Record<K, unknown>;
 
 declare function isNil(n: unknown): n is null | undefined;
 
@@ -51,8 +51,8 @@ declare function isSymbol(s: unknown): s is symbol;
 
 declare function isFunction(func: unknown): func is (...args: unknown[]) => unknown;
 
-declare function isArray<T = unknown>(a: unknown, comp?: Comparator | null, len?: number | null): a is Array<T>;
-declare function isArrayOfLength<T = unknown>(a: unknown, min?: number, max?: number): a is Array<T>;
+declare function isArray<T = unknown>(a: unknown, comp?: Comparator | null, len?: number | null): a is ReadonlyArray<T>;
+declare function isArrayOfLength<T = unknown>(a: Array<T> | null | undefined, min?: number, max?: number): boolean;
 declare function isIn(val: unknown, arr: unknown[]): boolean;
 
 declare function isAscii(c: unknown, ext?: boolean): c is number;

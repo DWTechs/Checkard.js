@@ -1,7 +1,10 @@
-# 2.30.1 (Feb 04th 2025)
+# 3.0.0 (Feb 04th 2025)
 
-- Improve typing of isStringOfLength() method
-- Improve typing of isBase64() method
+- Add isNull method
+- Add isUndefined method
+- Add fromIndex paramter to method isIn()
+- Update typings of most methods
+- Typings are more strict. Resulting in possible breaking changes in your code
 
 # 2.30.0 (Jan 29th 2025)
 

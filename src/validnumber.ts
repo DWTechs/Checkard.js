@@ -10,10 +10,10 @@ import { isInteger, isFloat } from './number';
  * @param type - do type check
  * @returns true if the value is a valid number, false otherwise
  */
-function isValidNumber( n: unknown, 
+function isValidNumber( n: number | null | undefined, 
                         min = -999999999, 
                         max = 999999999,
-                        type = true ): n is number {
+                        type = true ): boolean {
   return isNumber(n, type) && n >= min && n <= max;
 }
 
@@ -26,10 +26,10 @@ function isValidNumber( n: unknown,
  * @param type - do type check
  * @returns true if the value is a valid integer, false otherwise
  */
-function isValidInteger( n: unknown, 
+function isValidInteger( n: number | null | undefined, 
                          min = -999999999, 
                          max = 999999999,
-                         type = true ): n is number {
+                         type = true ): boolean {
   return isInteger(n, type) && n >= min && n <= max;
 }
 
@@ -42,10 +42,10 @@ function isValidInteger( n: unknown,
  * @param type - do type check
  * @returns true if the value is a valid float, false otherwise
  */
-function isValidFloat( n: unknown, 
+function isValidFloat( n: number | null | undefined, 
                        min = -999999999.9, 
                        max = 999999999.9,
-                       type = true ): n is number {
+                       type = true ): boolean {
   return isFloat(n, type) && n >= min && n <= max;
 }
 

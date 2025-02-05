@@ -1,36 +1,29 @@
-import { isArray } from './array';
-import { isString } from './string';
-import { isNumber, isSymbol } from './primitive';
 
-function isObject<T = unknown>(o: unknown, empty = false): o is object & T {
-  return o !== null && typeof o === "object" && !isArray(o) && (empty ? !!Object.keys(o).length : true);
-}
+// import { isString } from './string';
+// import { isNumber, isSymbol } from './primitive';
 
 // own: boolean - whether to check inherited properties only
 // enumerable: boolean - whether to check enumerable properties only
 function isProperty<K extends PropertyKey>(
-  obj: { [key: PropertyKey]: unknown }, 
+  obj: { [key: PropertyKey]: unknown; }, 
   k: K, 
   own = true, 
-  enumerable = true): obj is Record<K, { [key: PropertyKey]: unknown }>
+  enumerable = true): obj is Record<K, unknown>
 {
   
-  if ((!isString(k, true) && !isNumber(k, true) && !isSymbol(k)) || !isObject(obj))
-    return false;
+  // if ((!isString(k, true) && !isNumber(k, true) && !isSymbol(k)) || !isObject(obj))
+  //   return false;
   
-  // own property check
-  if (own && !Object.prototype.hasOwnProperty.call(obj, k)) 
-    return false;
-
   // enumerable property check
-  if (enumerable && !isEnumerable(obj, k, own))
-    return false;
+  if (enumerable)
+    return isEnumerable(obj, k, own);
 
-  // property broad check 
-  if (!(k in obj))
-    return false;
-  
-  return true;
+  // own property check
+  if (own) 
+    return Object.prototype.hasOwnProperty.call(obj, k);
+
+  // property broad check   
+  return k in obj;
 
 }
 
@@ -51,6 +44,5 @@ function isEnumerable(obj: object, key: PropertyKey, own: boolean): boolean {
 
 
 export {
-    isObject,
-    isProperty,
-  };
+  isProperty,
+};
