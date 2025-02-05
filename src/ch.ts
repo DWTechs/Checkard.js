@@ -1,15 +1,19 @@
 export {  isBoolean,
+          isString,
           isNumber,
           isSymbol,
           isNil } from './primitive';
+        
+export {  isObject,
+          isArray,
+          isJson,
+          isRegex } from './nonprimitive';
 
 export {  isFunction } from './function';
 
-export {  isObject,
-          isProperty } from './object';
+export {  isProperty } from './object';
 
-export {  isArray,
-          isArrayOfLength,
+export {  isArrayOfLength,
           isIn } from './array';
 
 export {  isAscii,
@@ -26,10 +30,7 @@ export {  isValidNumber,
           isValidInteger,
           isValidFloat } from './validnumber';
 
-export {  isString,
-          isStringOfLength,
-          isJson,
-          isRegex,
+export {  isStringOfLength,
           isEmail,
           isIpAddress,
           isBase64,

@@ -1,7 +1,8 @@
-import { isNumeric, getTag } from './internal';
+import { isNumeric } from './internal';
+import { getTag } from './utils';
 
-function isBoolean(b: unknown): b is boolean {
-  return typeof b === "boolean";
+function isBoolean(v: unknown): v is boolean {
+  return typeof v === "boolean";
 }
 
 function isNumber(n: unknown, type = true): n is number {
@@ -28,7 +29,6 @@ function isNull(n: unknown): n is null {
 function isUndefined(u: unknown): u is undefined {
   return u === undefined;
 }
-
 
 export {
   isString,

@@ -137,64 +137,133 @@ type PasswordOptions = {
 
 ### Primitive
 
+primitive methods accept any variable as parameter in order to check its type.
+
 ```javascript
 
-isBoolean(b: unknown): boolean {}
+isBoolean(v: unknown): v is boolean {}
 
 // If typeCheck = false values like '4', '0', '8e4', '+true', '0x44' return true
-isNumber(n: unknown, typeCheck?: boolean = true): boolean {} // n is number
+isNumber(v: unknown, typeCheck?: boolean = true): v is number {}
 
-isSymbol(s: unknown): boolean {} // s is symbol
+isString(v: unknown, required?: boolean = false): v is string {}
+
+isSymbol(v: unknown): v is symbol {}
 
 //Check whether val is null or undefined
-isNil(n: unknown): boolean {} // n is null | undefined
+isNil(v: unknown): v is null | undefined {}
+
+isNull(v: unknown): v is null {}
+
+isUndefined(u: unknown): v is undefined {}
 
 ```
 
+### Non-primitive
+
+Non-primitive methods accept any variable as parameter in order to check its type.
+
+```javascript
+
+isObject<T = unknown>(o: unknown, emptyCheck?: boolean = false): o is object & T {}
+
+// Check if 'array' is an array and optionally if it is of length =, <, >, <= or >= than 'length'
+isArray<T = unknown>(
+    v: unknown, 
+    comparator?: Comparator|null, 
+    length?: number|null
+  ): v is Array<T> {}
+
+isJson(v: unknown): v is JSON {} 
+
+isRegex(v: unknown, typeCheck?: boolean = true): v is RegExp {} 
+
+isDate(v: unknown): v is Date {}
+
+```
+
+Usage example for isArray method: 
+
+```javascript
+
+import { isArray } from "@dwtechs/checkard";
+
+let ar = ['dog','cat','bird'];
+
+if (isArray(ar)) {
+  // check if ar is an array
+}
+
+if (isArray(ar, '=', 2)) {
+  // check if ar is an array of length 2
+}
+
+if (isArray(ar, '>=', 1)) {
+  // check if ar is an array of length greater than or equal to 1
+}
+
+```
 
 ### Number
 
 ```javascript
 
-isInteger(n: unknown, typeCheck?: boolean = true): boolean {} // n is number
+isInteger(n: number, typeCheck?: boolean = true): boolean {}
 
-isFloat(n: unknown, typeCheck?: boolean = true): boolean {} // n is number
+isFloat(n: number, typeCheck?: boolean = true): boolean {}
 
-isEven(n: unknown, typeCheck?: boolean = true): boolean {} // n is number
+isEven(n: number, typeCheck?: boolean = true): boolean {}
 
-isOdd(n: unknown, typeCheck?: boolean = true): boolean {} // n is number
+isOdd(n: number, typeCheck?: boolean = true): boolean {}
 
-isOrigin(n: unknown, typeCheck?: boolean = true): boolean {} // n is number
+isOrigin(n: number, typeCheck?: boolean = true): boolean {}
 
-isPositive(n: unknown, typeCheck?: boolean = true): boolean {} // n is number
+isPositive(n: number, typeCheck?: boolean = true): boolean {}
 
-isNegative(n: unknown, typeCheck?: boolean = true): boolean {} // n is number
+isNegative(n: number, typeCheck?: boolean = true): boolean {}
 
-isPowerOfTwo(n: unknown, typeCheck?: boolean = true): boolean {} // n is number
+isPowerOfTwo(n: number, typeCheck?: boolean = true): boolean {}
 
-isAscii(c: unknown, extended?: boolean = true): boolean {} // n is number
+isAscii(c: number, extended?: boolean = true): boolean {}
+
+```
+
+Number methods take a number as parameter
+Use isNumber() method before any number method if you are not sure about the type of the variable is number
+
+Example : 
+
+```javascript
+
+import { isNumber, isInteger } from "@dwtechs/checkard";
+
+if (isNumber(value) && isInteger(value)) {
+  // check if any value is an integer
+}
 
 ```
 
 
 ### Valid number
 
+Valid number methods take a number as parameter and check of the number lies in the right interval
+
 ```javascript
 
 isValidNumber(n: unknown, 
               min?: number = -999999999, 
               max?: number = 999999999, 
-              typeCheck?: boolean = true ): boolean {} // n is number
+              typeCheck?: boolean = true ): boolean {}
 
 isValidInteger(n: unknown, 
                min?: number = -999999999, 
                max?: number = 999999999, 
-               typeCheck?: boolean = true ): boolean {} // n is number
+               typeCheck?: boolean = true ): boolean {}
 
 isValidFloat( n: unknown, 
               min?: number = -999999999.9, 
               max?: number = 999999999.9, 
-              typeCheck?: boolean = true ): boolean {} // n is number
+              typeCheck?: boolean = true ): boolean {}
 
 ```
 
@@ -203,27 +272,21 @@ isValidFloat( n: unknown,
 
 ```javascript
 
-isString(s: unknown, required?: boolean = false): boolean {} // s is string
-
-isStringOfLength( s: unknown, 
+isStringOfLength( s: string, 
                   min?: number = 0, 
-                  max?: number = 999999999 ): boolean {} // s is string
+                  max?: number = 999999999 ): boolean {}
 
-isJson(j: unknown): boolean {} // j is JSON
+isEmail(s: string): boolean {}
 
-isRegex(r: unknown, typeCheck?: boolean = true): boolean {} // r is RegExp
+isIpAddress(s: string): boolean {}
 
-isEmail(e: unknown): boolean {} // e is string
+isBase64(s: string, urlEncoded?: boolean = false): boolean {}
 
-isIpAddress(i: unknown): boolean {} // i is string
+isJWT(s: string): boolean {}
 
-isBase64(s: unknown, urlEncoded?: boolean = false): boolean {} // s is string
+isSlug(s: string): boolean {}
 
-isJWT(t: unknown): boolean {} // t is string
-
-isSlug(s: unknown): boolean {} // s is string
-
-isHexadecimal(s: unknown): boolean {} // s is string
+isHexadecimal(s: string): boolean {}
 
 const PwdDefaultOptions = {
   lowerCase: true,
@@ -233,19 +296,34 @@ const PwdDefaultOptions = {
   minLength: 12,
   maxLength: 64,
 };
-isValidPassword(s: unknown, options: PasswordOptions = PwdDefaultOptions): boolean {} // s is string
+isValidPassword(s: string, options: PasswordOptions = PwdDefaultOptions): boolean {}
 
-containsUpperCase(s: unknown): boolean {} // s is string
+containsUpperCase(s: string): boolean {}
 
-containsLowerCase(s: unknown): boolean {} // s is string
+containsLowerCase(s: string): boolean {}
 
-containsSpecialCharacter(s: unknown): boolean {} // s is string
+containsSpecialCharacter(s: string): boolean {}
 
-containsNumber(s: unknown, min?: number|null, max?: number|null): boolean {} // s is string
+containsNumber(s: string, min?: number|null, max?: number|null): boolean {}
 
 ```
 
-Usage example : 
+String methods take a string as parameter
+Use isString() method before any string method if you are not sure about the type of the variable is string
+
+Example : 
+
+```javascript
+
+import { isString, isEmail } from "@dwtechs/checkard";
+
+if (isNumber(value) && isEmail(value)) {
+  // check if any value is an email
+}
+
+```
+
+Usage example for isValidPassword: 
 
 ```javascript
 
@@ -272,8 +350,6 @@ if (isValidPassword(password, PwdOptions)) {
 
 ```javascript
 
-isDate(d: unknown): boolean {} // d is Date
-
 isValidDate(
     d: unknown, 
     min?: Date = new Date('1/1/1900'), 
@@ -293,17 +369,25 @@ isValidTimestamp(
 
 ```
 
+Date methods take a date as parameter
+Use isDate() method before any date method if you are not sure about the type of the variable is date
+
+Example : 
+
+```javascript
+
+import { isDate, isValidDate } from "@dwtechs/checkard";
+
+if (isNumber(value) && isEmail(value)) {
+  // check if any value is an email
+}
+
+```
+
 
 ### Array
 
 ```javascript
-
-// Check if 'array' is an array and optionally if it is of length =, <, >, <= or >= than 'length'
-isArray(
-    a: unknown, 
-    comparator?: Comparator|null, 
-    length?: number|null
-  ): boolean {} // a is Array<T>
 
 isArrayOfLength(
     a: unknown, 
@@ -323,22 +407,7 @@ Usage example :
 
 ```javascript
 
-import { isArray, isIn } from "@dwtechs/checkard";
-
-let ar = ['dog','cat','bird'];
-
-if (isArray(ar)) {
-  // check if ar is an array
-}
-
-if (isArray(ar, '=', 2)) {
-  // check if ar is an array of length 2
-}
-
-if (isArray(ar, '>=', 1)) {
-  // check if ar is an array of length greater than or equal to 1
-}
-
+import { isIn } from "@dwtechs/checkard";
 
 // an array of restricted values
 const levels = [ "error", "warn", "info", "debug" ];
@@ -361,8 +430,6 @@ let lvl = setLevel("infos"); // lvl = "error"
 ### Object
 
 ```javascript
-
-isObject(o: unknown, emptyCheck?: boolean = false): boolean {} // o is object & T
 
 // This method lets you check if a value is included in an object properties.
 // own: boolean - whether to check inherited properties only

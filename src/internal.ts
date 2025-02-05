@@ -16,20 +16,18 @@ function isNumeric(n: unknown): n is number {
 }
 
 /**
- * Gets the internal [[Prototype]] property of the given value.
+ * Checks if the given value is an array.
  *
- * The result is a string of the form "[object <type>]" where <type> is the
- * internal type of the value. This is similar to the `Object.prototype.toString`
- * method, but this function is not generic and will only work on objects.
+ * This function is a type guard that checks if the given value is an array.
  *
- * @param t The value to get the internal [[Prototype]] property of.
- * @returns A string of the form "[object <type>]".
+ * @param a The value to check.
+ * @returns true if the value is an array, false otherwise.
  */
-function getTag(t: unknown): string {
-  return t == null ? t === undefined ? '[object Undefined]' : '[object Null]' : toString.call(t);
+function isArray(a: unknown): a is unknown[] {
+  return a?.constructor === Array;
 }
 
 export {
   isNumeric,
-  getTag
+  isArray,
 };

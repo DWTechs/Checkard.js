@@ -1,14 +1,11 @@
 import { isNumeric } from './internal';
+import { isDate } from './nonprimitive';
 import { isInteger } from './number';
-
-function isDate(d: unknown): d is Date {
-  return !Number.isNaN(d) && d instanceof Date;
-}
 
 const minDate = new Date('1/1/1900');
 const maxDate = new Date('1/1/2200');
-function isValidDate(d: Date | null | undefined, min: Date = minDate, max: Date = maxDate): boolean {
-  return isDate(d) && d >= min && d <= max;
+function isValidDate(d: Date, min: Date = minDate, max: Date = maxDate): boolean {
+  return d >= min && d <= max;
 }
 
 function isTimestamp(t: unknown, type = true): t is number {
@@ -22,7 +19,6 @@ function isValidTimestamp(t: number | null | undefined, min = -2208989361000, ma
 }
 
 export {
-  isDate,
   isValidDate,
   isTimestamp,
   isValidTimestamp
