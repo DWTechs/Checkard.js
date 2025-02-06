@@ -1,5 +1,6 @@
 # 3.0.0 (Feb 04th 2025)
 
+- - isString() method now checks if value is a string and optionally if it is of length =, <, >, <= or >= than limit
 - Add isNull method
 - Add isUndefined method
 - Add fromIndex paramter to method isIn()
@@ -89,7 +90,7 @@
 
 # 2.19.0 (August 16th 2022)
 
-- isArray() method now checks if 'array' is an array and optionally if it is of length =, <, >, <= or >= than x
+- isArray() method now checks if value is an array and optionally if it is of length =, <, >, <= or >= than limit
 
 # 2.18.0 (May 9th 2022)
 

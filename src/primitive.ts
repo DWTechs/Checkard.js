@@ -1,16 +1,24 @@
-import { isNumeric } from './internal';
-import { getTag } from './utils';
+import { getTag, compare } from './utils';
+import { isNum, isStr } from './internal';
+import type { Comparator } from './types';
 
 function isBoolean(v: unknown): v is boolean {
   return typeof v === "boolean";
 }
 
 function isNumber(n: unknown, type = true): n is number {
-  return !isSymbol(n) && !(n?.constructor === Array) && (type ? Number(n) === n : isNumeric(n));
+  return !isSymbol(n) 
+         && !(n?.constructor === Array) 
+         && (type ? Number(n) === n : isNum(n));
 }
 
-function isString(s: unknown, required = false): s is string {
-  return typeof s === "string" && (required ? !!s : true);
+function isString(
+  v: unknown, 
+  comparator: Comparator | null = null, 
+  limit: number | null = null): v is string {
+  return isStr(v) 
+         ? compare(v.length, comparator, limit) 
+         : false;
 }
 
 function isSymbol(s: unknown): s is symbol {

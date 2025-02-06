@@ -1,6 +1,6 @@
 import { isString } from './primitive';
 import { compare } from './utils';
-import { isArray as isArr } from './internal';
+import { isArr } from './internal';
 import type { Comparator } from './types';
 
 function isObject<T = unknown>(o: unknown, empty = false): o is object & T {
@@ -12,7 +12,9 @@ function isArray<T = unknown>(
   comparator: Comparator | null = null, 
   limit: number | null = null
 ): value is T[] {
-  return isArr(value) ? compare(value.length, comparator, limit) : false;
+  return isArr(value) 
+         ? compare(value.length, comparator, limit) 
+         : false;
 }
 
 function isJson(j: unknown): j is JSON {
