@@ -1,4 +1,4 @@
-import { isString } from './string';
+import { isString } from './primitive';
 import { isEmail } from './string';
 
 /**
@@ -8,9 +8,7 @@ import { isEmail } from './string';
  * @param {boolean} everyWords - A flag to indicate whether to capitalize every word or just the first letter of the whole string.
  * @return {string} The string with the first letter of each word capitalized.
  */
-function ucfirst(s: string, everyWords = true): string | false {
-  if (!isString(s, true)) return false;
-
+function ucfirst(s: string, everyWords = true): string {
   const newStr = s.toLowerCase();
   if (everyWords) {
     const words = newStr.split(" ");
@@ -34,7 +32,7 @@ function ucfirst(s: string, everyWords = true): string | false {
  * @return {string} The normalized nickname.
  */
 function normalizeNickname(nickname: string, firstName: string, lastName: string): string | false {
-  return isString(nickname, true) || (isString(firstName, true) && isString(lastName, true)) ? createNickname(nickname, firstName, lastName) : false;
+  return isString(nickname, ">", 0) || (isString(firstName, ">", 0) && isString(lastName, ">", 0)) ? createNickname(nickname, firstName, lastName) : false;
 }
 
 /**
@@ -44,7 +42,7 @@ function normalizeNickname(nickname: string, firstName: string, lastName: string
  * @return {string} The normalized first name.
  */
 function normalizeName(s: string): string | false {
-  return ucfirst(s, true);
+  return isString(s, ">", 0) ? ucfirst(s, true) : false;
 }
 
 /**

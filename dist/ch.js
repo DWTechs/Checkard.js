@@ -24,18 +24,44 @@ SOFTWARE.
 https://github.com/DWTechs/Checkard.js
 */
 
-function isNumeric(n) {
-    return !Number.isNaN(Number(n) - Number.parseFloat(n));
+const comparisons = {
+    '=': (a, b) => a == b,
+    '<': (a, b) => a < b,
+    '>': (a, b) => a > b,
+    '<=': (a, b) => a <= b,
+    '>=': (a, b) => a >= b
+};
+function compare(a, c, b) {
+    return (c && !isNil(b) && c in comparisons)
+        ? comparisons[c](a, b)
+        : false;
 }
 function getTag(t) {
     return t == null ? t === undefined ? '[object Undefined]' : '[object Null]' : toString.call(t);
 }
 
-function isBoolean(b) {
-    return typeof b === "boolean";
+function isNum(v) {
+    return !Number.isNaN(Number(v) - Number.parseFloat(v));
+}
+function isArr(v) {
+    return (v === null || v === void 0 ? void 0 : v.constructor) === Array;
+}
+function isStr(v) {
+    return typeof v === "string";
+}
+
+function isBoolean(v) {
+    return typeof v === "boolean";
 }
 function isNumber(n, type = true) {
-    return !isSymbol(n) && !((n === null || n === void 0 ? void 0 : n.constructor) === Array) && (type ? Number(n) === n : isNumeric(n));
+    return !isSymbol(n)
+        && !((n === null || n === void 0 ? void 0 : n.constructor) === Array)
+        && (type ? Number(n) === n : isNum(n));
+}
+function isString(v, comparator = null, limit = null) {
+    return isStr(v)
+        ? compare(v.length, comparator, limit)
+        : false;
 }
 function isSymbol(s) {
     const type = typeof s;
@@ -45,94 +71,16 @@ function isNil(n) {
     return n == null;
 }
 
-function isFunction(f) {
-    return Boolean(f && getTag(f) === "[object Function]");
+function isObject(o, empty = false) {
+    return o !== null && typeof o === "object" && !isArray(o) && (empty ? !!Object.keys(o).length : true);
 }
-
-const comparisons = {
-    '=': (a, b) => a == b,
-    '<': (a, b) => a < b,
-    '>': (a, b) => a > b,
-    '<=': (a, b) => a <= b,
-    '>=': (a, b) => a >= b
-};
-
-function isAscii(c, ext = true) {
-    return isInteger(c, false) && ((ext && c >= 0 && c <= 255) || (c >= 0 && c <= 127));
-}
-function isInteger(n, type = true) {
-    if (!isNumber(n, type))
-        return false;
-    const int = Number.parseInt(String(n), 10);
-    return type ? n === int : n == int;
-}
-function isFloat(n, type = true) {
-    if (isSymbol(n))
-        return false;
-    const modulo = Number(n) % 1 !== 0;
-    return type ? (Number(n) === n && modulo) : (Number(n) == n && modulo);
-}
-function isEven(n, type = true) {
-    return isInteger(n, type) && !(n & 1);
-}
-function isOdd(n, type = true) {
-    return isInteger(n, type) && Boolean(n & 1);
-}
-function isOrigin(n, type = true) {
-    return type ? n === 0 : n == 0;
-}
-function isPositive(n, type = true) {
-    return isNumber(n, type) && n > 0;
-}
-function isNegative(n, type = true) {
-    return isNumber(n, type) && n < 0;
-}
-function isPowerOfTwo(n, type = true) {
-    return isInteger(n, type) && !isOrigin(n, type) && (n & (n - 1)) === 0;
-}
-
-function isValidNumber(n, min = -999999999, max = 999999999, type = true) {
-    return isNumber(n, type) && n >= min && n <= max;
-}
-function isValidInteger(n, min = -999999999, max = 999999999, type = true) {
-    return isInteger(n, type) && n >= min && n <= max;
-}
-function isValidFloat(n, min = -999999999.9, max = 999999999.9, type = true) {
-    return isFloat(n, type) && n >= min && n <= max;
-}
-
-function isArray(a, comp, len) {
-    return (a === null || a === void 0 ? void 0 : a.constructor) === Array
-        ? (comp && isValidInteger(len, 0, 999999999))
-            ? Object.prototype.hasOwnProperty.call(comparisons, comp)
-                ? comparisons[comp](a.length, len)
-                : false
-            : true
+function isArray(value, comparator = null, limit = null) {
+    return isArr(value)
+        ? compare(value.length, comparator, limit)
         : false;
 }
-function isArrayOfLength(a, min = -999999999, max = 999999999) {
-    if (isArray(a, null, null)) {
-        const n = a.length;
-        return n >= min && n <= max;
-    }
-    return false;
-}
-function isIn(v, arr) {
-    return isArray(arr, '>', 0) ? arr.includes(v) : false;
-}
-
-function isString(s, required = false) {
-    return typeof s === "string" && (required ? !!s : true);
-}
-function isStringOfLength(s, min = 0, max = 999999999) {
-    if (isString(s, false)) {
-        const l = s.length;
-        return l >= min && l <= max;
-    }
-    return false;
-}
 function isJson(j) {
-    if (!isString(j, true))
+    if (!isString(j, ">", 0))
         return false;
     try {
         JSON.parse(j);
@@ -153,25 +101,103 @@ function isRegex(r, type = true) {
     }
     return true;
 }
+function isDate(v) {
+    return !Number.isNaN(v) && v instanceof Date;
+}
+function isFunction(v) {
+    return Boolean(v && getTag(v) === "[object Function]");
+}
+
+function isProperty(obj, k, own = true, enumerable = true) {
+    if (enumerable)
+        return isEnumerable(obj, k, own);
+    if (own)
+        return Object.prototype.hasOwnProperty.call(obj, k);
+    return k in obj;
+}
+function isEnumerable(obj, key, own) {
+    if (own)
+        return Object.prototype.propertyIsEnumerable.call(obj, key);
+    let currentObj = obj;
+    while (currentObj) {
+        const descriptor = Object.getOwnPropertyDescriptor(currentObj, key);
+        if (descriptor)
+            return !!(descriptor === null || descriptor === void 0 ? void 0 : descriptor.enumerable);
+        currentObj = Object.getPrototypeOf(currentObj);
+    }
+    return false;
+}
+
+function isArrayOfLength(a, min = 0, max = 999999999) {
+    const n = a.length;
+    return n >= min && n <= max;
+}
+function isIn(arr, v, fromIndex = 0) {
+    return arr.includes(v, fromIndex);
+}
+
+function isInteger(n, type = true) {
+    const int = Number.parseInt(String(n), 10);
+    return type ? n === int : n == int;
+}
+function isAscii(c, ext = true) {
+    return isInteger(c, false) && ((ext && c >= 0 && c <= 255) || (c >= 0 && c <= 127));
+}
+function isFloat(n, type = true) {
+    const num = Number(n);
+    const modulo = num % 1 !== 0;
+    return type ? (num === n && modulo) : (num == n && modulo);
+}
+function isEven(n, type = true) {
+    return isInteger(n, type) && !(n & 1);
+}
+function isOdd(n, type = true) {
+    return isInteger(n, type) && Boolean(n & 1);
+}
+function isOrigin(n, type = true) {
+    return type ? n === 0 : n == 0;
+}
+function isPositive(n, type = true) {
+    return isNumber(n, type) && n > 0;
+}
+function isNegative(n, type = true) {
+    return isNumber(n, type) && n < 0;
+}
+function isPowerOfTwo(n, type = true) {
+    return isInteger(n, type) && !isOrigin(n, false) && (n & (n - 1)) === 0;
+}
+
+function isValidNumber(n, min = -999999999, max = 999999999, type = true) {
+    return isNumber(n, type) && n >= min && n <= max;
+}
+function isValidInteger(n, min = -999999999, max = 999999999, type = true) {
+    return isInteger(n, type) && n >= min && n <= max;
+}
+function isValidFloat(n, min = -999999999.9, max = 999999999.9, type = true) {
+    return isFloat(n, type) && n >= min && n <= max;
+}
+
+function isStringOfLength(s, min = 0, max = 999999999) {
+    const l = s.length;
+    return l >= min && l <= max;
+}
 const emailReg = /^(?=[a-z0-9@.!$%&'*+\/=?^_‘{|}~-]{6,254}$)(?=[a-z0-9.!#$%&'*+\/=?^_‘{|}~-]{1,64}@)[a-z0-9!#$%&'*+\/=?^‘{|}~]+(?:[\._-][a-z0-9!#$%&'*+\/=?^‘{|}~]+)*@(?:(?=[a-z0-9-]{1,63}\.)[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+(?=[a-z0-9-]{2,63}$)[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/;
-function isEmail(e) {
-    return !isSymbol(e) && emailReg.test(String(e).toLowerCase());
+function isEmail(s) {
+    return emailReg.test(String(s).toLowerCase());
 }
 const ipReg = /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
-function isIpAddress(i) {
-    return !isSymbol(i) && ipReg.test(String(i));
+function isIpAddress(s) {
+    return ipReg.test(String(s));
 }
 function isBase64(s, urlEncoded = false) {
     const regex = urlEncoded
-        ? /^(?:[A-Za-z0-9-_]{4})*(?:[A-Za-z0-9-_]{2}==|[A-Za-z0-9-_]{3}=)?$/
+        ? /^[A-Za-z0-9-_]+$/
         : /^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/;
-    return isString(s, true) && regex.test(s);
+    return regex.test(s);
 }
 const b64Reg = /^[A-Za-z0-9\-_]+={0,2}$/;
-function isJWT(t) {
-    if (!isString(t, true))
-        return false;
-    const p = t.split('.');
+function isJWT(s) {
+    const p = s.split('.');
     if (p.length !== 3)
         return false;
     const header = p[0];
@@ -189,41 +215,35 @@ function isJWT(t) {
 }
 const slugReg = /^[^\s-_](?!.*?[-_]{2,})[a-z0-9-\\][^\s]*[^-_\s]$/;
 function isSlug(s) {
-    return isString(s, true) && slugReg.test(s);
+    return slugReg.test(s);
 }
 const hexadecimal = /^(#|0x|0h)?[0-9A-F]+$/i;
 function isHexadecimal(s) {
-    return isString(s, true) && hexadecimal.test(s);
+    return hexadecimal.test(s);
 }
 const upperCaseReg = /[A-Z]+/;
 function containsUpperCase(s) {
-    return isString(s, true) && upperCaseReg.test(s);
+    return upperCaseReg.test(s);
 }
 const lowerCaseReg = /[a-z]+/;
 function containsLowerCase(s) {
-    return isString(s, true) && lowerCaseReg.test(s);
+    return lowerCaseReg.test(s);
 }
 const specialReg = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?°`€£§]+/;
 function containsSpecialCharacter(s) {
-    return isString(s, true) && specialReg.test(s);
+    return specialReg.test(s);
 }
-const numberReg = /\d/;
-const lengthReg = /[^0-9]/g;
-function containsNumber(s, min, max) {
-    if (numberReg.test(s)) {
-        let isMin = true;
-        let isMax = true;
-        if (isString(s, true)) {
-            if (min)
-                isMin = s.replace(lengthReg, '').length >= min;
-            if (max)
-                isMax = s.replace(lengthReg, '').length <= max;
-        }
-        else if (min)
-            isMin = min <= 1;
-        return isMin && isMax;
-    }
-    return false;
+const digit = /\d/;
+const nonDigit = /[^0-9]/g;
+function containsNumber(s, min = 1, max) {
+    if (!digit.test(s))
+        return false;
+    const nums = s.replace(nonDigit, '');
+    if (!(nums.length >= min))
+        return false;
+    if (max && !(nums.length <= max))
+        return false;
+    return true;
 }
 const defaultOptions = {
     lowerCase: true,
@@ -235,41 +255,12 @@ const defaultOptions = {
 };
 function isValidPassword(s, options = defaultOptions) {
     const o = Object.assign(Object.assign({}, defaultOptions), options);
-    if (!isString(s, true))
-        return false;
     const l = s.length;
     return l >= o.minLength && l <= o.maxLength
         && (o.lowerCase ? containsLowerCase(s) : true)
         && (o.upperCase ? containsUpperCase(s) : true)
         && (o.number ? containsNumber(s, 1, null) : true)
         && (o.specialCharacter ? containsSpecialCharacter(s) : true);
-}
-
-function isObject(o, empty = false) {
-    return o !== null && typeof o === "object" && !isArray(o) && (empty ? !!Object.keys(o).length : true);
-}
-function isProperty(obj, k, own = true, enumerable = true) {
-    if ((!isString(k, true) && !isNumber(k, true) && !isSymbol(k)) || !isObject(obj))
-        return false;
-    if (own && !Object.prototype.hasOwnProperty.call(obj, k))
-        return false;
-    if (enumerable && !isEnumerable(obj, k, own))
-        return false;
-    if (!(k in obj))
-        return false;
-    return true;
-}
-function isEnumerable(obj, key, own) {
-    if (own)
-        return Object.prototype.propertyIsEnumerable.call(obj, key);
-    let currentObj = obj;
-    while (currentObj) {
-        const descriptor = Object.getOwnPropertyDescriptor(currentObj, key);
-        if (descriptor)
-            return !!(descriptor === null || descriptor === void 0 ? void 0 : descriptor.enumerable);
-        currentObj = Object.getPrototypeOf(currentObj);
-    }
-    return false;
 }
 
 function isHtmlElement(h) {
@@ -367,24 +358,19 @@ function isNode(n) {
             typeof n.nodeName === "string");
 }
 
-function isDate(d) {
-    return !Number.isNaN(d) && d instanceof Date;
-}
 const minDate = new Date('1/1/1900');
 const maxDate = new Date('1/1/2200');
 function isValidDate(d, min = minDate, max = maxDate) {
-    return isDate(d) && d >= min && d <= max;
+    return d && d >= min && d <= max;
 }
 function isTimestamp(t, type = true) {
-    return isInteger(t, type) && isNumeric(new Date(Number.parseInt(String(t))).getTime());
+    return isInteger(t, type) && isNum(new Date(Number.parseInt(String(t))).getTime());
 }
 function isValidTimestamp(t, min = -2208989361000, max = 7258114800000, type = true) {
     return isTimestamp(t, type) && t >= min && t <= max;
 }
 
 function ucfirst(s, everyWords = true) {
-    if (!isString(s, true))
-        return false;
     const newStr = s.toLowerCase();
     if (everyWords) {
         const words = newStr.split(" ");
@@ -396,10 +382,10 @@ function ucfirst(s, everyWords = true) {
     return newStr.charAt(0).toUpperCase() + newStr.slice(1);
 }
 function normalizeNickname(nickname, firstName, lastName) {
-    return isString(nickname, true) || (isString(firstName, true) && isString(lastName, true)) ? createNickname(nickname, firstName, lastName) : false;
+    return isString(nickname, ">", 0) || (isString(firstName, ">", 0) && isString(lastName, ">", 0)) ? createNickname(nickname, firstName, lastName) : false;
 }
 function normalizeName(s) {
-    return ucfirst(s, true);
+    return isString(s, ">", 0) ? ucfirst(s, true) : false;
 }
 function normalizeEmail(s) {
     return isEmail(s) ? s.toLowerCase() : false;

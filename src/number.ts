@@ -1,4 +1,5 @@
 import { isNumber } from './primitive';
+// import { isNum } from './internal';
 
 function isInteger(n: number, type = true): boolean {
   // if (!isNumber(n, type))
@@ -13,8 +14,9 @@ function isAscii(c: number, ext = true): boolean {
 }
 
 function isFloat(n: number, type = true): boolean {
-  const modulo = Number(n) % 1 !== 0;
-  return type ? (Number(n) === n && modulo) : (Number(n) == n && modulo);
+  const num = Number(n);
+  const modulo = num % 1 !== 0;
+  return type ? (num === n && modulo) : (num == n && modulo);
 }
 
 function isEven(n: number, type = true): boolean {

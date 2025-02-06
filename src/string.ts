@@ -1,5 +1,5 @@
 import type { PasswordOptions } from './types';
-import { isJson } from './json';
+import { isJson } from './nonprimitive';
 
 
 function isStringOfLength(

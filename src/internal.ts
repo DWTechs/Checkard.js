@@ -8,11 +8,11 @@
  * the original value is not numeric.
  * No type checking. Works with '8e4', '+true', '0x44' etc
  *
- * @param n The value to check.
+ * @param v The value to check.
  * @returns true if the value is numeric, false otherwise.
  */
-function isNum(n: unknown): n is number {
-  return !Number.isNaN(Number(n) - Number.parseFloat(n as string));
+function isNum(v: unknown): v is number {
+  return !Number.isNaN(Number(v) - Number.parseFloat(v as string));
 }
 
 /**

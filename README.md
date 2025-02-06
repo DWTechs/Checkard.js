@@ -69,9 +69,9 @@ if (!isArray(variable, '=', 2)) {
   //variable is not an array of length 2
 }
 
-if (!isString(firstName, true))
+if (!isString(firstName))
     return next({ status: 400, msg: "Missing first name" });
-if (!isString(lastName, true))
+if (!isString(lastName))
     return next({ status: 400, msg: "Missing last name" });
 
 ```
@@ -91,9 +91,9 @@ if (!ch.isArray(variable, '=', 2)) {
   //variable is not an array of length 2
 }
 
-if (!ch.isString(firstName, true))
+if (!ch.isString(firstName))
     return next({ status: 400, msg: "Missing first name" });
-if (!ch.isString(lastName, true))
+if (!ch.isString(lastName))
     return next({ status: 400, msg: "Missing last name" });
 
 ```
@@ -216,6 +216,8 @@ isJson(v: unknown): v is JSON {}
 isRegex(v: unknown, typeCheck?: boolean = true): v is RegExp {} 
 
 isDate(v: unknown): v is Date {}
+
+isFunction(v: unknown): v is (...args: unknown[]) => unknown {}
 
 ```
 
@@ -535,24 +537,15 @@ console.log(isProperty("debag", levels)); // false
 ```
 
 
-### Function
-
-```javascript
-
-isFunction(f: unknown): boolean {} // f is (...args: unknown[]) => unknown
-
-```
-
-
 ### Html
 
 ```javascript
 
-isHtmlElement(h: unknown): boolean {} // h is HTMLElement
+isHtmlElement(h: unknown): h is HTMLElement {}
 
-isHtmlEventAttribute(h: unknown): boolean {} // h is string
+isHtmlEventAttribute(h: unknown): boolean {}
 
-isNode(n: unknown): boolean {} // n is Node
+isNode(n: unknown): n is Node {}
 
 ```
 

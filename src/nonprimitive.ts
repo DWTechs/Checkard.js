@@ -45,8 +45,8 @@ function isDate(v: unknown): v is Date {
   return !Number.isNaN(v) && v instanceof Date;
 }
 
-function isFunction(f: unknown): f is (...args: unknown[]) => unknown {
-  return Boolean(f && getTag(f) === "[object Function]");
+function isFunction(v: unknown): v is (...args: unknown[]) => unknown {
+  return Boolean(v && getTag(v) === "[object Function]");
 }
 
 export {

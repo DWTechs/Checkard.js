@@ -38,7 +38,7 @@ export type { Comparator, PasswordOptions };
 
 declare function isObject<T = unknown>(o: unknown, empty?: boolean): o is object & T;
 declare function isProperty<K extends PropertyKey>(
-  obj: { [key: PropertyKey]: unknown } | null | undefined,
+  obj: { [key: PropertyKey]: unknown; } | null | undefined,
   k: K,  
   own?: boolean, enumerable?: boolean
 ): obj is Record<K, unknown>;
@@ -52,22 +52,22 @@ declare function isSymbol(s: unknown): s is symbol;
 declare function isFunction(func: unknown): func is (...args: unknown[]) => unknown;
 
 declare function isArray<T = unknown>(a: unknown, comp?: Comparator | null, len?: number | null): a is ReadonlyArray<T>;
-declare function isArrayOfLength<T = unknown>(a: Array<T> | null | undefined, min?: number, max?: number): boolean;
-declare function isIn(val: unknown, arr: unknown[]): boolean;
+declare function isArrayOfLength<T = unknown>(a: unknown, min?: number, max?: number): boolean;
+declare function isIn(val: unknown, arr: unknown[] | null | undefined): boolean;
 
-declare function isAscii(c: unknown, ext?: boolean): c is number;
-declare function isInteger(n: unknown, type?: boolean): n is number;
-declare function isFloat(n: unknown, type?: boolean): n is number;
-declare function isEven(n: unknown, type?: boolean): n is number;
-declare function isOdd(n: unknown, type?: boolean): n is number;
-declare function isOrigin(n: unknown, type?: boolean): n is number;
-declare function isPositive(n: unknown, type?: boolean): n is number;
-declare function isNegative(n: unknown, type?: boolean): n is number;
-declare function isPowerOfTwo(n: unknown, type?: boolean): n is number;
+declare function isAscii(c: number | null | undefined, ext?: boolean): boolean;
+declare function isInteger(n: number | null | undefined, type?: boolean): boolean;
+declare function isFloat(n: number | null | undefined, type?: boolean): boolean;
+declare function isEven(n: number | null | undefined, type?: boolean): boolean;
+declare function isOdd(n: number | null | undefined, type?: boolean): boolean;
+declare function isOrigin(n: number | null | undefined, type?: boolean): boolean;
+declare function isPositive(n: number | null | undefined, type?: boolean): boolean;
+declare function isNegative(n: number | null | undefined, type?: boolean): boolean;
+declare function isPowerOfTwo(n: number | null | undefined, type?: boolean): boolean;
 
-declare function isValidNumber(n: unknown, min?: number, max?: number, type?: boolean): n is number;
-declare function isValidInteger(n: unknown, min?: number, max?: number, type?: boolean): n is number;
-declare function isValidFloat(n: unknown, min?: number, max?: number, type?: boolean): n is number;
+declare function isValidNumber(n: number | null | undefined, min?: number, max?: number, type?: boolean): n is number;
+declare function isValidInteger(n: number | null | undefined, min?: number, max?: number, type?: boolean): n is number;
+declare function isValidFloat(n: number | null | undefined, min?: number, max?: number, type?: boolean): n is number;
 
 declare function isHtmlElement(h: unknown): h is HTMLElement;
 declare function isHtmlEventAttribute(h: unknown): h is string;
@@ -77,22 +77,22 @@ declare function isString(s: unknown, required?: boolean): s is string;
 declare function isStringOfLength(s: unknown, min?: number, max?: number): boolean;
 declare function isJson(s: unknown): s is JSON;
 declare function isRegex(r: unknown, type?: boolean): r is RegExp;
-declare function isEmail(e: unknown): e is string;
-declare function isIpAddress(i: unknown): i is string;
+declare function isEmail(e: unknown): boolean;
+declare function isIpAddress(i: unknown): boolean;
 declare function isBase64(s: unknown, urlEncoded?: boolean): boolean;
-declare function isJWT(t: unknown): t is string;
-declare function isSlug(s: unknown): s is string;
-declare function isHexadecimal(s: unknown): s is string;
-declare function containsUpperCase(s: unknown): s is string;
-declare function containsLowerCase(s: unknown): s is string;
-declare function containsSpecialCharacter(s: unknown): s is string;
-declare function containsNumber(s: unknown, min?: number | null, max?: number | null): s is string;
-declare function isValidPassword(s: unknown, options?: PasswordOptions): s is string;
+declare function isJWT(t: unknown): boolean;
+declare function isSlug(s: unknown): boolean;
+declare function isHexadecimal(s: unknown): boolean;
+declare function containsUpperCase(s: unknown): boolean;
+declare function containsLowerCase(s: unknown): boolean;
+declare function containsSpecialCharacter(s: unknown): boolean;
+declare function containsNumber(s: unknown, min?: number | null, max?: number | null): boolean;
+declare function isValidPassword(s: unknown, options?: PasswordOptions): boolean;
 
 declare function isDate(d: unknown): d is Date;
-declare function isValidDate(d: unknown, min?: Date, max?: Date): d is Date;
+declare function isValidDate(d: Date | null | undefined, min?: Date, max?: Date): boolean;
 declare function isTimestamp(t: unknown, type?: boolean): t is number;
-declare function isValidTimestamp(t: unknown, min?: number, max?: number, type?: boolean): t is number;
+declare function isValidTimestamp(t: number | null | undefined, min?: number, max?: number, type?: boolean): boolean;
 
 declare function ucfirst(s: string, everyWords?: boolean): string | false;
 declare function normalizeNickname(nickname: string, firstName: string, lastName: string): string | false;
