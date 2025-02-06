@@ -1,8 +1,4 @@
-// import { isNumber, isSymbol } from './primitive';
-
-function isAscii(c: number, ext = true): boolean {
-  return isInteger(c, false) && ((ext && c >= 0 && c <= 255) || (c >= 0 && c <= 127));
-}
+import { isNumber } from './primitive';
 
 function isInteger(n: number, type = true): boolean {
   // if (!isNumber(n, type))
@@ -12,10 +8,11 @@ function isInteger(n: number, type = true): boolean {
   return type ? n === int : n == int;
 }
 
+function isAscii(c: number, ext = true): boolean {
+  return isInteger(c, false) && ((ext && c >= 0 && c <= 255) || (c >= 0 && c <= 127));
+}
+
 function isFloat(n: number, type = true): boolean {
-  // if (isSymbol(n))
-  //   return false;
-  
   const modulo = Number(n) % 1 !== 0;
   return type ? (Number(n) === n && modulo) : (Number(n) == n && modulo);
 }
@@ -33,15 +30,15 @@ function isOrigin(n: number, type = true): boolean {
 }
 
 function isPositive(n: number, type = true): boolean {
-  return /*isNumber(n, type) && */n > 0;
+  return isNumber(n, type) && n > 0;
 }
 
 function isNegative(n: number, type = true): boolean {
-  return /*isNumber(n, type) && */n < 0;
+  return isNumber(n, type) && n < 0;
 }
 
 function isPowerOfTwo(n: number, type = true): boolean {
-  return isInteger(n, type) && !isOrigin(n, type) && (n & (n - 1)) === 0;
+  return isInteger(n, type) && !isOrigin(n, false) && (n & (n - 1)) === 0;
 }
 
 export {

@@ -159,6 +159,43 @@ isUndefined(u: unknown): v is undefined {}
 
 ```
 
+Usage example for isString method: 
+
+```javascript
+
+import { isString } from "@dwtechs/checkard";
+
+const str = 'dog';
+
+if (isString(str)) {
+  // check if str is a string
+}
+
+if (isString(str, '=', 2)) {
+  // check if str is an string of length 2
+}
+
+if (isString(str, '>=', 1)) {
+  // check if str is a string of length greater than or equal to 1
+}
+
+```
+
+Note that if **isString()** returns false Typescript will consider str is not a string.  
+So if you need to check if str is of length x but needs to be considered as string even if length is not x you can do it like this:
+
+```javascript
+
+import { isString, isStringOfLength } from "@dwtechs/checkard";
+
+const str = 'dog';
+
+if (isString(str) && !isStringOfLength(str, 4, 4)) {
+  // string is of type string even if length is not 4
+}
+
+```
+
 ### Non-primitive
 
 Non-primitive methods accept any variable as parameter in order to check its type.
@@ -188,18 +225,33 @@ Usage example for isArray method:
 
 import { isArray } from "@dwtechs/checkard";
 
-let ar = ['dog','cat','bird'];
+let arr = ['dog','cat','bird'];
 
-if (isArray(ar)) {
-  // check if ar is an array
+if (isArray(arr)) {
+  // check if arr is an array
 }
 
-if (isArray(ar, '=', 2)) {
-  // check if ar is an array of length 2
+if (isArray(arr, '=', 2)) {
+  // check if arr is an array of length 2
 }
 
-if (isArray(ar, '>=', 1)) {
-  // check if ar is an array of length greater than or equal to 1
+if (isArray(arr, '>=', 1)) {
+  // check if arr is an array of length greater than or equal to 1
+}
+
+```
+
+Note that if **isArray()** returns false Typescript will consider arr is not an array.  
+So if you need to check arr is of length x but needs to be considered as array even if length is not x you can do it like this:
+
+```javascript
+
+import { isArray, isArrayOfLength } from "@dwtechs/checkard";
+
+let arr = ['dog','cat','bird'];
+
+if (isArray(arr) && !isArrayOfLength(arr, 4, 4)) {
+  // array is of type array even if length is not 4
 }
 
 ```
@@ -228,8 +280,8 @@ isAscii(c: number, extended?: boolean = true): boolean {}
 
 ```
 
-Number methods take a number as parameter
-Use isNumber() method before any number method if you are not sure about the type of the variable is number
+Number methods take a number as parameter.  
+Use **isNumber()** before any number method if you are not sure about the variable type you will receive.
 
 Example : 
 
@@ -237,8 +289,10 @@ Example :
 
 import { isNumber, isInteger } from "@dwtechs/checkard";
 
+let value: number | null | undefines = 0;
+
 if (isNumber(value) && isInteger(value)) {
-  // check if any value is an integer
+  // value is an integer
 }
 
 ```
@@ -264,6 +318,23 @@ isValidFloat( n: unknown,
               min?: number = -999999999.9, 
               max?: number = 999999999.9, 
               typeCheck?: boolean = true ): boolean {}
+
+```
+
+Valid number methods take a number as parameter.  
+Use **isNumber()** before any valid number method if you are not sure about the variable type you will receive.
+
+Example : 
+
+```javascript
+
+import { isNumber, isValidInteger } from "@dwtechs/checkard";
+
+let value: number | null | undefines = 0;
+
+if (isNumber(value) && isValidInteger(value, 2, 12)) {
+  // value is an integer between 2 and 12
+}
 
 ```
 
@@ -308,8 +379,8 @@ containsNumber(s: string, min?: number|null, max?: number|null): boolean {}
 
 ```
 
-String methods take a string as parameter
-Use isString() method before any string method if you are not sure about the type of the variable is string
+String methods take a string as parameter.  
+Use **isString()** method before any string method if you are not sure about the variable type you will receive.
 
 Example : 
 
@@ -317,8 +388,8 @@ Example :
 
 import { isString, isEmail } from "@dwtechs/checkard";
 
-if (isNumber(value) && isEmail(value)) {
-  // check if any value is an email
+if (isString(value) && isEmail(value)) {
+  // value is an email
 }
 
 ```

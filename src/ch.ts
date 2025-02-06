@@ -7,9 +7,9 @@ export {  isBoolean,
 export {  isObject,
           isArray,
           isJson,
-          isRegex } from './nonprimitive';
-
-export {  isFunction } from './function';
+          isRegex,
+          isDate,
+          isFunction } from './nonprimitive';
 
 export {  isProperty } from './object';
 
@@ -47,8 +47,7 @@ export {  isHtmlElement,
           isHtmlEventAttribute,
           isNode } from './html';
 
-export {  isDate,
-          isValidDate,
+export {  isValidDate,
           isTimestamp,
           isValidTimestamp } from './date';
 

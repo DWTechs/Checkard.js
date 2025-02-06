@@ -1,21 +1,19 @@
 import type { PasswordOptions } from './types';
-import { isSymbol, isString } from './primitive';
+import { isJson } from './json';
 
 
 function isStringOfLength(
-    s: string,
-    min = 0, 
-    max = 999999999 ): boolean {
-  // if (isString(s,false)) {
-    const l = s.length;
-    return l >= min && l <= max;
-  // }
-  // return false;
+  s: string,
+  min = 0, 
+  max = 999999999 
+): boolean {
+  const l = s.length;
+  return l >= min && l <= max;
 }
 
 const emailReg = /^(?=[a-z0-9@.!$%&'*+\/=?^_‘{|}~-]{6,254}$)(?=[a-z0-9.!#$%&'*+\/=?^_‘{|}~-]{1,64}@)[a-z0-9!#$%&'*+\/=?^‘{|}~]+(?:[\._-][a-z0-9!#$%&'*+\/=?^‘{|}~]+)*@(?:(?=[a-z0-9-]{1,63}\.)[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+(?=[a-z0-9-]{2,63}$)[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/;
-function isEmail(e: unknown): boolean {
-  return !isSymbol(e) && emailReg.test(String(e).toLowerCase());
+function isEmail(s: string): boolean {
+  return emailReg.test(String(s).toLowerCase());
 }
 
 // function isURL(url: unknown): boolean {
@@ -27,8 +25,8 @@ function isEmail(e: unknown): boolean {
 // }
 
 const ipReg = /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
-function isIpAddress(i: unknown): boolean {
-  return !isSymbol(i) && ipReg.test(String(i));
+function isIpAddress(s: string): boolean {
+  return ipReg.test(String(s));
 }
 
 // base64 (non url safe ) regex explained : 
@@ -72,7 +70,7 @@ function isBase64(s: string, urlEncoded = false): boolean {
   const regex = urlEncoded
     ? /^[A-Za-z0-9-_]+$/
     : /^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/;
-  return /*isString(s, true) && */regex.test(s);
+  return regex.test(s);
 }
 
 
@@ -104,11 +102,9 @@ function isBase64(s: string, urlEncoded = false): boolean {
 // which may include padding characters (=) at the end.
 
 const b64Reg = /^[A-Za-z0-9\-_]+={0,2}$/;
-function isJWT(t: unknown): boolean {
-  if (!isString(t, true))
-    return false;
+function isJWT(s: string): boolean {
 
-  const p = t.split('.');
+  const p = s.split('.');
   if (p.length !== 3)
     return false;
 
@@ -127,49 +123,44 @@ function isJWT(t: unknown): boolean {
 }
 
 const slugReg = /^[^\s-_](?!.*?[-_]{2,})[a-z0-9-\\][^\s]*[^-_\s]$/;
-function isSlug(s: unknown): boolean {
-  return isString(s, true) && slugReg.test(s);
+function isSlug(s: string): boolean {
+  return slugReg.test(s);
 }
 
 const hexadecimal = /^(#|0x|0h)?[0-9A-F]+$/i;
-function isHexadecimal(s: unknown): boolean {
-  return isString(s, true) && hexadecimal.test(s);
+function isHexadecimal(s: string): boolean {
+  return hexadecimal.test(s);
 }
 
 const upperCaseReg = /[A-Z]+/;
-function containsUpperCase(s: unknown): boolean {
-  return isString(s, true) && upperCaseReg.test(s);
+function containsUpperCase(s: string): boolean {
+  return upperCaseReg.test(s);
 }
 
 const lowerCaseReg = /[a-z]+/;
-function containsLowerCase(s: unknown): boolean {
-  return isString(s, true) && lowerCaseReg.test(s);
+function containsLowerCase(s: string): boolean {
+  return lowerCaseReg.test(s);
 }
 
 const specialReg = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?°`€£§]+/;
-function containsSpecialCharacter(s: unknown): boolean {
-  return isString(s, true) && specialReg.test(s);
+function containsSpecialCharacter(s: string): boolean {
+  return specialReg.test(s);
 }
 
-const numberReg = /\d/;
-const lengthReg = /[^0-9]/g;
-function containsNumber(s: unknown, min?: number|null, max?: number|null): boolean {
-  if (numberReg.test(s as string)) {
-    let isMin = true;
-    let isMax = true;
-    if (isString(s, true)) {
-      if (min)
-        isMin = s.replace(lengthReg, '').length >= min;
-      if (max)
-        isMax = s.replace(lengthReg, '').length <= max;
-    } else
-      if (min)
-        isMin = min <= 1;
+const digit = /\d/; // Matches any digit
+const nonDigit = /[^0-9]/g; // Matches any character that is not a digit
+function containsNumber(s: string, min: number = 1, max?: number|null): boolean {
+  
+  if (!digit.test(s)) 
+    return false;
 
-    return isMin && isMax;
-  }
+  const nums = s.replace(nonDigit, '');
+  if (!(nums.length >= min))
+    return false;  
+  if (max && !(nums.length <= max))
+    return false;
     
-  return false;   
+  return true;   
 }
 
 const defaultOptions = {
@@ -181,9 +172,8 @@ const defaultOptions = {
   maxLength: 64,
 };
 
-function isValidPassword(s: unknown, options: PasswordOptions = defaultOptions): boolean {
+function isValidPassword(s: string, options: PasswordOptions = defaultOptions): boolean {
   const o = { ...defaultOptions, ...options };
-  if (!isString(s, true)) return false;
   const l = s.length;
   return l >= o.minLength && l <= o.maxLength
     && (o.lowerCase ? containsLowerCase(s) : true)
@@ -193,7 +183,6 @@ function isValidPassword(s: unknown, options: PasswordOptions = defaultOptions):
 }
 
 export {
-  isString,
   isStringOfLength,
   isEmail,
   isIpAddress,

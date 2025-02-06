@@ -8,7 +8,7 @@ function isHtmlElement(h: unknown): h is HTMLElement {
       typeof (h as Node).nodeName === "string"); //DOM2
 }
 
-function isHtmlEventAttribute(h: unknown): h is string {
+function isHtmlEventAttribute(h: string): boolean {
   switch (h) {
     case "onafterprint": // run after the document is printed
     case "onbeforeprint": // run before the document is printed

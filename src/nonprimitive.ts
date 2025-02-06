@@ -1,5 +1,5 @@
 import { isString } from './primitive';
-import { compare } from './utils';
+import { compare, getTag } from './utils';
 import { isArr } from './internal';
 import type { Comparator } from './types';
 
@@ -18,7 +18,7 @@ function isArray<T = unknown>(
 }
 
 function isJson(j: unknown): j is JSON {
-  if (!isString(j, true))
+  if (!isString(j, ">", 0))
     return false;
 
   try {
@@ -45,10 +45,15 @@ function isDate(v: unknown): v is Date {
   return !Number.isNaN(v) && v instanceof Date;
 }
 
+function isFunction(f: unknown): f is (...args: unknown[]) => unknown {
+  return Boolean(f && getTag(f) === "[object Function]");
+}
+
 export {
   isObject,
   isArray,
   isJson,
   isRegex,
   isDate,
+  isFunction,
 };
