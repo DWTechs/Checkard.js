@@ -10,10 +10,6 @@ function isProperty<K extends PropertyKey>(
   own = true, 
   enumerable = true): obj is Record<K, unknown>
 {
-  
-  // if ((!isString(k, true) && !isNumber(k, true) && !isSymbol(k)) || !isObject(obj))
-  //   return false;
-  
   // enumerable property check
   if (enumerable)
     return isEnumerable(obj, k, own);
@@ -26,6 +22,33 @@ function isProperty<K extends PropertyKey>(
   return k in obj;
 
 }
+
+// function isProperty<K extends PropertyKey>(
+//   obj: { [key: PropertyKey]: unknown }, 
+//   k: K, 
+//   own = true, 
+//   enumerable = true): obj is Record<K, { [key: PropertyKey]: unknown }>
+// {
+  
+//   if ((!isString(k, true) && !isNumber(k, true) && !isSymbol(k)) || !isObject(obj))
+//     return false;
+  
+//   // own property check
+//   if (own && !Object.prototype.hasOwnProperty.call(obj, k)) 
+//     return false;
+
+//   // enumerable property check
+//   if (enumerable && !isEnumerable(obj, k, own))
+//     return false;
+
+//   // property broad check 
+//   if (!(k in obj))
+//     return false;
+  
+//   return true;
+
+// }
+
 
 // checks for enumerables
 function isEnumerable(obj: object, key: PropertyKey, own: boolean): boolean {
