@@ -369,6 +369,7 @@ const PwdDefaultOptions = {
   minLength: 12,
   maxLength: 64,
 };
+
 isValidPassword(s: string, options: PasswordOptions = PwdDefaultOptions): boolean {}
 
 containsUpperCase(s: string): boolean {}

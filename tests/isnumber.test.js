@@ -1,5 +1,7 @@
 import { isNumber } from "../dist/ch";
 
+// test nan
+
 test("sends null to isNumber", () => {
   expect(isNumber(null)).toBe(false);
 });
