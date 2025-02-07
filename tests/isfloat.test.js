@@ -1,4 +1,4 @@
-import { isFloat } from "../dist/ch";
+import { isFloat, isNumber } from "../dist/ch";
 
 test("sends null to isFloat", () => {
   expect(isFloat(null)).toBe(false);
@@ -10,7 +10,7 @@ test("sends undefined to isFloat", () => {
 
 const s1 = Symbol();
 test("sends symbol to isFloat", () => {
-  expect(isFloat(s1)).toBe(false);
+  expect(isNumber(s1, false) && isFloat(s1)).toBe(false);
 });
 
 test("sends true to isFloat", () => {
