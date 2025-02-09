@@ -1,56 +1,43 @@
 
-// import { isString } from './string';
-// import { isNumber, isSymbol } from './primitive';
-
-// own: boolean - whether to check inherited properties only
-// enumerable: boolean - whether to check enumerable properties only
+/**
+ * Checks if a given property exists on an object.
+ * own: boolean - whether to check inherited properties only
+ * enumerable: boolean - whether to check enumerable properties only
+ *
+ * @template K - The type of the property key.
+ * @param obj - The object to check the property on.
+ * @param k - The property key to check for.
+ * @param own - If true, checks if the property is an own property of the object. Defaults to true.
+ * @param enumerable - If true, checks if the property is enumerable. Defaults to true.
+ * @returns True if the property exists on the object based on the specified conditions, otherwise false.
+ */
 function isProperty<K extends PropertyKey>(
-  obj: { [key: PropertyKey]: unknown; }, 
+  o: { [key: PropertyKey]: unknown; }, 
   k: K, 
   own = true, 
-  enumerable = true): obj is Record<K, unknown>
+  enumerable = true): o is Record<K, unknown>
 {
   // enumerable property check
   if (enumerable)
-    return isEnumerable(obj, k, own);
+    return isEnumerable(o, k, own);
 
   // own property check
   if (own) 
-    return Object.prototype.hasOwnProperty.call(obj, k);
+    return Object.prototype.hasOwnProperty.call(o, k);
 
   // property broad check   
-  return k in obj;
+  return k in o;
 
 }
 
-// function isProperty<K extends PropertyKey>(
-//   obj: { [key: PropertyKey]: unknown }, 
-//   k: K, 
-//   own = true, 
-//   enumerable = true): obj is Record<K, { [key: PropertyKey]: unknown }>
-// {
-  
-//   if ((!isString(k, true) && !isNumber(k, true) && !isSymbol(k)) || !isObject(obj))
-//     return false;
-  
-//   // own property check
-//   if (own && !Object.prototype.hasOwnProperty.call(obj, k)) 
-//     return false;
-
-//   // enumerable property check
-//   if (enumerable && !isEnumerable(obj, k, own))
-//     return false;
-
-//   // property broad check 
-//   if (!(k in obj))
-//     return false;
-  
-//   return true;
-
-// }
-
-
-// checks for enumerables
+/**
+ * Checks if a property is enumerable in an object.
+ *
+ * @param obj - The object to check.
+ * @param key - The property key to check for enumerability.
+ * @param own - If true, only checks the object's own properties. If false, checks the entire prototype chain.
+ * @returns `true` if the property is enumerable, `false` otherwise.
+ */
 function isEnumerable(obj: object, key: PropertyKey, own: boolean): boolean {
   if (own)
     return Object.prototype.propertyIsEnumerable.call(obj, key);

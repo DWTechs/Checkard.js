@@ -1,4 +1,16 @@
 
+/**
+ * Checks if the given value is an HTML element.
+ *
+ * This function determines if the provided value is an instance of `HTMLElement`.
+ * It first checks if `HTMLElement` is defined as an object and then verifies if
+ * the value is an instance of `HTMLElement`. If `HTMLElement` is not defined,
+ * it falls back to checking if the value is an object with a `nodeType` of 1
+ * and a `nodeName` of type string, which are characteristics of HTML elements.
+ *
+ * @param h - The value to check.
+ * @returns `true` if the value is an HTML element, otherwise `false`.
+ */
 function isHtmlElement(h: unknown): h is HTMLElement {
   return Boolean(typeof HTMLElement === "object"
     ? h instanceof HTMLElement
@@ -8,6 +20,21 @@ function isHtmlElement(h: unknown): h is HTMLElement {
       typeof (h as Node).nodeName === "string"); //DOM2
 }
 
+/**
+ * Checks if a given string is a valid HTML event attribute.
+ *
+ * @param h - The string to check.
+ * @returns `true` if the string is a valid HTML event attribute, otherwise `false`.
+ *
+ * @remarks
+ * This function checks against a predefined list of HTML event attributes such as `onclick`, `onload`, `onerror`, etc.
+ *
+ * @example
+ * ```typescript
+ * isHtmlEventAttribute("onclick"); // returns true
+ * isHtmlEventAttribute("onunknown"); // returns false
+ * ```
+ */
 function isHtmlEventAttribute(h: string): boolean {
   switch (h) {
     case "onafterprint": // run after the document is printed
@@ -87,6 +114,16 @@ function isHtmlEventAttribute(h: string): boolean {
   }
 }
 
+/**
+ * Checks if the given value is a DOM Node.
+ *
+ * This function determines if the provided value is a Node by checking its type and properties.
+ * It works by verifying if the value is an instance of Node when `Node` is an object, or by
+ * checking the presence and types of `nodeType` and `nodeName` properties.
+ *
+ * @param n - The value to check.
+ * @returns `true` if the value is a Node, otherwise `false`.
+ */
 function isNode(n: unknown): n is Node {
     return Boolean(typeof Node === "object"
       ? n instanceof Node

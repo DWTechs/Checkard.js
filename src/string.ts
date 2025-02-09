@@ -2,6 +2,14 @@ import type { PasswordOptions } from './types';
 import { isJson } from './nonprimitive';
 
 
+/**
+ * Checks if the length of a given string is within the specified range.
+ *
+ * @param s - The string to check.
+ * @param min - The minimum length of the string (inclusive). Default is 0.
+ * @param max - The maximum length of the string (inclusive). Default is 999999999.
+ * @returns `true` if the string length is within the specified range, otherwise `false`.
+ */
 function isStringOfLength(
   s: string,
   min = 0, 
@@ -12,6 +20,12 @@ function isStringOfLength(
 }
 
 const emailReg = /^(?=[a-z0-9@.!$%&'*+\/=?^_‘{|}~-]{6,254}$)(?=[a-z0-9.!#$%&'*+\/=?^_‘{|}~-]{1,64}@)[a-z0-9!#$%&'*+\/=?^‘{|}~]+(?:[\._-][a-z0-9!#$%&'*+\/=?^‘{|}~]+)*@(?:(?=[a-z0-9-]{1,63}\.)[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+(?=[a-z0-9-]{2,63}$)[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/;
+/**
+ * Checks if the given string is a valid email address.
+ *
+ * @param s - The string to be checked.
+ * @returns `true` if the string is a valid email address, otherwise `false`.
+ */
 function isEmail(s: string): boolean {
   return emailReg.test(String(s).toLowerCase());
 }
@@ -25,6 +39,12 @@ function isEmail(s: string): boolean {
 // }
 
 const ipReg = /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
+/**
+ * Checks if the given string is a valid IP address.
+ *
+ * @param s - The string to be checked.
+ * @returns `true` if the string is a valid IP address, otherwise `false`.
+ */
 function isIpAddress(s: string): boolean {
   return ipReg.test(String(s));
 }
@@ -65,11 +85,17 @@ function isIpAddress(s: string): boolean {
 // - abcdabc
 // - abcdabcdab=
 // - abcdabcdabc==
-
+const b64UrlEncoded = /^[A-Za-z0-9-_]+$/;
+const b64 =  /^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/;
+/**
+ * Checks if a given string is a valid Base64 encoded string.
+ *
+ * @param s - The string to check.
+ * @param urlEncoded - Optional. If true, checks for URL-safe Base64 encoding. Defaults to false.
+ * @returns True if the string is a valid Base64 encoded string, false otherwise.
+ */
 function isBase64(s: string, urlEncoded = false): boolean {
-  const regex = urlEncoded
-    ? /^[A-Za-z0-9-_]+$/
-    : /^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/;
+  const regex = urlEncoded ? b64UrlEncoded : b64;
   return regex.test(s);
 }
 
@@ -102,8 +128,24 @@ function isBase64(s: string, urlEncoded = false): boolean {
 // which may include padding characters (=) at the end.
 
 const b64Reg = /^[A-Za-z0-9\-_]+={0,2}$/;
+/**
+ * Checks if a given string is a valid JSON Web Token (JWT).
+ *
+ * A valid JWT consists of three parts separated by dots ('.'):
+ * - Header
+ * - Payload
+ * - Signature
+ *
+ * Each part must be a valid Base64 encoded string. Additionally, the header and payload
+ * must be valid JSON objects when decoded.
+ *
+ * @param s - The string to check.
+ * @returns `true` if the string is a valid JWT, otherwise `false`.
+ */
 function isJWT(s: string): boolean {
-
+  if (!s)
+    return false;
+  
   const p = s.split('.');
   if (p.length !== 3)
     return false;
@@ -123,33 +165,73 @@ function isJWT(s: string): boolean {
 }
 
 const slugReg = /^[^\s-_](?!.*?[-_]{2,})[a-z0-9-\\][^\s]*[^-_\s]$/;
+/**
+ * Checks if the given string is a valid slug.
+ * 
+ * A slug is typically a URL-friendly string that contains only lowercase letters, numbers, and hyphens.
+ * 
+ * @param s - The string to check.
+ * @returns `true` if the string is a valid slug, `false` otherwise.
+ */
 function isSlug(s: string): boolean {
-  return slugReg.test(s);
+  return s ? slugReg.test(s) : false;
 }
 
 const hexadecimal = /^(#|0x|0h)?[0-9A-F]+$/i;
+/**
+ * Checks if the given string is a valid hexadecimal number.
+ *
+ * @param s - The string to check.
+ * @returns True if the string is a valid hexadecimal number, false otherwise.
+ */
 function isHexadecimal(s: string): boolean {
   return hexadecimal.test(s);
 }
 
 const upperCaseReg = /[A-Z]+/;
+/**
+ * Checks if the given string contains any uppercase letters.
+ *
+ * @param s - The string to check.
+ * @returns `true` if the string contains at least one uppercase letter, otherwise `false`.
+ */
 function containsUpperCase(s: string): boolean {
   return upperCaseReg.test(s);
 }
 
 const lowerCaseReg = /[a-z]+/;
+/**
+ * Checks if the given string contains at least one lowercase letter.
+ *
+ * @param s - The string to check.
+ * @returns `true` if the string contains at least one lowercase letter, otherwise `false`.
+ */
 function containsLowerCase(s: string): boolean {
   return lowerCaseReg.test(s);
 }
 
 const specialReg = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?°`€£§]+/;
+/**
+ * Checks if the given string contains any special characters.
+ *
+ * @param s - The string to be checked.
+ * @returns `true` if the string contains special characters, otherwise `false`.
+ */
 function containsSpecialCharacter(s: string): boolean {
   return specialReg.test(s);
 }
 
 const digit = /\d/; // Matches any digit
 const nonDigit = /[^0-9]/g; // Matches any character that is not a digit
-function containsNumber(s: string, min: number = 1, max?: number|null): boolean {
+/**
+ * Checks if a given string contains a specified number of digits.
+ *
+ * @param s - The string to check.
+ * @param min - The minimum number of digits required in the string. Defaults to 1.
+ * @param max - The maximum number of digits allowed in the string. If not provided, there is no upper limit.
+ * @returns `true` if the string contains the required number of digits, otherwise `false`.
+ */
+function containsNumber(s: string, min = 1, max?: number|null): boolean {
   
   if (!digit.test(s)) 
     return false;
@@ -172,6 +254,27 @@ const defaultOptions = {
   maxLength: 64,
 };
 
+/**
+ * Checks if a given password string meets the specified validation criteria.
+ *
+ * @param s - The password string to validate.
+ * @param options - Optional configuration object to specify password validation criteria.
+ * @returns `true` if the password meets all the specified criteria, `false` otherwise.
+ *
+ * @example
+ * ```typescript
+ * const options = {
+ *   minLength: 8,
+ *   maxLength: 20,
+ *   lowerCase: true,
+ *   upperCase: true,
+ *   number: true,
+ *   specialCharacter: true
+ * };
+ * const isValid = isValidPassword('Password123!', options);
+ * console.log(isValid); // true
+ * ```
+ */
 function isValidPassword(s: string, options: PasswordOptions = defaultOptions): boolean {
   const o = { ...defaultOptions, ...options };
   const l = s.length;

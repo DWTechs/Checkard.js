@@ -22,9 +22,12 @@ function compare(
   c: Comparator | null, 
   b: number | null
 ): boolean {
-  return (c && !isNil(b) && c in comparisons)
-    ? comparisons[c](a, b) 
-    : false;
+  if (c && !isNil(b)) {
+    if (c in comparisons)
+      return comparisons[c](a, b);
+    return false;
+  }
+  return true;
 }
 
 /**
