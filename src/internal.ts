@@ -13,9 +13,9 @@
  *               If false, checks if the value can be parsed as a number.
  * @returns True if the value is a number, false otherwise.
  */
-function isNum(v: unknown, type: boolean = true): v is number {
+function isNum(v: unknown, type: boolean): v is number {
   const n = Number(v);
-  return type ? n === v! : Number.isNaN(n - Number.parseFloat(v as string));
+  return type ? n === v : !Number.isNaN(n - Number.parseFloat(v as string));
 }
 
 /**

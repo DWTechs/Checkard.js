@@ -26,11 +26,12 @@ function compare(
   b: number | null
 ): boolean {
   if (c) {
-    if (c in comparisons)
+    if (c in comparisons) {
       if (c === 'empty' || c === '!empty') 
         return comparisons[c](a);
       if (!isNil(b))
         return comparisons[c](a, b);
+    }
     return false;
   }
   return true;

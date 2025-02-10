@@ -42,11 +42,23 @@ var ch = (function (exports) {
       },
       '>=': function _(a, b) {
         return a >= b;
+      },
+      '!=': function _(a, b) {
+        return a != b;
+      },
+      'empty': function empty(a) {
+        return !a;
+      },
+      '!empty': function empty(a) {
+        return !!a;
       }
     };
     function compare(a, c, b) {
-      if (c && !isNil(b)) {
-        if (c in comparisons) return comparisons[c](a, b);
+      if (c) {
+        if (c in comparisons) {
+          if (c === 'empty' || c === '!empty') return comparisons[c](a);
+          if (!isNil(b)) return comparisons[c](a, b);
+        }
         return false;
       }
       return true;
@@ -55,8 +67,9 @@ var ch = (function (exports) {
       return t == null ? t === undefined ? '[object Undefined]' : '[object Null]' : toString.call(t);
     }
 
-    function isNum(v) {
-      return !Number.isNaN(Number(v) - Number.parseFloat(v));
+    function isNum(v, type) {
+      var n = Number(v);
+      return type ? n === v : !Number.isNaN(n - Number.parseFloat(v));
     }
     function isArr(v) {
       return (v === null || v === void 0 ? void 0 : v.constructor) === Array;
@@ -68,11 +81,17 @@ var ch = (function (exports) {
     function isBoolean(v) {
       return typeof v === "boolean";
     }
-    function isNumber(v, type) {
+    function isNumber(v, type, comparator, limit) {
       if (type === void 0) {
         type = true;
       }
-      return !isSymbol(v) && !((v === null || v === void 0 ? void 0 : v.constructor) === Array) && (type ? Number(v) === v : isNum(v));
+      if (comparator === void 0) {
+        comparator = null;
+      }
+      if (limit === void 0) {
+        limit = null;
+      }
+      return !isSymbol(v) && !((v === null || v === void 0 ? void 0 : v.constructor) === Array) && isNum(v, type) ? compare(v, comparator, limit) : false;
     }
     function isString(v, comparator, limit) {
       if (comparator === void 0) {
@@ -467,7 +486,7 @@ var ch = (function (exports) {
       if (type === void 0) {
         type = true;
       }
-      return isInteger(t, type) && isNum(new Date(Number.parseInt(String(t))).getTime());
+      return isInteger(t, type) && isNum(new Date(Number.parseInt(String(t))).getTime(), type);
     }
     function isValidTimestamp(t, min, max, type) {
       if (min === void 0) {

@@ -25,7 +25,7 @@ https://github.com/DWTechs/Checkard.js
 */
 
 
-type Comparator = '='|'<'|'>'|'<='|'>=';
+type Comparator = '='|'<'|'>'|'<='|'>='|'!='|'empty'|'!empty';
 type PasswordOptions = {
   lowerCase: boolean;
   upperCase: boolean;
@@ -37,15 +37,19 @@ type PasswordOptions = {
 export type { Comparator, PasswordOptions };
 
 declare function isBoolean(v: unknown): v is boolean;
-declare function isNumber(n: unknown, type?: boolean): n is number;
+declare function isNumber(v: unknown, 
+                          type?: boolean, 
+                          comparator?: Comparator | null, 
+                          limit?: number | null
+                         ): v is number;
 declare function isString(v: unknown, 
                           comparator?: Comparator | null, 
                           limit?: number | null
                          ): v is string;
-declare function isSymbol(s: unknown): s is symbol;
-declare function isNil(n: unknown): n is null | undefined;
-declare function isNull(n: unknown): n is null;
-declare function isUndefined(u: unknown): u is undefined;
+declare function isSymbol(v: unknown): v is symbol;
+declare function isNil(v: unknown): v is null | undefined;
+declare function isNull(v: unknown): v is null;
+declare function isUndefined(v: unknown): v is undefined;
 
 declare function isObject<T = unknown>(o: unknown, empty?: boolean): o is object & T;
 declare function isArray<T = unknown>(v: unknown, 

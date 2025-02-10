@@ -29,12 +29,19 @@ const comparisons = {
     '<': (a, b) => a < b,
     '>': (a, b) => a > b,
     '<=': (a, b) => a <= b,
-    '>=': (a, b) => a >= b
+    '>=': (a, b) => a >= b,
+    '!=': (a, b) => a != b,
+    'empty': (a) => !a,
+    '!empty': (a) => !!a,
 };
 function compare(a, c, b) {
-    if (c && !isNil(b)) {
-        if (c in comparisons)
-            return comparisons[c](a, b);
+    if (c) {
+        if (c in comparisons) {
+            if (c === 'empty' || c === '!empty')
+                return comparisons[c](a);
+            if (!isNil(b))
+                return comparisons[c](a, b);
+        }
         return false;
     }
     return true;
@@ -43,8 +50,9 @@ function getTag(t) {
     return t == null ? t === undefined ? '[object Undefined]' : '[object Null]' : toString.call(t);
 }
 
-function isNum(v) {
-    return !Number.isNaN(Number(v) - Number.parseFloat(v));
+function isNum(v, type) {
+    const n = Number(v);
+    return type ? n === v : !Number.isNaN(n - Number.parseFloat(v));
 }
 function isArr(v) {
     return (v === null || v === void 0 ? void 0 : v.constructor) === Array;
@@ -56,10 +64,12 @@ function isStr(v) {
 function isBoolean(v) {
     return typeof v === "boolean";
 }
-function isNumber(v, type = true) {
+function isNumber(v, type = true, comparator = null, limit = null) {
     return !isSymbol(v)
         && !((v === null || v === void 0 ? void 0 : v.constructor) === Array)
-        && (type ? Number(v) === v : isNum(v));
+        && isNum(v, type) ?
+        compare(v, comparator, limit)
+        : false;
 }
 function isString(v, comparator = null, limit = null) {
     return isStr(v)
@@ -373,7 +383,7 @@ function isValidDate(d, min = minDate, max = maxDate) {
     return isDate(d) && d >= min && d <= max;
 }
 function isTimestamp(t, type = true) {
-    return isInteger(t, type) && isNum(new Date(Number.parseInt(String(t))).getTime());
+    return isInteger(t, type) && isNum(new Date(Number.parseInt(String(t))).getTime(), type);
 }
 function isValidTimestamp(t, min = -2208989361000, max = 7258114800000, type = true) {
     return isTimestamp(t, type) && t >= min && t <= max;

@@ -25,7 +25,7 @@ function isValidDate(d: Date, min: Date = minDate, max: Date = maxDate): boolean
  * @returns A boolean indicating whether the number is a timestamp.
  */
 function isTimestamp(t: number, type = true): boolean {
-  return isInteger(t, type) && isNum(new Date(Number.parseInt(String(t))).getTime());
+  return isInteger(t, type) && isNum(new Date(Number.parseInt(String(t))).getTime(), type);
 }
 
 /**

@@ -47,7 +47,7 @@ test("sends string to isString", () => {
 });
 
 test("sends string to isString with empty check", () => {
-  expect(isString("string", true)).toBe(true);
+  expect(isString("string", '!empty')).toBe(true);
 });
 
 test("sends positive even integer to isString", () => {
@@ -107,7 +107,7 @@ test("sends array to isString", () => {
 });
 
 test("sends array to isString with empty check", () => {
-  expect(isString(["white", "grey", "black"], true)).toBe(false);
+  expect(isString(["white", "grey", "black"], '!empty')).toBe(false);
 });
 
 const json = `{
@@ -125,7 +125,7 @@ test("sends json to isString", () => {
 });
 
 test("sends json to isString with empty check", () => {
-  expect(isString(json, true)).toBe(true);
+  expect(isString(json, '!empty')).toBe(true);
 });
 
 const invalidjson = `{
@@ -143,7 +143,7 @@ test("sends invalid json to isString", () => {
 });
 
 test("sends invalid json to isString with empty check", () => {
-  expect(isString(invalidjson, true)).toBe(true);
+  expect(isString(invalidjson, '!empty')).toBe(true);
 });
 
 function testFunction() {

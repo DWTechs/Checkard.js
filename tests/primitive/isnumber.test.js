@@ -15,7 +15,7 @@ test("sends 1 to isNumber with empty check using '!empty' comparator", () => {
 });
 
 test("sends 1 to isNumber with empty check using '!empty' comparator with third param at zero", () => {
-  expect(isNumber(1, true, "!empty", 0)).toBe(false);
+  expect(isNumber(1, true, "!empty", 0)).toBe(true);
 });
 
 test("sends null to isNumber", () => {
