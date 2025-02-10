@@ -149,6 +149,22 @@ test("sends regex to isArray", () => {
 
 
 // with length
+test("sends empty array to isArray with empty comparator", () => {
+  expect(isArray([], 'empty')).toBe(true);
+});
+
+test("sends empty array to isArray with empty comparator", () => {
+  expect(isArray([], '!empty')).toBe(false);
+});
+
+test("sends array to isArray with empty comparator", () => {
+  expect(isArray([1], 'empty')).toBe(false);
+});
+
+test("sends empty array to isArray with empty comparator", () => {
+  expect(isArray([1], '!empty')).toBe(true);
+});
+
 test("sends null to isArray with length test of 2", () => {
   expect(isArray(null, '=', 2)).toBe(false);
 });
