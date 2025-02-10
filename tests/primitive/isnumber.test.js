@@ -2,6 +2,22 @@ import { isNumber } from "../../dist/ch";
 
 // test nan
 
+test("sends 1 to isNumber with empty check using '>' comparator", () => {
+  expect(isNumber(1, true, ">", 0)).toBe(true);
+});
+
+test("sends 0 to isNumber with empty check using '>' comparator", () => {
+  expect(isNumber(0, true, ">", 0)).toBe(false);
+});
+
+test("sends 1 to isNumber with empty check using '!empty' comparator", () => {
+  expect(isNumber(1, true, "!empty")).toBe(true);
+});
+
+test("sends 1 to isNumber with empty check using '!empty' comparator with third param at zero", () => {
+  expect(isNumber(1, true, "!empty", 0)).toBe(false);
+});
+
 test("sends null to isNumber", () => {
   expect(isNumber(null)).toBe(false);
 });

@@ -1,18 +1,21 @@
 
 /**
- * Checks if the given value is numeric.
- *
+ * Checks if the given value is a number.
+ * 
  * This function uses the NaN check hack to identify whether a value is numeric.
  * It works by first converting the value to a number using `parseFloat`, then
  * subtracting the result from the original value. If the result is `NaN` then
  * the original value is not numeric.
  * No type checking. Works with '8e4', '+true', '0x44' etc
  *
- * @param v The value to check.
- * @returns true if the value is numeric, false otherwise.
+ * @param v - The value to check.
+ * @param type - If true, checks if the value is strictly equal to its number conversion.
+ *               If false, checks if the value can be parsed as a number.
+ * @returns True if the value is a number, false otherwise.
  */
-function isNum(v: unknown): v is number {
-  return !Number.isNaN(Number(v) - Number.parseFloat(v as string));
+function isNum(v: unknown, type: boolean = true): v is number {
+  const n = Number(v);
+  return type ? n === v! : Number.isNaN(n - Number.parseFloat(v as string));
 }
 
 /**

@@ -8,7 +8,8 @@ const comparisons = {
   '<=': (a:number, b: number) => a <= b,
   '>=': (a:number, b: number) => a >= b,
   '!=': (a:number, b: number) => a != b,
-  // '!empty': (a:number, b: number) => !!a,
+  'empty': (a:number) => !a, // check if a is falsy
+  '!empty': (a:number) => !!a, // check if a is truthy
 };
 
 /**
@@ -24,9 +25,12 @@ function compare(
   c: Comparator | null, 
   b: number | null
 ): boolean {
-  if (c && !isNil(b)) {
+  if (c) {
     if (c in comparisons)
-      return comparisons[c](a, b);
+      if (c === 'empty' || c === '!empty') 
+        return comparisons[c](a);
+      if (!isNil(b))
+        return comparisons[c](a, b);
     return false;
   }
   return true;
@@ -48,6 +52,5 @@ function getTag(t: unknown): string {
 
 export {
   compare,
-  comparisons,
   getTag,
 };

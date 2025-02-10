@@ -1,5 +1,10 @@
 import { isString } from "../../dist/ch";
 
+
+test("sends empty string to isString with empty check using 'empty' comparator", () => {
+  expect(isString("", "empty")).toBe(true);
+});
+
 test("sends null to isString", () => {
   expect(isString(null)).toBe(false);
 });
@@ -21,8 +26,16 @@ test("sends empty string to isString", () => {
   expect(isString("")).toBe(true);
 });
 
-test("sends empty string to isString with empty check", () => {
+test("sends empty string to isString with empty check using '>' comparator", () => {
   expect(isString("", ">", 0)).toBe(false);
+});
+
+test("sends empty string to isString with empty check using '!empty' comparator", () => {
+  expect(isString("", "!empty")).toBe(false);
+});
+
+test("sends empty string to isString with empty check using '!empty' comparator with third param at zero", () => {
+  expect(isString("", "!empty", 0)).toBe(false);
 });
 
 test("sends false to isString", () => {

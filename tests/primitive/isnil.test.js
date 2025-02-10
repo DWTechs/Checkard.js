@@ -8,6 +8,14 @@ test("sends undefined to isNil", () => {
   expect(isNil(undefined)).toBe(true);
 });
 
+test("sends zero to isNil", () => {
+  expect(isNil(0)).toBe(false);
+});
+
+test("sends empty string to isNil", () => {
+  expect(isNil("")).toBe(false);
+});
+
 const s1 = Symbol();
 test("sends symbol to isNil", () => {
   expect(isNil(s1)).toBe(false);
@@ -31,10 +39,6 @@ test("sends positive even integer to isNil", () => {
 
 test("sends positive odd integer to isNil", () => {
   expect(isNil(1)).toBe(false);
-});
-
-test("sends zero to isNil", () => {
-  expect(isNil(0)).toBe(false);
 });
 
 test("sends positive float to isNil", () => {

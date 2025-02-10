@@ -21,10 +21,17 @@ function isBoolean(v: unknown): v is boolean {
  *               If false, the function uses a custom `isNum` function for checking.
  * @returns A boolean indicating whether the value is a number.
  */
-function isNumber(v: unknown, type = true): v is number {
+function isNumber(v: unknown, 
+                  type = true,
+                  comparator: Comparator | null = null, 
+                  limit: number | null = null): v is number {
   return !isSymbol(v) 
-         && !(v?.constructor === Array) 
-         && (type ? Number(v) === v : isNum(v));
+         && !(v?.constructor === Array)
+         && isNum(v, type) ? 
+          compare(v, comparator, limit) 
+          : false;
+          
+
 }
 
 /**
