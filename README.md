@@ -123,13 +123,15 @@ if (!ch.isArray(variable, '=', 2)) {
 
 ```javascript
 
-type Comparator = '='|'<'|'>'|'<='|'>=';
+type Comparator = '='|'<'|'>'|'<='|'>='|'!=';
 
 type PasswordOptions = {
-  lowercase: boolean,
-  uppercase: boolean,
+  lowerCase: boolean,
+  upperCase: boolean,
   number: boolean,
-  specialCharacter: boolean
+  specialCharacter: boolean,
+  maxLength: number,
+  minLength: number
 }
 
 ```
@@ -141,21 +143,66 @@ primitive methods accept any variable as parameter in order to check its type.
 
 ```javascript
 
+/**
+ * Checks if the given value is of type boolean.
+ *
+ * @param v - The value to check.
+ * @returns True if the value is a boolean, otherwise false.
+ */
 isBoolean(v: unknown): v is boolean {}
 
-// If typeCheck = false values like '4', '0', '8e4', '+true', '0x44' return true
-isNumber(v: unknown, typeCheck?: boolean = true): v is number {}
+/**
+ * Checks if the given value is a number.
+ * If typeCheck = false values like '4', '0', '8e4', '+true', '0x44' return true
+ * @param v - The value to check.
+ * @param type - A boolean indicating whether to use strict type checking. 
+ *               If true, the function checks if the value is strictly equal to its number representation.
+ *               If false, the function uses a custom `isNum` function for checking.
+ * @returns A boolean indicating whether the value is a number.
+ */
+isNumber(v: unknown, type?: boolean = true): v is number {}
 
+/**
+ * Checks if the given value is a string and optionally compares its length.
+ *
+ * @param v - The value to check.
+ * @param comparator - An optional comparator function to compare the string length.
+ * @param limit - An optional limit to compare the string length against.
+ * @returns `true` if the value is a string and meets the comparator and limit conditions, otherwise `false`.
+ */
 isString(v: unknown, required?: boolean = false): v is string {}
 
+/**
+ * Checks if the provided value is a symbol.
+ *
+ * @param v - The value to check.
+ * @returns True if the value is a symbol, otherwise false.
+ */
 isSymbol(v: unknown): v is symbol {}
 
-//Check whether val is null or undefined
+/**
+ * Checks if the given value is `null` or `undefined`.
+ *
+ * @param v - The value to check.
+ * @returns `true` if the value is `null` or `undefined`, otherwise `false`.
+ */
 isNil(v: unknown): v is null | undefined {}
 
+/**
+ * Checks if the given value is `null`.
+ *
+ * @param v - The value to check.
+ * @returns `true` if the value is `null`, otherwise `false`.
+ */
 isNull(v: unknown): v is null {}
 
-isUndefined(u: unknown): v is undefined {}
+/**
+ * Checks if the given value is `undefined`.
+ *
+ * @param v - The value to check.
+ * @returns `true` if the value is `undefined`, otherwise `false`.
+ */
+isUndefined(v: unknown): v is undefined {}
 
 ```
 
@@ -202,21 +249,62 @@ Non-primitive methods accept any variable as parameter in order to check its typ
 
 ```javascript
 
-isObject<T = unknown>(o: unknown, emptyCheck?: boolean = false): o is object & T {}
+/**
+ * Checks if the given value is an object and optionally if it is non-empty.
+ *
+ * @template T - The expected type of the object.
+ * @param {unknown} v - The value to check.
+ * @param {boolean} [empty=false] - If true, the function will also check if the object is non-empty.
+ * @returns {o is object & T} - Returns true if the value is an object (and non-empty if specified), otherwise false.
+ */
+isObject<T = unknown>(o: unknown, empty?: boolean = false): o is object & T {}
 
-// Check if 'array' is an array and optionally if it is of length =, <, >, <= or >= than 'length'
+/**
+ * Checks if the given value is an array and optionally compares its length.
+ *
+ * @template T - The type of elements in the array.
+ * @param v - The value to check.
+ * @param comparator - An optional comparator function to compare the array length.
+ * @param limit - An optional limit to compare the array length against.
+ * @returns `true` if the value is an array and meets the comparator and limit conditions, otherwise `false`.
+ */
 isArray<T = unknown>(
     v: unknown, 
-    comparator?: Comparator|null, 
-    length?: number|null
-  ): v is Array<T> {}
+    comparator?: Comparator | null, 
+    limit?: number | null
+  ): v is T[] {}
 
+/**
+ * Checks if the given input is a valid JSON string.
+ *
+ * @param v - The input to check.
+ * @returns `true` if the input is a valid JSON string, otherwise `false`.
+ */
 isJson(v: unknown): v is JSON {} 
 
-isRegex(v: unknown, typeCheck?: boolean = true): v is RegExp {} 
+/**
+ * Checks if the given value is a regular expression.
+ *
+ * @param v - The value to check.
+ * @param type - If true, uses `instanceof` to check if `r` is a RegExp. If false, attempts to create a new RegExp from `r`.
+ * @returns `true` if `r` is a RegExp or can be converted to a RegExp, otherwise `false`.
+ */
+isRegex(v: unknown, type?: boolean = true): v is RegExp {} 
 
+/**
+ * Checks if the given value is a valid Date object.
+ *
+ * @param v - The value to check.
+ * @returns True if the value is a Date object and not NaN, otherwise false.
+ */
 isDate(v: unknown): v is Date {}
 
+/**
+ * Checks if the provided value is a function.
+ *
+ * @param v - The value to check.
+ * @returns A boolean indicating whether the value is a function.
+ */
 isFunction(v: unknown): v is (...args: unknown[]) => unknown {}
 
 ```
@@ -262,23 +350,89 @@ if (isArray(arr) && !isArrayOfLength(arr, 4, 4)) {
 
 ```javascript
 
-isInteger(n: number, typeCheck?: boolean = true): boolean {}
+/**
+ * Checks if a given number is an integer.
+ *
+ * @param n - The number to check.
+ * @param type - A boolean indicating whether to use strict equality (===) or loose equality (==) for the comparison. Defaults to true (strict equality).
+ * @returns A boolean indicating whether the number is an integer.
+ */
+isInteger(n: number, type?: boolean = true): boolean {}
 
-isFloat(n: number, typeCheck?: boolean = true): boolean {}
+/**
+ * Checks if a given number is a floating-point number.
+ *
+ * @param n - The number to check.
+ * @param type - A boolean indicating whether to use strict equality (default is true).
+ * @returns A boolean indicating whether the number is a floating-point number.
+ */
+isFloat(n: number, type?: boolean = true): boolean {}
 
-isEven(n: number, typeCheck?: boolean = true): boolean {}
+/**
+ * Checks if a given number is even.
+ *
+ * @param n - The number to check.
+ * @param type - A boolean flag to specify the type of check (default is true).
+ * @returns `true` if the number is even and an integer, `false` otherwise.
+ */
+isEven(n: number, type?: boolean = true): boolean {}
 
-isOdd(n: number, typeCheck?: boolean = true): boolean {}
+/**
+ * Determines if a given number is odd.
+ *
+ * @param n - The number to check.
+ * @param type - An optional boolean parameter to specify the type of check. Default is true.
+ * @returns A boolean indicating whether the number is odd.
+ */
+isOdd(n: number, type?: boolean = true): boolean {}
 
-isOrigin(n: number, typeCheck?: boolean = true): boolean {}
+/**
+ * Checks if a given number is zero.
+ *
+ * @param n - The number to check.
+ * @param type - A boolean indicating the type of comparison to use.
+ *               If true, uses strict equality (===).
+ *               If false, uses loose equality (==).
+ *               Defaults to true.
+ * @returns True if the number is zero based on the specified comparison type, otherwise false.
+ */
+isOrigin(n: number, type?: boolean = true): boolean {}
 
-isPositive(n: number, typeCheck?: boolean = true): boolean {}
+/**
+ * Checks if a given number is positive.
+ *
+ * @param n - The number to check.
+ * @param type - An optional boolean parameter to specify the type check (default is true).
+ * @returns True if the number is positive and passes the type check, otherwise false.
+ */
+isPositive(n: number, type?: boolean = true): boolean {}
 
-isNegative(n: number, typeCheck?: boolean = true): boolean {}
+/**
+ * Checks if a given number is negative.
+ *
+ * @param n - The number to check.
+ * @param type - A boolean flag to indicate if the type should be checked. Defaults to true.
+ * @returns True if the number is negative and the type check passes, otherwise false.
+ */
+isNegative(n: number, type?: boolean = true): boolean {}
 
-isPowerOfTwo(n: number, typeCheck?: boolean = true): boolean {}
+/**
+ * Checks if a given number is a power of two.
+ *
+ * @param n - The number to check.
+ * @param type - An optional boolean parameter. Default is true.
+ * @returns A boolean indicating whether the number is a power of two.
+ */
+isPowerOfTwo(n: number, type?: boolean = true): boolean {}
 
-isAscii(c: number, extended?: boolean = true): boolean {}
+/**
+ * Checks if a given number is an ASCII code.
+ *
+ * @param n - The number to check.
+ * @param ext - Optional boolean to include extended ASCII range (0-255). Defaults to true.
+ * @returns `true` if the number is a valid ASCII code, `false` otherwise.
+ */
+isAscii(n: number, ext?: boolean = true): boolean {}
 
 ```
 
@@ -306,20 +460,47 @@ Valid number methods take a number as parameter and check of the number lies in 
 
 ```javascript
 
+/**
+ * Checks if a given value is a valid number within given range.
+ *
+ * @param n - value to check
+ * @param min - minimal value of the range
+ * @param max - maximal value of the range
+ * @param type - do type check
+ * @returns true if the value is a valid number, false otherwise
+ */
 isValidNumber(n: unknown, 
               min?: number = -999999999, 
               max?: number = 999999999, 
-              typeCheck?: boolean = true ): boolean {}
+              type?: boolean = true ): boolean {}
 
+/**
+ * Checks if a given value is a valid integer within given range.
+ *
+ * @param n - value to check
+ * @param min - minimal value of the range
+ * @param max - maximal value of the range
+ * @param type - do type check
+ * @returns true if the value is a valid integer, false otherwise
+ */
 isValidInteger(n: unknown, 
                min?: number = -999999999, 
                max?: number = 999999999, 
-               typeCheck?: boolean = true ): boolean {}
+               type?: boolean = true ): boolean {}
 
+/**
+ * Checks if a given value is a valid float within given range.
+ *
+ * @param n - value to check
+ * @param min - minimal value of the range
+ * @param max - maximal value of the range
+ * @param type - do type check
+ * @returns true if the value is a valid float, false otherwise
+ */
 isValidFloat( n: unknown, 
               min?: number = -999999999.9, 
               max?: number = 999999999.9, 
-              typeCheck?: boolean = true ): boolean {}
+              type?: boolean = true ): boolean {}
 
 ```
 
@@ -345,20 +526,75 @@ if (isNumber(value) && isValidInteger(value, 2, 12)) {
 
 ```javascript
 
+/**
+ * Checks if the length of a given string is within the specified range.
+ *
+ * @param s - The string to check.
+ * @param min - The minimum length of the string (inclusive). Default is 0.
+ * @param max - The maximum length of the string (inclusive). Default is 999999999.
+ * @returns `true` if the string length is within the specified range, otherwise `false`.
+ */
 isStringOfLength( s: string, 
                   min?: number = 0, 
                   max?: number = 999999999 ): boolean {}
 
+/**
+ * Checks if the given string is a valid email address.
+ *
+ * @param s - The string to be checked.
+ * @returns `true` if the string is a valid email address, otherwise `false`.
+ */
 isEmail(s: string): boolean {}
 
+/**
+ * Checks if the given string is a valid IP address.
+ *
+ * @param s - The string to be checked.
+ * @returns `true` if the string is a valid IP address, otherwise `false`.
+ */
 isIpAddress(s: string): boolean {}
 
+/**
+ * Checks if a given string is a valid Base64 encoded string.
+ *
+ * @param s - The string to check.
+ * @param urlEncoded - Optional. If true, checks for URL-safe Base64 encoding. Defaults to false.
+ * @returns True if the string is a valid Base64 encoded string, false otherwise.
+ */
 isBase64(s: string, urlEncoded?: boolean = false): boolean {}
 
+/**
+ * Checks if a given string is a valid JSON Web Token (JWT).
+ *
+ * A valid JWT consists of three parts separated by dots ('.'):
+ * - Header
+ * - Payload
+ * - Signature
+ *
+ * Each part must be a valid Base64 encoded string. Additionally, the header and payload
+ * must be valid JSON objects when decoded.
+ *
+ * @param s - The string to check.
+ * @returns `true` if the string is a valid JWT, otherwise `false`.
+ */
 isJWT(s: string): boolean {}
 
+/**
+ * Checks if the given string is a valid slug.
+ * 
+ * A slug is typically a URL-friendly string that contains only lowercase letters, numbers, and hyphens.
+ * 
+ * @param s - The string to check.
+ * @returns `true` if the string is a valid slug, `false` otherwise.
+ */
 isSlug(s: string): boolean {}
 
+/**
+ * Checks if the given string is a valid hexadecimal number.
+ *
+ * @param s - The string to check.
+ * @returns True if the string is a valid hexadecimal number, false otherwise.
+ */
 isHexadecimal(s: string): boolean {}
 
 const PwdDefaultOptions = {
@@ -370,15 +606,62 @@ const PwdDefaultOptions = {
   maxLength: 64,
 };
 
+/**
+ * Checks if a given password string meets the specified validation criteria.
+ *
+ * @param s - The password string to validate.
+ * @param options - Optional configuration object to specify password validation criteria.
+ * @returns `true` if the password meets all the specified criteria, `false` otherwise.
+ *
+ * @example
+ * ```typescript
+ * const options = {
+ *   minLength: 8,
+ *   maxLength: 20,
+ *   lowerCase: true,
+ *   upperCase: true,
+ *   number: true,
+ *   specialCharacter: true
+ * };
+ * const isValid = isValidPassword('Password123!', options);
+ * console.log(isValid); // true
+ * ```
+ */
 isValidPassword(s: string, options: PasswordOptions = PwdDefaultOptions): boolean {}
 
+/**
+ * Checks if the given string contains any uppercase letters.
+ *
+ * @param s - The string to check.
+ * @returns `true` if the string contains at least one uppercase letter, otherwise `false`.
+ */
 containsUpperCase(s: string): boolean {}
 
+/**
+ * Checks if the given string contains at least one lowercase letter.
+ *
+ * @param s - The string to check.
+ * @returns `true` if the string contains at least one lowercase letter, otherwise `false`.
+ */
 containsLowerCase(s: string): boolean {}
 
+/**
+ * Checks if the given string contains any special characters.
+ *
+ * @param s - The string to be checked.
+ * @returns `true` if the string contains special characters, otherwise `false`.
+ */
 containsSpecialCharacter(s: string): boolean {}
 
-containsNumber(s: string, min?: number|null, max?: number|null): boolean {}
+/**
+ * Checks if a given string contains a specified number of digits.
+ *
+ * @param s - The string to check.
+ * @param min - The minimum number of digits required in the string. Defaults to 1.
+ * @param max - The maximum number of digits allowed in the string. If not provided, there is no upper limit.
+ * @returns `true` if the string contains the required number of digits, otherwise `false`.
+ */
+containsNumber(s: string, min: number = 1, max?: number|null): boolean {}
 
 ```
 
@@ -424,22 +707,44 @@ if (isValidPassword(password, PwdOptions)) {
 
 ```javascript
 
+/**
+ * Checks if a given date is valid within a specified range.
+ *
+ * @param {Date} d - The date to be validated.
+ * @param {Date} [min=minDate] - The minimum allowable date. Defaults to `minDate`.
+ * @param {Date} [max=maxDate] - The maximum allowable date. Defaults to `maxDate`.
+ * @returns {boolean} `true` if the date is valid and within the specified range, otherwise `false`.
+ */
 isValidDate(
     d: unknown, 
     min?: Date = new Date('1/1/1900'), 
     max?: Date = new Date('1/1/2200')
-  ): boolean {} // d is Date
+  ): boolean {}
 
-isTimestamp(t: unknown, typeCheck?: boolean = true): boolean {} // t is number
+/**
+ * Checks if the given number is a valid timestamp.
+ *
+ * @param t - The number to check.
+ * @param type - An optional boolean parameter to verify the type of t. Defaults to true.
+ * @returns A boolean indicating whether the number is a timestamp.
+ */
+isTimestamp(t: unknown, type?: boolean = true): boolean {}
 
-// default min = 1/1/1900 (month/day/year)
-// default max = 1/1/2200 (month/day/year)
+/**
+ * Checks if a given timestamp is valid within a specified range.
+ *
+ * @param t - The timestamp to validate.
+ * @param min - The minimum allowed timestamp (default is -2208989361000,eg 1/1/1900).
+ * @param max - The maximum allowed timestamp (default is 7258114800000, eg 1/1/2200).
+ * @param type - A boolean indicating the type of timestamp (default is true).
+ * @returns `true` if the timestamp is valid and within the specified range, otherwise `false`.
+ */
 isValidTimestamp(
     t: unknown, 
     min?: number = -2208989361000, 
     max?: number = 7258114800000, 
-    typeCheck?: boolean = true
-  ): boolean {} // t is number
+    type?: boolean = true
+  ): boolean {} 
 
 ```
 
@@ -463,16 +768,32 @@ if (isNumber(value) && isEmail(value)) {
 
 ```javascript
 
+/**
+ * Checks if the length of an array is within the specified range.
+ *
+ * @template T - The type of elements in the array.
+ * @param {Array<T>} a - The array to check.
+ * @param {number} [min=0] - The minimum length of the array (inclusive).
+ * @param {number} [max=999999999] - The maximum length of the array (inclusive).
+ * @returns {boolean} - Returns `true` if the array length is within the specified range, otherwise `false`.
+ */
 isArrayOfLength(
     a: unknown, 
     min = 0, 
-    max = 999999999): boolean {} // a is Array<T>
+    max = 999999999): boolean {}
 
-// This method lets you check if a value is included in an array.
+/**
+ * Checks if a value is present in an array starting from a specified index.
+ *
+ * @param a - The array to search within.
+ * @param v - The value to search for.
+ * @param from - The index to start the search from. Defaults to 0.
+ * @returns `true` if the value is found in the array, otherwise `false`.
+ */
 isIn(
-    arr: unknown[], 
+    a: unknown[], 
     v: unknown, 
-    fromIndex?: number = 0
+    from?: number = 0
   ): boolean {}
 
 ```
@@ -505,9 +826,18 @@ let lvl = setLevel("infos"); // lvl = "error"
 
 ```javascript
 
-// This method lets you check if a value is included in an object properties.
-// own: boolean - whether to check inherited properties only
-// enumerable: boolean - whether to check enumerable properties only
+/**
+ * Checks if a given property exists on an object.
+ * own: boolean - whether to check inherited properties only
+ * enumerable: boolean - whether to check enumerable properties only
+ *
+ * @template K - The type of the property key.
+ * @param obj - The object to check the property on.
+ * @param k - The property key to check for.
+ * @param own - If true, checks if the property is an own property of the object. Defaults to true.
+ * @param enumerable - If true, checks if the property is enumerable. Defaults to true.
+ * @returns True if the property exists on the object based on the specified conditions, otherwise false.
+ */
 isProperty(
     obj: { [key: string]: unknown },
     k: unknown,
@@ -542,10 +872,47 @@ console.log(isProperty("debag", levels)); // false
 
 ```javascript
 
+/**
+ * Checks if the given value is an HTML element.
+ *
+ * This function determines if the provided value is an instance of `HTMLElement`.
+ * It first checks if `HTMLElement` is defined as an object and then verifies if
+ * the value is an instance of `HTMLElement`. If `HTMLElement` is not defined,
+ * it falls back to checking if the value is an object with a `nodeType` of 1
+ * and a `nodeName` of type string, which are characteristics of HTML elements.
+ *
+ * @param h - The value to check.
+ * @returns `true` if the value is an HTML element, otherwise `false`.
+ */
 isHtmlElement(h: unknown): h is HTMLElement {}
 
-isHtmlEventAttribute(h: unknown): boolean {}
+/**
+ * Checks if a given string is a valid HTML event attribute.
+ *
+ * @param h - The string to check.
+ * @returns `true` if the string is a valid HTML event attribute, otherwise `false`.
+ *
+ * @remarks
+ * This function checks against a predefined list of HTML event attributes such as `onclick`, `onload`, `onerror`, etc.
+ *
+ * @example
+ * ```typescript
+ * isHtmlEventAttribute("onclick"); // returns true
+ * isHtmlEventAttribute("onunknown"); // returns false
+ * ```
+ */
+isHtmlEventAttribute(h: string): boolean {}
 
+/**
+ * Checks if the given value is a DOM Node.
+ *
+ * This function determines if the provided value is a Node by checking its type and properties.
+ * It works by verifying if the value is an instance of Node when `Node` is an object, or by
+ * checking the presence and types of `nodeType` and `nodeName` properties.
+ *
+ * @param n - The value to check.
+ * @returns `true` if the value is a Node, otherwise `false`.
+ */
 isNode(n: unknown): n is Node {}
 
 ```
@@ -555,7 +922,14 @@ isNode(n: unknown): n is Node {}
 
 ```javascript
 
-ucfirst(string: string, everyWords?: boolean = true): string | false {}
+/**
+ * A function to capitalize the first letter of each word in a string.
+ *
+ * @param {string} s - The input string to capitalize.
+ * @param {boolean} everyWords - A flag to indicate whether to capitalize every word or just the first letter of the whole string.
+ * @return {string} The string with the first letter of each word capitalized.
+ */
+ucfirst(s: string, everyWords?: boolean = true): string {}
 
 // accept a-z - and _ characters
 normalizeNickname(

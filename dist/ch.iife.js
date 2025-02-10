@@ -45,7 +45,11 @@ var ch = (function (exports) {
       }
     };
     function compare(a, c, b) {
-      return c && !isNil(b) && c in comparisons ? comparisons[c](a, b) : false;
+      if (c && !isNil(b)) {
+        if (c in comparisons) return comparisons[c](a, b);
+        return false;
+      }
+      return true;
     }
     function getTag(t) {
       return t == null ? t === undefined ? '[object Undefined]' : '[object Null]' : toString.call(t);
@@ -64,11 +68,11 @@ var ch = (function (exports) {
     function isBoolean(v) {
       return typeof v === "boolean";
     }
-    function isNumber(n, type) {
+    function isNumber(v, type) {
       if (type === void 0) {
         type = true;
       }
-      return !isSymbol(n) && !((n === null || n === void 0 ? void 0 : n.constructor) === Array) && (type ? Number(n) === n : isNum(n));
+      return !isSymbol(v) && !((v === null || v === void 0 ? void 0 : v.constructor) === Array) && (type ? Number(v) === v : isNum(v));
     }
     function isString(v, comparator, limit) {
       if (comparator === void 0) {
@@ -79,45 +83,51 @@ var ch = (function (exports) {
       }
       return isStr(v) ? compare(v.length, comparator, limit) : false;
     }
-    function isSymbol(s) {
-      var type = typeof s;
-      return type === 'symbol' || type === 'object' && s != null && getTag(s) === '[object Symbol]';
+    function isSymbol(v) {
+      var type = typeof v;
+      return type === 'symbol' || type === 'object' && v != null && getTag(v) === '[object Symbol]';
     }
-    function isNil(n) {
-      return n == null;
+    function isNil(v) {
+      return v == null;
+    }
+    function isNull(v) {
+      return v === null;
+    }
+    function isUndefined(v) {
+      return v === undefined;
     }
 
-    function isObject(o, empty) {
+    function isObject(v, empty) {
       if (empty === void 0) {
         empty = false;
       }
-      return o !== null && typeof o === "object" && !isArray(o) && (empty ? !!Object.keys(o).length : true);
+      return v !== null && typeof v === "object" && !isArray(v) && (empty ? !!Object.keys(v).length : true);
     }
-    function isArray(value, comparator, limit) {
+    function isArray(v, comparator, limit) {
       if (comparator === void 0) {
         comparator = null;
       }
       if (limit === void 0) {
         limit = null;
       }
-      return isArr(value) ? compare(value.length, comparator, limit) : false;
+      return isArr(v) ? compare(v.length, comparator, limit) : false;
     }
-    function isJson(j) {
-      if (!isString(j, ">", 0)) return false;
+    function isJson(v) {
+      if (!isString(v, ">", 0)) return false;
       try {
-        JSON.parse(j);
+        JSON.parse(v);
       } catch (e) {
         return false;
       }
       return true;
     }
-    function isRegex(r, type) {
+    function isRegex(v, type) {
       if (type === void 0) {
         type = true;
       }
-      if (type) return r instanceof RegExp;
+      if (type) return v instanceof RegExp;
       try {
-        new RegExp(r);
+        new RegExp(v);
       } catch (e) {
         return false;
       }
@@ -130,16 +140,16 @@ var ch = (function (exports) {
       return Boolean(v && getTag(v) === "[object Function]");
     }
 
-    function isProperty(obj, k, own, enumerable) {
+    function isProperty(o, k, own, enumerable) {
       if (own === void 0) {
         own = true;
       }
       if (enumerable === void 0) {
         enumerable = true;
       }
-      if (enumerable) return isEnumerable(obj, k, own);
-      if (own) return Object.prototype.hasOwnProperty.call(obj, k);
-      return k in obj;
+      if (enumerable) return isEnumerable(o, k, own);
+      if (own) return Object.prototype.hasOwnProperty.call(o, k);
+      return k in o;
     }
     function isEnumerable(obj, key, own) {
       if (own) return Object.prototype.propertyIsEnumerable.call(obj, key);
@@ -159,14 +169,14 @@ var ch = (function (exports) {
       if (max === void 0) {
         max = 999999999;
       }
-      var n = a.length;
+      var n = a === null || a === void 0 ? void 0 : a.length;
       return n >= min && n <= max;
     }
-    function isIn(arr, v, fromIndex) {
-      if (fromIndex === void 0) {
-        fromIndex = 0;
+    function isIn(a, v, from) {
+      if (from === void 0) {
+        from = 0;
       }
-      return arr.includes(v, fromIndex);
+      return a.includes(v, from);
     }
 
     function isInteger(n, type) {
@@ -176,11 +186,11 @@ var ch = (function (exports) {
       var _int = Number.parseInt(String(n), 10);
       return type ? n === _int : n == _int;
     }
-    function isAscii(c, ext) {
+    function isAscii(n, ext) {
       if (ext === void 0) {
         ext = true;
       }
-      return isInteger(c, false) && (ext && c >= 0 && c <= 255 || c >= 0 && c <= 127);
+      return isInteger(n, false) && (ext && n >= 0 && n <= 255 || n >= 0 && n <= 127);
     }
     function isFloat(n, type) {
       if (type === void 0) {
@@ -282,15 +292,18 @@ var ch = (function (exports) {
     function isIpAddress(s) {
       return ipReg.test(String(s));
     }
+    var b64UrlEncoded = /^[A-Za-z0-9-_]+$/;
+    var b64 = /^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/;
     function isBase64(s, urlEncoded) {
       if (urlEncoded === void 0) {
         urlEncoded = false;
       }
-      var regex = urlEncoded ? /^[A-Za-z0-9-_]+$/ : /^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/;
+      var regex = urlEncoded ? b64UrlEncoded : b64;
       return regex.test(s);
     }
     var b64Reg = /^[A-Za-z0-9\-_]+={0,2}$/;
     function isJWT(s) {
+      if (!s) return false;
       var p = s.split('.');
       if (p.length !== 3) return false;
       var header = p[0];
@@ -307,7 +320,7 @@ var ch = (function (exports) {
     }
     var slugReg = /^[^\s-_](?!.*?[-_]{2,})[a-z0-9-\\][^\s]*[^-_\s]$/;
     function isSlug(s) {
-      return slugReg.test(s);
+      return s ? slugReg.test(s) : false;
     }
     var hexadecimal = /^(#|0x|0h)?[0-9A-F]+$/i;
     function isHexadecimal(s) {
@@ -448,7 +461,7 @@ var ch = (function (exports) {
       if (max === void 0) {
         max = maxDate;
       }
-      return d && d >= min && d <= max;
+      return isDate(d) && d >= min && d <= max;
     }
     function isTimestamp(t, type) {
       if (type === void 0) {
@@ -484,13 +497,13 @@ var ch = (function (exports) {
       return newStr.charAt(0).toUpperCase() + newStr.slice(1);
     }
     function normalizeNickname(nickname, firstName, lastName) {
-      return isString(nickname, ">", 0) || isString(firstName, ">", 0) && isString(lastName, ">", 0) ? createNickname(nickname, firstName, lastName) : false;
+      return nickname || firstName && lastName ? createNickname(nickname, firstName, lastName) : false;
     }
     function normalizeName(s) {
-      return isString(s, ">", 0) ? ucfirst(s, true) : false;
+      return s ? ucfirst(s, true) : false;
     }
     function normalizeEmail(s) {
-      return isEmail(s) ? s.toLowerCase() : false;
+      return s && isEmail(s) ? s.toLowerCase() : false;
     }
     function createNickname(nickname, firstName, lastName) {
       var n = nickname || firstName[0] + lastName;
@@ -522,6 +535,7 @@ var ch = (function (exports) {
     exports.isNegative = isNegative;
     exports.isNil = isNil;
     exports.isNode = isNode;
+    exports.isNull = isNull;
     exports.isNumber = isNumber;
     exports.isObject = isObject;
     exports.isOdd = isOdd;
@@ -535,6 +549,7 @@ var ch = (function (exports) {
     exports.isStringOfLength = isStringOfLength;
     exports.isSymbol = isSymbol;
     exports.isTimestamp = isTimestamp;
+    exports.isUndefined = isUndefined;
     exports.isValidDate = isValidDate;
     exports.isValidFloat = isValidFloat;
     exports.isValidInteger = isValidInteger;

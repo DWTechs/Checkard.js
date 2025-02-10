@@ -2,7 +2,9 @@ export {  isBoolean,
           isString,
           isNumber,
           isSymbol,
-          isNil } from './primitive';
+          isNil,
+          isNull,
+          isUndefined } from './primitive';
         
 export {  isObject,
           isArray,
