@@ -219,6 +219,10 @@ if (isString(str)) {
   // check if str is a string
 }
 
+if (isArray(str, '!empty')) {
+  // check if str is not empty
+}
+
 if (isString(str, '=', 2)) {
   // check if str is an string of length 2
 }
@@ -320,6 +324,10 @@ let arr = ['dog','cat','bird'];
 
 if (isArray(arr)) {
   // check if arr is an array
+}
+
+if (isArray(arr, '!empty')) {
+  // check if arr is not empty
 }
 
 if (isArray(arr, '=', 2)) {
