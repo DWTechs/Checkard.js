@@ -13,13 +13,14 @@ function isBoolean(v: unknown): v is boolean {
 }
 
 /**
- * Checks if the given value is a number.
+ * Checks if the given value is a number and optionally performs additional checks.
  * If typeCheck = false values like '4', '0', '8e4', '+true', '0x44' return true
+ *
  * @param v - The value to check.
- * @param type - A boolean indicating whether to use strict type checking. 
- *               If true, the function checks if the value is strictly equal to its number representation.
- *               If false, the function uses a custom `isNum` function for checking.
- * @returns A boolean indicating whether the value is a number.
+ * @param type - A boolean indicating whether to perform type checking. Defaults to `true`.
+ * @param comparator - An optional comparator function to compare the value. Defaults to `null`.
+ * @param limit - An optional limit to compare the value against. Defaults to `null`.
+ * @returns `true` if the value is a number and passes all checks, otherwise `false`.
  */
 function isNumber(v: unknown, 
                   type = true,
@@ -30,8 +31,6 @@ function isNumber(v: unknown,
          && isNum(v, type) ? 
           compare(v, comparator, limit) 
           : false;
-          
-
 }
 
 /**
