@@ -13,6 +13,9 @@ export {  isObject,
           isDate,
           isFunction } from './nonprimitive';
 
+export {  isTruthy,
+          isFalsy } from './boolean';  
+
 export {  isProperty } from './object';
 
 export {  isArrayOfLength,
