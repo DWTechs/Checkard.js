@@ -1,5 +1,9 @@
 import { isDate } from "../../dist/ch";
 
+test("sends NaN to isDate", () => {
+  expect(isDate(NaN)).toBe(false);
+});
+
 test("sends date in string format to isDate", () => {
   expect(isDate('1/1/1900')).toBe(false);
 });

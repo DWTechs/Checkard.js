@@ -1,5 +1,9 @@
 import { isBoolean } from "../../dist/ch";
 
+test("sends NaN to isBoolean", () => {
+  expect(isBoolean(NaN)).toBe(false);
+});
+
 test("sends null to isBoolean", () => {
   expect(isBoolean(null)).toBe(false);
 });

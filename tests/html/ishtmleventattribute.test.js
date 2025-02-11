@@ -26,6 +26,10 @@ function testFunction() {
 const para = document.createElement("p");
 const node = document.createTextNode("new node");
 
+test("sends NaN to isHtmlEventAttribute", () => {
+  expect(isHtmlEventAttribute(NaN)).toBe(false);
+});
+
 test("sends null to isHtmlEventAttribute", () => {
   expect(isHtmlEventAttribute(null)).toBe(false);
 });

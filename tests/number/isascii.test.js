@@ -1,5 +1,9 @@
 import { isAscii } from "../../dist/ch";
 
+test("sends NaN to isAscii", () => {
+  expect(isAscii(NaN)).toBe(false);
+});
+
 test("sends null to isAscii extended", () => {
   expect(isAscii(null)).toBe(false);
 });

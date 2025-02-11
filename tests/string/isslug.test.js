@@ -1,5 +1,9 @@
 import { isSlug } from "../../dist/ch";
 
+test("sends NaN to isSlug", () => {
+  expect(isSlug(NaN)).toBe(false);
+});
+
 test("sends slug to isSlug", () => {
   expect(isSlug('this_is-a_slug')).toBe(true);
 });

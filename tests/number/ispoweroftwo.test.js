@@ -1,5 +1,9 @@
 import { isPowerOfTwo } from "../../dist/ch";
 
+test("sends NaN to isPowerOfTwo", () => {
+  expect(isPowerOfTwo(NaN)).toBe(false);
+});
+
 test("sends null to isPowerOfTwo", () => {
   expect(isPowerOfTwo(null)).toBe(false);
 });

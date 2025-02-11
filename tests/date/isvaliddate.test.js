@@ -26,6 +26,9 @@ function testFunction() {
 const para = document.createElement("p");
 const node = document.createTextNode("new node");
 
+test("sends NaN to isValidDate", () => {
+  expect(isValidDate(NaN)).toBe(false);
+});
 
 test("sends date to isValidDate", () => {
   expect(isValidDate(date)).toBe(true);

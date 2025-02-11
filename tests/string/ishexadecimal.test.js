@@ -1,5 +1,9 @@
 import { isHexadecimal } from "../../dist/ch";
 
+test("sends NaN to isHexadecimal", () => {
+  expect(isHexadecimal(NaN)).toBe(false);
+});
+
 test("sends hexadecimal in string format to isHexadecimal", () => {
   expect(isHexadecimal('#FF5733')).toBe(true);
 });

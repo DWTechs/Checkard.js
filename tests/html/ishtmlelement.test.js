@@ -25,6 +25,10 @@ function testFunction() {
 const para = document.createElement("p");
 const node = document.createTextNode("new node");
 
+test("sends NaN to isHtmlElement", () => {
+  expect(isHtmlElement(NaN)).toBe(false);
+});
+
 test("sends null to isHtmlElement", () => {
   expect(isHtmlElement(null)).toBe(false);
 });

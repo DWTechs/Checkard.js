@@ -1,5 +1,9 @@
 import { isUndefined } from "../../dist/ch";
 
+test("sends NaN to isUndefined", () => {
+  expect(isUndefined(NaN)).toBe(false);
+});
+
 test("sends null to isUndefined", () => {
   expect(isUndefined(null)).toBe(false);
 });

@@ -26,6 +26,10 @@ function testFunction() {
 const para = document.createElement("p");
 const node = document.createTextNode("new node");
 
+test("sends NaN to isTimestamp", () => {
+  expect(isTimestamp(NaN)).toBe(false);
+});
+
 test("sends old date in string format to isTimestamp", () => {
   expect(isTimestamp('1/1/1900')).toBe(false);
 });

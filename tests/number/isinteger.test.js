@@ -1,5 +1,9 @@
 import { isInteger } from "../../dist/ch";
 
+test("sends NaN to isInteger", () => {
+  expect(isInteger(NaN)).toBe(false);
+});
+
 test("sends null to isInteger", () => {
   expect(isInteger(null)).toBe(false);
 });

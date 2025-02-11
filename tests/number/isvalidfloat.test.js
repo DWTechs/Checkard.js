@@ -1,5 +1,9 @@
 import { isNumber, isValidFloat } from "../../dist/ch";
 
+test("sends NaN to isValidFloat", () => {
+  expect(isValidFloat(NaN)).toBe(false);
+});
+
 test("sends string containing number to isValidFloat", () => {
   expect(isValidFloat('reft2rfd')).toBe(false);
 });

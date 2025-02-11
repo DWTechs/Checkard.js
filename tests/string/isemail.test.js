@@ -1,5 +1,9 @@
 import { isEmail } from "../../dist/ch";
 
+test("sends NaN to isEmail", () => {
+  expect(isEmail(NaN)).toBe(false);
+});
+
 test("sends null to isEmail", () => {
   expect(isEmail(null)).toBe(false);
 });

@@ -1,5 +1,9 @@
 import { isEven } from "../../dist/ch";
 
+test("sends NaN to isEven", () => {
+  expect(isEven(NaN)).toBe(false);
+});
+
 test("sends null to isEven", () => {
   expect(isEven(null)).toBe(false);
 });

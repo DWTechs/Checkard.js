@@ -25,6 +25,10 @@ function testFunction() {
   console.log("function");
 }
 
+test("sends NaN to isArrayOfLength", () => {
+  expect(isArrayOfLength(NaN)).toBe(false);
+});
+
 test("sends array of length 3 to isArrayOfLength(0,3)", () => {
   expect(isArrayOfLength(["white", "grey", "black"], 0, 3)).toBe(true);
 });

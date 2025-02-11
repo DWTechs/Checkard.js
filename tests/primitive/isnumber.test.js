@@ -2,6 +2,10 @@ import { isNumber } from "../../dist/ch";
 
 // test nan
 
+test("sends NaN to isNumber", () => {
+  expect(isNumber(NaN)).toBe(false);
+});
+
 test("sends 1 to isNumber with empty check using '>' comparator", () => {
   expect(isNumber(1, true, ">", 0)).toBe(true);
 });

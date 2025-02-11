@@ -1,5 +1,9 @@
 import { isFloat, isNumber } from "../../dist/ch";
 
+test("sends NaN to isFloat", () => {
+  expect(isFloat(NaN)).toBe(false);
+});
+
 test("sends null to isFloat", () => {
   expect(isFloat(null)).toBe(false);
 });

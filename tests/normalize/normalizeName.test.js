@@ -1,5 +1,9 @@
 import { normalizeName } from "../../dist/ch";
 
+test("sends NaN to normalizeName", () => {
+  expect(normalizeName(NaN)).toBe(false);
+});
+
 test("sends null to normalizeName", () => {
   expect(normalizeName(null)).toBe(false);
 });

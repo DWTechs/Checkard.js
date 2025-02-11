@@ -27,6 +27,10 @@ function testFunction() {
 const para = document.createElement("p");
 const node = document.createTextNode("new node");
 
+test("sends NaN to isValidTimestamp", () => {
+  expect(isValidTimestamp(NaN)).toBe(false);
+});
+
 test("sends valid negative timestamp to isValidTimestamp with min & max", () => {
   expect(isValidTimestamp(-5, -30, 30)).toBe(true);
 });

@@ -1,5 +1,9 @@
 import { isValidNumber } from "../../dist/ch";
 
+test("sends NaN to isValidNumber", () => {
+  expect(isValidNumber(NaN)).toBe(false);
+});
+
 test("sends string containing number to isValidNumber", () => {
   expect(isValidNumber('reft2rfd')).toBe(false);
 });

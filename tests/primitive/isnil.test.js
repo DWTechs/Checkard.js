@@ -1,5 +1,9 @@
 import { isNil } from "../../dist/ch";
 
+test("sends NaN to isNil", () => {
+  expect(isNil(NaN)).toBe(false);
+});
+
 test("sends null to isNil", () => {
   expect(isNil(null)).toBe(true);
 });

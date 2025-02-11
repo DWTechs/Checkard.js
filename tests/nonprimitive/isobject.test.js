@@ -1,5 +1,9 @@
 import { isObject } from "../../dist/ch";
 
+test("sends NaN to isObject", () => {
+  expect(isObject(NaN)).toBe(false);
+});
+
 test("sends null to isObject", () => {
   expect(isObject(null)).toBe(false);
 });

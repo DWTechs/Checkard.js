@@ -1,5 +1,10 @@
 import { isJWT } from "../../dist/ch";
 
+
+test("sends NaN to isJWT", () => {
+  expect(isJWT(NaN)).toBe(false);
+});
+
 test("sends null to isJWT", () => {
   expect(isJWT(null)).toBe(false);
 });

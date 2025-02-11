@@ -1,5 +1,9 @@
 import { isNode } from "../../dist/ch";
 
+test("sends NaN to isNode", () => {
+  expect(isNode(NaN)).toBe(false);
+});
+
 test("sends null to isNode", () => {
   expect(isNode(null)).toBe(false);
 });

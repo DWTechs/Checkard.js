@@ -1,5 +1,9 @@
 import { normalizeEmail } from "../../dist/ch";
 
+test("sends NaN to normalizeEmail", () => {
+  expect(normalizeEmail(NaN)).toBe(false);
+});
+
 test("sends null to normalizeEmail", () => {
   expect(normalizeEmail(null)).toBe(false);
 });
