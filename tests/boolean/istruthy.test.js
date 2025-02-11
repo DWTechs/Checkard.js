@@ -16,12 +16,12 @@ test("sends empty string to isTruthy", () => {
   expect(isTruthy("")).toBe(false);
 });
 
-test("sends -0 to isFalsy", () => {
-  expect(isFalsy(-0)).toBe(false);
+test("sends -0 to isTruthy", () => {
+  expect(isTruthy(-0)).toBe(false);
 });
 
-test("sends NaN to isFalsy", () => {
-  expect(isFalsy(NaN)).toBe(false);
+test("sends NaN to isTruthy", () => {
+  expect(isTruthy(NaN)).toBe(false);
 });
 
 const s1 = Symbol();

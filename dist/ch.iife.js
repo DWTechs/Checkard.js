@@ -159,6 +159,13 @@ var ch = (function (exports) {
       return Boolean(v && getTag(v) === "[object Function]");
     }
 
+    function isFalsy(v) {
+      return !v;
+    }
+    function isTruthy(v) {
+      return !!v;
+    }
+
     function isProperty(o, k, own, enumerable) {
       if (own === void 0) {
         own = true;
@@ -541,6 +548,7 @@ var ch = (function (exports) {
     exports.isDate = isDate;
     exports.isEmail = isEmail;
     exports.isEven = isEven;
+    exports.isFalsy = isFalsy;
     exports.isFloat = isFloat;
     exports.isFunction = isFunction;
     exports.isHexadecimal = isHexadecimal;
@@ -568,6 +576,7 @@ var ch = (function (exports) {
     exports.isStringOfLength = isStringOfLength;
     exports.isSymbol = isSymbol;
     exports.isTimestamp = isTimestamp;
+    exports.isTruthy = isTruthy;
     exports.isUndefined = isUndefined;
     exports.isValidDate = isValidDate;
     exports.isValidFloat = isValidFloat;

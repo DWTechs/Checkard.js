@@ -127,6 +127,13 @@ function isFunction(v) {
     return Boolean(v && getTag(v) === "[object Function]");
 }
 
+function isFalsy(v) {
+    return !v;
+}
+function isTruthy(v) {
+    return !!v;
+}
+
 function isProperty(o, k, own = true, enumerable = true) {
     if (enumerable)
         return isEnumerable(o, k, own);
@@ -430,6 +437,7 @@ exports.isBoolean = isBoolean;
 exports.isDate = isDate;
 exports.isEmail = isEmail;
 exports.isEven = isEven;
+exports.isFalsy = isFalsy;
 exports.isFloat = isFloat;
 exports.isFunction = isFunction;
 exports.isHexadecimal = isHexadecimal;
@@ -457,6 +465,7 @@ exports.isString = isString;
 exports.isStringOfLength = isStringOfLength;
 exports.isSymbol = isSymbol;
 exports.isTimestamp = isTimestamp;
+exports.isTruthy = isTruthy;
 exports.isUndefined = isUndefined;
 exports.isValidDate = isValidDate;
 exports.isValidFloat = isValidFloat;

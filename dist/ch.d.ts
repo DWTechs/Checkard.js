@@ -37,6 +37,8 @@ type PasswordOptions = {
 export type { Comparator, PasswordOptions };
 
 declare function isBoolean(v: unknown): v is boolean;
+declare function isTruthy(v: unknown): boolean;
+declare function isFalsy(v: unknown): boolean;
 declare function isNumber(v: unknown, 
                           type?: boolean, 
                           comparator?: Comparator | null, 
@@ -126,7 +128,9 @@ declare function normalizeNickname(nickname: string,
 declare function normalizeName(s: string): string | false;
 declare function normalizeEmail(s: string): string | false;
 
-export { isBoolean, 
+export { isBoolean,
+         isTruthy,
+         isFalsy,  
          isNil,
          isNull, 
          isUndefined,

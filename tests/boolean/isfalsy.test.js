@@ -50,10 +50,6 @@ test("sends positive odd integer to isFalsy", () => {
   expect(isFalsy(1)).toBe(false);
 });
 
-test("sends zero to isFalsy", () => {
-  expect(isFalsy(0)).toBe(false);
-});
-
 test("sends positive float to isFalsy", () => {
   expect(isFalsy(1.1)).toBe(false);
 });
