@@ -8,8 +8,8 @@ const comparisons = {
   '<=': (a:number, b: number) => a <= b,
   '>=': (a:number, b: number) => a >= b,
   '!=': (a:number, b: number) => a != b,
-  'empty': (a:number) => !a, // check if a is falsy
-  '!empty': (a:number) => !!a, // check if a is truthy
+  '': (a:number) => !a, // check if a is falsy
+  '!': (a:number) => !!a, // check if a is truthy
 };
 
 /**
