@@ -123,7 +123,7 @@ if (!ch.isArray(variable, '=', 2)) {
 
 ```javascript
 
-type Comparator = '='|'<'|'>'|'<='|'>='|'!='|'empy'|'!empty';
+type Comparator = '='|'<'|'>'|'<='|'>='|'!='|'empty'|'!empty';
 
 type PasswordOptions = {
   lowerCase: boolean,
