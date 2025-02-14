@@ -70,10 +70,13 @@ if (!isArray(variable, '=', 2)) {
   //variable is not an array of length 2
 }
 
-if (!isString(firstName))
-    return next({ status: 400, msg: "Missing first name" });
-if (!isString(lastName))
-    return next({ status: 400, msg: "Missing last name" });
+if (!isString(variable)) {
+  // variable is not a string
+}
+
+if (isString(variable, ">", 2)) {
+  // variable is a string of length greater than 2
+}
 
 ```
 
@@ -93,10 +96,13 @@ if (!ch.isArray(variable, '=', 2)) {
   //variable is not an array of length 2
 }
 
-if (!ch.isString(firstName))
-    return next({ status: 400, msg: "Missing first name" });
-if (!ch.isString(lastName))
-    return next({ status: 400, msg: "Missing last name" });
+if (!ch.isString(variable)) {
+  // variable is not a string
+}
+
+if (ch.isString(variable, ">", 2)) {
+  // variable is a string of length greater than 2
+}
 
 ```
 
@@ -115,6 +121,14 @@ if (ch.isFunction(variable)) {
 
 if (!ch.isArray(variable, '=', 2)) {
   //variable is not an array of length 2
+}
+
+if (!ch.isString(variable)) {
+  // variable is not a string
+}
+
+if (ch.isString(variable, ">", 2)) {
+  // variable is a string of length greater than 2
 }
 
 ```
@@ -148,22 +162,22 @@ primitive methods accept any variable as parameter in order to check its type.
 ```typescript
 
 /**
- * Checks if the given value is of type boolean.
+ * Checks if the given value is a boolean.
  *
  * @param {unknown} v - The value to check.
- * @returns True if the value is a boolean, otherwise false.
+ * @returns {boolean} True if the value is a boolean, otherwise false.
  */
 isBoolean(v: unknown): v is boolean {}
 
 /**
- * Checks if the given value is a number and optionally performs additional checks.
- * If typeCheck = false values like '4', '0', '8e4', '+true', '0x44' return true
+ * Checks if the given value is a number and optionally compare its length.
+ * If type checking  = false values like '4', '0', '8e4', '+true', '0x44' return true
  *
  * @param {unknown} v - The value to check.
  * @param {boolean} [type=true] - A boolean indicating whether to perform type checking. Defaults to `true`.
- * @param {Comparator | null} [comparator=null] - An optional comparator function to compare the value. Defaults to `null`.
+ * @param {Comparator | null} [comparator=null] - An optional comparator to compare the value. Defaults to `null`.
  * @param {number | null} [limit=null] - An optional limit to compare the value against. Defaults to `null`.
- * @returns `true` if the value is a number and passes all checks, otherwise `false`.
+ * @returns {boolean} `true` if the value is a number and passes all checks, otherwise `false`.
  */
 isNumber(
     v: unknown, 
@@ -176,9 +190,9 @@ isNumber(
  * Checks if the given value is a string and optionally compares its length.
  *
  * @param {unknown} v - The value to check.
- * @param {Comparator | null} [comparator=null] - An optional comparator function to compare the string length.
+ * @param {Comparator | null} [comparator=null] - An optional comparator to compare the string length.
  * @param {number | null} [limit=null] - An optional limit to compare the string length against.
- * @returns `true` if the value is a string and meets the comparator and limit conditions, otherwise `false`.
+ * @returns {boolean} `true` if the value is a string and meets the comparator and limit conditions, otherwise `false`.
  */
 isString(
     v: unknown, 
@@ -190,7 +204,7 @@ isString(
  * Checks if the provided value is a symbol.
  *
  * @param {unknown} v - The value to check.
- * @returns True if the value is a symbol, otherwise false.
+ * @returns {boolean} True if the value is a symbol, otherwise false.
  */
 isSymbol(v: unknown): v is symbol {}
 
@@ -198,7 +212,7 @@ isSymbol(v: unknown): v is symbol {}
  * Checks if the given value is `null` or `undefined`.
  *
  * @param {unknown} v - The value to check.
- * @returns `true` if the value is `null` or `undefined`, otherwise `false`.
+ * @returns {boolean} `true` if the value is `null` or `undefined`, otherwise `false`.
  */
 isNil(v: unknown): v is null | undefined {}
 
@@ -206,7 +220,7 @@ isNil(v: unknown): v is null | undefined {}
  * Checks if the given value is `null`.
  *
  * @param {unknown} v - The value to check.
- * @returns `true` if the value is `null`, otherwise `false`.
+ * @returns {boolean} `true` if the value is `null`, otherwise `false`.
  */
 isNull(v: unknown): v is null {}
 
@@ -214,7 +228,7 @@ isNull(v: unknown): v is null {}
  * Checks if the given value is `undefined`.
  *
  * @param {unknown} v - The value to check.
- * @returns `true` if the value is `undefined`, otherwise `false`.
+ * @returns {boolean} `true` if the value is `undefined`, otherwise `false`.
  */
 isUndefined(v: unknown): v is undefined {}
 
@@ -237,7 +251,7 @@ if (isArray(str, '!0')) {
 }
 
 if (isString(str, '=', 2)) {
-  // check if str is an string of length 2
+  // check if str is a string of length 2
 }
 
 if (isString(str, '>=', 1)) {
@@ -249,7 +263,7 @@ if (isString(str, '>=', 1)) {
 #### Note 
 
 If **isString()** returns false Typescript will consider str is not a string.  
-So if you need to check if str is of length x but needs to be considered as string even if length is not x you can do it like this:
+So if you need to check if str is of length x but needs to be considered as string even if length is not x you should do it like this:
 
 ```javascript
 
@@ -286,7 +300,7 @@ isObject<T = unknown>(o: unknown, empty?: boolean = false): o is object & T {}
  * @param {unknown} v - The value to check.
  * @param {Comparator | null} [comparator=null] - An optional comparator function to compare the array length.
  * @param {number | null} [limit=null] - An optional limit to compare the array length against.
- * @returns `true` if the value is an array and meets the comparator and limit conditions, otherwise `false`.
+ * @returns {boolean} `true` if the value is an array and meets the comparator and limit conditions, otherwise `false`.
  */
 isArray<T = unknown>(
     v: unknown, 
@@ -298,7 +312,7 @@ isArray<T = unknown>(
  * Checks if the given input is a valid JSON string.
  *
  * @param {unknown} v - The input to check.
- * @returns `true` if the input is a valid JSON string, otherwise `false`.
+ * @returns {boolean} `true` if the input is a valid JSON string, otherwise `false`.
  */
 isJson(v: unknown): v is JSON {} 
 
