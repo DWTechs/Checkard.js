@@ -1,5 +1,5 @@
 
-type Comparator = '='|'<'|'>'|'<='|'>='|'!='|''|'!';
+type Comparator = '='|'<'|'>'|'<='|'>='|'!='|'!0'|'0';
 
 type PasswordOptions = {
   lowerCase: boolean,

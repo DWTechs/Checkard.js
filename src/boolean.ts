@@ -11,7 +11,7 @@
  * undefined,
  * NaN.
  *
- * @param v - The value to check.
+ * @param {unknown} v - The value to check.
  * @returns `true` if the value is truthy, otherwise `false`.
  */
 function isFalsy(v: unknown): boolean {
@@ -29,7 +29,7 @@ function isFalsy(v: unknown): boolean {
  * Symbols: Any symbol.
  * BigInt values: Any BigInt value other than 0n.
  *
- * @param v - The value to check.
+ * @param {unknown} v - The value to check.
  * @returns `true` if the value is truthy, otherwise `false`.
  */
 function isTruthy(v: unknown): boolean {

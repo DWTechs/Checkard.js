@@ -1,14 +1,14 @@
-# 3.0.0 (Feb 09th 2025)
+# 3.0.0 (Feb 14th 2025)
 
-- isString() method now also checks if value is of length =, <, >, <= or >= than limit.
-- isNumber() method now also checks if value is of length =, <, >, <= or >= than limit
+- isString() method now also checks if value is of length =, <, >, <=, >=, !=, !0, 0 than limit.
+- isNumber() method now also checks if value is of length =, <, >, <=, >=, !=, !0, 0 than limit
 - Add isNull() method
 - Add isUndefined() method
 - Add isTruthy() and isFalsy() methods
-- Add "from" parameter to method isIn()
+- Add "from" parameter to method isIn() to start from index other then zero
 - Add "!=" to comparisons to check if a is different than b
-- Add "empty" to comparisons to check if a value is falsy
-- Add "!empty" to comparisons to check if a value is truthy
+- Add "!0" to comparisons to check if a is not empty
+- Add "0" to comparisons to check if a empty
 - Update typings of most methods for easier use with Typescript
 - Typings are more strict. Resulting in possible breaking changes from Checkard version 2.x.x.
 - Other methods than primitives and non-primitives methods do not check for input type anymore. their output is now Boolean only. Resulting in possible breaking changes from Checkard version 2.x.x.

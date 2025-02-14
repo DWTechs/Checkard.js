@@ -8,7 +8,7 @@
  * it falls back to checking if the value is an object with a `nodeType` of 1
  * and a `nodeName` of type string, which are characteristics of HTML elements.
  *
- * @param h - The value to check.
+ * @param {unknown} h - The value to check.
  * @returns `true` if the value is an HTML element, otherwise `false`.
  */
 function isHtmlElement(h: unknown): h is HTMLElement {
@@ -23,7 +23,7 @@ function isHtmlElement(h: unknown): h is HTMLElement {
 /**
  * Checks if a given string is a valid HTML event attribute.
  *
- * @param h - The string to check.
+ * @param {sgtring} h - The string to check.
  * @returns `true` if the string is a valid HTML event attribute, otherwise `false`.
  *
  * @remarks
@@ -121,7 +121,7 @@ function isHtmlEventAttribute(h: string): boolean {
  * It works by verifying if the value is an instance of Node when `Node` is an object, or by
  * checking the presence and types of `nodeType` and `nodeName` properties.
  *
- * @param n - The value to check.
+ * @param {unknown} n - The value to check.
  * @returns `true` if the value is a Node, otherwise `false`.
  */
 function isNode(n: unknown): n is Node {

@@ -25,10 +25,12 @@ function ucfirst(s: string, everyWords = true): string {
  * If the nickname is not given, the function will create a nickname
  * based on the first letter of the first name and the last name.
  *
+ * nickname accepts a-z - and _ characters
+ * 
  * @param {string} nickname - The nickname of the user.
  * @param {string} firstName - The first name of the user.
  * @param {string} lastName - The last name of the user.
- * @return {string} The normalized nickname.
+ * @return {string | false} The normalized nickname.
  */
 function normalizeNickname(nickname: string, firstName: string, lastName: string): string | false {
   return (nickname || firstName && lastName) ? createNickname(nickname, firstName, lastName) : false;

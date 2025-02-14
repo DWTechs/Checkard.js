@@ -5,7 +5,7 @@ test("sends NaN to isString", () => {
 });
 
 test("sends empty string to isString with empty check using 'empty' comparator", () => {
-  expect(isString("", "empty")).toBe(true);
+  expect(isString("", "0")).toBe(true);
 });
 
 test("sends null to isString", () => {
@@ -34,11 +34,11 @@ test("sends empty string to isString with empty check using '>' comparator", () 
 });
 
 test("sends empty string to isString with empty check using '!empty' comparator", () => {
-  expect(isString("", "!empty")).toBe(false);
+  expect(isString("", "!0")).toBe(false);
 });
 
 test("sends empty string to isString with empty check using '!empty' comparator with third param at zero", () => {
-  expect(isString("", "!empty", 0)).toBe(false);
+  expect(isString("", "!0", 0)).toBe(false);
 });
 
 test("sends false to isString", () => {
@@ -50,7 +50,7 @@ test("sends string to isString", () => {
 });
 
 test("sends string to isString with empty check", () => {
-  expect(isString("string", '!empty')).toBe(true);
+  expect(isString("string", '!0')).toBe(true);
 });
 
 test("sends positive even integer to isString", () => {
@@ -128,7 +128,7 @@ test("sends json to isString", () => {
 });
 
 test("sends json to isString with empty check", () => {
-  expect(isString(json, '!empty')).toBe(true);
+  expect(isString(json, '!0')).toBe(true);
 });
 
 const invalidjson = `{
@@ -146,7 +146,7 @@ test("sends invalid json to isString", () => {
 });
 
 test("sends invalid json to isString with empty check", () => {
-  expect(isString(invalidjson, '!empty')).toBe(true);
+  expect(isString(invalidjson, '!0')).toBe(true);
 });
 
 function testFunction() {

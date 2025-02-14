@@ -20,9 +20,9 @@ function isArrayOfLength<T = unknown>(
 /**
  * Checks if a value is present in an array starting from a specified index.
  *
- * @param a - The array to search within.
- * @param v - The value to search for.
- * @param from - The index to start the search from. Defaults to 0.
+ * @param {unknown[]} a - The array to search within.
+ * @param {unknown} v - The value to search for.
+ * @param {number} [from=0] - The index to start the search from. Defaults to 0.
  * @returns `true` if the value is found in the array, otherwise `false`.
  */
 function isIn(a: unknown[], v: unknown, from = 0): boolean {

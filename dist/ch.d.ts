@@ -25,7 +25,7 @@ https://github.com/DWTechs/Checkard.js
 */
 
 
-type Comparator = '='|'<'|'>'|'<='|'>='|'!='|'empty'|'!empty';
+type Comparator = '='|'<'|'>'|'<='|'>='|'!='|'!0'|'0';
 type PasswordOptions = {
   lowerCase: boolean;
   upperCase: boolean;

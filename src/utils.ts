@@ -2,14 +2,14 @@ import { isNil } from './primitive';
 import type { Comparator } from './types';
 
 const comparisons = {
-  '=' : (a:number, b: number) => a == b,
-  '<' : (a:number, b: number) => a < b,
-  '>' : (a:number, b: number) => a > b,
-  '<=': (a:number, b: number) => a <= b,
-  '>=': (a:number, b: number) => a >= b,
-  '!=': (a:number, b: number) => a != b,
-  '': (a:number) => !a, // check if a is falsy
-  '!': (a:number) => !!a, // check if a is truthy
+  "=" : (a:number, b: number) => a == b, // return true if a is equal to b
+  "<" : (a:number, b: number) => a < b, // return true if a is less than b
+  ">" : (a:number, b: number) => a > b, // return true if a is greater than b
+  "<=": (a:number, b: number) => a <= b, // return true if a is less than or equal to b
+  ">=": (a:number, b: number) => a >= b, // return true if a is greater than or equal to b
+  "!=": (a:number, b: number) => a != b, // return true if a is not equal to b
+  "!0": (a:number) => a != 0, // return true if a is not zero
+  "0": (a:number) => a == 0, // return true if a is zero
 };
 
 /**
@@ -27,7 +27,7 @@ function compare(
 ): boolean {
   if (c) {
     if (c in comparisons) {
-      if (c === 'empty' || c === '!empty') 
+      if (c === '!0' || c === '0') 
         return comparisons[c](a);
       if (!isNil(b))
         return comparisons[c](a, b);

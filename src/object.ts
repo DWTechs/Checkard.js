@@ -5,10 +5,10 @@
  * enumerable: boolean - whether to check enumerable properties only
  *
  * @template K - The type of the property key.
- * @param obj - The object to check the property on.
- * @param k - The property key to check for.
- * @param own - If true, checks if the property is an own property of the object. Defaults to true.
- * @param enumerable - If true, checks if the property is enumerable. Defaults to true.
+ * @param {object} obj - The object to check the property on.
+ * @param {K} k - The property key to check for.
+ * @param {boolean} [own=true] - If true, checks if the property is an own property of the object. Defaults to true.
+ * @param {boolean} [enumerable=true] - If true, checks if the property is enumerable. Defaults to true.
  * @returns True if the property exists on the object based on the specified conditions, otherwise false.
  */
 function isProperty<K extends PropertyKey>(
