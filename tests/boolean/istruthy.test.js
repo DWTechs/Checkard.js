@@ -21,7 +21,7 @@ test("sends -0 to isTruthy", () => {
 });
 
 test("sends NaN to isTruthy", () => {
-  expect(isTruthy(NaN)).toBe(false);
+  expect(isTruthy(Number.NaN)).toBe(false);
 });
 
 const s1 = Symbol();

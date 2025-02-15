@@ -28,7 +28,7 @@ const para = document.createElement("p");
 const node = document.createTextNode("new node");
 
 test("sends NaN to isValidTimestamp", () => {
-  expect(isValidTimestamp(NaN)).toBe(false);
+  expect(isValidTimestamp(Number.NaN)).toBe(false);
 });
 
 test("sends valid negative timestamp to isValidTimestamp with min & max", () => {

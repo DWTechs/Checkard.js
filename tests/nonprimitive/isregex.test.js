@@ -1,7 +1,7 @@
 import { isRegex } from "../../dist/ch";
 
 test("sends NaN to isRegex", () => {
-  expect(isRegex(NaN)).toBe(false);
+  expect(isRegex(Number.NaN)).toBe(false);
 });
 
 test("sends null to isRegex", () => {

@@ -1,7 +1,7 @@
 import { isEven } from "../../dist/ch";
 
 test("sends NaN to isEven", () => {
-  expect(isEven(NaN)).toBe(false);
+  expect(isEven(Number.NaN)).toBe(false);
 });
 
 test("sends null to isEven", () => {

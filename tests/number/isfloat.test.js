@@ -1,7 +1,7 @@
 import { isFloat, isNumber } from "../../dist/ch";
 
 test("sends NaN to isFloat", () => {
-  expect(isFloat(NaN)).toBe(false);
+  expect(isFloat(Number.NaN)).toBe(false);
 });
 
 test("sends null to isFloat", () => {

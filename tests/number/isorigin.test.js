@@ -1,7 +1,7 @@
 import { isOrigin } from "../../dist/ch";
 
 test("sends NaN to isOrigin", () => {
-  expect(isOrigin(NaN)).toBe(false);
+  expect(isOrigin(Number.NaN)).toBe(false);
 });
 
 test("sends null to isOrigin", () => {

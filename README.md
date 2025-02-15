@@ -60,7 +60,7 @@ $ npm i @dwtechs/checkard
 
 ```typescript
 
-import { isFunction, isArray } from "@dwtechs/checkard";
+import { isFunction, isArray, isString } from "@dwtechs/checkard";
 
 if (isFunction(variable)) {
   //variable is a function

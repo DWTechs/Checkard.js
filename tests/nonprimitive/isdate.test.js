@@ -1,7 +1,7 @@
 import { isDate } from "../../dist/ch";
 
 test("sends NaN to isDate", () => {
-  expect(isDate(NaN)).toBe(false);
+  expect(isDate(Number.NaN)).toBe(false);
 });
 
 test("sends date in string format to isDate", () => {

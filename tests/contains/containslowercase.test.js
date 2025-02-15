@@ -40,7 +40,7 @@ test("sends zero to containsLowerCase", () => {
   expect(containsLowerCase(0)).toBe(false);
 });
 
-var json = `{
+const json = `{
   "actor": {
     "name": "Tom Cruise",
     "age": 56,
@@ -54,7 +54,7 @@ test("sends json to containsLowerCase", () => {
   expect(containsLowerCase(json)).toBe(true);
 });
 
-var invalidjson = `{
+const invalidjson = `{
   "actor: {
     "name": "Tom Cruise",
     "age": 56

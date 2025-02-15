@@ -3,7 +3,7 @@ import { isArray } from "../../dist/ch";
 const s1 = Symbol();
 
 test("sends NaN to isArray", () => {
-  expect(isArray(NaN)).toBe(false);
+  expect(isArray(Number.NaN)).toBe(false);
 });
 
 test("sends null to isArray", () => {

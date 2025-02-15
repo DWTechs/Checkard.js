@@ -3,7 +3,7 @@ import { isNumber } from "../../dist/ch";
 // test nan
 
 test("sends NaN to isNumber", () => {
-  expect(isNumber(NaN)).toBe(false);
+  expect(isNumber(Number.NaN)).toBe(false);
 });
 
 test("sends 1 to isNumber with empty check using '>' comparator", () => {

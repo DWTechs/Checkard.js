@@ -1,7 +1,7 @@
 import { isIpAddress } from "../../dist/ch";
 
 test("sends NaN to isIpAddress", () => {
-  expect(isIpAddress(NaN)).toBe(false);
+  expect(isIpAddress(Number.NaN)).toBe(false);
 });
 
 test("sends null to isIpAddress", () => {

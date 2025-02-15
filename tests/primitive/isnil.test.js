@@ -1,7 +1,7 @@
 import { isNil } from "../../dist/ch";
 
 test("sends NaN to isNil", () => {
-  expect(isNil(NaN)).toBe(false);
+  expect(isNil(Number.NaN)).toBe(false);
 });
 
 test("sends null to isNil", () => {

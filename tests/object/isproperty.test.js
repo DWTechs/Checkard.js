@@ -68,7 +68,7 @@ test('should return true for non-enumerable key with enumerable = false and own 
 });
 
 test("sends NaN to isProperty", () => {
-  const val = NaN;
+  const val = Number.NaN;
   expect(isProperty(nbrList, val, true, true)).toBe(false);
 });
 

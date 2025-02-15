@@ -1,7 +1,7 @@
 import { isNegative } from "../../dist/ch";
 
 test("sends NaN to isNegative", () => {
-  expect(isNegative(NaN)).toBe(false);
+  expect(isNegative(Number.NaN)).toBe(false);
 });
 
 test("sends null to isNegative", () => {

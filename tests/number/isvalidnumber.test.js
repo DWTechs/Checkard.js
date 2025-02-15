@@ -1,7 +1,7 @@
 import { isValidNumber } from "../../dist/ch";
 
 test("sends NaN to isValidNumber", () => {
-  expect(isValidNumber(NaN)).toBe(false);
+  expect(isValidNumber(Number.NaN)).toBe(false);
 });
 
 test("sends string containing number to isValidNumber", () => {

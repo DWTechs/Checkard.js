@@ -21,7 +21,7 @@ test("sends -0 to isFalsy", () => {
 });
 
 test("sends NaN to isFalsy", () => {
-  expect(isFalsy(NaN)).toBe(true);
+  expect(isFalsy(Number.NaN)).toBe(true);
 });
 
 test("sends empty string to isFalsy", () => {

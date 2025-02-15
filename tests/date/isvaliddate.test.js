@@ -27,7 +27,7 @@ const para = document.createElement("p");
 const node = document.createTextNode("new node");
 
 test("sends NaN to isValidDate", () => {
-  expect(isValidDate(NaN)).toBe(false);
+  expect(isValidDate(Number.NaN)).toBe(false);
 });
 
 test("sends date to isValidDate", () => {

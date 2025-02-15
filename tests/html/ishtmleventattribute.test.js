@@ -27,7 +27,7 @@ const para = document.createElement("p");
 const node = document.createTextNode("new node");
 
 test("sends NaN to isHtmlEventAttribute", () => {
-  expect(isHtmlEventAttribute(NaN)).toBe(false);
+  expect(isHtmlEventAttribute(Number.NaN)).toBe(false);
 });
 
 test("sends null to isHtmlEventAttribute", () => {

@@ -2,7 +2,7 @@ import { isJWT } from "../../dist/ch";
 
 
 test("sends NaN to isJWT", () => {
-  expect(isJWT(NaN)).toBe(false);
+  expect(isJWT(Number.NaN)).toBe(false);
 });
 
 test("sends null to isJWT", () => {

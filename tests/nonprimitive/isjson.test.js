@@ -1,7 +1,7 @@
 import { isJson } from "../../dist/ch";
 
 test("sends NaN to isJson", () => {
-  expect(isJson(NaN)).toBe(false);
+  expect(isJson(Number.NaN)).toBe(false);
 });
 
 test("sends null to isJson", () => {

@@ -26,7 +26,7 @@ function testFunction() {
 }
 
 test("sends NaN to isArrayOfLength", () => {
-  expect(isArrayOfLength(NaN)).toBe(false);
+  expect(isArrayOfLength(Number.NaN)).toBe(false);
 });
 
 test("sends array of length 3 to isArrayOfLength(0,3)", () => {
@@ -178,6 +178,10 @@ test("sends regex to isArrayOfLength", () => {
 });
 
 // with length
+test("sends NaN to isArrayOfLength with length test between 2 and 4", () => {
+  expect(isArrayOfLength(Number.NaN, 2, 4)).toBe(false);
+});
+
 test("sends null to isArrayOfLength with length test between 2 and 4", () => {
   expect(isArrayOfLength(null, 2, 4)).toBe(false);
 });

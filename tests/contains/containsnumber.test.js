@@ -52,7 +52,7 @@ test("sends '0x44' to containsNumber", () => {
   expect(containsNumber('0x44')).toBe(true);
 });
 
-var json = `{
+const json = `{
   "actor": {
     "name": "Tom Cruise",
     "age": 56,
@@ -66,7 +66,7 @@ test("sends json to containsNumber", () => {
   expect(containsNumber(json)).toBe(true);
 });
 
-var invalidjson = `{
+const invalidjson = `{
   "actor: {
     "name": "Tom Cruise",
     "age": 56

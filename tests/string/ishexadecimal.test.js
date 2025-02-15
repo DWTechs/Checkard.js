@@ -1,7 +1,7 @@
 import { isHexadecimal } from "../../dist/ch";
 
 test("sends NaN to isHexadecimal", () => {
-  expect(isHexadecimal(NaN)).toBe(false);
+  expect(isHexadecimal(Number.NaN)).toBe(false);
 });
 
 test("sends hexadecimal in string format to isHexadecimal", () => {

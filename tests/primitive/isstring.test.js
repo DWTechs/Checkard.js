@@ -1,7 +1,7 @@
 import { isString } from "../../dist/ch";
 
 test("sends NaN to isString", () => {
-  expect(isString(NaN)).toBe(false);
+  expect(isString(Number.NaN)).toBe(false);
 });
 
 test("sends empty string to isString with empty check using 'empty' comparator", () => {
