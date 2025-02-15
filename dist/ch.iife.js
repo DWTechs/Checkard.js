@@ -28,35 +28,35 @@ var ch = (function (exports) {
     'use strict';
 
     var comparisons = {
-      '=': function _(a, b) {
+      "=": function _(a, b) {
         return a == b;
       },
-      '<': function _(a, b) {
+      "<": function _(a, b) {
         return a < b;
       },
-      '>': function _(a, b) {
+      ">": function _(a, b) {
         return a > b;
       },
-      '<=': function _(a, b) {
+      "<=": function _(a, b) {
         return a <= b;
       },
-      '>=': function _(a, b) {
+      ">=": function _(a, b) {
         return a >= b;
       },
-      '!=': function _(a, b) {
+      "!=": function _(a, b) {
         return a != b;
       },
-      'empty': function empty(a) {
-        return !a;
+      "!0": function _(a) {
+        return a != 0;
       },
-      '!empty': function empty(a) {
-        return !!a;
+      "0": function _(a) {
+        return a == 0;
       }
     };
     function compare(a, c, b) {
       if (c) {
         if (c in comparisons) {
-          if (c === 'empty' || c === '!empty') return comparisons[c](a);
+          if (c === '!0' || c === '0') return comparisons[c](a);
           if (!isNil(b)) return comparisons[c](a, b);
         }
         return false;
@@ -212,12 +212,6 @@ var ch = (function (exports) {
       var _int = Number.parseInt(String(n), 10);
       return type ? n === _int : n == _int;
     }
-    function isAscii(n, ext) {
-      if (ext === void 0) {
-        ext = true;
-      }
-      return isInteger(n, false) && (ext && n >= 0 && n <= 255 || n >= 0 && n <= 127);
-    }
     function isFloat(n, type) {
       if (type === void 0) {
         type = true;
@@ -261,6 +255,12 @@ var ch = (function (exports) {
         type = true;
       }
       return isInteger(n, type) && !isOrigin(n, false) && (n & n - 1) === 0;
+    }
+    function isAscii(n, ext) {
+      if (ext === void 0) {
+        ext = true;
+      }
+      return isInteger(n, false) && (ext && n >= 0 && n <= 255 || n >= 0 && n <= 127);
     }
 
     function isValidNumber(n, min, max, type) {
@@ -369,6 +369,9 @@ var ch = (function (exports) {
     function containsNumber(s, min, max) {
       if (min === void 0) {
         min = 1;
+      }
+      if (max === void 0) {
+        max = null;
       }
       if (!digit.test(s)) return false;
       var nums = s.replace(nonDigit, '');

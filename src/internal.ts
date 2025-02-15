@@ -11,7 +11,7 @@
  * @param v - The value to check.
  * @param type - If true, checks if the value is strictly equal to its number conversion.
  *               If false, checks if the value can be parsed as a number.
- * @returns True if the value is a number, false otherwise.
+ * @returns {boolean} True if the value is a number, false otherwise.
  */
 function isNum(v: unknown, type: boolean): v is number {
   const n = Number(v);
@@ -24,7 +24,7 @@ function isNum(v: unknown, type: boolean): v is number {
  * This function is a type guard that checks if the given value is an array.
  *
  * @param v The value to check.
- * @returns true if the value is an array, false otherwise.
+ * @returns {boolean} true if the value is an array, false otherwise.
  */
 function isArr(v: unknown): v is unknown[] {
   return v?.constructor === Array;
@@ -36,7 +36,7 @@ function isArr(v: unknown): v is unknown[] {
  * This function is a type guard that checks if the given value is a string.
  *
  * @param v The value to check.
- * @returns true if the value is a string, false otherwise.
+ * @returns {boolean} true if the value is a string, false otherwise.
  */
 function isStr(v: unknown): v is string {
   return typeof v === "string";

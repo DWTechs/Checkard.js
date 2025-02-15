@@ -2,14 +2,13 @@
 /**
  * Checks if the length of an array is within the specified range.
  *
- * @template T - The type of elements in the array.
- * @param {Array<T>} a - The array to check.
+ * @param {unknown[]} a - The array to check.
  * @param {number} [min=0] - The minimum length of the array (inclusive).
  * @param {number} [max=999999999] - The maximum length of the array (inclusive).
  * @returns {boolean} - Returns `true` if the array length is within the specified range, otherwise `false`.
  */
-function isArrayOfLength<T = unknown>(
-  a: Array<T>, 
+function isArrayOfLength(
+  a: unknown[], 
   min = 0, 
   max = 999999999): boolean 
 {
@@ -23,7 +22,7 @@ function isArrayOfLength<T = unknown>(
  * @param {unknown[]} a - The array to search within.
  * @param {unknown} v - The value to search for.
  * @param {number} [from=0] - The index to start the search from. Defaults to 0.
- * @returns `true` if the value is found in the array, otherwise `false`.
+ * @returns {boolean} `true` if the value is found in the array, otherwise `false`.
  */
 function isIn(a: unknown[], v: unknown, from = 0): boolean {
   return a.includes(v, from);

@@ -22,7 +22,7 @@ function isObject<T = unknown>(v: unknown, empty = false): v is object & T {
  * @param {unknown} v - The value to check.
  * @param {Comparator | null} [comparator=null] - An optional comparator function to compare the array length.
  * @param {number | null} [limit=null] - An optional limit to compare the array length against.
- * @returns `true` if the value is an array and meets the comparator and limit conditions, otherwise `false`.
+ * @returns {boolean} `true` if the value is an array and meets the comparator and limit conditions, otherwise `false`.
  */
 function isArray<T = unknown>(
   v: unknown, 
@@ -36,7 +36,7 @@ function isArray<T = unknown>(
  * Checks if the given input is a valid JSON string.
  *
  * @param {unknown} v - The input to check.
- * @returns `true` if the input is a valid JSON string, otherwise `false`.
+ * @returns {boolean} `true` if the input is a valid JSON string, otherwise `false`.
  */
 function isJson(v: unknown): v is JSON {
   if (!isString(v, ">", 0))
@@ -55,7 +55,7 @@ function isJson(v: unknown): v is JSON {
  *
  * @param {unknown} v - The value to check.
  * @param {boolean} [type=true] - If true, uses `instanceof` to check if `r` is a RegExp. If false, attempts to create a new RegExp from `r`.
- * @returns `true` if `r` is a RegExp or can be converted to a RegExp, otherwise `false`.
+ * @returns {boolean} `true` if `r` is a RegExp or can be converted to a RegExp, otherwise `false`.
  */
 function isRegex(v: unknown, type = true): v is RegExp {
   if (type)
@@ -73,7 +73,7 @@ function isRegex(v: unknown, type = true): v is RegExp {
  * Checks if the given value is a valid Date object.
  *
  * @param {unknown} v - The value to check.
- * @returns True if the value is a Date object and not NaN, otherwise false.
+ * @returns {boolean} True if the value is a Date object and not NaN, otherwise false.
  */
 function isDate(v: unknown): v is Date {
   return !Number.isNaN(v) && v instanceof Date;
@@ -83,7 +83,7 @@ function isDate(v: unknown): v is Date {
  * Checks if the provided value is a function.
  *
  * @param {unknown} v - The value to check.
- * @returns A boolean indicating whether the value is a function.
+ * @returns {boolean} A boolean indicating whether the value is a function.
  */
 function isFunction(v: unknown): v is (...args: unknown[]) => unknown {
   return Boolean(v && getTag(v) === "[object Function]");

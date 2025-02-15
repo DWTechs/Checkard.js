@@ -40,7 +40,7 @@ function normalizeNickname(nickname: string, firstName: string, lastName: string
  * Normalizes a first name by capitalizing the first letter of each word.
  *
  * @param {string} s - The first name to normalize.
- * @return {string} The normalized first name.
+ * @return {string | false} The normalized first name.
  */
 function normalizeName(s: string): string | false {
   return s ? ucfirst(s, true) : false;
@@ -52,7 +52,7 @@ function normalizeName(s: string): string | false {
  * If the string is not a valid email address, the function will return false.
  *
  * @param {string} s - The email address to normalize.
- * @return {string|false} The normalized email address or false if the
+ * @return {string | false} The normalized email address or false if the
  * string is not a valid email address.
  */
 function normalizeEmail(s: string): string | false {
@@ -68,7 +68,7 @@ function normalizeEmail(s: string): string | false {
  * @param {string} nickname - The nickname of the user.
  * @param {string} firstName - The first name of the user.
  * @param {string} lastName - The last name of the user.
- * @return {string} The normalized nickname.
+ * @return {string | false} The normalized nickname.
  */
 function createNickname(nickname: string, firstName: string, lastName: string): string | false {
   const n = nickname || firstName[0] + lastName; // first letter of first name + last name

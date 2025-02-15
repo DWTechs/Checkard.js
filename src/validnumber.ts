@@ -4,11 +4,11 @@ import { isInteger, isFloat } from './number';
 /**
  * Checks if a given value is a valid number within given range.
  *
- * @param {unknown} n - value to check
+ * @param {number} n - value to check
  * @param {number} [min=-999999999] - minimal value of the range
  * @param {number} [max=999999999] - maximal value of the range
  * @param {boolean} [type=true] - do type check
- * @returns true if the value is a valid number, false otherwise
+ * @returns {boolean} true if the value is a valid number, false otherwise
  */
 function isValidNumber( n: number, 
                         min = -999999999, 
@@ -20,14 +20,14 @@ function isValidNumber( n: number,
 /**
  * Checks if a given value is a valid integer within given range.
  *
- * @param {unknown} n - value to check
+ * @param {number} n - value to check
  * @param {number} [min=-999999999] - minimal value of the range
  * @param {number} [max=999999999] - maximal value of the range
  * @param {boolean} [type=true] - do type check
- * @returns true if the value is a valid integer, false otherwise
+ * @returns {boolean} true if the value is a valid integer, false otherwise
  */
 function isValidInteger( n: number, 
-                         min: = -999999999, 
+                         min = -999999999, 
                          max = 999999999,
                          type = true ): boolean {
   return isInteger(n, type) && n >= min && n <= max;
@@ -36,11 +36,11 @@ function isValidInteger( n: number,
 /**
  * Checks if a given value is a valid float within given range.
  *
- * @param {unknown} n - value to check
+ * @param {number} n - value to check
  * @param {number} [min=-999999999.9] - minimal value of the range
  * @param {number} [max=999999999.9] - maximal value of the range
  * @param {boolean} [type=true] - do type check
- * @returns true if the value is a valid float, false otherwise
+ * @returns {boolean} true if the value is a valid float, false otherwise
  */
 function isValidFloat( n: number, 
                        min = -999999999.9, 

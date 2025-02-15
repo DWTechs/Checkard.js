@@ -25,19 +25,19 @@ https://github.com/DWTechs/Checkard.js
 */
 
 const comparisons = {
-    '=': (a, b) => a == b,
-    '<': (a, b) => a < b,
-    '>': (a, b) => a > b,
-    '<=': (a, b) => a <= b,
-    '>=': (a, b) => a >= b,
-    '!=': (a, b) => a != b,
-    'empty': (a) => !a,
-    '!empty': (a) => !!a,
+    "=": (a, b) => a == b,
+    "<": (a, b) => a < b,
+    ">": (a, b) => a > b,
+    "<=": (a, b) => a <= b,
+    ">=": (a, b) => a >= b,
+    "!=": (a, b) => a != b,
+    "!0": (a) => a != 0,
+    "0": (a) => a == 0,
 };
 function compare(a, c, b) {
     if (c) {
         if (c in comparisons) {
-            if (c === 'empty' || c === '!empty')
+            if (c === '!0' || c === '0')
                 return comparisons[c](a);
             if (!isNil(b))
                 return comparisons[c](a, b);
@@ -164,9 +164,6 @@ function isInteger(n, type = true) {
     const int = Number.parseInt(String(n), 10);
     return type ? n === int : n == int;
 }
-function isAscii(n, ext = true) {
-    return isInteger(n, false) && ((ext && n >= 0 && n <= 255) || (n >= 0 && n <= 127));
-}
 function isFloat(n, type = true) {
     const num = Number(n);
     const modulo = num % 1 !== 0;
@@ -189,6 +186,9 @@ function isNegative(n, type = true) {
 }
 function isPowerOfTwo(n, type = true) {
     return isInteger(n, type) && !isOrigin(n, false) && (n & (n - 1)) === 0;
+}
+function isAscii(n, ext = true) {
+    return isInteger(n, false) && ((ext && n >= 0 && n <= 255) || (n >= 0 && n <= 127));
 }
 
 function isValidNumber(n, min = -999999999, max = 999999999, type = true) {
@@ -261,7 +261,7 @@ function containsSpecialCharacter(s) {
 }
 const digit = /\d/;
 const nonDigit = /[^0-9]/g;
-function containsNumber(s, min = 1, max) {
+function containsNumber(s, min = 1, max = null) {
     if (!digit.test(s))
         return false;
     const nums = s.replace(nonDigit, '');

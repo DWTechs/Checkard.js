@@ -8,7 +8,7 @@ import { isJson } from './nonprimitive';
  * @param {string} s - The string to check.
  * @param {number} [min=0] - The minimum length of the string (inclusive). Default is 0.
  * @param {number} [max=999999999] - The maximum length of the string (inclusive). Default is 999999999.
- * @returns `true` if the string length is within the specified range, otherwise `false`.
+ * @returns {boolean} `true` if the string length is within the specified range, otherwise `false`.
  */
 function isStringOfLength(
   s: string,
@@ -24,7 +24,7 @@ const emailReg = /^(?=[a-z0-9@.!$%&'*+\/=?^_‘{|}~-]{6,254}$)(?=[a-z0-9.!#$%&'*
  * Checks if the given string is a valid email address.
  *
  * @param {string} s - The string to be checked.
- * @returns `true` if the string is a valid email address, otherwise `false`.
+ * @returns {boolean} `true` if the string is a valid email address, otherwise `false`.
  */
 function isEmail(s: string): boolean {
   return emailReg.test(String(s).toLowerCase());
@@ -43,7 +43,7 @@ const ipReg = /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-
  * Checks if the given string is a valid IP address.
  *
  * @param {string} s - The string to be checked.
- * @returns `true` if the string is a valid IP address, otherwise `false`.
+ * @returns {boolean} `true` if the string is a valid IP address, otherwise `false`.
  */
 function isIpAddress(s: string): boolean {
   return ipReg.test(String(s));
@@ -92,7 +92,7 @@ const b64 =  /^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?
  *
  * @param {string} s - The string to check.
  * @param {boolean} [urlEncoded=false] - Optional. If true, checks for URL-safe Base64 encoding. Defaults to false.
- * @returns True if the string is a valid Base64 encoded string, false otherwise.
+ * @returns {boolean} True if the string is a valid Base64 encoded string, false otherwise.
  */
 function isBase64(s: string, urlEncoded = false): boolean {
   const regex = urlEncoded ? b64UrlEncoded : b64;
@@ -140,7 +140,7 @@ const b64Reg = /^[A-Za-z0-9\-_]+={0,2}$/;
  * must be valid JSON objects when decoded.
  *
  * @param {string} s - The string to check.
- * @returns `true` if the string is a valid JWT, otherwise `false`.
+ * @returns {boolean} `true` if the string is a valid JWT, otherwise `false`.
  */
 function isJWT(s: string): boolean {
   if (!s)
@@ -171,7 +171,7 @@ const slugReg = /^[^\s-_](?!.*?[-_]{2,})[a-z0-9-\\][^\s]*[^-_\s]$/;
  * A slug is typically a URL-friendly string that contains only lowercase letters, numbers, and hyphens.
  * 
  * @param {string} s - The string to check.
- * @returns `true` if the string is a valid slug, `false` otherwise.
+ * @returns {boolean} `true` if the string is a valid slug, `false` otherwise.
  */
 function isSlug(s: string): boolean {
   return s ? slugReg.test(s) : false;
@@ -182,7 +182,7 @@ const hexadecimal = /^(#|0x|0h)?[0-9A-F]+$/i;
  * Checks if the given string is a valid hexadecimal number.
  *
  * @param {string} s - The string to check.
- * @returns True if the string is a valid hexadecimal number, false otherwise.
+ * @returns {boolean} True if the string is a valid hexadecimal number, false otherwise.
  */
 function isHexadecimal(s: string): boolean {
   return hexadecimal.test(s);
@@ -193,7 +193,7 @@ const upperCaseReg = /[A-Z]+/;
  * Checks if the given string contains any uppercase letters.
  *
  * @param {string} s - The string to check.
- * @returns `true` if the string contains at least one uppercase letter, otherwise `false`.
+ * @returns {boolean} `true` if the string contains at least one uppercase letter, otherwise `false`.
  */
 function containsUpperCase(s: string): boolean {
   return upperCaseReg.test(s);
@@ -204,7 +204,7 @@ const lowerCaseReg = /[a-z]+/;
  * Checks if the given string contains at least one lowercase letter.
  *
  * @param {string} s - The string to check.
- * @returns `true` if the string contains at least one lowercase letter, otherwise `false`.
+ * @returns {boolean} `true` if the string contains at least one lowercase letter, otherwise `false`.
  */
 function containsLowerCase(s: string): boolean {
   return lowerCaseReg.test(s);
@@ -215,7 +215,7 @@ const specialReg = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?°`€£§]+/;
  * Checks if the given string contains any special characters.
  *
  * @param {string} s - The string to be checked.
- * @returns `true` if the string contains special characters, otherwise `false`.
+ * @returns {boolean} `true` if the string contains special characters, otherwise `false`.
  */
 function containsSpecialCharacter(s: string): boolean {
   return specialReg.test(s);
@@ -229,7 +229,7 @@ const nonDigit = /[^0-9]/g; // Matches any character that is not a digit
  * @param {string} s - The string to check.
  * @param {number} [min=1] - The minimum number of digits required in the string. Defaults to 1.
  * @param {number|null} [max=null] - The maximum number of digits allowed in the string. If not provided, there is no upper limit.
- * @returns `true` if the string contains the required number of digits, otherwise `false`.
+ * @returns {boolean} `true` if the string contains the required number of digits, otherwise `false`.
  */
 function containsNumber(s: string, min = 1, max: number|null = null): boolean {
   
@@ -259,7 +259,7 @@ const defaultOptions = {
  *
  * @param {string} s - The password string to validate.
  * @param {PasswordOptions} [options=PwdDefaultOptions] - Optional configuration object to specify password validation criteria.
- * @returns `true` if the password meets all the specified criteria, `false` otherwise.
+ * @returns {boolean} `true` if the password meets all the specified criteria, `false` otherwise.
  *
  * @example
  * ```typescript

@@ -9,7 +9,7 @@
  * and a `nodeName` of type string, which are characteristics of HTML elements.
  *
  * @param {unknown} h - The value to check.
- * @returns `true` if the value is an HTML element, otherwise `false`.
+ * @returns {boolean} `true` if the value is an HTML element, otherwise `false`.
  */
 function isHtmlElement(h: unknown): h is HTMLElement {
   return Boolean(typeof HTMLElement === "object"
@@ -24,7 +24,7 @@ function isHtmlElement(h: unknown): h is HTMLElement {
  * Checks if a given string is a valid HTML event attribute.
  *
  * @param {sgtring} h - The string to check.
- * @returns `true` if the string is a valid HTML event attribute, otherwise `false`.
+ * @returns {boolean} `true` if the string is a valid HTML event attribute, otherwise `false`.
  *
  * @remarks
  * This function checks against a predefined list of HTML event attributes such as `onclick`, `onload`, `onerror`, etc.
@@ -122,7 +122,7 @@ function isHtmlEventAttribute(h: string): boolean {
  * checking the presence and types of `nodeType` and `nodeName` properties.
  *
  * @param {unknown} n - The value to check.
- * @returns `true` if the value is a Node, otherwise `false`.
+ * @returns {boolean} `true` if the value is a Node, otherwise `false`.
  */
 function isNode(n: unknown): n is Node {
     return Boolean(typeof Node === "object"

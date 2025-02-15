@@ -53,13 +53,13 @@ declare function isNil(v: unknown): v is null | undefined;
 declare function isNull(v: unknown): v is null;
 declare function isUndefined(v: unknown): v is undefined;
 
-declare function isObject<T = unknown>(o: unknown, empty?: boolean): o is object & T;
+declare function isObject<T = unknown>(v: unknown, empty?: boolean): v is object & T;
 declare function isArray<T = unknown>(v: unknown, 
                                       comparator?: Comparator | null, 
                                       limit?: number | null
                                      ): v is T[];
-declare function isJson(j: unknown): j is JSON;
-declare function isRegex(r: unknown, type?: boolean): r is RegExp;
+declare function isJson(v: unknown): v is JSON;
+declare function isRegex(v: unknown, type?: boolean): v is RegExp;
 declare function isDate(v: unknown): v is Date;
 declare function isFunction(v: unknown): v is (...args: unknown[]) => unknown;
 

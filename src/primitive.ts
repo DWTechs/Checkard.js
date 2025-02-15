@@ -6,7 +6,7 @@ import type { Comparator } from './types';
  * Checks if the given value is of type boolean.
  *
  * @param {unknown} v - The value to check.
- * @returns True if the value is a boolean, otherwise false.
+ * @returns {boolean} True if the value is a boolean, otherwise false.
  */
 function isBoolean(v: unknown): v is boolean {
   return typeof v === "boolean";
@@ -20,7 +20,7 @@ function isBoolean(v: unknown): v is boolean {
  * @param {boolean} [type=true] - A boolean indicating whether to perform type checking. Defaults to `true`.
  * @param {Comparator | null} [comparator=null] - An optional comparator function to compare the value. Defaults to `null`.
  * @param {number | null} [limit=null] - An optional limit to compare the value against. Defaults to `null`.
- * @returns `true` if the value is a number and passes all checks, otherwise `false`.
+ * @returns {boolean} `true` if the value is a number and passes all checks, otherwise `false`.
  */
 function isNumber(v: unknown, 
                   type = true,
@@ -40,7 +40,7 @@ function isNumber(v: unknown,
  * @param {unknown} v - The value to check.
  * @param {Comparator | null} [comparator=null] - An optional comparator function to compare the string length.
  * @param {number | null} [limit=null] - An optional limit to compare the string length against.
- * @returns `true` if the value is a string and meets the comparator and limit conditions, otherwise `false`.
+ * @returns {boolean} `true` if the value is a string and meets the comparator and limit conditions, otherwise `false`.
  */
 function isString(v: unknown, 
                   comparator: Comparator | null = null, 

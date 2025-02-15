@@ -311,7 +311,7 @@ isArray<T = unknown>(
 /**
  * Checks if the given input is a valid JSON string.
  *
- * @param {unknown} v - The input to check.
+ * @param {unknown} v - The value to check.
  * @returns {boolean} True if the input is a valid JSON string, otherwise false.
  */
 isJson(v: unknown): v is JSON {} 
@@ -544,14 +544,14 @@ Valid number methods take a number as parameter and check of the number lies in 
 /**
  * Checks if a given value is a valid number within given range.
  *
- * @param {unknown} n - value to check
+ * @param {unknown} n - The number to check
  * @param {number} [min=-999999999] - minimal value of the range
  * @param {number} [max=999999999] - maximal value of the range
  * @param {boolean} [type=true] - whether to perform type checking
  * @returns {boolean} True if the value is a valid number, otherwise false.
  */
 isValidNumber(
-    n: unknown, 
+    n: number, 
     min: number = -999999999, 
     max: number = 999999999, 
     type: boolean = true 
@@ -560,14 +560,14 @@ isValidNumber(
 /**
  * Checks if a given value is a valid integer within given range.
  *
- * @param {unknown} n - value to check
+ * @param {unknown} n - The number to check
  * @param {number} [min=-999999999] - minimal value of the range
  * @param {number} [max=999999999] - maximal value of the range
  * @param {boolean} [type=true] - whether to perform type checking
  * @returns {boolean} True if the value is a valid integer, otherwise false.
  */
 isValidInteger(
-    n: unknown, 
+    n: number, 
     min: number = -999999999, 
     max: number = 999999999, 
     type: boolean = true
@@ -576,14 +576,14 @@ isValidInteger(
 /**
  * Checks if a given value is a valid float within given range.
  *
- * @param {unknown} n - value to check
+ * @param {unknown} n - The number to check
  * @param {number} [min=-999999999.9] - minimal value of the range
  * @param {number} [max=999999999.9] - maximal value of the range
  * @param {boolean} [type=true] - whether to perform type checking
  * @returns {boolean} True if the value is a valid float, otherwise false.
  */
 isValidFloat( 
-    n: unknown, 
+    n: number, 
     min: number = -999999999.9, 
     max: number = 999999999.9, 
     type: boolean = true 
@@ -819,7 +819,7 @@ const maxDate = new Date('1/1/2200');
  * @returns {boolean} True if the date is valid and within the specified range, otherwise false.
  */
 isValidDate(
-    d: unknown, 
+    d: date, 
     min: Date = minDate, 
     max: Date = maxDate
 ): boolean {}
@@ -827,23 +827,23 @@ isValidDate(
 /**
  * Checks if the given number is a valid timestamp.
  *
- * @param {unknown} t - The number to check.
+ * @param {number} t - The number to check.
  * @param {boolean} [type=true] - An optional boolean parameter to verify the type of t. Defaults to true.
  * @returns {boolean} True if the value is a timestamp, otherwise false.
  */
-isTimestamp(t: unknown, type?: boolean = true): boolean {}
+isTimestamp(t: number, type?: boolean = true): boolean {}
 
 /**
  * Checks if a given timestamp is valid within a specified range.
  *
- * @param {unknown} t - The timestamp to validate.
+ * @param {number} t - The timestamp to validate.
  * @param {number} [min=-2208989361000] - The minimum allowed timestamp (default is -2208989361000,eg 1/1/1900).
  * @param {number} [max=7258114800000] - The maximum allowed timestamp (default is 7258114800000, eg 1/1/2200).
  * @param {boolean} [type=true] - A boolean indicating the type of timestamp (default is true).
  * @returns {boolean} True if the timestamp is valid and within the specified range, otherwise false.
  */
 isValidTimestamp(
-  t: unknown, 
+  t: number, 
   min: number = -2208989361000, 
   max: number = 7258114800000, 
   type: boolean = true
@@ -876,14 +876,13 @@ if (isNumber(value) && isEmail(value)) {
 /**
  * Checks if the length of an array is within the specified range.
  *
- * @template T - The type of elements in the array.
- * @param {Array<T>} a - The array to check.
+ * @param {unknown[]} a - The array to check.
  * @param {number} [min=0] - The minimum length of the array (inclusive).
  * @param {number} [max=999999999] - The maximum length of the array (inclusive).
  * @returns {boolean} True if the array length is within the specified range, otherwise false.
  */
 isArrayOfLength(
-    a: Array<T>, 
+    a: unknown[], 
     min = 0, 
     max = 999999999
 ): boolean {}
@@ -947,8 +946,8 @@ let lvl = setLevel("infos"); // lvl = "error"
 isProperty<K extends PropertyKey>(
     obj: { [key: string]: unknown },
     k: K,
-    own: boolean = true,
-    enumerable: boolean = true
+    own = true,
+    enumerable = true
 ): boolean // obj is Record<K, { [key: PropertyKey]: unknown }>
 
 ```
@@ -1035,7 +1034,7 @@ isNode(n: unknown): n is Node {}
  * @param {boolean} everyWords - A flag to indicate whether to capitalize every word or just the first letter of the whole string.
  * @return {string} The string with the first letter of each word capitalized.
  */
-ucfirst(s: string, everyWords?: boolean = true): string {}
+ucfirst(s: string, everyWords = true): string {}
 
 /**
  * Returns a normalized nickname for a user.

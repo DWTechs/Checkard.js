@@ -9,7 +9,7 @@
  * @param {K} k - The property key to check for.
  * @param {boolean} [own=true] - If true, checks if the property is an own property of the object. Defaults to true.
  * @param {boolean} [enumerable=true] - If true, checks if the property is enumerable. Defaults to true.
- * @returns True if the property exists on the object based on the specified conditions, otherwise false.
+ * @returns {boolean} True if the property exists on the object based on the specified conditions, otherwise false.
  */
 function isProperty<K extends PropertyKey>(
   o: { [key: PropertyKey]: unknown; }, 
@@ -36,7 +36,7 @@ function isProperty<K extends PropertyKey>(
  * @param obj - The object to check.
  * @param key - The property key to check for enumerability.
  * @param own - If true, only checks the object's own properties. If false, checks the entire prototype chain.
- * @returns `true` if the property is enumerable, `false` otherwise.
+ * @returns {boolean} `true` if the property is enumerable, `false` otherwise.
  */
 function isEnumerable(obj: object, key: PropertyKey, own: boolean): boolean {
   if (own)
