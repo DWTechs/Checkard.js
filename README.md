@@ -419,7 +419,7 @@ function isFalsy(v: unknown): boolean {}
  * BigInt values: Any BigInt value other than 0n.
  *
  * @param {unknown} v - The value to check.
- * @returns True if the value is truthy, otherwise false.
+ * @returns {boolean} True if the value is truthy, otherwise false.
  */
 function isTruthy(v: unknown): boolean {}
 

@@ -16,7 +16,7 @@ function isInteger(n: number, type = true): boolean {
  * Checks if a given number is a floating-point number.
  *
  * @param {number} n - The number to check.
- * @param {boolean} [type=true] - A boolean indicating whether to use strict equality (default is true).
+ * @param {boolean} [type=true] - A boolean indicating whether to use strict equality (===) or loose equality (==) for the comparison. Defaults to true (strict equality).
  * @returns {boolean} A boolean indicating whether the number is a floating-point number.
  */
 function isFloat(n: number, type = true): boolean {
@@ -29,7 +29,7 @@ function isFloat(n: number, type = true): boolean {
  * Checks if a given number is even.
  *
  * @param {number} n - The number to check.
- * @param {boolean} [type=true] - A boolean flag to specify the type of check (default is true).
+ * @param {boolean} [type=true] - A boolean flag to check the type of n or not (default is true).
  * @returns {boolean} `true` if the number is even and an integer, `false` otherwise.
  */
 function isEven(n: number, type = true): boolean {
@@ -40,7 +40,7 @@ function isEven(n: number, type = true): boolean {
  * Determines if a given number is odd.
  *
  * @param {number} n - The number to check.
- * @param {boolean} [type=true] - An optional boolean parameter to specify the type of check. Default is true.
+ * @param {boolean} [type=true] - A boolean flag to check the type of n or not (default is true).
  * @returns {boolean} A boolean indicating whether the number is odd.
  */
 function isOdd(n: number, type = true): boolean {
@@ -51,10 +51,7 @@ function isOdd(n: number, type = true): boolean {
  * Checks if a given number is zero.
  *
  * @param {number} n - The number to check.
- * @param {boolean} [type=true] - A boolean indicating the type of comparison to use.
- *               If true, uses strict equality (===).
- *               If false, uses loose equality (==).
- *               Defaults to true.
+ * @param {boolean} [type=true] - A boolean indicating whether to use strict equality (===) or loose equality (==) for the comparison. Defaults to true (strict equality).
  * @returns {boolean} True if the number is zero based on the specified comparison type, otherwise false.
  */
 function isOrigin(n: number, type = true): boolean {
@@ -65,7 +62,7 @@ function isOrigin(n: number, type = true): boolean {
  * Checks if a given number is positive.
  *
  * @param {number} n - The number to check.
- * @param {boolean} [type=true] - An optional boolean parameter to specify the type check (default is true).
+ * @param {boolean} [type=true] - A boolean flag to check the type of n or not (default is true).
  * @returns {boolean} True if the number is positive and passes the type check, otherwise false.
  */
 function isPositive(n: number, type = true): boolean {
@@ -76,7 +73,7 @@ function isPositive(n: number, type = true): boolean {
  * Checks if a given number is negative.
  *
  * @param {number} n - The number to check.
- * @param {boolean} [type=true] - A boolean flag to indicate if the type should be checked. Defaults to true.
+ * @param {boolean} [type=true] - A boolean flag to check the type of n or not (default is true).
  * @returns {boolean} True if the number is negative and the type check passes, otherwise false.
  */
 function isNegative(n: number, type = true): boolean {
@@ -87,7 +84,7 @@ function isNegative(n: number, type = true): boolean {
  * Checks if a given number is a power of two.
  *
  * @param {number} n - The number to check.
- * @param {boolean} [type=true] - An optional boolean parameter. Default is true.
+ * @param {boolean} [type=true] - A boolean flag to check the type of n or not (default is true).
  * @returns {boolean} A boolean indicating whether the number is a power of two.
  */
 function isPowerOfTwo(n: number, type = true): boolean {
@@ -98,7 +95,7 @@ function isPowerOfTwo(n: number, type = true): boolean {
  * Checks if a given number is an ASCII code.
  *
  * @param {number} n - The number to check.
- * @param {boolean} [ext=true] - Optional boolean to include extended ASCII range (0-255). Defaults to true.
+ * @param {boolean} [ext=true] - Optional boolean to include extended ASCII range (0-255) or not. Defaults to true.
  * @returns {boolean} `true` if the number is a valid ASCII code, `false` otherwise.
  */
 function isAscii(n: number, ext = true): boolean {
