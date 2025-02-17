@@ -20,6 +20,10 @@ test("sends -0 to isTruthy", () => {
   expect(isTruthy(-0)).toBe(false);
 });
 
+test("sends 0n to isTruthy", () => {
+  expect(isTruthy(0n)).toBe(false);
+});
+
 test("sends NaN to isTruthy", () => {
   expect(isTruthy(Number.NaN)).toBe(false);
 });
