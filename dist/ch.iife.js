@@ -91,7 +91,7 @@ var ch = (function (exports) {
       if (limit === void 0) {
         limit = null;
       }
-      return !isSymbol(v) && !((v === null || v === void 0 ? void 0 : v.constructor) === Array) && isNum(v, type) ? compare(v, comparator, limit) : false;
+      return !isSymbol(v) && isNum(v, type) ? compare(v, comparator, limit) : false;
     }
     function isString(v, comparator, limit) {
       if (comparator === void 0) {

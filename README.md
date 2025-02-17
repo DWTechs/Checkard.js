@@ -279,7 +279,7 @@ if (isString(str, '>=', 1)) {
 #### Note 
 
 If **isString()** returns false, Typescript will consider *str* is not a string.  
-So if you need to check if *str* is of length x but needs to be considered as string even if length is not x you should do it like this:
+So if you need to check if *str* is of length x but needs to be considered as a string even if its length is not x you should do it like this:
 
 ```javascript
 
@@ -389,7 +389,7 @@ if (isArray(arr, '>=', 1)) {
 #### Note 
 
 Note that if **isArray()** returns false Typescript will consider *arr* is not an array.  
-So if you need to check *arr* is of length x but needs to be considered as array even if length is not x you can do it like this:
+So if you need to check *arr* is of length x but needs to be considered as an array even if its length is not x you can do it like this:
 
 ```javascript
 

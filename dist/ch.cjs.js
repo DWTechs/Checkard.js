@@ -68,7 +68,6 @@ function isBoolean(v) {
 }
 function isNumber(v, type = true, comparator = null, limit = null) {
     return !isSymbol(v)
-        && !((v === null || v === void 0 ? void 0 : v.constructor) === Array)
         && isNum(v, type) ?
         compare(v, comparator, limit)
         : false;
