@@ -2,8 +2,7 @@
 
 - isString() method now also checks if value is of length =, <, >, <=, >=, !=, !0, 0 than limit.
 - isNumber() method now also checks if value is of length =, <, >, <=, >=, !=, !0, 0 than limit
-- Add isNull() method
-- Add isUndefined() method
+- Add isNull() and isUndefined() method
 - Add isTruthy() and isFalsy() methods
 - Add "from" parameter to method isIn() to start from index other then zero
 - Add "!=" to comparisons to check if a is different than b
