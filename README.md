@@ -168,6 +168,7 @@ type PasswordOptions = {
 
 
 ### Primitive
+---
 
 primitive methods accept any variable as parameter in order to check its type.
 
@@ -294,6 +295,7 @@ if (isString(str) && !isStringOfLength(str, 4, 4)) {
 ```
 
 ### Non-primitive
+---
 
 Non-primitive methods accept any variable as parameter in order to check its type.
 
@@ -405,7 +407,7 @@ if (isArray(arr) && !isArrayOfLength(arr, 4, 4)) {
 ```
 
 ### Boolean
-
+---
 
 ```typescript
 
@@ -446,6 +448,7 @@ function isTruthy(v: unknown): boolean {}
 ```
 
 ### Number
+---
 
 ```typescript
 
@@ -540,6 +543,7 @@ isAscii(n: number, ext: boolean = true): boolean {}
 
 
 ### Valid number
+---
 
 Valid number methods take a number as parameter and check of the number lies in the right interval
 
@@ -600,6 +604,7 @@ isValidFloat(
 
 
 ### String
+---
 
 ```typescript
 
@@ -790,6 +795,7 @@ if (isValidPassword(password, PwdOptions)) {
 
 
 ### Date
+---
 
 ```typescript
 
@@ -845,6 +851,7 @@ isValidTimestamp(
 
 
 ### Array
+---
 
 ```typescript
 
@@ -903,6 +910,7 @@ let lvl = setLevel("infos"); // lvl = "warn"
 
 
 ### Object
+---
 
 ```typescript
 
@@ -948,6 +956,7 @@ console.log(isProperty("debag", levels)); // false
 
 
 ### Html
+---
 
 ```typescript
 
@@ -988,6 +997,7 @@ isNode(n: unknown): n is Node {}
 
 
 ### Normalize
+---
 
 ```typescript
 
