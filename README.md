@@ -347,6 +347,7 @@ isRegex(v: unknown, type: boolean = true): v is RegExp {}
  *
  * @param {unknown} v - The value to check.
  * @returns {boolean} True if the value is a Date object, otherwise false.
+ *
  */
 isDate(v: unknown): v is Date {}
 
@@ -499,6 +500,9 @@ isOrigin(n: number, type: boolean = true): boolean {}
  * @param {number} n - The number to check.
  * @param {boolean} [type=true] - Optional boolean indicating whether to perform type checking. Defaults to true.
  * @returns {boolean} True if the number is positive, otherwise false.
+ * 
+ * @remarks
+ * This function also check if the value is a number.
  */
 isPositive(n: number, type: boolean = true): boolean {}
 
@@ -508,6 +512,9 @@ isPositive(n: number, type: boolean = true): boolean {}
  * @param {number} n - The number to check.
  * @param {boolean} [type=true] - Optional boolean indicating whether to perform type checking. Defaults to true.
  * @returns {boolean} True if the number is negative, otherwise false.
+ *  
+ * @remarks
+ * This function also check if the value is a number.
  */
 isNegative(n: number, type: boolean = true): boolean {}
 
@@ -546,6 +553,9 @@ Valid number methods take a number as parameter and check of the number lies in 
  * @param {number} [max=999999999] - maximal value of the range
  * @param {boolean} [type=true] - whether to perform type checking
  * @returns {boolean} True if the value is a valid number, otherwise false.
+ *  
+ * @remarks
+ * This function also check if the value is a number.
  */
 isValidNumber(
     n: number, 
@@ -793,6 +803,9 @@ const maxDate = new Date('1/1/2200');
  * @param {Date} [min=minDate] - The minimum allowable date. Defaults to `minDate`.
  * @param {Date} [max=maxDate] - The maximum allowable date. Defaults to `maxDate`.
  * @returns {boolean} True if the date is valid and within the specified range, otherwise false.
+ *  
+ * @remarks
+ * This function also check if the value is an instance of the Date object.
  */
 isValidDate(
     d: date, 
@@ -817,6 +830,9 @@ isTimestamp(t: number, type: boolean = true): boolean {}
  * @param {number} [max=7258114800000] - The maximum allowed timestamp. Default is 7258114800000, eg 1/1/2200).
  * @param {boolean} [type=true] - A boolean indicating the type of timestamp. Default to true.
  * @returns {boolean} True if the timestamp is valid and within the specified range, otherwise false.
+ * 
+ * @remarks
+ * This function also check if the value is timestamp.
  */
 isValidTimestamp(
   t: number, 
