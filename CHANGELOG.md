@@ -11,7 +11,7 @@
 - Add "0" to comparisons to check if a empty
 - Update typings of most methods for easier use with Typescript
 - Typings are more strict. Resulting in possible breaking changes from Checkard version 2.x.x.
-- Other methods than primitives and non-primitives methods do not check for input type anymore. their output is now Boolean only. Resulting in possible breaking changes from Checkard version 2.x.x.
+- Other methods than primitives and non-primitives methods may not check for input type anymore. Resulting in possible breaking changes from Checkard version 2.x.x.
 - Improve Documentation 
 
 # 2.30.0 (Jan 29th 2025)
