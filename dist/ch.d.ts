@@ -128,8 +128,8 @@ declare function normalizeNickname(nickname: string,
 declare function normalizeName(s: string): string | false;
 declare function normalizeEmail(s: string): string | false;
 
-declare function b64Decode(str: string, urlSafe: true): string;
-declare function b64Encode(str: string, urlSafe: true): string;
+declare function b64Decode(str: string, urlSafe?: boolean): string;
+declare function b64Encode(str: string, urlSafe?: boolean): string;
 
 export { isBoolean,
          isTruthy,
