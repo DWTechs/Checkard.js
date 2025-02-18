@@ -60,4 +60,7 @@ export {  ucfirst,
           normalizeNickname,
           normalizeName,
           normalizeEmail } from './normalize';
+
+export {  b64Encode, 
+          b64Decode } from './base64';
   

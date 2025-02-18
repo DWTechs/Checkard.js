@@ -26,6 +26,7 @@
   "contributors": [],
   "scripts": {
     "start": "",
+    "prebuild": "npm install",
     "build": "node ./scripts/clear.cjs && tsc -p tsconfig.lib.json && npm run rollup && npm run uglify && node ./scripts/copy.cjs && npm run test",
     "rollup:mjs": "rollup --config rollup.config.mjs",
     "rollup:iife": "rollup --config rollup.config.iife.mjs",

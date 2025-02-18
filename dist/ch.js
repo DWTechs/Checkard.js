@@ -66,6 +66,7 @@ function isBoolean(v) {
 }
 function isNumber(v, type = true, comparator = null, limit = null) {
     return !isSymbol(v)
+        && !((v === null || v === void 0 ? void 0 : v.constructor) === Array)
         && isNum(v, type) ?
         compare(v, comparator, limit)
         : false;
@@ -422,4 +423,21 @@ function createNickname(nickname, firstName, lastName) {
         .replace(/\p{Diacritic}|[^a-zA-Z\s_-]/gu, "") || false;
 }
 
-export { containsLowerCase, containsNumber, containsSpecialCharacter, containsUpperCase, isArray, isArrayOfLength, isAscii, isBase64, isBoolean, isDate, isEmail, isEven, isFalsy, isFloat, isFunction, isHexadecimal, isHtmlElement, isHtmlEventAttribute, isIn, isInteger, isIpAddress, isJWT, isJson, isNegative, isNil, isNode, isNull, isNumber, isObject, isOdd, isOrigin, isPositive, isPowerOfTwo, isProperty, isRegex, isSlug, isString, isStringOfLength, isSymbol, isTimestamp, isTruthy, isUndefined, isValidDate, isValidFloat, isValidInteger, isValidNumber, isValidPassword, isValidTimestamp, normalizeEmail, normalizeName, normalizeNickname, ucfirst };
+function b64Decode(str, urlSafe = true) {
+    if (urlSafe)
+        str = str.replace(/-/g, "+").replace(/_/g, "/");
+    return Buffer.from(str + pad(str), "base64").toString("utf8");
+}
+function b64Encode(str, urlSafe = true) {
+    let b64 = Buffer.from(str).toString("base64");
+    if (urlSafe)
+        b64 = b64.replace(/\+/g, "-")
+            .replace(/\//g, "_")
+            .replace(/=+$/, "");
+    return b64;
+}
+function pad(str) {
+    return "=".repeat((4 - (str.length % 4)) % 4);
+}
+
+export { b64Decode, b64Encode, containsLowerCase, containsNumber, containsSpecialCharacter, containsUpperCase, isArray, isArrayOfLength, isAscii, isBase64, isBoolean, isDate, isEmail, isEven, isFalsy, isFloat, isFunction, isHexadecimal, isHtmlElement, isHtmlEventAttribute, isIn, isInteger, isIpAddress, isJWT, isJson, isNegative, isNil, isNode, isNull, isNumber, isObject, isOdd, isOrigin, isPositive, isPowerOfTwo, isProperty, isRegex, isSlug, isString, isStringOfLength, isSymbol, isTimestamp, isTruthy, isUndefined, isValidDate, isValidFloat, isValidInteger, isValidNumber, isValidPassword, isValidTimestamp, normalizeEmail, normalizeName, normalizeNickname, ucfirst };
