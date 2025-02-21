@@ -1,5 +1,14 @@
 import { b64Encode } from "../../dist/ch";
 
+const estring = "c3RyaW5n";
+const e1 = "MQ==";
+const e2 = "ODk=";
+const e3 = "ODlydA==";
+const e4 = "MS41";
+const e5 = "OC45cnQ=";
+
+
+
 test("sends NaN to b64Encode", () => {
   expect(b64Encode(Number.NaN)).toBe("");
 });
@@ -26,31 +35,31 @@ test("sends false to b64Encode", () => {
 });
 
 test("sends string to b64Encode", () => {
-  expect(b64Encode("string")).toBe(false);
+  expect(b64Encode("string")).toBe("c3RyaW5n");
 });
 
 test("sends figure as string to b64Encode", () => {
-  expect(b64Encode("1")).toBe(false);
+  expect(b64Encode("1")).toBe("MQ==");
 });
 
 test("sends number as string to b64Encode", () => {
-  expect(b64Encode("89")).toBe(false);
+  expect(b64Encode("89")).toBe("ODk=");
 });
 
 test("sends number in string to b64Encode", () => {
-  expect(b64Encode("89rt")).toBe(false);
+  expect(b64Encode("89rt")).toBe("ODlydA==");
 });
 
 test("sends figure as string to b64Encode without typeCheck", () => {
-  expect(b64Encode("1", false)).toBe(false);
+  expect(b64Encode("1", false)).toBe("MQ==");
 });
 
 test("sends number as string to b64Encode without typeCheck", () => {
-  expect(b64Encode("89", false)).toBe(false);
+  expect(b64Encode("89", false)).toBe("ODk=");
 });
 
 test("sends number in string to b64Encode without typeCheck", () => {
-  expect(b64Encode("89rt", false)).toBe(false);
+  expect(b64Encode("89rt", false)).toBe("ODlydA==");
 });
 
 test("sends float as string to b64Encode", () => {
