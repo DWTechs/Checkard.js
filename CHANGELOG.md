@@ -1,3 +1,7 @@
+# 3.1.0 (Feb 22th 2025)
+
+- Add b64Encode() and b64Decode() methods to transform strings accordingly.
+
 # 3.0.0 (Feb 14th 2025)
 
 - isString() method now also checks if value is of length =, <, >, <=, >=, !=, !0, 0 than limit.

@@ -195,8 +195,8 @@ isBoolean(v: unknown): v is boolean {}
 isNumber
     v: unknown, 
     type = true,
-    comparator: Comparator | null = null, 
-    limit: number | null = null
+    comparator = null, 
+    limit = null
 ): v is number {}
 
 /**
@@ -209,8 +209,8 @@ isNumber
  */
 isString(
     v: unknown, 
-    comparator: Comparator | null = null, 
-    limit: number | null = null
+    comparator = null, 
+    limit = null
 ): v is string {}
 
 /**
@@ -309,7 +309,10 @@ Non-primitive methods accept any variable as parameter in order to check its typ
  * @param {boolean} [empty=false] - If true, the function will also check if the object is not empty.
  * @returns {o is object & T} True if the value is an object (and not empty if specified), otherwise false.
  */
-isObject<T = unknown>(o: unknown, empty?: boolean = false): o is object & T {}
+isObject<T = unknown>(
+  o: unknown, 
+  empty = false
+): o is object & T {}
 
 /**
  * Checks if the given value is an array and optionally compares its length.
@@ -322,8 +325,8 @@ isObject<T = unknown>(o: unknown, empty?: boolean = false): o is object & T {}
  */
 isArray<T = unknown>(
     v: unknown, 
-    comparator?: Comparator | null, 
-    limit?: number | null
+    comparator = null, 
+    limit = null
 ): v is T[] {}
 
 /**
@@ -342,7 +345,7 @@ isJson(v: unknown): v is JSON {}
  * If false, String values like '/^abc$/' are considered as regular expressions.
  * @returns {boolean} True if v is a RegExp or can be converted to a RegExp, otherwise false.
  */
-isRegex(v: unknown, type: boolean = true): v is RegExp {} 
+isRegex(v: unknown, type = true): v is RegExp {} 
 
 /**
  * Checks if the given value is a valid Date object.
@@ -459,7 +462,7 @@ function isTruthy(v: unknown): boolean {}
  * @param {boolean} [type=true] - Optional boolean indicating whether to perform type checking. Defaults to true.
  * @returns {boolean} True if the number is an integer, otherwise false.
  */
-isInteger(n: number, type: boolean = true): boolean {}
+isInteger(n: number, type = true): boolean {}
 
 /**
  * Checks if a given number is a floating-point number.
@@ -468,7 +471,7 @@ isInteger(n: number, type: boolean = true): boolean {}
  * @param {boolean} [type=true] - Optional boolean indicating whether to perform type checking. Defaults to true.
  * @returns {boolean} True if the number is a floating-point number, otherwise false.
  */
-isFloat(n: number, type: boolean = true): boolean {}
+isFloat(n: number, type = true): boolean {}
 
 /**
  * Checks if a given number is even.
@@ -477,7 +480,7 @@ isFloat(n: number, type: boolean = true): boolean {}
  * @param {boolean} [type=true] - Optional boolean indicating whether to perform type checking. Defaults to true.
  * @returns {boolean} True if the number is an even integer, otherwise false.
  */
-isEven(n: number, type: boolean = true): boolean {}
+isEven(n: number, type = true): boolean {}
 
 /**
  * Determines if a given number is odd.
@@ -486,7 +489,7 @@ isEven(n: number, type: boolean = true): boolean {}
  * @param {boolean} [type=true] - Optional boolean indicating whether to perform type checking. Defaults to true.
  * @returns {boolean} True if the number is an odd integer, otherwise false.
  */
-isOdd(n: number, type: boolean = true): boolean {}
+isOdd(n: number, type = true): boolean {}
 
 /**
  * Checks if a given number is zero.
@@ -495,7 +498,7 @@ isOdd(n: number, type: boolean = true): boolean {}
  * @param {boolean} [type=true] - Optional boolean indicating whether to perform type checking. Defaults to true.
  * @returns {boolean} True if the number is zero, otherwise false.
  */
-isOrigin(n: number, type: boolean = true): boolean {}
+isOrigin(n: number, type = true): boolean {}
 
 /**
  * Checks if a given number is positive.
@@ -507,7 +510,7 @@ isOrigin(n: number, type: boolean = true): boolean {}
  * @remarks
  * This function also check if the value is a number.
  */
-isPositive(n: number, type: boolean = true): boolean {}
+isPositive(n: number, type = true): boolean {}
 
 /**
  * Checks if a given number is negative.
@@ -519,7 +522,7 @@ isPositive(n: number, type: boolean = true): boolean {}
  * @remarks
  * This function also check if the value is a number.
  */
-isNegative(n: number, type: boolean = true): boolean {}
+isNegative(n: number, type = true): boolean {}
 
 /**
  * Checks if a given number is a power of two.
@@ -528,7 +531,7 @@ isNegative(n: number, type: boolean = true): boolean {}
  * @param {boolean} [type=true] - Optional boolean indicating whether to perform type checking. Defaults to true.
  * @returns {boolean} True if the number is a power of two, otherwise false.
  */
-isPowerOfTwo(n: number, type: boolean = true): boolean {}
+isPowerOfTwo(n: number, type = true): boolean {}
 
 /**
  * Checks if a given number is an ASCII code.
@@ -537,7 +540,7 @@ isPowerOfTwo(n: number, type: boolean = true): boolean {}
  * @param {boolean} [ext=true] - Optional boolean to include extended ASCII range (0-255). Defaults to true.
  * @returns {boolean} True if the number is a valid ASCII code, otherwise false.
  */
-isAscii(n: number, ext: boolean = true): boolean {}
+isAscii(n: number, ext = true): boolean {}
 
 ```
 
@@ -563,9 +566,9 @@ Valid number methods take a number as parameter and check of the number lies in 
  */
 isValidNumber(
     n: number, 
-    min: number = -999999999, 
-    max: number = 999999999, 
-    type: boolean = true 
+    min = -999999999, 
+    max = 999999999, 
+    type = true 
 ): boolean {}
 
 /**
@@ -579,9 +582,9 @@ isValidNumber(
  */
 isValidInteger(
     n: number, 
-    min: number = -999999999, 
-    max: number = 999999999, 
-    type: boolean = true
+    min = -999999999, 
+    max = 999999999, 
+    type = true
 ): boolean {}
 
 /**
@@ -595,9 +598,9 @@ isValidInteger(
  */
 isValidFloat( 
     n: number, 
-    min: number = -999999999.9, 
-    max: number = 999999999.9, 
-    type: boolean = true 
+    min = -999999999.9, 
+    max = 999999999.9, 
+    type = true 
 ): boolean {}
 
 ```
@@ -618,8 +621,8 @@ isValidFloat(
  */
 isStringOfLength( 
     s: string, 
-    min: number = 0, 
-    max: number = 999999999 
+    min = 0, 
+    max = 999999999 
 ): boolean {}
 
 /**
@@ -645,7 +648,7 @@ isIpAddress(s: string): boolean {}
  * @param {boolean} [urlEncoded=false] - Optional. If true, checks for URL-safe Base64 encoded strings. Defaults to false.
  * @returns {boolean} True if the string is a valid Base64 encoded string, otherwise false.
  */
-isBase64(s: string, urlEncoded: boolean = false): boolean {}
+isBase64(s: string, urlEncoded = false): boolean {}
 
 /**
  * Checks if a given string is a valid JSON Web Token (JWT).
@@ -711,7 +714,7 @@ const PwdDefaultOptions = {
  */
 isValidPassword(
     s: string, 
-    options?: PasswordOptions = PwdDefaultOptions
+    options = PwdDefaultOptions
 ): boolean {}
 
 /**
@@ -748,8 +751,8 @@ containsSpecialCharacter(s: string): boolean {}
  */
 containsNumber(
     s: string, 
-    min: number = 1, 
-    max: number | null = null
+    min = 1, 
+    max = null
 ): boolean {}
 
 ```
@@ -815,8 +818,8 @@ const maxDate = new Date('1/1/2200');
  */
 isValidDate(
     d: date, 
-    min: Date = minDate, 
-    max: Date = maxDate
+    min = minDate, 
+    max = maxDate
 ): boolean {}
 
 /**
@@ -826,7 +829,7 @@ isValidDate(
  * @param {boolean} [type=true] - An optional boolean parameter to verify the type of t. Defaults to true.
  * @returns {boolean} True if the value is a timestamp, otherwise false.
  */
-isTimestamp(t: number, type: boolean = true): boolean {}
+isTimestamp(t: number, type = true): boolean {}
 
 /**
  * Checks if a given timestamp is valid within a specified range.
@@ -842,9 +845,9 @@ isTimestamp(t: number, type: boolean = true): boolean {}
  */
 isValidTimestamp(
   t: number, 
-  min: number = -2208989361000, 
-  max: number = 7258114800000, 
-  type: boolean = true
+  min = -2208989361000, 
+  max = 7258114800000, 
+  type = true
 ): boolean {} 
 
 ```
@@ -880,7 +883,7 @@ isArrayOfLength(
 isIn(
     a: unknown[], 
     v: unknown, 
-    from: number = 0
+    from = 0
 ): boolean {}
 
 ```
@@ -1071,6 +1074,33 @@ function normalizeInputs(req, res, next) {
 }
 
 ```
+
+
+### Base64
+---
+
+```typescript
+
+/**
+ * Decodes a base64 encoded string.
+ *
+ * @param {string} str - The base64 encoded string to decode.
+ * @param {boolean} urlSafe - A boolean indicating if the input string is URL safe. Defaults to true.
+ * @returns {string} The decoded string in UTF-8 format.
+ */
+function b64Decode(str: string, urlSafe = true): string;
+
+/**
+ * Encodes a given string into Base64 format.
+ * 
+ * @param {string} str - The string to be encoded.
+ * @param {boolean} urlSafe - Optional boolean to determine if the output should be URL safe. Defaults to true.
+ * @returns {string} The Base64 encoded string. If `urlSafe` is true, the output will be modified to be URL safe.
+ */
+function b64Encode(str: string, urlSafe = true): string;
+
+```
+
 
 ## Contributors
 
