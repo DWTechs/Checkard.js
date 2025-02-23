@@ -38,6 +38,10 @@ test("sends string to isHexadecimal", () => {
   expect(isHexadecimal("string")).toBe(false);
 });
 
+test("sends empty string to isHexadecimal", () => {
+  expect(isHexadecimal("")).toBe(false);
+});
+
 
 const json = `{
   "actor": {

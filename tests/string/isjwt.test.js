@@ -21,6 +21,10 @@ test("sends string to isJWT", () => {
   expect(isJWT("string")).toBe(false);
 });
 
+test("sends empty string to isJWT", () => {
+  expect(isJWT("")).toBe(false);
+});
+
 test("sends valid JWT to isJWT", () => {
   expect(isJWT("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c")).toBe(true);
 });

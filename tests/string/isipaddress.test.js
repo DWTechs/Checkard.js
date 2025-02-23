@@ -29,6 +29,10 @@ test("sends string to isIpAddress", () => {
   expect(isIpAddress("string")).toBe(false);
 });
 
+test("sends empty string to isIpAddress", () => {
+  expect(isIpAddress("")).toBe(false);
+});
+
 test("sends positive even integer to isIpAddress", () => {
   expect(isIpAddress(2)).toBe(false);
 });

@@ -29,6 +29,10 @@ test("sends string to isEmail", () => {
   expect(isEmail("string")).toBe(false);
 });
 
+test("sends empty string to isEmail", () => {
+  expect(isEmail("")).toBe(false);
+});
+
 test("sends positive even integer to isEmail", () => {
   expect(isEmail(2)).toBe(false);
 });

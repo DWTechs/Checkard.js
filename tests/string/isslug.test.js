@@ -12,6 +12,10 @@ test("sends string to isSlug", () => {
   expect(isSlug("string")).toBe(true);
 });
 
+test("sends empty string to isSlug", () => {
+  expect(isSlug("")).toBe(false);
+});
+
 test("sends null to isSlug", () => {
   expect(isSlug(null)).toBe(false);
 });

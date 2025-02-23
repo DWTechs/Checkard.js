@@ -1,3 +1,7 @@
+# 3.2.0 (Feb 23th 2025)
+
+- Update string validation functions for empty string cases
+
 # 3.1.0 (Feb 22th 2025)
 
 - Add b64Encode() and b64Decode() methods to transform strings accordingly.

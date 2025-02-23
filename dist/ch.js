@@ -207,17 +207,17 @@ function isStringOfLength(s, min = 0, max = 999999999) {
 }
 const emailReg = /^(?=[a-z0-9@.!$%&'*+\/=?^_‘{|}~-]{6,254}$)(?=[a-z0-9.!#$%&'*+\/=?^_‘{|}~-]{1,64}@)[a-z0-9!#$%&'*+\/=?^‘{|}~]+(?:[\._-][a-z0-9!#$%&'*+\/=?^‘{|}~]+)*@(?:(?=[a-z0-9-]{1,63}\.)[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+(?=[a-z0-9-]{2,63}$)[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/;
 function isEmail(s) {
-    return emailReg.test(String(s).toLowerCase());
+    return s ? emailReg.test(String(s).toLowerCase()) : false;
 }
 const ipReg = /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
 function isIpAddress(s) {
-    return ipReg.test(String(s));
+    return s ? ipReg.test(String(s)) : false;
 }
 const b64UrlEncoded = /^[A-Za-z0-9-_]+$/;
 const b64 = /^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/;
 function isBase64(s, urlEncoded = false) {
     const regex = urlEncoded ? b64UrlEncoded : b64;
-    return regex.test(s);
+    return s ? regex.test(s) : false;
 }
 const b64Reg = /^[A-Za-z0-9\-_]+={0,2}$/;
 function isJWT(s) {
@@ -245,7 +245,7 @@ function isSlug(s) {
 }
 const hexadecimal = /^(#|0x|0h)?[0-9A-F]+$/i;
 function isHexadecimal(s) {
-    return hexadecimal.test(s);
+    return s ? hexadecimal.test(s) : false;
 }
 const upperCaseReg = /[A-Z]+/;
 function containsUpperCase(s) {

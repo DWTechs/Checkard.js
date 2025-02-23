@@ -27,7 +27,7 @@ const emailReg = /^(?=[a-z0-9@.!$%&'*+\/=?^_‘{|}~-]{6,254}$)(?=[a-z0-9.!#$%&'*
  * @returns {boolean} `true` if the string is a valid email address, otherwise `false`.
  */
 function isEmail(s: string): boolean {
-  return emailReg.test(String(s).toLowerCase());
+  return s ? emailReg.test(String(s).toLowerCase()) : false;
 }
 
 // function isURL(url: unknown): boolean {
@@ -46,7 +46,7 @@ const ipReg = /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-
  * @returns {boolean} `true` if the string is a valid IP address, otherwise `false`.
  */
 function isIpAddress(s: string): boolean {
-  return ipReg.test(String(s));
+  return s ? ipReg.test(String(s)) : false;
 }
 
 // base64 (non url safe ) regex explained : 
@@ -81,6 +81,7 @@ function isIpAddress(s: string): boolean {
 // - abcdabcdab==
 // - abcdabcdabc=
 // Invalid matches:
+// - ''
 // - abc
 // - abcdabc
 // - abcdabcdab=
@@ -96,7 +97,7 @@ const b64 =  /^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?
  */
 function isBase64(s: string, urlEncoded = false): boolean {
   const regex = urlEncoded ? b64UrlEncoded : b64;
-  return regex.test(s);
+  return s ? regex.test(s) : false;
 }
 
 
@@ -185,7 +186,7 @@ const hexadecimal = /^(#|0x|0h)?[0-9A-F]+$/i;
  * @returns {boolean} True if the string is a valid hexadecimal number, false otherwise.
  */
 function isHexadecimal(s: string): boolean {
-  return hexadecimal.test(s);
+  return s ? hexadecimal.test(s) : false;
 }
 
 const upperCaseReg = /[A-Z]+/;

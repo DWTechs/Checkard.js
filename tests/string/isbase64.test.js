@@ -43,6 +43,14 @@ test("sends false to isBase64 urlEncoded = false", () => {
   expect(isBase64(false)).toBe(false);
 });
 
+test("sends empty string to isBase64 urlEncoded = false", () => {
+  expect(isBase64("")).toBe(false);
+});
+
+test("sends empty string to isBase64 urlEncoded = true", () => {
+  expect(isBase64("", true)).toBe(false);
+});
+
 test("sends string to isBase64 urlEncoded = false", () => {
   expect(isBase64("string")).toBe(false);
 });
