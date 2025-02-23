@@ -1,96 +1,100 @@
+# 3.2.1 (Feb 24th 2025)
+
+- Update number validation functions type for string as input
+
 # 3.2.0 (Feb 23th 2025)
 
 - Update string validation functions for empty string cases
 
 # 3.1.0 (Feb 22th 2025)
 
-- Add b64Encode() and b64Decode() methods to transform strings accordingly.
+- Add b64Encode() and b64Decode() functions to transform strings accordingly.
 
 # 3.0.0 (Feb 14th 2025)
 
-- isString() method now also checks if value is of length =, <, >, <=, >=, !=, !0, 0 than limit.
-- isNumber() method now also checks if value is of length =, <, >, <=, >=, !=, !0, 0 than limit
-- Add isNull() and isUndefined() method
-- Add isTruthy() and isFalsy() methods
-- Add "from" parameter to method isIn() to start from index other then zero
+- isString() function now also checks if value is of length =, <, >, <=, >=, !=, !0, 0 than limit.
+- isNumber() function now also checks if value is of length =, <, >, <=, >=, !=, !0, 0 than limit
+- Add isNull() and isUndefined() function
+- Add isTruthy() and isFalsy() functions
+- Add "from" parameter to function isIn() to start from index other then zero
 - Add "!=" to comparisons to check if a is different than b
 - Add "!0" to comparisons to check if a is not empty
 - Add "0" to comparisons to check if a empty
-- Update typings of most methods for easier use with Typescript
+- Update typings of most functions for easier use with Typescript
 - Typings are more strict. Resulting in possible breaking changes from Checkard version 2.x.x.
-- Other methods than primitives and non-primitives methods may not check for input type anymore. Resulting in possible breaking changes from Checkard version 2.x.x.
+- Other functions than primitives and non-primitives functions may not check for input type anymore. Resulting in possible breaking changes from Checkard version 2.x.x.
 - Improve Documentation 
 
 # 2.30.0 (Jan 29th 2025)
 
-- Add isBase64() method to check if a value is a valid base64 string
-- Add "own" property to isProperty() method to check inherited properties only
-- Add "enumerable" property to isProperty() method to check enumerable properties only
-- Improve the return type of isProperty() method
-- Change "any" types to "unknown" for every methods
+- Add isBase64() function to check if a value is a valid base64 string
+- Add "own" property to isProperty() function to check inherited properties only
+- Add "enumerable" property to isProperty() function to check enumerable properties only
+- Improve the return type of isProperty() function
+- Change "any" types to "unknown" for every functions
 
 # 2.29.2 (Dec 21th 2024)
 
-- Improve declaration file for isArrayOfLength() method
+- Improve declaration file for isArrayOfLength() function
 
 # 2.29.1 (Dec 20th 2024)
 
-- Improve isArrayOfLength() method and add more tests
+- Improve isArrayOfLength() function and add more tests
 
 # 2.29.0 (Dec 19th 2024)
 
-- Add isArrayOfLength() method to check array length with min and max
+- Add isArrayOfLength() function to check array length with min and max
 
 # 2.28.0 (Nov 30th 2024)
 
-- Add isIn() method to check if a value is included in an array
-- Add isProperty() method to check if a value is included in an object properties
+- Add isIn() function to check if a value is included in an array
+- Add isProperty() function to check if a value is included in an object properties
 
 # 2.27.0 (Nov 13th 2024)
 
-- Add isValidPassword method 
-- Update normalizeNickname method to exclude special characters
+- Add isValidPassword function 
+- Update normalizeNickname function to exclude special characters
 
 # 2.26.0 (Oct 26th 2024)
 
 - Add normalization functionalities 
-- Add ucfirst method
-- Add normalizeNickname method
-- Add normalizeName method
-- Add normalizeEmail method
+- Add ucfirst function
+- Add normalizeNickname function
+- Add normalizeName function
+- Add normalizeEmail function
 
 # 2.25.0 (Oct 22th 2024)
 
 - CheckHard.js becomes Checkard.js 
-- Add isValidInteger() method
-- Add isValidFloat() method
-- Fix isArray() method when len param is equal to zero
-- Add more unit tests for isArray() method
-- Improve isInteger() method
+- Add isValidInteger() function
+- Add isValidFloat() function
+- Fix isArray() function when len param is equal to zero
+- Add more unit tests for isArray() function
+- Improve isInteger() function
 
 # 2.24.0 (Feb 18th 2024)
 
-- Add emptyCheck parameter to isObject() method. Which default to false
+- Add emptyCheck parameter to isObject() function. Which default to false
 
 # 2.23.0 (Jan 14th 2024)
 
-- Add isStringOfLength() method to check min and max length
+- Add isStringOfLength() function to check min and max length
 
 # 2.22.0 (Dec 29th 2023)
 
-- Add emptyCheck parameter to isString() method. Which default to false
+- Add emptyCheck parameter to isString() function. Which default to false
 
 # 2.21.0 (Oct 18th 2023)
 
-- Add isJWT() method
-- Improve isArray() method
+- Add isJWT() function
+- Improve isArray() function
 - Update build tools
 - Code cleanup for lighter library
 - Add more unit tests
 
 # 2.20.0 (Oct 11th 2023)
 
-- Add typeCheck parameter to isTimestamp() and isValidTimestamp() methods
+- Add typeCheck parameter to isTimestamp() and isValidTimestamp() functions
 - Improve types using "type predicates" for ease of use with Typescript
 
 # 2.19.2 (May 8th 2023)
@@ -98,231 +102,179 @@
 - Fix isNumber() & isTimestamp() issue with array of length one
 - Add more unit tests with arrays
 
-# 2.19.1 (October 23th 2022)
+# 2.19.1 (Oct 23th 2022)
 
 - Fix isTimestamp() issue with string values
 
-# 2.19.0 (August 16th 2022)
+# 2.19.0 (Aug 16th 2022)
 
-- isArray() method now checks if value is an array and optionally if it is of length =, <, >, <= or >= than limit
+- isArray() function now checks if value is an array and optionally if it is of length =, <, >, <= or >= than limit
 
 # 2.18.0 (May 9th 2022)
 
-- ContainsNumber() method now can take min and max parameters
+- ContainsNumber() function now can take min and max parameters
 
-# 2.17.2 (January 16th 2022)
+# 2.17.2 (Jan 16th 2022)
 
-- Fix isValidTimestamp() method
-- Fix containsUpperCase() method
-- Fix containsLowerCase() method
+- Fix isValidTimestamp() function
+- Fix containsUpperCase() function
+- Fix containsLowerCase() function
 
-# 2.17.1 (November 21th 2021)
+# 2.17.1 (Nov 21th 2021)
 
-- Fix isValidDate() method
+- Fix isValidDate() function
 - Fix declaration file for Typescript
 
-# 2.17.0 (November 20th 2021)
+# 2.17.0 (Nov 20th 2021)
 
-- Add isDate() method
-- Add isValidDate() method
-- Add isSlug() method
-- Add isHexadecimal() method
-- Add isTimestamp() method
-- Add isValidTimestamp() method
-- Add isValidNumber() method
-- Add containsUpperCase() method
-- Add containsLowerCase() method
-- Add containsSpecialCharacter() method
-- Add containsNumber() method
+- Add isDate() function
+- Add isValidDate() function
+- Add isSlug() function
+- Add isHexadecimal() function
+- Add isTimestamp() function
+- Add isValidTimestamp() function
+- Add isValidNumber() function
+- Add containsUpperCase() function
+- Add containsLowerCase() function
+- Add containsSpecialCharacter() function
+- Add containsNumber() function
 
-# 2.16.0 (March 28th 2021)
+# 2.16.0 (Mar 28th 2021)
 
-- Add 'length' parameter to isArray() method to check the length of the array
+- Add 'length' parameter to isArray() function to check the length of the array
 
-# 2.15.0 (January 11th 2021)
+# 2.15.0 (Jan 11th 2021)
 
-- Add isNil() method to test null and undefined values 
+- Add isNil() function to test null and undefined values 
 - Add isSymbol() to primitive checkers 
 
-# 2.14.0 (January 10th 2021)
+# 2.14.0 (Jan 10th 2021)
 
 - Ch.js becomes CheckHard.js 
 - Project transfered from LCluber to DWTechs
 
-# 2.13.0 (December 6th 2020)
+# 2.13.0 (Dec 6th 2020)
 
-- Add typeCheck parameter to isNumber(), isOdd(), isOrigin(), isPositive(), isNegative(), isPowerOfTwo() methods
+- Add typeCheck parameter to isNumber(), isOdd(), isOrigin(), isPositive(), isNegative(), isPowerOfTwo() functions
 - Improved isNumber() performance
 
-# 2.12.0 (September 13th 2020)
+# 2.12.0 (Sep 13th 2020)
 
-- Add IsPowerOfTwo() method
+- Add IsPowerOfTwo() function
 
-# 2.11.0 (September 11th 2020)
+# 2.11.0 (Sep 11th 2020)
 
 - IE9 compatibility for iife version
 - Update Typescript to version 4
 
-## [2.10.1](https://github.com/LCluber/Ch.js/compare/v2.10.0...v2.10.1) (2020-04-05)
+# 2.10.1 (2020-04-05)
 
+- Add polyfill for typeof
 
-### Bug Fixes
+# 2.10.0 (2019-12-25)
 
-* **polyfill:** add polyfill for typeof ([8d3b01c](https://github.com/LCluber/Ch.js/commit/8d3b01c3d76c5369ddfd1dd9208ef54ce641b46b))
+- Add isemail and isipaddress functions
 
-# [2.10.0](https://github.com/LCluber/Ch.js/compare/v2.9.0...v2.10.0) (2019-12-25)
+# 2.9.0 (2019-10-16)
 
+- Add typecheck to isregex function
 
-### Features
+# 2.8.0 (2019-10-15)
 
-* **validator:** added isemail and isipaddress validators ([99a2990](https://github.com/LCluber/Ch.js/commit/99a299024812211d65d5077c4b58024b60a1db62))
+- Add isregex function 
 
-# [2.9.0](https://github.com/LCluber/Ch.js/compare/v2.8.0...v2.9.0) (2019-10-16)
+# 2.7.1 (2019-10-06)
 
+- Update readme.md documentation
 
-### Features
+# 2.7.0 (2019-09-19)
 
-* **isregex:** added typecheck to isregex ([22d9707](https://github.com/LCluber/Ch.js/commit/22d9707))
+- Add commonjs version of Ch.js into dist folder
 
-# [2.8.0](https://github.com/LCluber/Ch.js/compare/v2.7.1...v2.8.0) (2019-10-15)
+# 2.6.2 (2019-08-16)
 
+- ch.js is now in ES6 format
 
-### Features
+# 2.6.1 (2019-08-10)
 
-* **isregex:** added isregex method ([b335980](https://github.com/LCluber/Ch.js/commit/b335980))
+- Update description of the library 
 
-## [2.7.1](https://github.com/LCluber/Ch.js/compare/v2.7.0...v2.7.1) (2019-10-06)
+# 2.6.0 (2019-08-09)
 
+- isascii() function now accepts integers with string type
 
-### Bug Fixes
+# 2.5.0 (2019-08-09)
 
-* **readme:** updated readme.md documentation ([85bbc59](https://github.com/LCluber/Ch.js/commit/85bbc59))
+- isfloat() function now with type checking parameter
 
-# [2.7.0](https://github.com/LCluber/Ch.js/compare/v2.6.2...v2.7.0) (2019-09-19)
+# 2.4.0 (2019-08-08)
 
+- isinteger() now with type checking parameter
 
-### Features
+# 2.3.1 (2019-07-31)
 
-* **commonjs:** added commonjs version of Ch.js into dist folder ([fc8dd4e](https://github.com/LCluber/Ch.js/commit/fc8dd4e))
+- Update documentation api reference
 
-## [2.6.2](https://github.com/LCluber/Ch.js/compare/v2.6.1...v2.6.2) (2019-08-16)
+# 2.3.0 (2019-07-31)
 
+- Add isHTMLEventAttribute() function
 
-### Bug Fixes
+# 2.2.0 (2019-07-21)
 
-* **es6:** ch.js is now in ES6 format ([64cecc3](https://github.com/LCluber/Ch.js/commit/64cecc3))
+- Add isEven(), isOdd(), isOrigin(), isPositive(), isNegative() functions
 
-## [2.6.1](https://github.com/LCluber/Ch.js/compare/v2.6.0...v2.6.1) (2019-08-10)
+# 2.1.1 (2019-07-16)
 
+- isfunction() function returns false if parameter is null or 0
 
-### Bug Fixes
+# 2.1.0 (2019-07-16)
 
-* **readme:** updated description of the library ([f7d429f](https://github.com/LCluber/Ch.js/commit/f7d429f))
+- Adde isnumber() function
 
-# [2.6.0](https://github.com/LCluber/Ch.js/compare/v2.5.0...v2.6.0) (2019-08-09)
+# 2.0.1 (2019-07-15)
 
-### Features
+- isHtmlElement() & isNode() functions return false with null parameter
+- Fix isAscii() function
+- isObject() function now returns false with array as input
 
-- **isascii:** now accepts integers with string type ([140eba3](https://github.com/LCluber/Ch.js/commit/140eba3))
+# 2.0.0 (2019-07-14)
 
-# [2.5.0](https://github.com/LCluber/Ch.js/compare/v2.4.0...v2.5.0) (2019-08-09)
-
-### Features
-
-- **isfloat:** now with type checking parameter ([d4bbc2b](https://github.com/LCluber/Ch.js/commit/d4bbc2b))
-
-# [2.4.0](https://github.com/LCluber/Ch.js/compare/v2.3.1...v2.4.0) (2019-08-08)
-
-### Features
-
-- **isinteger:** now with type checking parameter ([38e64e5](https://github.com/LCluber/Ch.js/commit/38e64e5))
-
-## [2.3.1](https://github.com/LCluber/Ch.js/compare/v2.3.0...v2.3.1) (2019-07-31)
-
-### Bug Fixes
-
-- **readme:** updated api reference ([192074a](https://github.com/LCluber/Ch.js/commit/192074a))
-
-# [2.3.0](https://github.com/LCluber/Ch.js/compare/v2.2.0...v2.3.0) (2019-07-31)
-
-### Features
-
-- **html events:** added isHTMLEventAttribute method ([beaf7ac](https://github.com/LCluber/Ch.js/commit/beaf7ac))
-
-# [2.2.0](https://github.com/LCluber/Ch.js/compare/v2.1.1...v2.2.0) (2019-07-21)
-
-### Features
-
-- **numbers:** added isEven, isOdd, isOrigin, isPositive, isNegative ([61db1c5](https://github.com/LCluber/Ch.js/commit/61db1c5))
-
-## [2.1.1](https://github.com/LCluber/Ch.js/compare/v2.1.0...v2.1.1) (2019-07-16)
-
-### Bug Fixes
-
-- **isfunction:** returns false if parameter is null or 0 ([4000759](https://github.com/LCluber/Ch.js/commit/4000759))
-
-# [2.1.0](https://github.com/LCluber/Ch.js/compare/v2.0.1...v2.1.0) (2019-07-16)
-
-### Features
-
-- **isnumber:** added isnumber() method ([6f57267](https://github.com/LCluber/Ch.js/commit/6f57267))
-
-## [2.0.1](https://github.com/LCluber/Ch.js/compare/v2.0.0...v2.0.1) (2019-07-15)
-
-### Bug Fixes
-
-- **htmlelement:** & isnode return false with null parameter ([86ceeac](https://github.com/LCluber/Ch.js/commit/86ceeac))
-- **isascii:** method fixed ([b3a74c0](https://github.com/LCluber/Ch.js/commit/b3a74c0))
-- **isobject:** method now returns false with array parameter ([b4c4000](https://github.com/LCluber/Ch.js/commit/b4c4000))
-
-# [2.0.0](https://github.com/LCluber/Ch.js/compare/v1.2.0...v2.0.0) (2019-07-14)
-
-### Bug Fixes
-
-- **package:** fix husky pre-push command ([0c3c50a](https://github.com/LCluber/Ch.js/commit/0c3c50a))
-
-### Features
-
-- **ch:** now exports functions instead of a static class ([e99066c](https://github.com/LCluber/Ch.js/commit/e99066c))
-
-### BREAKING CHANGES
-
-- **ch:** Is.string method replaced by isString function, Is.array method replaced by
+- Fix husky pre-push command 
+- Library exports functions instead of a static class
+- Is.string function replaced by isString function, Is.array function replaced by
   isArray... please see README.md for exhaustive documentation
 
-# [1.2.0](https://github.com/LCluber/Ch.js/compare/v1.1.0...v1.2.0) (2019-07-08)
+# 1.2.0 (2019-07-08)
 
-### Features
+- Add Is.boolean() function 
 
-- Added Is.boolean() method ([250b9cf](https://github.com/LCluber/Ch.js/commit/250b9cf))
+# 1.1.0 (Jun 19th 2019)
 
-# 1.1.0 (June 19th 2019)
+- Added Is.htmlElement() function
+- Added Is.node() function
 
-- Added Is.htmlElement() method
-- Added Is.node() method
+# 1.0.2 (Jun 03rd 2019)
 
-# 1.0.2 (June 03rd 2019)
+- Improved Is.json() function
 
-- Improved Is.json() method
-
-# 1.0.1 (June 02nd 2019)
+# 1.0.1 (Jun 02nd 2019)
 
 - Updated README.md
 
-# 1.0.0 (June 01st 2019)
+# 1.0.0 (Jun 01st 2019)
 
 - Deleted Mouette.js dependency
-- Is.json() method now returns a boolean
+- Is.json() function now returns a boolean
 
-# 0.1.2 (April 07th 2019)
+# 0.1.2 (Apr 07th 2019)
 
 - Updated README.md with documentation and Yarn install command
 
-# 0.1.1 (February 17th 2019)
+# 0.1.1 (Feb 17th 2019)
 
-- Added Is.array() method
-- Added Is.float() method
+- Added Is.array() function
+- Added Is.float() function
 
-# 0.1.0 (December 23th 2018)
+# 0.1.0 (Dec 23th 2018)
 
-- Initial version from Wee.js
+- Initial version from Wee.js library

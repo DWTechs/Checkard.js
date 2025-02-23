@@ -57,6 +57,62 @@ test("sends negative float to isOrigin", () => {
   expect(isOrigin(-1.1)).toBe(false);
 });
 
+test("sends positive even integer as string to isOrigin", () => {
+  expect(isOrigin("2")).toBe(false);
+});
+
+test("sends positive odd integer as string to isOrigin", () => {
+  expect(isOrigin("1")).toBe(false);
+});
+
+test("sends zero as string to isOrigin", () => {
+  expect(isOrigin("0")).toBe(false);
+});
+
+test("sends positive float as string to isOrigin", () => {
+  expect(isOrigin("1.1")).toBe(false);
+});
+
+test("sends negative odd integer as string to isOrigin", () => {
+  expect(isOrigin("-1")).toBe(false);
+});
+
+test("sends negative even integer as string to isOrigin", () => {
+  expect(isOrigin("-2")).toBe(false);
+});
+
+test("sends negative float as string to isOrigin", () => {
+  expect(isOrigin("-1.1")).toBe(false);
+});
+
+test("sends positive even integer as string to isOrigin without type check", () => {
+  expect(isOrigin("2", false)).toBe(false);
+});
+
+test("sends positive odd integer as string to isOrigin without type check", () => {
+  expect(isOrigin("1", false)).toBe(false);
+});
+
+test("sends zero as string to isOrigin without type check", () => {
+  expect(isOrigin("0", false)).toBe(true);
+});
+
+test("sends positive float as string to isOrigin without type check", () => {
+  expect(isOrigin("1.1", false)).toBe(false);
+});
+
+test("sends negative odd integer as string to isOrigin without type check", () => {
+  expect(isOrigin("-1", false)).toBe(false);
+});
+
+test("sends negative even integer as string to isOrigin without type check", () => {
+  expect(isOrigin("-2", false)).toBe(false);
+});
+
+test("sends negative float as string to isOrigin without type check", () => {
+  expect(isOrigin("-1.1", false)).toBe(false);
+});
+
 test("sends object to isOrigin", () => {
   expect(isOrigin({})).toBe(false);
 });

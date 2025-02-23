@@ -57,6 +57,62 @@ test("sends negative float to isNegative", () => {
   expect(isNegative(-1.1)).toBe(true);
 });
 
+test("sends positive even integer as string to isNegative", () => {
+  expect(isNegative("2")).toBe(false);
+});
+
+test("sends positive odd integer as string to isNegative", () => {
+  expect(isNegative("1")).toBe(false);
+});
+
+test("sends zero as string to isNegative", () => {
+  expect(isNegative("0")).toBe(false);
+});
+
+test("sends positive float as string to isNegative", () => {
+  expect(isNegative("1.1")).toBe(false);
+});
+
+test("sends negative odd integer as string to isNegative", () => {
+  expect(isNegative("-1")).toBe(false);
+});
+
+test("sends negative even integer as string to isNegative", () => {
+  expect(isNegative("-2")).toBe(false);
+});
+
+test("sends negative float as string to isNegative", () => {
+  expect(isNegative("-1.1")).toBe(false);
+});
+
+test("sends positive even integer as string to isNegative without type check", () => {
+  expect(isNegative("2", false)).toBe(false);
+});
+
+test("sends positive odd integer as string to isNegative without type check", () => {
+  expect(isNegative("1", false)).toBe(false);
+});
+
+test("sends zero as string to isNegative without type check", () => {
+  expect(isNegative("0", false)).toBe(false);
+});
+
+test("sends positive float as string to isNegative without type check", () => {
+  expect(isNegative("1.1", false)).toBe(false);
+});
+
+test("sends negative odd integer as string to isNegative without type check", () => {
+  expect(isNegative("-1", false)).toBe(true);
+});
+
+test("sends negative even integer as string to isNegative without type check", () => {
+  expect(isNegative("-2", false)).toBe(true);
+});
+
+test("sends negative float as string to isNegative without type check", () => {
+  expect(isNegative("-1.1", false)).toBe(true);
+});
+
 test("sends object to isNegative", () => {
   expect(isNegative({})).toBe(false);
 });

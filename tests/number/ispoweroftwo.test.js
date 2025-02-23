@@ -61,6 +61,70 @@ test("sends negative float to isPowerOfTwo", () => {
   expect(isPowerOfTwo(-1.1)).toBe(false);
 });
 
+test("sends 2 integer as tring to isPowerOfTwo", () => {
+  expect(isPowerOfTwo("2")).toBe(false);
+});
+
+test("sends 16 integer as tring to isPowerOfTwo", () => {
+  expect(isPowerOfTwo("16")).toBe(false);
+});
+
+test("sends 1 integer as tring to isPowerOfTwo", () => {
+  expect(isPowerOfTwo("1")).toBe(false);
+});
+
+test("sends zero as tring to isPowerOfTwo", () => {
+  expect(isPowerOfTwo("0")).toBe(false);
+});
+
+test("sends positive float as tring to isPowerOfTwo", () => {
+  expect(isPowerOfTwo("1.1")).toBe(false);
+});
+
+test("sends negative odd integer as tring to isPowerOfTwo", () => {
+  expect(isPowerOfTwo("-1")).toBe(false);
+});
+
+test("sends negative even integer as tring to isPowerOfTwo", () => {
+  expect(isPowerOfTwo("-2")).toBe(false);
+});
+
+test("sends negative float as tring to isPowerOfTwo", () => {
+  expect(isPowerOfTwo("-1.1")).toBe(false);
+});
+
+test("sends 2 integer as tring to isPowerOfTwo without type check", () => {
+  expect(isPowerOfTwo("2", false)).toBe(true);
+});
+
+test("sends 16 integer as tring to isPowerOfTwo without type check", () => {
+  expect(isPowerOfTwo("16", false)).toBe(true);
+});
+
+test("sends 1 integer as tring to isPowerOfTwo without type check", () => {
+  expect(isPowerOfTwo("1", false)).toBe(true);
+});
+
+test("sends zero as tring to isPowerOfTwo without type check", () => {
+  expect(isPowerOfTwo("0", false)).toBe(false);
+});
+
+test("sends positive float as tring to isPowerOfTwo without type check", () => {
+  expect(isPowerOfTwo("1.1", false)).toBe(false);
+});
+
+test("sends negative odd integer as tring to isPowerOfTwo without type check", () => {
+  expect(isPowerOfTwo("-1", false)).toBe(false);
+});
+
+test("sends negative even integer as tring to isPowerOfTwo without type check", () => {
+  expect(isPowerOfTwo("-2", false)).toBe(false);
+});
+
+test("sends negative float as tring to isPowerOfTwo without type check", () => {
+  expect(isPowerOfTwo("-1.1", false)).toBe(false);
+});
+
 test("sends object to isPowerOfTwo", () => {
   expect(isPowerOfTwo({})).toBe(false);
 });

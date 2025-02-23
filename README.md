@@ -458,80 +458,80 @@ function isTruthy(v: unknown): boolean {}
 /**
  * Checks if a given number is an integer.
  *
- * @param {number} n - The number to check.
+ * @param {number | string} n - The number to check.
  * @param {boolean} [type=true] - Optional boolean indicating whether to perform type checking. Defaults to true.
  * @returns {boolean} True if the number is an integer, otherwise false.
  */
-isInteger(n: number, type = true): boolean {}
+isInteger(n: number | string, type = true): boolean {}
 
 /**
  * Checks if a given number is a floating-point number.
  *
- * @param {number} n - The number to check.
+ * @param {number | string} n - The number to check.
  * @param {boolean} [type=true] - Optional boolean indicating whether to perform type checking. Defaults to true.
  * @returns {boolean} True if the number is a floating-point number, otherwise false.
  */
-isFloat(n: number, type = true): boolean {}
+isFloat(n: number | string, type = true): boolean {}
 
 /**
  * Checks if a given number is even.
  *
- * @param {number} n - The number to check.
+ * @param {number | string} n - The number to check.
  * @param {boolean} [type=true] - Optional boolean indicating whether to perform type checking. Defaults to true.
  * @returns {boolean} True if the number is an even integer, otherwise false.
  */
-isEven(n: number, type = true): boolean {}
+isEven(n: number | string, type = true): boolean {}
 
 /**
  * Determines if a given number is odd.
  *
- * @param {number} n - The number to check.
+ * @param {number | string} n - The number to check.
  * @param {boolean} [type=true] - Optional boolean indicating whether to perform type checking. Defaults to true.
  * @returns {boolean} True if the number is an odd integer, otherwise false.
  */
-isOdd(n: number, type = true): boolean {}
+isOdd(n: number | string, type = true): boolean {}
 
 /**
  * Checks if a given number is zero.
  *
- * @param {number} n - The number to check.
+ * @param {number | string} n - The number to check.
  * @param {boolean} [type=true] - Optional boolean indicating whether to perform type checking. Defaults to true.
  * @returns {boolean} True if the number is zero, otherwise false.
  */
-isOrigin(n: number, type = true): boolean {}
+isOrigin(n: number | string, type = true): boolean {}
 
 /**
  * Checks if a given number is positive.
  *
- * @param {number} n - The number to check.
+ * @param {number | string} n - The number to check.
  * @param {boolean} [type=true] - Optional boolean indicating whether to perform type checking. Defaults to true.
  * @returns {boolean} True if the number is positive, otherwise false.
  * 
  * @remarks
  * This function also check if the value is a number.
  */
-isPositive(n: number, type = true): boolean {}
+isPositive(n: number | string, type = true): boolean {}
 
 /**
  * Checks if a given number is negative.
  *
- * @param {number} n - The number to check.
+ * @param {number | string} n - The number to check.
  * @param {boolean} [type=true] - Optional boolean indicating whether to perform type checking. Defaults to true.
  * @returns {boolean} True if the number is negative, otherwise false.
  *  
  * @remarks
  * This function also check if the value is a number.
  */
-isNegative(n: number, type = true): boolean {}
+isNegative(n: number | string, type = true): boolean {}
 
 /**
  * Checks if a given number is a power of two.
  *
- * @param {number} n - The number to check.
+ * @param {number | string} n - The number to check.
  * @param {boolean} [type=true] - Optional boolean indicating whether to perform type checking. Defaults to true.
  * @returns {boolean} True if the number is a power of two, otherwise false.
  */
-isPowerOfTwo(n: number, type = true): boolean {}
+isPowerOfTwo(n: number | string, type = true): boolean {}
 
 /**
  * Checks if a given number is an ASCII code.
@@ -555,7 +555,7 @@ Valid number methods take a number as parameter and check of the number lies in 
 /**
  * Checks if a given value is a valid number within given range.
  *
- * @param {number} n - The number to check
+ * @param {number | string} n - The number to check
  * @param {number} [min=-999999999] - minimal value of the range
  * @param {number} [max=999999999] - maximal value of the range
  * @param {boolean} [type=true] - whether to perform type checking
@@ -565,7 +565,7 @@ Valid number methods take a number as parameter and check of the number lies in 
  * This function also check if the value is a number.
  */
 isValidNumber(
-    n: number, 
+    n: number | string, 
     min = -999999999, 
     max = 999999999, 
     type = true 
@@ -574,14 +574,14 @@ isValidNumber(
 /**
  * Checks if a given value is a valid integer within given range.
  *
- * @param {number} n - The number to check
+ * @param {number | string} n - The number to check
  * @param {number} [min=-999999999] - minimal value of the range
  * @param {number} [max=999999999] - maximal value of the range
  * @param {boolean} [type=true] - whether to perform type checking
  * @returns {boolean} True if the value is a valid integer, otherwise false.
  */
 isValidInteger(
-    n: number, 
+    n: number | string, 
     min = -999999999, 
     max = 999999999, 
     type = true
@@ -590,14 +590,14 @@ isValidInteger(
 /**
  * Checks if a given value is a valid float within given range.
  *
- * @param {number} n - The number to check
+ * @param {number | string} n - The number to check
  * @param {number} [min=-999999999.9] - minimal value of the range
  * @param {number} [max=999999999.9] - maximal value of the range
  * @param {boolean} [type=true] - whether to perform type checking
  * @returns {boolean} True if the value is a valid float, otherwise false.
  */
 isValidFloat( 
-    n: number, 
+    n: number | string, 
     min = -999999999.9, 
     max = 999999999.9, 
     type = true 
