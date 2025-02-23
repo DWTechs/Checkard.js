@@ -12,7 +12,7 @@
  * @returns {boolean} True if the property exists on the object based on the specified conditions, otherwise false.
  */
 function isProperty<K extends PropertyKey>(
-  o: { [key: PropertyKey]: unknown; }, 
+  o: object, 
   k: K, 
   own = true, 
   enumerable = true): o is Record<K, unknown>
