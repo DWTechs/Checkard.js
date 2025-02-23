@@ -64,7 +64,7 @@ declare function isHtmlElement(h: unknown): h is HTMLElement;
 declare function isHtmlEventAttribute(h: string): boolean;
 declare function isNode(n: unknown): n is Node;
 
-declare function isProperty<K extends PropertyKey>(o: {[key: PropertyKey]: unknown;}, 
+declare function isProperty<K extends PropertyKey>(o: object, 
                                                    k: K, 
                                                    own?: boolean, 
                                                    enumerable?: boolean

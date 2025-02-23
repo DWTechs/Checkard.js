@@ -929,7 +929,7 @@ let lvl = setLevel("infos"); // lvl = "warn"
  * @returns {boolean} True if the property exists on the object based on the specified conditions, otherwise false.
  */
 isProperty<K extends PropertyKey>(
-    obj: { [key: string]: unknown },
+    obj: object,
     k: K,
     own = true,
     enumerable = true

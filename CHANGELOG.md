@@ -1,3 +1,7 @@
+# 3.2.2 (Feb 25th 2025)
+
+- Update isProperty() function inputs typings
+
 # 3.2.1 (Feb 24th 2025)
 
 - Update number validation functions type for string as input
