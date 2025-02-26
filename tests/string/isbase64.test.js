@@ -10,10 +10,13 @@ const sec1 = randB64(30);
 const sec2 = randB64(32);
 const sec3 = randB64(34);
 const sec4 = randB64(36);
+const sec5 = "YS1zdHJpbmctc2VjcmV0LWF0LWxlYXN0LTI1Ni1iaXRzLWxvbmc";
+const sec6 = "MnYV77-977-977-9VgB8We-_vTMy77-977-9J13vv71Tah4n77-9CO-_vQHvv71ubxrvv70";
 console.log("sec1", sec1);
 console.log("sec2", sec2);
 console.log("sec3", sec3);
 console.log("sec4", sec4);
+
 
 // test("sends NaN to isBase64", () => {
 //   expect(isBase64(Number.NaN, true)).toBe(false);
@@ -33,6 +36,14 @@ test("sends random base64 string sec3 to isBase64 urlEncoded = true", () => {
 
 test("sends random base64 string sec4 to isBase64 urlEncoded = true", () => {
   expect(isBase64(sec4, true)).toBe(true);
+});
+
+test("sends random base64 string sec5 to isBase64 urlEncoded = true", () => {
+  expect(isBase64(sec5, true)).toBe(true);
+});
+
+test("sends random base64 string sec6 to isBase64 urlEncoded = true", () => {
+  expect(isBase64(sec6, true)).toBe(true);
 });
 
 test("sends undefined to isBase64 urlEncoded = false", () => {
