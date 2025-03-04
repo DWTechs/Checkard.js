@@ -1,3 +1,7 @@
+# 3.2.3 (Mar 04th 2025)
+
+- Number and validNumber functions support undefined and null values in Typescript
+
 # 3.2.2 (Feb 25th 2025)
 
 - Update isProperty() function inputs typings
