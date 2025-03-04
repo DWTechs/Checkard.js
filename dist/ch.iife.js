@@ -260,7 +260,7 @@ var ch = (function (exports) {
       if (ext === void 0) {
         ext = true;
       }
-      return isInteger(n, false) && (ext && n >= 0 && n <= 255 || n >= 0 && n <= 127);
+      return isNumber(n, false) && isInteger(n, false) && (ext && n >= 0 && n <= 255 || n >= 0 && n <= 127);
     }
 
     function isValidNumber(n, min, max, type) {

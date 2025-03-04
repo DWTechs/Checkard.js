@@ -72,19 +72,19 @@ declare function isIn(a: unknown[],
                       from?: number
                      ): boolean;
 
-declare function isInteger(n: number | string, type?: boolean): boolean;
-declare function isAscii(n: number, ext?: boolean): boolean;
-declare function isFloat(n: number | string, type?: boolean): boolean;
-declare function isEven(n: number | string, type?: boolean): boolean;
-declare function isOdd(n: number | string, type?: boolean): boolean;
-declare function isOrigin(n: number | string, type?: boolean): boolean;
-declare function isPositive(n: number | string, type?: boolean): boolean;
-declare function isNegative(n: number | string, type?: boolean): boolean;
-declare function isPowerOfTwo(n: number | string, type?: boolean): boolean;
+declare function isInteger(n: number | string | undefined | null, type?: boolean): boolean;
+declare function isAscii(n: number | undefined | null, ext?: boolean): boolean;
+declare function isFloat(n: number | string | undefined | null, type?: boolean): boolean;
+declare function isEven(n: number | string | undefined | null, type?: boolean): boolean;
+declare function isOdd(n: number | string | undefined | null, type?: boolean): boolean;
+declare function isOrigin(n: number | string | undefined | null, type?: boolean): boolean;
+declare function isPositive(n: number | string | undefined | null, type?: boolean): boolean;
+declare function isNegative(n: number | string | undefined | null, type?: boolean): boolean;
+declare function isPowerOfTwo(n: number | string | undefined | null, type?: boolean): boolean;
 
-declare function isValidNumber(n: number | string, min?: number, max?: number, type?: boolean): boolean;
-declare function isValidInteger(n: number | string, min?: number, max?: number, type?: boolean): boolean;
-declare function isValidFloat(n: number | string, min?: number, max?: number, type?: boolean): boolean;
+declare function isValidNumber(n: number | string | undefined | null, min?: number, max?: number, type?: boolean): boolean;
+declare function isValidInteger(n: number | string | undefined | null, min?: number, max?: number, type?: boolean): boolean;
+declare function isValidFloat(n: number | string | undefined | null, min?: number, max?: number, type?: boolean): boolean;
 
 declare function isHtmlElement(h: unknown): h is HTMLElement;
 declare function isHtmlEventAttribute(h: string): boolean;

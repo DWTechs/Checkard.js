@@ -188,7 +188,7 @@ function isPowerOfTwo(n, type = true) {
     return isInteger(n, type) && !isOrigin(n, false) && (n & (n - 1)) === 0;
 }
 function isAscii(n, ext = true) {
-    return isInteger(n, false) && ((ext && n >= 0 && n <= 255) || (n >= 0 && n <= 127));
+    return isNumber(n, false) && isInteger(n, false) && ((ext && n >= 0 && n <= 255) || (n >= 0 && n <= 127));
 }
 
 function isValidNumber(n, min = -999999999, max = 999999999, type = true) {
