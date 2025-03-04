@@ -307,8 +307,8 @@ var ch = (function (exports) {
       if (max === void 0) {
         max = 999999999;
       }
-      var l = s.length;
-      return l >= min && l <= max;
+      var l = s === null || s === void 0 ? void 0 : s.length;
+      return !isNil(l) && l >= min && l <= max ? true : false;
     }
     var emailReg = /^(?=[a-z0-9@.!$%&'*+\/=?^_‘{|}~-]{6,254}$)(?=[a-z0-9.!#$%&'*+\/=?^_‘{|}~-]{1,64}@)[a-z0-9!#$%&'*+\/=?^‘{|}~]+(?:[\._-][a-z0-9!#$%&'*+\/=?^‘{|}~]+)*@(?:(?=[a-z0-9-]{1,63}\.)[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+(?=[a-z0-9-]{2,63}$)[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/;
     function isEmail(s) {

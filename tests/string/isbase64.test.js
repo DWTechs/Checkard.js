@@ -55,6 +55,11 @@ test("sends undefined to isBase64 urlEncoded = false", () => {
   expect(isBase64(undefined)).toBe(false);
 });
 
+test("sends null to isBase64 urlEncoded = false", () => {
+  expect(isBase64(null)).toBe(false);
+});
+
+
 test("sends false to isBase64 urlEncoded = false", () => {
   expect(isBase64(false)).toBe(false);
 });

@@ -202,8 +202,8 @@ function isValidFloat(n, min = -999999999.9, max = 999999999.9, type = true) {
 }
 
 function isStringOfLength(s, min = 0, max = 999999999) {
-    const l = s.length;
-    return l >= min && l <= max;
+    const l = s === null || s === void 0 ? void 0 : s.length;
+    return (!isNil(l) && l >= min && l <= max) ? true : false;
 }
 const emailReg = /^(?=[a-z0-9@.!$%&'*+\/=?^_‘{|}~-]{6,254}$)(?=[a-z0-9.!#$%&'*+\/=?^_‘{|}~-]{1,64}@)[a-z0-9!#$%&'*+\/=?^‘{|}~]+(?:[\._-][a-z0-9!#$%&'*+\/=?^‘{|}~]+)*@(?:(?=[a-z0-9-]{1,63}\.)[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+(?=[a-z0-9-]{2,63}$)[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/;
 function isEmail(s) {

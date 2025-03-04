@@ -70,13 +70,13 @@ declare function isProperty<K extends PropertyKey>(o: object,
                                                    enumerable?: boolean
                                                   ): o is Record<K, unknown>;
 
-declare function isStringOfLength(s: string, min?: number, max?: number): boolean;
-declare function isEmail(s: string): boolean;
-declare function isIpAddress(s: string): boolean;
-declare function isBase64(s: string, urlEncoded?: boolean): boolean;
-declare function isJWT(s: string): boolean;
-declare function isSlug(s: string): boolean;
-declare function isHexadecimal(s: string): boolean;
+declare function isStringOfLength(s: string | undefined | null, min?: number, max?: number): boolean;
+declare function isEmail(s: string | undefined | null): boolean;
+declare function isIpAddress(s: string | undefined | null): boolean;
+declare function isBase64(s: string | undefined | null, urlEncoded?: boolean): boolean;
+declare function isJWT(s: string | undefined | null): boolean;
+declare function isSlug(s: string | undefined | null): boolean;
+declare function isHexadecimal(s: string | undefined | null): boolean;
 declare function containsUpperCase(s: string): boolean;
 declare function containsLowerCase(s: string): boolean;
 declare function containsSpecialCharacter(s: string): boolean;

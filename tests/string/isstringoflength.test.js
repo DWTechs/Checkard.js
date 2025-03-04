@@ -1,5 +1,13 @@
 import { isStringOfLength } from "../../dist/ch";
 
+test("sends undefined to isStringOfLength", () => {
+  expect(isStringOfLength(undefined)).toBe(false);
+});
+
+test("sends null to isStringOfLength", () => {
+  expect(isStringOfLength(null)).toBe(false);
+});
+
 test("sends empty string to isStringOfLength", () => {
   expect(isStringOfLength("")).toBe(true);
 });
