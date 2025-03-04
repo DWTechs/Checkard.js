@@ -614,13 +614,13 @@ isValidFloat(
 /**
  * Checks if the length of a given string is within the specified range.
  *
- * @param {string} s - The string to check.
+ * @param {string | undefined | null} s - The string to check.
  * @param {number} [min=0] - The minimum length of the string (inclusive). Default is 0.
  * @param {number} [max=999999999] - The maximum length of the string (inclusive). Default is 999999999.
  * @returns {boolean} True if the string length is within the specified range, otherwise false.
  */
 isStringOfLength( 
-    s: string, 
+    s: string | undefined | null, 
     min = 0, 
     max = 999999999 
 ): boolean {}
@@ -628,27 +628,27 @@ isStringOfLength(
 /**
  * Checks if the given string is a valid email address.
  *
- * @param {string} s - The string to be checked.
+ * @param {string | undefined | null} s - The string to be checked.
  * @returns {boolean} True if the string is a valid email address, otherwise false.
  */
-isEmail(s: string): boolean {}
+isEmail(s: string | undefined | null): boolean {}
 
 /**
  * Checks if the given string is a valid IP address.
  *
- * @param {string} s - The string to be checked.
+ * @param {string | undefined | null} s - The string to be checked.
  * @returns {boolean} True if the string is a valid IP address, otherwise false.
  */
-isIpAddress(s: string): boolean {}
+isIpAddress(s: string | undefined | null): boolean {}
 
 /**
  * Checks if a given string is a valid Base64 encoded string.
  *
- * @param {string} s - The string to check.
+ * @param {string | undefined | null} s - The string to check.
  * @param {boolean} [urlEncoded=false] - Optional. If true, checks for URL-safe Base64 encoded strings. Defaults to false.
  * @returns {boolean} True if the string is a valid Base64 encoded string, otherwise false.
  */
-isBase64(s: string, urlEncoded = false): boolean {}
+isBase64(s: string | undefined | null, urlEncoded = false): boolean {}
 
 /**
  * Checks if a given string is a valid JSON Web Token (JWT).
@@ -661,28 +661,28 @@ isBase64(s: string, urlEncoded = false): boolean {}
  * Each part must be a valid Base64 encoded string. Additionally, the header and payload
  * must be valid JSON objects when decoded.
  *
- * @param {string} s - The string to check.
+ * @param {string | undefined | null} s - The string to check.
  * @returns {boolean} True if the string is a valid JWT, otherwise false.
  */
-isJWT(s: string): boolean {}
+isJWT(s: string | undefined | null): boolean {}
 
 /**
  * Checks if the given string is a valid slug.
  * 
  * A slug is typically a URL-friendly string that contains only lowercase letters, numbers, and hyphens.
  * 
- * @param {string} s - The string to check.
+ * @param {string | undefined | null} s - The string to check.
  * @returns {boolean} True if the string is a valid slug, otherwise false.
  */
-isSlug(s: string): boolean {}
+isSlug(s: string | undefined | null): boolean {}
 
 /**
  * Checks if the given string is a valid hexadecimal number.
  *
- * @param {string} s - The string to check.
+ * @param {string | undefined | null} s - The string to check.
  * @returns {boolean} True if the string is a valid hexadecimal number, otherwise false.
  */
-isHexadecimal(s: string): boolean {}
+isHexadecimal(s: string | undefined | null): boolean {}
 
 
 const PwdDefaultOptions = {
