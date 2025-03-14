@@ -192,7 +192,7 @@ isBoolean(v: unknown): v is boolean {}
  * @param {number | null} [limit=null] - An optional limit to compare the value against. Defaults to null.
  * @returns {boolean} True if the value is a number and passes all checks, otherwise false.
  */
-isNumber
+isNumber(
     v: unknown, 
     type = true,
     comparator = null, 
