@@ -61,12 +61,20 @@ test("sends negative float to isEmail", () => {
   expect(isEmail(-1.1)).toBe(false);
 });
 
-test("sends object to isEmail", () => {
+test("sends empty object to isEmail", () => {
   expect(isEmail({})).toBe(false);
 });
 
 test("sends empty array to isEmail", () => {
   expect(isEmail([])).toBe(false);
+});
+
+test("sends object to isEmail", () => {
+  expect(isEmail({toto: 3})).toBe(false);
+});
+
+test("sends array to isEmail", () => {
+  expect(isEmail(['toto', 3])).toBe(false);
 });
 
 const json = `{
