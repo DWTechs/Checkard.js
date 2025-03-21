@@ -33,6 +33,10 @@ test("sends empty string to isString with empty check using '>' comparator", () 
   expect(isString("", ">", 0)).toBe(false);
 });
 
+test("sends empty string to isString with empty check using 'empty' comparator", () => {
+  expect(isString("", "0")).toBe(true);
+});
+
 test("sends empty string to isString with empty check using '!empty' comparator", () => {
   expect(isString("", "!0")).toBe(false);
 });
