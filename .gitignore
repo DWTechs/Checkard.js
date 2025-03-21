@@ -1,6 +1,7 @@
 
 node_modules/
 build/
+performance/flamegraph/
 .tscache/
 npm-debug.log
 tests/coverage/

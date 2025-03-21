@@ -96,7 +96,7 @@ declare function isProperty<K extends PropertyKey>(o: object,
                                                    enumerable?: boolean
                                                   ): o is Record<K, unknown>;
 
-declare function isStringOfLength(s: string, min?: number, max?: number): boolean;
+declare function isStringOfLength(s: string | undefined | null, min?: number, max?: number): boolean;
 declare function isEmail(s: string | undefined | null): boolean;
 declare function isIpAddress(s: string | undefined | null): boolean;
 declare function isBase64(s: string | undefined | null, urlEncoded?: boolean): boolean;
