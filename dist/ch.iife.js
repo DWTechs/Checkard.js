@@ -57,7 +57,7 @@ var ch = (function (exports) {
       if (c) {
         if (c in comparisons) {
           if (c === '!0' || c === '0') return comparisons[c](a);
-          if (!isNil(b)) return comparisons[c](a, b);
+          if (b != null) return comparisons[c](a, b);
         }
         return false;
       }

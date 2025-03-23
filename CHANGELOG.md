@@ -1,3 +1,8 @@
+# 3.2.4 (Mar 23th 2025)
+
+- Fix cicular dependency issue
+- Add performance tests
+
 # 3.2.3 (Mar 04th 2025)
 
 - String, number and validNumber functions support undefined and null values in Typescript
