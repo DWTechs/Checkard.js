@@ -1,6 +1,6 @@
 {
   "name": "@dwtechs/checkard",
-  "version": "3.2.3",
+  "version": "3.2.4",
   "description": "Open source dynamic type checking library for Javascript, Typescript and Node.js to test if a given variable is what it is supposed to be.",
   "keywords": [
     "type checking",
@@ -34,7 +34,7 @@
     "rollup": "npm run rollup:mjs && npm run rollup:iife && npm run rollup:cjs",
     "uglify": "uglifyjs build/ch.iife.js --config-file uglify.config.json --output build/ch.iife.min.js",
     "test": "jest --coverage && tsc -p tsconfig.test.json",
-    "perf": "node performance/isString.performance.js"
+    "perf": "node performance/ch.performance.js"
   },
   "files": [
     "dist/"

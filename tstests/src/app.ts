@@ -56,7 +56,7 @@ function testIsFloat2(n: number | null | undefined) {
 
 function testIsInteger(n: number | null | undefined) {
   if (/*isNumber(n) && */!isInteger(n, true))
-    throw new Error(`Expected string of length 4. Received: ${(n.toString()}`);
+    throw new Error(`Expected string of length 4. Received: ${n.toString()}`);
 }
 
 function testIsInteger2(n: number | null | undefined) {
