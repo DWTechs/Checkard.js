@@ -1,3 +1,7 @@
+# 3.3.0 (Aug 18th 2025)
+
+- Delete b64Encode() and b64Decode() functions
+
 # 3.2.4 (Mar 23th 2025)
 
 - Fix cicular dependency issue
@@ -21,11 +25,11 @@
 
 # 3.1.0 (Feb 22th 2025)
 
-- Add b64Encode() and b64Decode() functions to transform strings accordingly.
+- Add b64Encode() and b64Decode() functions to transform strings accordingly
 
 # 3.0.0 (Feb 14th 2025)
 
-- isString() function now also checks if value is of length =, <, >, <=, >=, !=, !0, 0 than limit.
+- isString() function now also checks if value is of length =, <, >, <=, >=, !=, !0, 0 than limit
 - isNumber() function now also checks if value is of length =, <, >, <=, >=, !=, !0, 0 than limit
 - Add isNull() and isUndefined() function
 - Add isTruthy() and isFalsy() functions
@@ -34,8 +38,8 @@
 - Add "!0" to comparisons to check if a is not empty
 - Add "0" to comparisons to check if a empty
 - Update typings of most functions for easier use with Typescript
-- Typings are more strict. Resulting in possible breaking changes from Checkard version 2.x.x.
-- Other functions than primitives and non-primitives functions may not check for input type anymore. Resulting in possible breaking changes from Checkard version 2.x.x.
+- Typings are more strict. Resulting in possible breaking changes from Checkard version 2.x.x
+- Other functions than primitives and non-primitives functions may not check for input type anymore. Resulting in possible breaking changes from Checkard version 2.x.x
 - Improve Documentation 
 
 # 2.30.0 (Jan 29th 2025)

@@ -57,6 +57,10 @@ test("sends string to isString with empty check", () => {
   expect(isString("string", '!0')).toBe(true);
 });
 
+test("sends number to isString with empty check", () => {
+  expect(isString(123, '!0')).toBe(false);
+});
+
 test("sends positive even integer to isString", () => {
   expect(isString(2)).toBe(false);
 });
