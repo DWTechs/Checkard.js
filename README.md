@@ -22,12 +22,13 @@
 **[Checkard.js](https://github.com/DWTechs/Checkard.js)** is an open source dynamic type checking library for Javascript, Typescript and Node.js to test if a given variable is what it is supposed to be (
 Function, object, ascii, boolean, integer, string, json, email...)
 
-- No dependency
-- Very lightweight
-- Thoroughly tested
-- Works in Javascript, Typescript and Node.js
-- Can be used as CommonJS module, EcmaScrypt module or IIFE 
-- Old browsers support
+- 📦 No dependency
+- 🪶 Very lightweight
+- 🧪 Thoroughly tested
+- 🚚 Shipped as EcmaScrypt module, CommonJS module and IIFE
+- 📝 Written in Typescript
+- 🌐 Old browsers support
+- 💻 Works in Javascript, Typescript and Node.js
 
 
 ## Support
@@ -1072,32 +1073,6 @@ function normalizeInputs(req, res, next) {
   }
   next();
 }
-
-```
-
-
-### Base64
----
-
-```typescript
-
-/**
- * Decodes a base64 encoded string.
- *
- * @param {string} str - The base64 encoded string to decode.
- * @param {boolean} urlSafe - A boolean indicating if the input string is URL safe. Defaults to true.
- * @returns {string} The decoded string in UTF-8 format.
- */
-function b64Decode(str: string, urlSafe = true): string;
-
-/**
- * Encodes a given string into Base64 format.
- * 
- * @param {string} str - The string to be encoded.
- * @param {boolean} urlSafe - Optional boolean to determine if the output should be URL safe. Defaults to true.
- * @returns {string} The Base64 encoded string. If `urlSafe` is true, the output will be modified to be URL safe.
- */
-function b64Encode(str: string, urlSafe = true): string;
 
 ```
 
