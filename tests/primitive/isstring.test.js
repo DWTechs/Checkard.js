@@ -61,6 +61,34 @@ test("sends number to isString with empty check", () => {
   expect(isString(123, '!0')).toBe(false);
 });
 
+test("sends number to isString with >2 check", () => {
+  expect(isString(123, '>', 2)).toBe(false);
+});
+
+test("sends number to isString with >4 check", () => {
+  expect(isString(123, '>', 4)).toBe(false);
+});
+
+test("sends number to isString with >=3 check", () => {
+  expect(isString(123, '>=', 3)).toBe(false);
+});
+
+test("sends number to isString with >=4 check", () => {
+  expect(isString(123, '>=', 4)).toBe(false);
+});
+
+test("sends number to isString with <=4 check", () => {
+  expect(isString(123, '<=', 4)).toBe(false);
+});
+
+test("sends number to isString with != check", () => {
+  expect(isString(123, '!=', 4)).toBe(false);
+});
+
+test("sends number to isString with 0 check", () => {
+  expect(isString(123, '0')).toBe(false);
+});
+
 test("sends positive even integer to isString", () => {
   expect(isString(2)).toBe(false);
 });
