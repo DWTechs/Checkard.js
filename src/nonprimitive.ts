@@ -1,5 +1,6 @@
 import { isString } from './primitive';
-import { compare, getTag, createErrorMsg } from './utils';
+import { compare, getTag } from './utils';
+import { throwError } from './error';
 import { isArr } from './internal';
 import type { Comparator } from './types';
 
@@ -35,7 +36,7 @@ function isArray<T = unknown>(
   
   if (!isArr(v)) {
     if (throwErr)
-      throw new Error(createErrorMsg('array', v));
+      throwError('array', v);
     return false;
   }
   

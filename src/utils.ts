@@ -12,17 +12,6 @@ const comparisons = {
 };
 
 /**
- * Creates a standardized type error message.
- * 
- * @param {string} expectedType - The expected type (e.g., 'number', 'string', 'boolean').
- * @param {unknown} actualValue - The actual value that was received.
- * @returns {string} A formatted error message.
- */
-function createErrorMsg(expectedType: string, actualValue: unknown): string {
-  return `Expected ${expectedType}, but received ${typeof actualValue}: ${String(actualValue)}`;
-}
-
-/**
  * Compares two numbers using a comparator function.
  * 
  * @param {number} a - The first number.
@@ -81,5 +70,4 @@ function getTag(t: unknown): string {
 export {
   compare,
   getTag,
-  createErrorMsg,
 };

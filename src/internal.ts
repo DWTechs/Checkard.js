@@ -1,4 +1,6 @@
 
+import { throwError } from './error';
+
 /**
  * Checks if the given value is a number.
  * 
@@ -11,11 +13,20 @@
  * @param v - The value to check.
  * @param type - If true, checks if the value is strictly equal to its number conversion.
  *               If false, checks if the value can be parsed as a number.
- * @returns {boolean} True if the value is a number, false otherwise.
+ * @param {boolean} [throwErr=false] - If true, throws an error when value is not a number. If false, returns false.
+ * @returns {boolean} True if the value is a number, false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the value is not a number and throwErr is true.
  */
-function isNum(v: unknown, type: boolean): v is number {
+function isNum(v: unknown, type: boolean, throwErr: boolean = false): v is number {
+  
   const n = Number(v);
-  return type ? n === v : !Number.isNaN(n - Number.parseFloat(v as string));
+  if (type ? n === v : !Number.isNaN(n - Number.parseFloat(v as string)))
+    return true;
+  
+  if (throwErr)
+    throwError('number', v);
+  
+  return false;
 }
 
 /**
@@ -24,10 +35,20 @@ function isNum(v: unknown, type: boolean): v is number {
  * This function is a type guard that checks if the given value is an array.
  *
  * @param v The value to check.
- * @returns {boolean} true if the value is an array, false otherwise.
+ * @param {boolean} [throwErr=false] - If true, throws an error when value is not an array. If false, returns false.
+ * @returns {boolean} true if the value is an array, false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the value is not an array and throwErr is true.
  */
-function isArr(v: unknown): v is unknown[] {
-  return v?.constructor === Array;
+function isArr(v: unknown, throwErr: boolean = false): v is unknown[] {
+
+  if (v?.constructor === Array)
+    return true;
+  
+  if (throwErr)
+    throwError('array', v);
+  
+  return false;
+
 }
 
 /**
@@ -36,10 +57,20 @@ function isArr(v: unknown): v is unknown[] {
  * This function is a type guard that checks if the given value is a string.
  *
  * @param v The value to check.
- * @returns {boolean} true if the value is a string, false otherwise.
+ * @param {boolean} [throwErr=false] - If true, throws an error when value is not a string. If false, returns false.
+ * @returns {boolean} true if the value is a string, false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the value is not a string and throwErr is true.
  */
-function isStr(v: unknown): v is string {
-  return typeof v === "string";
+function isStr(v: unknown, throwErr: boolean = false): v is string {
+
+  if (typeof v === "string")
+    return true;
+  
+  if (throwErr)
+    throwError('string', v);
+  
+  return false;
+  
 }
 
 export {

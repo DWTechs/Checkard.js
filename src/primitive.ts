@@ -1,5 +1,6 @@
-import { getTag, compare, createErrorMsg } from './utils';
+import { getTag, compare } from './utils';
 import { isNum, isStr } from './internal';
+import { throwError } from './error';
 import type { Comparator } from './types';
 
 /**
@@ -16,7 +17,7 @@ function isBoolean( v: unknown, throwErr: boolean = false ): v is boolean {
     return true;
 
   if (throwErr) 
-    throw new Error(createErrorMsg('boolean', v));
+    throwError('boolean', v);
   
   return false;
 }
@@ -43,7 +44,7 @@ function isNumber(v: unknown,
 
   if (isSymbol(v) || v?.constructor === Array || !isNum(v, type)) {
     if (throwErr) 
-      throw new Error(createErrorMsg('number', v));
+      throwError('number', v);
     return false;
   }
 
@@ -68,7 +69,7 @@ function isString(v: unknown,
   
   if (!isStr(v)) {
     if (throwErr)
-      throw new Error(createErrorMsg('string', v));
+      throwError('string', v);
     return false;
   }
   
@@ -79,41 +80,73 @@ function isString(v: unknown,
  * Checks if the provided value is a symbol.
  *
  * @param {unknown} v - The value to check.
- * @returns True if the value is a symbol, otherwise false.
+ * @param {boolean} [throwErr=false] - If true, throws an error when value is not symbol. If false, returns false.
+ * @returns {boolean} True if the value is a symbol, false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the value is not a symbol and throwErr is true.
  */
-function isSymbol(v: unknown): v is symbol {
+function isSymbol(v: unknown, throwErr: boolean = false): v is symbol {
   const type = typeof v;
-  return type === 'symbol' || (type === 'object' && v != null && getTag(v) === '[object Symbol]');
+  if (type === 'symbol' || (type === 'object' && v != null && getTag(v) === '[object Symbol]'))
+    return true;
+  
+  if (throwErr)
+    throwError('symbol', v);
+  
+  return false;
 }
 
 /**
  * Checks if the given value is `null` or `undefined`.
  *
  * @param {unknown} v - The value to check.
- * @returns `true` if the value is `null` or `undefined`, otherwise `false`.
+ * @param {boolean} [throwErr=false] - If true, throws an error when value is not null or undefined. If false, returns false.
+ * @returns `true` if the value is `null` or `undefined`, false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the value is not null or undefined and throwErr is true.
  */
-function isNil(v: unknown): v is null | undefined {
-  return v == null;
+function isNil(v: unknown, throwErr: boolean = false): v is null | undefined {
+  if (v == null)
+    return true;
+  
+  if (throwErr)
+    throwError('null or undefined', v);
+  
+  return false;
 }
 
 /**
  * Checks if the given value is `null`.
  *
  * @param {unknown} v - The value to check.
- * @returns `true` if the value is `null`, otherwise `false`.
+ * @param {boolean} [throwErr=false] - If true, throws an error when value is not null. If false, returns false.
+ * @returns `true` if the value is `null`, false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the value is not null and throwErr is true.
  */
-function isNull(v: unknown): v is null {
-  return v === null;
+function isNull(v: unknown, throwErr: boolean = false): v is null {
+  if (v === null)
+    return true;
+  
+  if (throwErr)
+    throwError('null', v);
+  
+  return false;
 }
 
 /**
  * Checks if the given value is `undefined`.
  *
  * @param {unknown} v - The value to check.
- * @returns `true` if the value is `undefined`, otherwise `false`.
+ * @param {boolean} [throwErr=false] - If true, throws an error when value is not undefined. If false, returns false.
+ * @returns `true` if the value is `undefined`, false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the value is not undefined and throwErr is true.
  */
-function isUndefined(v: unknown): v is undefined {
-  return v === undefined;
+function isUndefined(v: unknown, throwErr: boolean = false): v is undefined {
+  if (v === undefined)
+    return true;
+  
+  if (throwErr)
+    throwError('undefined', v);
+  
+  return false;
 }
 
 export {
