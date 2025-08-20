@@ -1,5 +1,5 @@
 import { isString } from './primitive';
-import { compare, getTag } from './utils';
+import { compare, getTag, createErrorMsg } from './utils';
 import { isArr } from './internal';
 import type { Comparator } from './types';
 
@@ -22,14 +22,24 @@ function isObject<T = unknown>(v: unknown, empty = false): v is object & T {
  * @param {unknown} v - The value to check.
  * @param {Comparator | null} [comparator=null] - An optional comparator function to compare the array length.
  * @param {number | null} [limit=null] - An optional limit to compare the array length against.
+ * @param {boolean} [throwErr=false] - If true, throws an error when comparison fails. If false, returns false.
  * @returns {boolean} `true` if the value is an array and meets the comparator and limit conditions, otherwise `false`.
+ * @throws {Error} Throws an error if the comparison fails and throwError is true.
  */
 function isArray<T = unknown>(
   v: unknown, 
   comparator: Comparator | null = null, 
-  limit: number | null = null
+  limit: number | null = null,
+  throwErr: boolean = false
 ): v is T[] {
-  return isArr(v) ? compare(v.length, comparator, limit) : false;
+  
+  if (!isArr(v)) {
+    if (throwErr)
+      throw new Error(createErrorMsg('array', v));
+    return false;
+  }
+  
+  return compare(v.length, comparator, limit, throwErr);
 }
 
 /**

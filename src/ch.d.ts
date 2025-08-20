@@ -10,17 +10,19 @@ type PasswordOptions = {
 };
 export type { Comparator, PasswordOptions };
 
-declare function isBoolean(v: unknown): v is boolean;
+declare function isBoolean(v: unknown, throwErr?: boolean): v is boolean;
 declare function isTruthy(v: unknown): boolean;
 declare function isFalsy(v: unknown): boolean;
 declare function isNumber(v: unknown, 
                           type?: boolean, 
                           comparator?: Comparator | null, 
-                          limit?: number | null
+                          limit?: number | null,
+                          throwErr?: boolean
                          ): v is number;
 declare function isString(v: unknown, 
                           comparator?: Comparator | null, 
-                          limit?: number | null
+                          limit?: number | null,
+                          throwErr?: boolean
                          ): v is string;
 declare function isSymbol(v: unknown): v is symbol;
 declare function isNil(v: unknown): v is null | undefined;
