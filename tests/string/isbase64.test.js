@@ -196,8 +196,37 @@ test("sends negative float to isBase64 urlEncoded = false", () => {
   expect(isBase64(-1.1)).toBe(false);
 });
 
-test("sends object to isBase64 urlEncoded = false", () => {
+test("sends empty object to isBase64 urlEncoded = false", () => {
   expect(isBase64({})).toBe(false);
+});
+
+test("sends empty array to isBase64 urlEncoded = false", () => {
+  expect(isBase64([])).toBe(false);
+});
+
+test("sends empty array to isBase64 urlEncoded = true", () => {
+  expect(isBase64([], true)).toBe(false);
+});
+
+test("sends [1,2] to isBase64 urlEncoded = false", () => {
+  expect(isBase64([1,2])).toBe(false);
+});
+
+
+test("sends [1,2] to isBase64 urlEncoded = true", () => {
+  expect(isBase64([1,2], true)).toBe(false);
+});
+
+test("sends [sec1,sec2,sec3] to isBase64 urlEncoded = false", () => {
+  expect(isBase64([sec1,sec2,sec3])).toBe(false);
+});
+
+test("sends [sec1,sec2,sec3] to isBase64 urlEncoded = true", () => {
+  expect(isBase64([sec1,sec2,sec3], true)).toBe(false);
+});
+
+test("sends object to isBase64 urlEncoded = false", () => {
+  expect(isBase64({id:4,name:"test"})).toBe(false);
 });
 
 const json = `{
