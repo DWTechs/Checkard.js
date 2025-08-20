@@ -10,10 +10,20 @@ import type { Comparator } from './types';
  * @template T - The expected type of the object.
  * @param {unknown} v - The value to check.
  * @param {boolean} [empty=false] - If true, the function will also check if the object is non-empty.
- * @returns {o is object & T} - Returns true if the value is an object (and non-empty if specified), otherwise false.
+ * @param {boolean} [throwErr=false] - If true, throws an error when value is not an object. If false, returns false.
+ * @returns {v is object & T} - Returns true if the value is an object (and non-empty if specified), false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the value is not an object and throwErr is true.
  */
-function isObject<T = unknown>(v: unknown, empty = false): v is object & T {
-  return v !== null && typeof v === "object" && !isArray(v) && (empty ? !!Object.keys(v).length : true);
+function isObject<T = unknown>(v: unknown, empty = false, throwErr: boolean = false): v is object & T {
+
+  if (v !== null && typeof v === "object" && !isArray(v) && (empty ? !!Object.keys(v).length : true))
+    return true;
+  
+  if (throwErr)
+    throwError('object', v);
+  
+  return false;
+
 }
 
 /**
@@ -47,18 +57,27 @@ function isArray<T = unknown>(
  * Checks if the given input is a valid JSON string.
  *
  * @param {unknown} v - The input to check.
- * @returns {boolean} `true` if the input is a valid JSON string, otherwise `false`.
+ * @param {boolean} [throwErr=false] - If true, throws an error when value is not valid JSON. If false, returns false.
+ * @returns {boolean} `true` if the input is a valid JSON string, false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the value is not valid JSON and throwErr is true.
  */
-function isJson(v: unknown): v is JSON {
-  if (!isString(v, ">", 0))
-    return false;
-
-  try {
-    JSON.parse(v);
-  } catch (e) {
-    return false;
+function isJson(v: unknown, throwErr: boolean = false): v is JSON {
+  
+  if (isString(v, ">", 0)) {
+    try {
+      JSON.parse(v);
+    } catch (e) {
+      if (throwErr)
+        throwError('valid JSON string', v);
+      return false;
+    }
+    return true;
   }
-  return true;
+
+  if (throwErr)
+    throwError('valid JSON string', v);
+  return false;
+
 }
 
 /**
