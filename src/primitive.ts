@@ -12,6 +12,12 @@ function isBoolean(v: unknown): v is boolean {
   return typeof v === "boolean";
 }
 
+// function isBoolean(v: unknown, throw: boolean = false): v is boolean {
+//   return (typeof v === "boolean") ? true :
+//     throw ? throw new Error(`Expected boolean, but received ${typeof v}: ${String(v)}`) : false;
+// }
+
+
 /**
  * Checks if the given value is a number and optionally performs additional checks.
  * If typeCheck = false values like '4', '0', '8e4', '+true', '0x44' return true
