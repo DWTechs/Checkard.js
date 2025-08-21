@@ -53,35 +53,65 @@ var ch = (function (exports) {
         return a == 0;
       }
     };
-    function compare(a, c, b) {
-      if (c) {
-        if (c in comparisons) {
-          if (c === '!0' || c === '0') return comparisons[c](a);
-          if (b != null) return comparisons[c](a, b);
-        }
+    function compare(a, c, b, throwError) {
+      if (throwError === void 0) {
+        throwError = false;
+      }
+      if (!c) return true;
+      if (!(c in comparisons)) {
+        if (throwError) throw new Error("Invalid comparator: " + c + ". Valid comparators are: " + Object.keys(comparisons).join(', '));
         return false;
       }
-      return true;
+      if (c === '!0' || c === '0') return comparisons[c](a);
+      if (b == null) {
+        if (throwError) throw new Error("Comparator '" + c + "' requires a second value, but received null");
+        return false;
+      }
+      return comparisons[c](a, b);
     }
     function getTag(t) {
       return t == null ? t === undefined ? '[object Undefined]' : '[object Null]' : toString.call(t);
     }
 
-    function isNum(v, type) {
-      var n = Number(v);
-      return type ? n === v : !Number.isNaN(n - Number.parseFloat(v));
-    }
-    function isArr(v) {
-      return (v === null || v === void 0 ? void 0 : v.constructor) === Array;
-    }
-    function isStr(v) {
-      return typeof v === "string";
+    function throwError(expectedType, actualValue) {
+      throw new Error("Expected " + expectedType + ", but received " + typeof actualValue + ": " + String(actualValue));
     }
 
-    function isBoolean(v) {
-      return typeof v === "boolean";
+    function isNum(v, type, throwErr) {
+      if (throwErr === void 0) {
+        throwErr = false;
+      }
+      var n = Number(v);
+      if (type ? n === v : !Number.isNaN(n - Number.parseFloat(v))) return true;
+      if (throwErr) throwError('number', v);
+      return false;
     }
-    function isNumber(v, type, comparator, limit) {
+    function isArr(v, throwErr) {
+      if (throwErr === void 0) {
+        throwErr = false;
+      }
+      if ((v === null || v === void 0 ? void 0 : v.constructor) === Array) return true;
+      if (throwErr) throwError('array', v);
+      return false;
+    }
+    function isStr(v, throwErr) {
+      if (throwErr === void 0) {
+        throwErr = false;
+      }
+      if (typeof v === "string") return true;
+      if (throwErr) throwError('string', v);
+      return false;
+    }
+
+    function isBoolean(v, throwErr) {
+      if (throwErr === void 0) {
+        throwErr = false;
+      }
+      if (typeof v === "boolean") return true;
+      if (throwErr) throwError('boolean', v);
+      return false;
+    }
+    function isNumber(v, type, comparator, limit, throwErr) {
       if (type === void 0) {
         type = true;
       }
@@ -91,91 +121,181 @@ var ch = (function (exports) {
       if (limit === void 0) {
         limit = null;
       }
-      return !isSymbol(v) && !((v === null || v === void 0 ? void 0 : v.constructor) === Array) && isNum(v, type) ? compare(v, comparator, limit) : false;
+      if (throwErr === void 0) {
+        throwErr = false;
+      }
+      if (isSymbol(v) || (v === null || v === void 0 ? void 0 : v.constructor) === Array || !isNum(v, type)) {
+        if (throwErr) throwError('number', v);
+        return false;
+      }
+      return compare(v, comparator, limit, throwErr);
     }
-    function isString(v, comparator, limit) {
+    function isString(v, comparator, limit, throwErr) {
       if (comparator === void 0) {
         comparator = null;
       }
       if (limit === void 0) {
         limit = null;
       }
-      return isStr(v) ? compare(v.length, comparator, limit) : false;
+      if (throwErr === void 0) {
+        throwErr = false;
+      }
+      if (!isStr(v)) {
+        if (throwErr) throwError('string', v);
+        return false;
+      }
+      return compare(v.length, comparator, limit, throwErr);
     }
-    function isSymbol(v) {
+    function isSymbol(v, throwErr) {
+      if (throwErr === void 0) {
+        throwErr = false;
+      }
       var type = typeof v;
-      return type === 'symbol' || type === 'object' && v != null && getTag(v) === '[object Symbol]';
+      if (type === 'symbol' || type === 'object' && v != null && getTag(v) === '[object Symbol]') return true;
+      if (throwErr) throwError('symbol', v);
+      return false;
     }
-    function isNil(v) {
-      return v == null;
+    function isNil(v, throwErr) {
+      if (throwErr === void 0) {
+        throwErr = false;
+      }
+      if (v == null) return true;
+      if (throwErr) throwError('null or undefined', v);
+      return false;
     }
-    function isNull(v) {
-      return v === null;
+    function isNull(v, throwErr) {
+      if (throwErr === void 0) {
+        throwErr = false;
+      }
+      if (v === null) return true;
+      if (throwErr) throwError('null', v);
+      return false;
     }
-    function isUndefined(v) {
-      return v === undefined;
+    function isUndefined(v, throwErr) {
+      if (throwErr === void 0) {
+        throwErr = false;
+      }
+      if (v === undefined) return true;
+      if (throwErr) throwError('undefined', v);
+      return false;
     }
 
-    function isObject(v, empty) {
+    function isObject(v, empty, throwErr) {
       if (empty === void 0) {
         empty = false;
       }
-      return v !== null && typeof v === "object" && !isArray(v) && (empty ? !!Object.keys(v).length : true);
+      if (throwErr === void 0) {
+        throwErr = false;
+      }
+      if (v !== null && typeof v === "object" && !isArray(v) && (empty ? !!Object.keys(v).length : true)) return true;
+      if (throwErr) throwError('object', v);
+      return false;
     }
-    function isArray(v, comparator, limit) {
+    function isArray(v, comparator, limit, throwErr) {
       if (comparator === void 0) {
         comparator = null;
       }
       if (limit === void 0) {
         limit = null;
       }
-      return isArr(v) ? compare(v.length, comparator, limit) : false;
-    }
-    function isJson(v) {
-      if (!isString(v, ">", 0)) return false;
-      try {
-        JSON.parse(v);
-      } catch (e) {
+      if (throwErr === void 0) {
+        throwErr = false;
+      }
+      if (!isArr(v)) {
+        if (throwErr) throwError('array', v);
         return false;
       }
-      return true;
+      return compare(v.length, comparator, limit, throwErr);
     }
-    function isRegex(v, type) {
+    function isJson(v, throwErr) {
+      if (throwErr === void 0) {
+        throwErr = false;
+      }
+      if (isString(v, ">", 0)) {
+        try {
+          JSON.parse(v);
+        } catch (e) {
+          if (throwErr) throwError('valid JSON string', v);
+          return false;
+        }
+        return true;
+      }
+      if (throwErr) throwError('valid JSON string', v);
+      return false;
+    }
+    function isRegex(v, type, throwErr) {
       if (type === void 0) {
         type = true;
       }
-      if (type) return v instanceof RegExp;
-      try {
-        new RegExp(v);
-      } catch (e) {
+      if (throwErr === void 0) {
+        throwErr = false;
+      }
+      if (type) {
+        if (v instanceof RegExp) return true;
+        if (throwErr) throwError('valid RegExp pattern', v);
         return false;
       }
-      return true;
+      try {
+        new RegExp(v);
+        return true;
+      } catch (e) {
+        if (throwErr) throwError('valid RegExp pattern', v);
+        return false;
+      }
     }
-    function isDate(v) {
-      return !Number.isNaN(v) && v instanceof Date;
+    function isDate(v, throwErr) {
+      if (throwErr === void 0) {
+        throwErr = false;
+      }
+      if (!Number.isNaN(v) && v instanceof Date) return true;
+      if (throwErr) throwError('Date', v);
+      return false;
     }
-    function isFunction(v) {
-      return Boolean(v && getTag(v) === "[object Function]");
+    function isFunction(v, throwErr) {
+      if (throwErr === void 0) {
+        throwErr = false;
+      }
+      if (Boolean(v && getTag(v) === "[object Function]")) return true;
+      if (throwErr) throwError('function', v);
+      return false;
     }
 
-    function isFalsy(v) {
-      return !v;
+    function isFalsy(v, throwErr) {
+      if (throwErr === void 0) {
+        throwErr = false;
+      }
+      if (!v) return true;
+      if (throwErr) throwError('falsy value', v);
+      return false;
     }
-    function isTruthy(v) {
-      return !!v;
+    function isTruthy(v, throwErr) {
+      if (throwErr === void 0) {
+        throwErr = false;
+      }
+      if (!!v) return true;
+      if (throwErr) throwError('truthy value', v);
+      return false;
     }
 
-    function isProperty(o, k, own, enumerable) {
+    function isProperty(o, k, own, enumerable, throwErr) {
       if (own === void 0) {
         own = true;
       }
       if (enumerable === void 0) {
         enumerable = true;
       }
-      if (enumerable) return isEnumerable(o, k, own);
-      if (own) return Object.prototype.hasOwnProperty.call(o, k);
-      return k in o;
+      if (throwErr === void 0) {
+        throwErr = false;
+      }
+      var isValid;
+      if (enumerable) isValid = isEnumerable(o, k, own);else if (own) isValid = Object.prototype.hasOwnProperty.call(o, k);else isValid = k in o;
+      if (isValid) return true;
+      if (throwErr) {
+        var scope = own ? 'own' : 'inherited';
+        var type = enumerable ? 'enumerable' : 'any';
+        throwError(scope + " " + type + " property '" + String(k) + "'", o);
+      }
+      return false;
     }
     function isEnumerable(obj, key, own) {
       if (own) return Object.prototype.propertyIsEnumerable.call(obj, key);
@@ -188,79 +308,137 @@ var ch = (function (exports) {
       return false;
     }
 
-    function isArrayOfLength(a, min, max) {
+    function isArrayOfLength(a, min, max, throwErr) {
       if (min === void 0) {
         min = 0;
       }
       if (max === void 0) {
         max = 999999999;
       }
+      if (throwErr === void 0) {
+        throwErr = false;
+      }
       var n = a === null || a === void 0 ? void 0 : a.length;
-      return n >= min && n <= max;
+      if (n >= min && n <= max) return true;
+      if (throwErr) throwError("array length [" + min + ", " + max + "]", a);
+      return false;
     }
-    function isIn(a, v, from) {
+    function isIn(a, v, from, throwErr) {
       if (from === void 0) {
         from = 0;
       }
-      return a.includes(v, from);
+      if (throwErr === void 0) {
+        throwErr = false;
+      }
+      if (a.includes(v, from)) return true;
+      if (throwErr) throwError("value " + String(v) + " to be found in array", a);
+      return false;
     }
 
-    function isInteger(n, type) {
+    function isInteger(n, type, throwErr) {
       if (type === void 0) {
         type = true;
       }
+      if (throwErr === void 0) {
+        throwErr = false;
+      }
       var _int = Number.parseInt(String(n), 10);
-      return type ? n === _int : n == _int;
+      if (type ? n === _int : n == _int) return true;
+      if (throwErr) throwError('integer', n);
+      return false;
     }
-    function isFloat(n, type) {
+    function isFloat(n, type, throwErr) {
       if (type === void 0) {
         type = true;
+      }
+      if (throwErr === void 0) {
+        throwErr = false;
       }
       var num = Number(n);
       var modulo = num % 1 !== 0;
-      return type ? num === n && modulo : num == n && modulo;
+      if (type ? num === n && modulo : num == n && modulo) return true;
+      if (throwErr) throwError('floating-point number', n);
+      return false;
     }
-    function isEven(n, type) {
+    function isEven(n, type, throwErr) {
       if (type === void 0) {
         type = true;
       }
-      return isInteger(n, type) && !(n & 1);
+      if (throwErr === void 0) {
+        throwErr = false;
+      }
+      if (isInteger(n, type) && !(n & 1)) return true;
+      if (throwErr) throwError('even integer', n);
+      return false;
     }
-    function isOdd(n, type) {
+    function isOdd(n, type, throwErr) {
       if (type === void 0) {
         type = true;
       }
-      return isInteger(n, type) && Boolean(n & 1);
+      if (throwErr === void 0) {
+        throwErr = false;
+      }
+      if (isInteger(n, type) && Boolean(n & 1)) return true;
+      if (throwErr) throwError('odd integer', n);
+      return false;
     }
-    function isOrigin(n, type) {
+    function isOrigin(n, type, throwErr) {
       if (type === void 0) {
         type = true;
       }
-      return type ? n === 0 : n == 0;
+      if (throwErr === void 0) {
+        throwErr = false;
+      }
+      if (type ? n === 0 : n == 0) return true;
+      if (throwErr) throwError('zero', n);
+      return false;
     }
-    function isPositive(n, type) {
+    function isPositive(n, type, throwErr) {
       if (type === void 0) {
         type = true;
       }
-      return isNumber(n, type) && n > 0;
+      if (throwErr === void 0) {
+        throwErr = false;
+      }
+      if (isNumber(n, type) && n > 0) return true;
+      if (throwErr) throwError('positive number', n);
+      return false;
     }
-    function isNegative(n, type) {
+    function isNegative(n, type, throwErr) {
       if (type === void 0) {
         type = true;
       }
-      return isNumber(n, type) && n < 0;
+      if (throwErr === void 0) {
+        throwErr = false;
+      }
+      if (isNumber(n, type) && n < 0) return true;
+      if (throwErr) throwError('negative number', n);
+      return false;
     }
-    function isPowerOfTwo(n, type) {
+    function isPowerOfTwo(n, type, throwErr) {
       if (type === void 0) {
         type = true;
       }
-      return isInteger(n, type) && !isOrigin(n, false) && (n & n - 1) === 0;
+      if (throwErr === void 0) {
+        throwErr = false;
+      }
+      if (isInteger(n, type) && !isOrigin(n, false) && (n & n - 1) === 0) return true;
+      if (throwErr) throwError('power of two integer', n);
+      return false;
     }
-    function isAscii(n, ext) {
+    function isAscii(n, ext, throwErr) {
       if (ext === void 0) {
         ext = true;
       }
-      return isNumber(n, false) && isInteger(n, false) && (ext && n >= 0 && n <= 255 || n >= 0 && n <= 127);
+      if (throwErr === void 0) {
+        throwErr = false;
+      }
+      if (isNumber(n, false) && isInteger(n, false) && (ext && n >= 0 && n <= 255 || n >= 0 && n <= 127)) return true;
+      if (throwErr) {
+        var range = ext ? '0-255' : '0-127';
+        throwError("ASCII code in range [" + range + "]", n);
+      }
+      return false;
     }
 
     function isValidNumber(n, min, max, type) {
@@ -300,83 +478,156 @@ var ch = (function (exports) {
       return isFloat(n, type) && n >= min && n <= max;
     }
 
-    function isStringOfLength(s, min, max) {
+    function isStringOfLength(s, min, max, throwErr) {
       if (min === void 0) {
         min = 0;
       }
       if (max === void 0) {
         max = 999999999;
       }
+      if (throwErr === void 0) {
+        throwErr = false;
+      }
       var l = s === null || s === void 0 ? void 0 : s.length;
-      return !isNil(l) && l >= min && l <= max ? true : false;
+      if (!isNil(l) && l >= min && l <= max) return true;
+      if (throwErr) throwError("string with length in range [" + min + ", " + max + "] (actual length: " + l + ")", s);
+      return false;
     }
     var emailReg = /^(?=[a-z0-9@.!$%&'*+\/=?^_‘{|}~-]{6,254}$)(?=[a-z0-9.!#$%&'*+\/=?^_‘{|}~-]{1,64}@)[a-z0-9!#$%&'*+\/=?^‘{|}~]+(?:[\._-][a-z0-9!#$%&'*+\/=?^‘{|}~]+)*@(?:(?=[a-z0-9-]{1,63}\.)[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+(?=[a-z0-9-]{2,63}$)[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/;
-    function isEmail(s) {
-      return s ? emailReg.test(String(s).toLowerCase()) : false;
+    function isEmail(s, throwErr) {
+      if (throwErr === void 0) {
+        throwErr = false;
+      }
+      if (s && emailReg.test(String(s).toLowerCase())) return true;
+      if (throwErr) throwError('valid email address', s);
+      return false;
     }
     var ipReg = /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
-    function isIpAddress(s) {
-      return s ? ipReg.test(String(s)) : false;
+    function isIpAddress(s, throwErr) {
+      if (throwErr === void 0) {
+        throwErr = false;
+      }
+      if (s && ipReg.test(String(s))) return true;
+      if (throwErr) throwError('valid IP address', s);
+      return false;
     }
     var b64UrlEncoded = /^[A-Za-z0-9-_]+$/;
     var b64 = /^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/;
-    function isBase64(s, urlEncoded) {
+    function isBase64(s, urlEncoded, throwErr) {
       if (urlEncoded === void 0) {
         urlEncoded = false;
       }
+      if (throwErr === void 0) {
+        throwErr = false;
+      }
       var regex = urlEncoded ? b64UrlEncoded : b64;
-      return s ? regex.test(s) : false;
-    }
-    var b64Reg = /^[A-Za-z0-9\-_]+={0,2}$/;
-    function isJWT(s) {
-      if (!s) return false;
-      var p = s.split('.');
-      if (p.length !== 3) return false;
-      var header = p[0];
-      var payload = p[1];
-      var signature = p[3];
-      if (b64Reg.test(header) && b64Reg.test(payload) && b64Reg.test(signature)) {
-        try {
-          return isJson(atob(header)) && isJson(atob(payload));
-        } catch (e) {
-          return false;
-        }
+      if (s && regex.test(s)) return true;
+      if (throwErr) {
+        var encodingType = urlEncoded ? 'URL-safe Base64' : 'Base64';
+        throwError("valid " + encodingType + " encoded string", s);
       }
       return false;
     }
+    var b64Reg = /^[A-Za-z0-9\-_]+={0,2}$/;
+    function isJWT(s, throwErr) {
+      if (throwErr === void 0) {
+        throwErr = false;
+      }
+      if (s) {
+        var p = s.split('.');
+        if (p.length === 3) {
+          var header = p[0],
+            payload = p[1],
+            signature = p[2];
+          if (b64Reg.test(header) && b64Reg.test(payload) && b64Reg.test(signature)) {
+            try {
+              if (isJson(atob(header)) && isJson(atob(payload))) return true;
+            } catch (e) {
+              if (throwErr) throwError('valid JWT', s);
+              return false;
+            }
+          }
+        }
+      }
+      if (throwErr) throwError('valid JWT', s);
+      return false;
+    }
     var slugReg = /^[^\s-_](?!.*?[-_]{2,})[a-z0-9-\\][^\s]*[^-_\s]$/;
-    function isSlug(s) {
-      return s ? slugReg.test(s) : false;
+    function isSlug(s, throwErr) {
+      if (throwErr === void 0) {
+        throwErr = false;
+      }
+      if (s && slugReg.test(s)) return true;
+      if (throwErr) throwError('valid slug', s);
+      return false;
     }
     var hexadecimal = /^(#|0x|0h)?[0-9A-F]+$/i;
-    function isHexadecimal(s) {
-      return s ? hexadecimal.test(s) : false;
+    function isHexadecimal(s, throwErr) {
+      if (throwErr === void 0) {
+        throwErr = false;
+      }
+      if (s && hexadecimal.test(s)) return true;
+      if (throwErr) throwError('hexadecimal number', s);
+      return false;
     }
     var upperCaseReg = /[A-Z]+/;
-    function containsUpperCase(s) {
-      return upperCaseReg.test(s);
+    function containsUpperCase(s, throwErr) {
+      if (throwErr === void 0) {
+        throwErr = false;
+      }
+      if (upperCaseReg.test(s)) return true;
+      if (throwErr) throwError('string containing uppercase letters', s);
+      return false;
     }
     var lowerCaseReg = /[a-z]+/;
-    function containsLowerCase(s) {
-      return lowerCaseReg.test(s);
+    function containsLowerCase(s, throwErr) {
+      if (throwErr === void 0) {
+        throwErr = false;
+      }
+      if (lowerCaseReg.test(s)) return true;
+      if (throwErr) throwError('string containing lowercase letters', s);
+      return false;
     }
     var specialReg = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?°`€£§]+/;
-    function containsSpecialCharacter(s) {
-      return specialReg.test(s);
+    function containsSpecialCharacter(s, throwErr) {
+      if (throwErr === void 0) {
+        throwErr = false;
+      }
+      if (specialReg.test(s)) return true;
+      if (throwErr) throwError('string containing special characters', s);
+      return false;
     }
     var digit = /\d/;
     var nonDigit = /[^0-9]/g;
-    function containsNumber(s, min, max) {
+    function containsNumber(s, min, max, throwErr) {
       if (min === void 0) {
         min = 1;
       }
       if (max === void 0) {
         max = null;
       }
-      if (!digit.test(s)) return false;
+      if (throwErr === void 0) {
+        throwErr = false;
+      }
+      if (!digit.test(s)) {
+        if (throwErr) {
+          var range = max ? "[" + min + ", " + max + "]" : "[" + min + ", \u221E)";
+          throwError("string containing " + range + " digits", s);
+        }
+        return false;
+      }
       var nums = s.replace(nonDigit, '');
-      if (!(nums.length >= min)) return false;
-      if (max && !(nums.length <= max)) return false;
+      if (!(nums.length >= min)) {
+        if (throwErr) {
+          var _range = max ? "[" + min + ", " + max + "]" : "[" + min + ", \u221E)";
+          throwError("string containing " + _range + " digits (actual: " + nums.length + ")", s);
+        }
+        return false;
+      }
+      if (max && !(nums.length <= max)) {
+        if (throwErr) throwError("string containing [" + min + ", " + max + "] digits (actual: " + nums.length + ")", s);
+        return false;
+      }
       return true;
     }
     var defaultOptions = {
@@ -396,10 +647,18 @@ var ch = (function (exports) {
       return l >= o.minLength && l <= o.maxLength && (o.lowerCase ? containsLowerCase(s) : true) && (o.upperCase ? containsUpperCase(s) : true) && (o.number ? containsNumber(s, 1, null) : true) && (o.specialCharacter ? containsSpecialCharacter(s) : true);
     }
 
-    function isHtmlElement(h) {
-      return Boolean(typeof HTMLElement === "object" ? h instanceof HTMLElement : h && typeof h === "object" && h.nodeType === 1 && typeof h.nodeName === "string");
+    function isHtmlElement(h, throwErr) {
+      if (throwErr === void 0) {
+        throwErr = false;
+      }
+      if (typeof HTMLElement === "object" && h instanceof HTMLElement || h && typeof h === "object" && h.nodeType === 1 && typeof h.nodeName === "string") return true;
+      if (throwErr) throwError('HTML element', h);
+      return false;
     }
-    function isHtmlEventAttribute(h) {
+    function isHtmlEventAttribute(h, throwErr) {
+      if (throwErr === void 0) {
+        throwErr = false;
+      }
       switch (h) {
         case "onafterprint":
         case "onbeforeprint":
@@ -474,31 +733,47 @@ var ch = (function (exports) {
         case "ontoggle":
           return true;
         default:
+          if (throwErr) throwError('HTML event attribute', h);
           return false;
       }
     }
-    function isNode(n) {
-      return Boolean(typeof Node === "object" ? n instanceof Node : n && typeof n === "object" && typeof n.nodeType === "number" && typeof n.nodeName === "string");
+    function isNode(n, throwErr) {
+      if (throwErr === void 0) {
+        throwErr = false;
+      }
+      if (typeof Node === "object" && n instanceof Node || n && typeof n === "object" && typeof n.nodeType === "number" && typeof n.nodeName === "string") return true;
+      if (throwErr) throwError('DOM Node', n);
+      return false;
     }
 
     var minDate = new Date('1/1/1900');
     var maxDate = new Date('1/1/2200');
-    function isValidDate(d, min, max) {
+    function isValidDate(d, min, max, throwErr) {
       if (min === void 0) {
         min = minDate;
       }
       if (max === void 0) {
         max = maxDate;
       }
-      return isDate(d) && d >= min && d <= max;
+      if (throwErr === void 0) {
+        throwErr = false;
+      }
+      if (isDate(d) && d >= min && d <= max) return true;
+      if (throwErr) throwError("date between " + min.toISOString() + " and " + max.toISOString(), d);
+      return false;
     }
-    function isTimestamp(t, type) {
+    function isTimestamp(t, type, throwErr) {
       if (type === void 0) {
         type = true;
       }
-      return isInteger(t, type) && isNum(new Date(Number.parseInt(String(t))).getTime(), type);
+      if (throwErr === void 0) {
+        throwErr = false;
+      }
+      if (isInteger(t, type) && isNum(new Date(Number.parseInt(String(t))).getTime(), type)) return true;
+      if (throwErr) throwError('valid timestamp', t);
+      return false;
     }
-    function isValidTimestamp(t, min, max, type) {
+    function isValidTimestamp(t, min, max, type, throwErr) {
       if (min === void 0) {
         min = -2208989361000;
       }
@@ -508,7 +783,16 @@ var ch = (function (exports) {
       if (type === void 0) {
         type = true;
       }
-      return isTimestamp(t, type) && t >= min && t <= max;
+      if (throwErr === void 0) {
+        throwErr = false;
+      }
+      if (isTimestamp(t, type, throwErr) && t >= min && t <= max) return true;
+      if (throwErr) {
+        var _minDate = new Date(min).toISOString();
+        var _maxDate = new Date(max).toISOString();
+        throwError("timestamp between " + min + " (" + _minDate + ") and " + max + " (" + _maxDate + ")", t);
+      }
+      return false;
     }
 
     function ucfirst(s, everyWords) {
@@ -525,14 +809,39 @@ var ch = (function (exports) {
       }
       return newStr.charAt(0).toUpperCase() + newStr.slice(1);
     }
-    function normalizeNickname(nickname, firstName, lastName) {
-      return nickname || firstName && lastName ? createNickname(nickname, firstName, lastName) : false;
+    function normalizeNickname(nickname, firstName, lastName, throwErr) {
+      if (throwErr === void 0) {
+        throwErr = false;
+      }
+      if (!(isString(nickname, '!0') || isString(firstName, '!0') && isString(lastName, '!0'))) {
+        if (throwErr) throwError('nickname or both firstName and lastName', {
+          nickname: nickname,
+          firstName: firstName,
+          lastName: lastName
+        });
+        return false;
+      }
+      return createNickname(nickname, firstName, lastName);
     }
-    function normalizeName(s) {
-      return s ? ucfirst(s, true) : false;
+    function normalizeName(s, throwErr) {
+      if (throwErr === void 0) {
+        throwErr = false;
+      }
+      if (!isString(s, '!0')) {
+        if (throwErr) throwError('non-empty string', s);
+        return false;
+      }
+      return ucfirst(s, true);
     }
-    function normalizeEmail(s) {
-      return s && isEmail(s) ? s.toLowerCase() : false;
+    function normalizeEmail(s, throwErr) {
+      if (throwErr === void 0) {
+        throwErr = false;
+      }
+      if (!isEmail(s)) {
+        if (throwErr) throwError('valid email address', s);
+        return false;
+      }
+      return s.toLowerCase();
     }
     function createNickname(nickname, firstName, lastName) {
       var n = nickname || firstName[0] + lastName;
