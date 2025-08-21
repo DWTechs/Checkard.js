@@ -84,39 +84,67 @@ function isJson(v: unknown, throwErr: boolean = false): v is JSON {
  * Checks if the given value is a regular expression.
  *
  * @param {unknown} v - The value to check.
- * @param {boolean} [type=true] - If true, uses `instanceof` to check if `r` is a RegExp. If false, attempts to create a new RegExp from `r`.
- * @returns {boolean} `true` if `r` is a RegExp or can be converted to a RegExp, otherwise `false`.
+ * @param {boolean} [type=true] - If true, uses `instanceof` to check if `v` is a RegExp. If false, attempts to create a new RegExp from `v`.
+ * @param {boolean} [throwErr=false] - If true, throws an error when value is not a RegExp. If false, returns false.
+ * @returns {boolean} `true` if `v` is a RegExp or can be converted to a RegExp, false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the value is not a RegExp and throwErr is true.
  */
-function isRegex(v: unknown, type = true): v is RegExp {
-  if (type)
-    return v instanceof RegExp;
+function isRegex(v: unknown, type = true, throwErr: boolean = false): v is RegExp {
+  if (type) {
+    if (v instanceof RegExp)
+      return true;
+    if (throwErr)
+      throwError('valid RegExp pattern', v);
+    return false;
+  }
   
   try {
     new RegExp(v as RegExp | string);
+    return true;
   } catch (e) {
+    if (throwErr)
+      throwError('valid RegExp pattern', v);
     return false;
   }
-  return true;
 }
 
 /**
  * Checks if the given value is a valid Date object.
  *
  * @param {unknown} v - The value to check.
- * @returns {boolean} True if the value is a Date object and not NaN, otherwise false.
+ * @param {boolean} [throwErr=false] - If true, throws an error when value is not a valid Date. If false, returns false.
+ * @returns {boolean} True if the value is a Date object and not NaN, false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the value is not a valid Date and throwErr is true.
  */
-function isDate(v: unknown): v is Date {
-  return !Number.isNaN(v) && v instanceof Date;
+function isDate(v: unknown, throwErr: boolean = false): v is Date {
+ 
+  if (!Number.isNaN(v) && v instanceof Date)
+    return true;
+  
+  if (throwErr)
+    throwError('Date', v);
+  
+  return false;
 }
 
 /**
  * Checks if the provided value is a function.
  *
  * @param {unknown} v - The value to check.
- * @returns {boolean} A boolean indicating whether the value is a function.
+ * @param {boolean} [throwErr=false] - If true, throws an error when value is not a function. If false, returns false.
+ * @returns {boolean} A boolean indicating whether the value is a function, false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the value is not a function and throwErr is true.
  */
-function isFunction(v: unknown): v is (...args: unknown[]) => unknown {
-  return Boolean(v && getTag(v) === "[object Function]");
+function isFunction(v: unknown, throwErr: boolean = false): v is (...args: unknown[]) => unknown {
+  
+  if (Boolean(v && getTag(v) === "[object Function]"))
+    return true;
+  
+  if (throwErr)
+    throwError('function', v);
+  
+  return false;
+  
 }
 
 export {

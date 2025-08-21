@@ -1,4 +1,6 @@
 import { isEmail } from './string';
+import { isString} from './primitive';
+import { throwError } from './error';
 
 /**
  * A function to capitalize the first letter of each word in a string.
@@ -30,20 +32,37 @@ function ucfirst(s: string, everyWords = true): string {
  * @param {string} nickname - The nickname of the user.
  * @param {string} firstName - The first name of the user.
  * @param {string} lastName - The last name of the user.
- * @return {string | false} The normalized nickname.
+ * @param {boolean} [throwErr=false] - If true, throws an error when normalization fails. If false, returns false.
+ * @return {string | false} The normalized nickname, or false if normalization fails (when throwErr is false).
+ * @throws {Error} Throws an error if normalization fails and throwErr is true.
  */
-function normalizeNickname(nickname: string, firstName: string, lastName: string): string | false {
-  return (nickname || firstName && lastName) ? createNickname(nickname, firstName, lastName) : false;
+function normalizeNickname(nickname: string, firstName: string, lastName: string, throwErr: boolean = false): string | false {
+
+  if (!(isString(nickname, '!0') || (isString(firstName, '!0') && isString(lastName, '!0')))) {
+    if (throwErr)
+      throwError('nickname or both firstName and lastName', { nickname, firstName, lastName });
+    return false;
+  }
+  
+  return createNickname(nickname, firstName, lastName);
 }
 
 /**
  * Normalizes a first name by capitalizing the first letter of each word.
  *
  * @param {string} s - The first name to normalize.
- * @return {string | false} The normalized first name.
+ * @param {boolean} [throwErr=false] - If true, throws an error when normalization fails. If false, returns false.
+ * @return {string | false} The normalized first name, or false if normalization fails (when throwErr is false).
+ * @throws {Error} Throws an error if normalization fails and throwErr is true.
  */
-function normalizeName(s: string): string | false {
-  return s ? ucfirst(s, true) : false;
+function normalizeName(s: string, throwErr: boolean = false): string | false {
+  if (!isString(s, '!0')) {
+    if (throwErr)
+      throwError('non-empty string', s);
+    return false;
+  }
+  
+  return ucfirst(s, true);
 }
 
 /**
@@ -52,11 +71,18 @@ function normalizeName(s: string): string | false {
  * If the string is not a valid email address, the function will return false.
  *
  * @param {string} s - The email address to normalize.
- * @return {string | false} The normalized email address or false if the
- * string is not a valid email address.
+ * @param {boolean} [throwErr=false] - If true, throws an error when normalization fails. If false, returns false.
+ * @return {string | false} The normalized email address, or false if normalization fails (when throwErr is false).
+ * @throws {Error} Throws an error if normalization fails and throwErr is true.
  */
-function normalizeEmail(s: string): string | false {
-  return (s && isEmail(s)) ? s.toLowerCase() : false; 
+function normalizeEmail(s: string, throwErr: boolean = false): string | false {
+  if (!isEmail(s)) {
+    if (throwErr)
+      throwError('valid email address', s);
+    return false;
+  }
+  
+  return s.toLowerCase();
 }
 
 /**
