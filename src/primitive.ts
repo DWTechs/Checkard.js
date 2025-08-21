@@ -20,6 +20,7 @@ function isBoolean( v: unknown, throwErr: boolean = false ): v is boolean {
     throwError('boolean', v);
   
   return false;
+
 }
 
 
@@ -49,6 +50,7 @@ function isNumber(v: unknown,
   }
 
   return compare(v, comparator, limit, throwErr);
+  
 }
 
 /**
