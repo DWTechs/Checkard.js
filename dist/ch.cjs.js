@@ -216,7 +216,7 @@ function isIpAddress(s) {
     return s ? ipReg.test(String(s)) : false;
 }
 const b64UrlEncoded = /^[A-Za-z0-9-_]+$/;
-const b64 = /^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/;
+const b64 = /^(?=.{1,}$)(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/;
 function isBase64(s, urlEncoded = false) {
     const regex = urlEncoded ? b64UrlEncoded : b64;
     return s ? regex.test(s) : false;
