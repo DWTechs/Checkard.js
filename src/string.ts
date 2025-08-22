@@ -121,7 +121,7 @@ function isIpAddress(s: string | undefined | null, throwErr: boolean = false): b
 // - abcdabcdab=
 // - abcdabcdabc==
 const b64UrlEncoded = /^[A-Za-z0-9-_]+$/;
-const b64 =  /^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/;
+const b64 =  /^(?=.{1,}$)(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/;
 /**
  * Checks if a given string is a valid Base64 encoded string.
  *

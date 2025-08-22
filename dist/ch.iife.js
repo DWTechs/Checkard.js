@@ -512,7 +512,7 @@ var ch = (function (exports) {
       return false;
     }
     var b64UrlEncoded = /^[A-Za-z0-9-_]+$/;
-    var b64 = /^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/;
+    var b64 = /^(?=.{1,}$)(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/;
     function isBase64(s, urlEncoded, throwErr) {
       if (urlEncoded === void 0) {
         urlEncoded = false;
