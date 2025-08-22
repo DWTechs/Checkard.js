@@ -441,7 +441,7 @@ var ch = (function (exports) {
       return false;
     }
 
-    function isValidNumber(n, min, max, type) {
+    function isValidNumber(n, min, max, type, throwErr) {
       if (min === void 0) {
         min = -999999999;
       }
@@ -451,9 +451,14 @@ var ch = (function (exports) {
       if (type === void 0) {
         type = true;
       }
-      return isNumber(n, type) && n >= min && n <= max;
+      if (throwErr === void 0) {
+        throwErr = false;
+      }
+      if (isNumber(n, type) && n >= min && n <= max) return true;
+      if (throwErr) throwError("valid number in range [" + min + ", " + max + "]", n);
+      return false;
     }
-    function isValidInteger(n, min, max, type) {
+    function isValidInteger(n, min, max, type, throwErr) {
       if (min === void 0) {
         min = -999999999;
       }
@@ -463,9 +468,14 @@ var ch = (function (exports) {
       if (type === void 0) {
         type = true;
       }
-      return isInteger(n, type) && n >= min && n <= max;
+      if (throwErr === void 0) {
+        throwErr = false;
+      }
+      if (isInteger(n, type) && n >= min && n <= max) return true;
+      if (throwErr) throwError("valid integer in range [" + min + ", " + max + "]", n);
+      return false;
     }
-    function isValidFloat(n, min, max, type) {
+    function isValidFloat(n, min, max, type, throwErr) {
       if (min === void 0) {
         min = -999999999.9;
       }
@@ -475,7 +485,12 @@ var ch = (function (exports) {
       if (type === void 0) {
         type = true;
       }
-      return isFloat(n, type) && n >= min && n <= max;
+      if (throwErr === void 0) {
+        throwErr = false;
+      }
+      if (isFloat(n, type) && n >= min && n <= max) return true;
+      if (throwErr) throwError("valid float in range [" + min + ", " + max + "]", n);
+      return false;
     }
 
     function isStringOfLength(s, min, max, throwErr) {
@@ -638,13 +653,36 @@ var ch = (function (exports) {
       minLength: 12,
       maxLength: 64
     };
-    function isValidPassword(s, options) {
+    function isValidPassword(s, options, throwErr) {
       if (options === void 0) {
         options = defaultOptions;
       }
+      if (throwErr === void 0) {
+        throwErr = false;
+      }
       var o = Object.assign(Object.assign({}, defaultOptions), options);
       var l = s.length;
-      return l >= o.minLength && l <= o.maxLength && (o.lowerCase ? containsLowerCase(s) : true) && (o.upperCase ? containsUpperCase(s) : true) && (o.number ? containsNumber(s, 1, null) : true) && (o.specialCharacter ? containsSpecialCharacter(s) : true);
+      if (!(l >= o.minLength && l <= o.maxLength)) {
+        if (throwErr) throwError("password with length in range [" + o.minLength + ", " + o.maxLength + "] (actual length: " + l + ")", s);
+        return false;
+      }
+      if (o.lowerCase && !containsLowerCase(s)) {
+        if (throwErr) throwError('password containing lowercase letters', s);
+        return false;
+      }
+      if (o.upperCase && !containsUpperCase(s)) {
+        if (throwErr) throwError('password containing uppercase letters', s);
+        return false;
+      }
+      if (o.number && !containsNumber(s, 1, null)) {
+        if (throwErr) throwError('password containing numbers', s);
+        return false;
+      }
+      if (o.specialCharacter && !containsSpecialCharacter(s)) {
+        if (throwErr) throwError('password containing special characters', s);
+        return false;
+      }
+      return true;
     }
 
     function isHtmlElement(h, throwErr) {

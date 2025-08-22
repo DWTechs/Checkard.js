@@ -331,14 +331,26 @@ function isAscii(n, ext = true, throwErr = false) {
     return false;
 }
 
-function isValidNumber(n, min = -999999999, max = 999999999, type = true) {
-    return isNumber(n, type) && n >= min && n <= max;
+function isValidNumber(n, min = -999999999, max = 999999999, type = true, throwErr = false) {
+    if (isNumber(n, type) && n >= min && n <= max)
+        return true;
+    if (throwErr)
+        throwError(`valid number in range [${min}, ${max}]`, n);
+    return false;
 }
-function isValidInteger(n, min = -999999999, max = 999999999, type = true) {
-    return isInteger(n, type) && n >= min && n <= max;
+function isValidInteger(n, min = -999999999, max = 999999999, type = true, throwErr = false) {
+    if (isInteger(n, type) && n >= min && n <= max)
+        return true;
+    if (throwErr)
+        throwError(`valid integer in range [${min}, ${max}]`, n);
+    return false;
 }
-function isValidFloat(n, min = -999999999.9, max = 999999999.9, type = true) {
-    return isFloat(n, type) && n >= min && n <= max;
+function isValidFloat(n, min = -999999999.9, max = 999999999.9, type = true, throwErr = false) {
+    if (isFloat(n, type) && n >= min && n <= max)
+        return true;
+    if (throwErr)
+        throwError(`valid float in range [${min}, ${max}]`, n);
+    return false;
 }
 
 function isStringOfLength(s, min = 0, max = 999999999, throwErr = false) {
@@ -473,14 +485,35 @@ const defaultOptions = {
     minLength: 12,
     maxLength: 64,
 };
-function isValidPassword(s, options = defaultOptions) {
+function isValidPassword(s, options = defaultOptions, throwErr = false) {
     const o = Object.assign(Object.assign({}, defaultOptions), options);
     const l = s.length;
-    return l >= o.minLength && l <= o.maxLength
-        && (o.lowerCase ? containsLowerCase(s) : true)
-        && (o.upperCase ? containsUpperCase(s) : true)
-        && (o.number ? containsNumber(s, 1, null) : true)
-        && (o.specialCharacter ? containsSpecialCharacter(s) : true);
+    if (!(l >= o.minLength && l <= o.maxLength)) {
+        if (throwErr)
+            throwError(`password with length in range [${o.minLength}, ${o.maxLength}] (actual length: ${l})`, s);
+        return false;
+    }
+    if (o.lowerCase && !containsLowerCase(s)) {
+        if (throwErr)
+            throwError('password containing lowercase letters', s);
+        return false;
+    }
+    if (o.upperCase && !containsUpperCase(s)) {
+        if (throwErr)
+            throwError('password containing uppercase letters', s);
+        return false;
+    }
+    if (o.number && !containsNumber(s, 1, null)) {
+        if (throwErr)
+            throwError('password containing numbers', s);
+        return false;
+    }
+    if (o.specialCharacter && !containsSpecialCharacter(s)) {
+        if (throwErr)
+            throwError('password containing special characters', s);
+        return false;
+    }
+    return true;
 }
 
 function isHtmlElement(h, throwErr = false) {
