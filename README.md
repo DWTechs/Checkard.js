@@ -175,75 +175,90 @@ primitive methods accept any variable as parameter in order to check its type.
 ```typescript
 
 /**
- * Checks if the given value is a boolean.
+ * Checks if the given value is of type boolean.
  *
  * @param {unknown} v - The value to check.
- * @returns {boolean} True if the value is a boolean, otherwise false.
+ * @param {boolean} [throwErr=false] - If true, throws an error when value is not boolean. If false, returns false.
+ * @returns {boolean} True if the value is a boolean, false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the value is not a boolean and throwErr is true.
  */
-isBoolean(v: unknown): v is boolean {}
+isBoolean( v: unknown, throwErr: boolean = false ): v is boolean {}
 
 /**
- * Checks if the given value is a number and optionally check its length.
- * If type checking  = false, string values like '4', '0', '8e4', '+true', '0x44' return true
+ * Checks if the given value is a number and optionally performs additional checks.
+ * If typeCheck = false values like '4', '0', '8e4', '+true', '0x44' return true
  *
  * @param {unknown} v - The value to check.
- * @param {boolean} [type=true] - A boolean indicating whether to perform type checking. Defaults to true.
- * @param {Comparator | null} [comparator=null] - An optional comparator to compare the value. Defaults to null.
- * @param {number | null} [limit=null] - An optional limit to compare the value against. Defaults to null.
- * @returns {boolean} True if the value is a number and passes all checks, otherwise false.
+ * @param {boolean} [type=true] - A boolean indicating whether to perform type checking. Defaults to `true`.
+ * @param {Comparator | null} [comparator=null] - An optional comparator function to compare the value. Defaults to `null`.
+ * @param {number | null} [limit=null] - An optional limit to compare the value against. Defaults to `null`.
+ * @param {boolean} [throwErr=false] - If true, throws an error when comparison fails. If false, returns false.
+ * @returns {boolean} `true` if the value is a number and passes all checks, otherwise `false`.
+ * @throws {Error} Throws an error if the comparison fails and throwError is true.
  */
-isNumber(
-    v: unknown, 
-    type = true,
-    comparator = null, 
-    limit = null
-): v is number {}
+isNumber(v: unknown, 
+  type = true,
+  comparator: Comparator | null = null, 
+  limit: number | null = null,
+  throwErr: boolean = false
+  ): v is number {}
 
 /**
- * Checks if the given value is a string and optionally checks its length.
+ * Checks if the given value is a string and optionally compares its length.
  *
  * @param {unknown} v - The value to check.
- * @param {Comparator | null} [comparator=null] - An optional comparator to compare the string length.
+ * @param {Comparator | null} [comparator=null] - An optional comparator function to compare the string length.
  * @param {number | null} [limit=null] - An optional limit to compare the string length against.
- * @returns {boolean} True if the value is a string and meets the limit conditions, otherwise false.
+ * @param {boolean} [throwErr=false] - If true, throws an error when comparison fails. If false, returns false.
+ * @returns {boolean} `true` if the value is a string and meets the comparator and limit conditions, otherwise `false`.
+ * @throws {Error} Throws an error if the comparison fails and throwError is true.
  */
 isString(
     v: unknown, 
     comparator = null, 
-    limit = null
+    limit = null,
+    throwErr: boolean = false
 ): v is string {}
 
 /**
  * Checks if the provided value is a symbol.
  *
  * @param {unknown} v - The value to check.
- * @returns {boolean} True if the value is a symbol, otherwise false.
+ * @param {boolean} [throwErr=false] - If true, throws an error when value is not symbol. If false, returns false.
+ * @returns {boolean} True if the value is a symbol, false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the value is not a symbol and throwErr is true.
  */
-isSymbol(v: unknown): v is symbol {}
+isSymbol(v: unknown, throwErr: boolean = false): v is symbol {}
 
 /**
- * Checks if the given value is null or undefined.
+ * Checks if the given value is `null` or `undefined`.
  *
  * @param {unknown} v - The value to check.
- * @returns {boolean} True if the value is null or undefined, otherwise false.
+ * @param {boolean} [throwErr=false] - If true, throws an error when value is not null or undefined. If false, returns false.
+ * @returns `true` if the value is `null` or `undefined`, false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the value is not null or undefined and throwErr is true.
  */
-isNil(v: unknown): v is null | undefined {}
+isNil(v: unknown, throwErr: boolean = false): v is null | undefined {}
 
 /**
- * Checks if the given value is null.
+ * Checks if the given value is `null`.
  *
  * @param {unknown} v - The value to check.
- * @returns {boolean} True if the value is null, otherwise false.
+ * @param {boolean} [throwErr=false] - If true, throws an error when value is not null. If false, returns false.
+ * @returns `true` if the value is `null`, false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the value is not null and throwErr is true.
  */
-isNull(v: unknown): v is null {}
+isNull(v: unknown, throwErr: boolean = false): v is null {}
 
 /**
- * Checks if the given value is undefined.
+ * Checks if the given value is `undefined`.
  *
  * @param {unknown} v - The value to check.
- * @returns {boolean} True if the value is undefined, otherwise false.
+ * @param {boolean} [throwErr=false] - If true, throws an error when value is not undefined. If false, returns false.
+ * @returns `true` if the value is `undefined`, false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the value is not undefined and throwErr is true.
  */
-isUndefined(v: unknown): v is undefined {}
+isUndefined(v: unknown, throwErr: boolean = false): v is undefined {}
 
 ```
 
@@ -302,17 +317,16 @@ Non-primitive methods accept any variable as parameter in order to check its typ
 ```typescript
 
 /**
- * Checks if the given value is an object and optionally if it is not empty.
+ * Checks if the given value is an object and optionally if it is non-empty.
  *
  * @template T - The expected type of the object.
  * @param {unknown} v - The value to check.
- * @param {boolean} [empty=false] - If true, the function will also check if the object is not empty.
- * @returns {o is object & T} True if the value is an object (and not empty if specified), otherwise false.
+ * @param {boolean} [empty=false] - If true, the function will also check if the object is non-empty.
+ * @param {boolean} [throwErr=false] - If true, throws an error when value is not an object. If false, returns false.
+ * @returns {v is object & T} - Returns true if the value is an object (and non-empty if specified), false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the value is not an object and throwErr is true.
  */
-isObject<T = unknown>(
-  o: unknown, 
-  empty = false
-): o is object & T {}
+isObject<T = unknown>(v: unknown, empty = false, throwErr: boolean = false): v is object & T {}
 
 /**
  * Checks if the given value is an array and optionally compares its length.
@@ -321,48 +335,57 @@ isObject<T = unknown>(
  * @param {unknown} v - The value to check.
  * @param {Comparator | null} [comparator=null] - An optional comparator function to compare the array length.
  * @param {number | null} [limit=null] - An optional limit to compare the array length against.
- * @returns {boolean} True if the value is an array and meets the limit conditions, otherwise false.
+ * @param {boolean} [throwErr=false] - If true, throws an error when comparison fails. If false, returns false.
+ * @returns {boolean} `true` if the value is an array and meets the comparator and limit conditions, otherwise `false`.
+ * @throws {Error} Throws an error if the comparison fails and throwError is true.
  */
 isArray<T = unknown>(
-    v: unknown, 
-    comparator = null, 
-    limit = null
+  v: unknown, 
+  comparator: Comparator | null = null, 
+  limit: number | null = null,
+  throwErr: boolean = false
 ): v is T[] {}
 
 /**
  * Checks if the given input is a valid JSON string.
  *
- * @param {unknown} v - The value to check.
- * @returns {boolean} True if the input is a valid JSON string, otherwise false.
+ * @param {unknown} v - The input to check.
+ * @param {boolean} [throwErr=false] - If true, throws an error when value is not valid JSON. If false, returns false.
+ * @returns {boolean} `true` if the input is a valid JSON string, false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the value is not valid JSON and throwErr is true.
  */
-isJson(v: unknown): v is JSON {} 
+isJson(v: unknown, throwErr: boolean = false): v is JSON {} 
 
 /**
  * Checks if the given value is a regular expression.
  *
  * @param {unknown} v - The value to check.
- * @param {boolean} [type=true] - A boolean indicating whether to perform type checking. Defaults to true.
- * If false, String values like '/^abc$/' are considered as regular expressions.
- * @returns {boolean} True if v is a RegExp or can be converted to a RegExp, otherwise false.
+ * @param {boolean} [type=true] - If true, uses `instanceof` to check if `v` is a RegExp. If false, attempts to create a new RegExp from `v`.
+ * @param {boolean} [throwErr=false] - If true, throws an error when value is not a RegExp. If false, returns false.
+ * @returns {boolean} `true` if `v` is a RegExp or can be converted to a RegExp, false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the value is not a RegExp and throwErr is true.
  */
-isRegex(v: unknown, type = true): v is RegExp {} 
+isRegex(v: unknown, type = true, throwErr: boolean = false): v is RegExp {} 
 
 /**
  * Checks if the given value is a valid Date object.
  *
  * @param {unknown} v - The value to check.
- * @returns {boolean} True if the value is a Date object, otherwise false.
- *
+ * @param {boolean} [throwErr=false] - If true, throws an error when value is not a valid Date. If false, returns false.
+ * @returns {boolean} True if the value is a Date object and not NaN, false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the value is not a valid Date and throwErr is true.
  */
-isDate(v: unknown): v is Date {}
+isDate(v: unknown, throwErr: boolean = false): v is Date {}
 
 /**
  * Checks if the provided value is a function.
  *
  * @param {unknown} v - The value to check.
- * @returns {boolean} True if the value is a function, otherwise false.
+ * @param {boolean} [throwErr=false] - If true, throws an error when value is not a function. If false, returns false.
+ * @returns {boolean} A boolean indicating whether the value is a function, false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the value is not a function and throwErr is true.
  */
-isFunction(v: unknown): v is (...args: unknown[]) => unknown {}
+isFunction(v: unknown, throwErr: boolean = false): v is (...args: unknown[]) => unknown {}
 
 ```
 
@@ -424,18 +447,18 @@ if (isArray(arr) && !isArrayOfLength(arr, 4, 4)) {
  * "",
  * null,
  * undefined,
- * NaN,
- * 0n.
+ * NaN.
  *
  * @param {unknown} v - The value to check.
- * @returns {boolean} True if the value is falsy, otherwise false.
+ * @param {boolean} [throwErr=false] - If true, throws an error when value is not falsy. If false, returns false.
+ * @returns {boolean} `true` if the value is falsy, false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the value is not falsy and throwErr is true.
  */
-function isFalsy(v: unknown): boolean {}
+function isFalsy(v: unknown, throwErr: boolean = false): boolean {}
 
 /**
  * Checks if a value is truthy.
  *
- * A value is considered truthy if it is : 
  * true: The boolean value true.
  * Non-zero numbers: Any number other than 0 or -0.
  * Non-empty strings: Any string with at least one character.
@@ -444,9 +467,11 @@ function isFalsy(v: unknown): boolean {}
  * BigInt values: Any BigInt value other than 0n.
  *
  * @param {unknown} v - The value to check.
- * @returns {boolean} True if the value is truthy, otherwise false.
+ * @param {boolean} [throwErr=false] - If true, throws an error when value is not truthy. If false, returns false.
+ * @returns {boolean} `true` if the value is truthy, false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the value is not truthy and throwErr is true.
  */
-function isTruthy(v: unknown): boolean {}
+function isTruthy(v: unknown, throwErr: boolean = false): boolean {}
 
 ```
 
@@ -459,88 +484,100 @@ function isTruthy(v: unknown): boolean {}
  * Checks if a given number is an integer.
  *
  * @param {number | string | undefined | null} n - The number to check.
- * @param {boolean} [type=true] - Optional boolean indicating whether to perform type checking. Defaults to true.
- * @returns {boolean} True if the number is an integer, otherwise false.
+ * @param {boolean} [type=true] - A boolean indicating whether to use strict equality (===) or loose equality (==) for the comparison. Defaults to true (strict equality).
+ * @param {boolean} [throwErr=false] - If true, throws an error when value is not an integer. If false, returns false.
+ * @returns {boolean} A boolean indicating whether the number is an integer, false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the value is not an integer and throwErr is true.
  */
-isInteger(n: number | string | undefined | null, type = true): boolean {}
+isInteger(n: number | string | undefined | null, type = true, throwErr: boolean = false): boolean {}
 
 /**
  * Checks if a given number is a floating-point number.
  *
  * @param {number | string | undefined | null} n - The number to check.
- * @param {boolean} [type=true] - Optional boolean indicating whether to perform type checking. Defaults to true.
- * @returns {boolean} True if the number is a floating-point number, otherwise false.
+ * @param {boolean} [type=true] - A boolean indicating whether to use strict equality (===) or loose equality (==) for the comparison. Defaults to true (strict equality).
+ * @param {boolean} [throwErr=false] - If true, throws an error when value is not a float. If false, returns false.
+ * @returns {boolean} A boolean indicating whether the number is a floating-point number, false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the value is not a floating-point number and throwErr is true.
  */
-isFloat(n: number | string | undefined | null, type = true): boolean {}
+isFloat(n: number | string | undefined | null, type = true, throwErr: boolean = false): boolean {}
 
 /**
  * Checks if a given number is even.
  *
  * @param {number | string | undefined | null} n - The number to check.
- * @param {boolean} [type=true] - Optional boolean indicating whether to perform type checking. Defaults to true.
- * @returns {boolean} True if the number is an even integer, otherwise false.
+ * @param {boolean} [type=true] - A boolean flag to check the type of n or not (default is true).
+ * @param {boolean} [throwErr=false] - If true, throws an error when value is not an even number. If false, returns false.
+ * @returns {boolean} `true` if the number is even and an integer, false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the value is not an even number and throwErr is true.
  */
-isEven(n: number | string | undefined | null, type = true): boolean {}
+isEven(n: number | string | undefined | null, type = true, throwErr: boolean = false): boolean {}
 
 /**
  * Determines if a given number is odd.
  *
  * @param {number | string | undefined | null} n - The number to check.
- * @param {boolean} [type=true] - Optional boolean indicating whether to perform type checking. Defaults to true.
- * @returns {boolean} True if the number is an odd integer, otherwise false.
+ * @param {boolean} [type=true] - A boolean flag to check the type of n or not (default is true).
+ * @param {boolean} [throwErr=false] - If true, throws an error when value is not an odd number. If false, returns false.
+ * @returns {boolean} A boolean indicating whether the number is odd, false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the value is not an odd number and throwErr is true.
  */
-isOdd(n: number | string | undefined | null, type = true): boolean {}
+isOdd(n: number | string | undefined | null, type = true, throwErr: boolean = false): boolean {}
 
 /**
  * Checks if a given number is zero.
  *
  * @param {number | string | undefined | null} n - The number to check.
- * @param {boolean} [type=true] - Optional boolean indicating whether to perform type checking. Defaults to true.
- * @returns {boolean} True if the number is zero, otherwise false.
+ * @param {boolean} [type=true] - A boolean indicating whether to use strict equality (===) or loose equality (==) for the comparison. Defaults to true (strict equality).
+ * @param {boolean} [throwErr=false] - If true, throws an error when value is not zero. If false, returns false.
+ * @returns {boolean} True if the number is zero based on the specified comparison type, false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the value is not zero and throwErr is true.
  */
-isOrigin(n: number | string | undefined | null, type = true): boolean {}
+isOrigin(n: number | string | undefined | null, type = true, throwErr: boolean = false): boolean {}
 
 /**
  * Checks if a given number is positive.
  *
  * @param {number | string | undefined | null} n - The number to check.
- * @param {boolean} [type=true] - Optional boolean indicating whether to perform type checking. Defaults to true.
- * @returns {boolean} True if the number is positive, otherwise false.
- * 
- * @remarks
- * This function also check if the value is a number.
+ * @param {boolean} [type=true] - A boolean flag to check the type of n or not (default is true).
+ * @param {boolean} [throwErr=false] - If true, throws an error when value is not positive. If false, returns false.
+ * @returns {boolean} True if the number is positive and passes the type check, false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the value is not positive and throwErr is true.
  */
-isPositive(n: number | string | undefined | null, type = true): boolean {}
+isPositive(n: number | string | undefined | null, type = true, throwErr: boolean = false): boolean {}
 
 /**
  * Checks if a given number is negative.
  *
  * @param {number | string | undefined | null} n - The number to check.
- * @param {boolean} [type=true] - Optional boolean indicating whether to perform type checking. Defaults to true.
- * @returns {boolean} True if the number is negative, otherwise false.
- *  
- * @remarks
- * This function also check if the value is a number.
+ * @param {boolean} [type=true] - A boolean flag to check the type of n or not (default is true).
+ * @param {boolean} [throwErr=false] - If true, throws an error when value is not negative. If false, returns false.
+ * @returns {boolean} True if the number is negative and the type check passes, false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the value is not negative and throwErr is true.
  */
-isNegative(n: number | string | undefined | null, type = true): boolean {}
+isNegative(n: number | string | undefined | null, type = true, throwErr: boolean = false): boolean {}
 
 /**
  * Checks if a given number is a power of two.
  *
  * @param {number | string | undefined | null} n - The number to check.
- * @param {boolean} [type=true] - Optional boolean indicating whether to perform type checking. Defaults to true.
- * @returns {boolean} True if the number is a power of two, otherwise false.
+ * @param {boolean} [type=true] - A boolean flag to check the type of n or not (default is true).
+ * @param {boolean} [throwErr=false] - If true, throws an error when value is not a power of two. If false, returns false.
+ * @returns {boolean} A boolean indicating whether the number is a power of two, false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the value is not a power of two and throwErr is true.
  */
-isPowerOfTwo(n: number | string | undefined | null, type = true): boolean {}
+isPowerOfTwo(n: number | string | undefined | null, type = true, throwErr: boolean = false): boolean {}
 
 /**
  * Checks if a given number is an ASCII code.
  *
  * @param {number | undefined | null} n - The number to check.
- * @param {boolean} [ext=true] - Optional boolean to include extended ASCII range (0-255). Defaults to true.
- * @returns {boolean} True if the number is a valid ASCII code, otherwise false.
+ * @param {boolean} [ext=true] - Optional boolean to include extended ASCII range (0-255) or not. Defaults to true.
+ * @param {boolean} [throwErr=false] - If true, throws an error when value is not a valid ASCII code. If false, returns false.
+ * @returns {boolean} `true` if the number is a valid ASCII code, false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the value is not a valid ASCII code and throwErr is true.
  */
-isAscii(n: number | undefined | null, ext = true): boolean {}
+isAscii(n: number | undefined | null, ext = true, throwErr: boolean = false): boolean {}
 
 ```
 
@@ -555,53 +592,53 @@ Valid number methods take a number as parameter and check of the number lies in 
 /**
  * Checks if a given value is a valid number within given range.
  *
- * @param {number | string | undefined | null} n - The number to check
+ * @param {number | string | undefined | null} n - value to check
  * @param {number} [min=-999999999] - minimal value of the range
  * @param {number} [max=999999999] - maximal value of the range
- * @param {boolean} [type=true] - whether to perform type checking
- * @returns {boolean} True if the value is a valid number, otherwise false.
- *  
- * @remarks
- * This function also check if the value is a number.
+ * @param {boolean} [type=true] - do type check
+ * @param {boolean} [throwErr=false] - If true, throws an error when value is not a valid number in range. If false, returns false.
+ * @returns {boolean} true if the value is a valid number, false if not (when throwErr is false)
+ * @throws {Error} Throws an error if the value is not a valid number in range and throwErr is true.
  */
-isValidNumber(
-    n: number | string | undefined | null, 
-    min = -999999999, 
-    max = 999999999, 
-    type = true 
-): boolean {}
+isValidNumber( n: number | string | undefined | null, 
+  min = -999999999, 
+  max = 999999999,
+  type = true,
+  throwErr: boolean = false ): boolean {}
 
 /**
  * Checks if a given value is a valid integer within given range.
  *
- * @param {number | string | undefined | null} n - The number to check
+ * @param {number | string | undefined | null} n - value to check
  * @param {number} [min=-999999999] - minimal value of the range
  * @param {number} [max=999999999] - maximal value of the range
- * @param {boolean} [type=true] - whether to perform type checking
- * @returns {boolean} True if the value is a valid integer, otherwise false.
+ * @param {boolean} [type=true] - do type check
+ * @param {boolean} [throwErr=false] - If true, throws an error when value is not a valid integer in range. If false, returns false.
+ * @returns {boolean} true if the value is a valid integer, false if not (when throwErr is false)
+ * @throws {Error} Throws an error if the value is not a valid integer in range and throwErr is true.
  */
-isValidInteger(
-    n: number | string | undefined | null, 
-    min = -999999999, 
-    max = 999999999, 
-    type = true
-): boolean {}
+isValidInteger( n: number | string | undefined | null, 
+  min = -999999999, 
+  max = 999999999,
+  type = true,
+  throwErr: boolean = false ): boolean {}
 
 /**
  * Checks if a given value is a valid float within given range.
  *
- * @param {number | string | undefined | null} n - The number to check
+ * @param {number | string | undefined | null} n - value to check
  * @param {number} [min=-999999999.9] - minimal value of the range
  * @param {number} [max=999999999.9] - maximal value of the range
- * @param {boolean} [type=true] - whether to perform type checking
- * @returns {boolean} True if the value is a valid float, otherwise false.
+ * @param {boolean} [type=true] - do type check
+ * @param {boolean} [throwErr=false] - If true, throws an error when value is not a valid float in range. If false, returns false.
+ * @returns {boolean} true if the value is a valid float, false if not (when throwErr is false)
+ * @throws {Error} Throws an error if the value is not a valid float in range and throwErr is true.
  */
-isValidFloat( 
-    n: number | string | undefined | null, 
-    min = -999999999.9, 
-    max = 999999999.9, 
-    type = true 
-): boolean {}
+isValidFloat( n: number | string | undefined | null, 
+  min = -999999999.9, 
+  max = 999999999.9,
+  type = true,
+  throwErr: boolean = false ): boolean {}
 
 ```
 
@@ -617,38 +654,47 @@ isValidFloat(
  * @param {string | undefined | null} s - The string to check.
  * @param {number} [min=0] - The minimum length of the string (inclusive). Default is 0.
  * @param {number} [max=999999999] - The maximum length of the string (inclusive). Default is 999999999.
- * @returns {boolean} True if the string length is within the specified range, otherwise false.
+ * @param {boolean} [throwErr=false] - If true, throws an error when string length is not within range. If false, returns false.
+ * @returns {boolean} `true` if the string length is within the specified range, false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the string length is not within the specified range and throwErr is true.
  */
-isStringOfLength( 
-    s: string | undefined | null, 
-    min = 0, 
-    max = 999999999 
+isStringOfLength(
+  s: string | undefined | null,
+  min = 0, 
+  max = 999999999,
+  throwErr: boolean = false
 ): boolean {}
 
 /**
  * Checks if the given string is a valid email address.
  *
  * @param {string | undefined | null} s - The string to be checked.
- * @returns {boolean} True if the string is a valid email address, otherwise false.
+ * @param {boolean} [throwErr=false] - If true, throws an error when value is not a valid email. If false, returns false.
+ * @returns {boolean} `true` if the string is a valid email address, false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the value is not a valid email address and throwErr is true.
  */
-isEmail(s: string | undefined | null): boolean {}
+isEmail(s: string | undefined | null, throwErr: boolean = false): boolean {}
 
 /**
  * Checks if the given string is a valid IP address.
  *
  * @param {string | undefined | null} s - The string to be checked.
- * @returns {boolean} True if the string is a valid IP address, otherwise false.
+ * @param {boolean} [throwErr=false] - If true, throws an error when value is not a valid IP address. If false, returns false.
+ * @returns {boolean} `true` if the string is a valid IP address, false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the value is not a valid IP address and throwErr is true.
  */
-isIpAddress(s: string | undefined | null): boolean {}
+isIpAddress(s: string | undefined | null, throwErr: boolean = false): boolean {}
 
 /**
  * Checks if a given string is a valid Base64 encoded string.
  *
  * @param {string | undefined | null} s - The string to check.
- * @param {boolean} [urlEncoded=false] - Optional. If true, checks for URL-safe Base64 encoded strings. Defaults to false.
- * @returns {boolean} True if the string is a valid Base64 encoded string, otherwise false.
+ * @param {boolean} [urlEncoded=false] - Optional. If true, checks for URL-safe Base64 encoding. Defaults to false.
+ * @param {boolean} [throwErr=false] - If true, throws an error when value is not valid Base64. If false, returns false.
+ * @returns {boolean} True if the string is a valid Base64 encoded string, false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the value is not valid Base64 and throwErr is true.
  */
-isBase64(s: string | undefined | null, urlEncoded = false): boolean {}
+isBase64(s: string | undefined | null, urlEncoded = false, throwErr: boolean = false): boolean {}
 
 /**
  * Checks if a given string is a valid JSON Web Token (JWT).
@@ -662,9 +708,11 @@ isBase64(s: string | undefined | null, urlEncoded = false): boolean {}
  * must be valid JSON objects when decoded.
  *
  * @param {string | undefined | null} s - The string to check.
- * @returns {boolean} True if the string is a valid JWT, otherwise false.
+ * @param {boolean} [throwErr=false] - If true, throws an error when value is not a valid JWT. If false, returns false.
+ * @returns {boolean} `true` if the string is a valid JWT, false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the value is not a valid JWT and throwErr is true.
  */
-isJWT(s: string | undefined | null): boolean {}
+isJWT(s: string | undefined | null, throwErr: boolean = false): boolean {}
 
 /**
  * Checks if the given string is a valid slug.
@@ -672,17 +720,21 @@ isJWT(s: string | undefined | null): boolean {}
  * A slug is typically a URL-friendly string that contains only lowercase letters, numbers, and hyphens.
  * 
  * @param {string | undefined | null} s - The string to check.
- * @returns {boolean} True if the string is a valid slug, otherwise false.
+ * @param {boolean} [throwErr=false] - If true, throws an error when value is not a valid slug. If false, returns false.
+ * @returns {boolean} `true` if the string is a valid slug, false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the value is not a valid slug and throwErr is true.
  */
-isSlug(s: string | undefined | null): boolean {}
+isSlug(s: string | undefined | null, throwErr: boolean = false): boolean {}
 
 /**
  * Checks if the given string is a valid hexadecimal number.
  *
  * @param {string | undefined | null} s - The string to check.
- * @returns {boolean} True if the string is a valid hexadecimal number, otherwise false.
+ * @param {boolean} [throwErr=false] - If true, throws an error when value is not a valid hexadecimal number. If false, returns false.
+ * @returns {boolean} True if the string is a valid hexadecimal number, false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the value is not a valid hexadecimal number and throwErr is true.
  */
-isHexadecimal(s: string | undefined | null): boolean {}
+isHexadecimal(s: string | undefined | null, throwErr: boolean = false): boolean {}
 
 
 const PwdDefaultOptions = {
@@ -698,10 +750,13 @@ const PwdDefaultOptions = {
  * Checks if a given password string meets the specified validation criteria.
  *
  * @param {string} s - The password string to validate.
- * @param {PasswordOptions} [options=PwdDefaultOptions] - Optional configuration object to specify password validation criteria.
- * @returns {boolean} True if the password meets all the specified criteria, otherwise false.
+ * @param {PasswordOptions} [options=defaultOptions] - Optional configuration object to specify password validation criteria.
+ * @param {boolean} [throwErr=false] - If true, throws an error when password does not meet criteria. If false, returns false.
+ * @returns {boolean} `true` if the password meets all the specified criteria, false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the password does not meet the specified criteria and throwErr is true.
  *
  * @example
+ * ```typescript
  * const options = {
  *   minLength: 8,
  *   maxLength: 20,
@@ -711,35 +766,40 @@ const PwdDefaultOptions = {
  *   specialCharacter: true
  * };
  * const isValid = isValidPassword('Password123!', options);
+ * console.log(isValid); // true
+ * ```
  */
-isValidPassword(
-    s: string, 
-    options = PwdDefaultOptions
-): boolean {}
+isValidPassword(s: string, options: PasswordOptions = defaultOptions, throwErr: boolean = false): boolean {}
 
 /**
  * Checks if the given string contains any uppercase letters.
  *
  * @param {string} s - The string to check.
- * @returns {boolean} True if the string contains at least one uppercase letter, otherwise false.
+ * @param {boolean} [throwErr=false] - If true, throws an error when string does not contain uppercase letters. If false, returns false.
+ * @returns {boolean} `true` if the string contains at least one uppercase letter, false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the string does not contain uppercase letters and throwErr is true.
  */
-containsUpperCase(s: string): boolean {}
+containsUpperCase(s: string, throwErr: boolean = false): boolean {}
 
 /**
  * Checks if the given string contains at least one lowercase letter.
  *
  * @param {string} s - The string to check.
- * @returns {boolean} True if the string contains at least one lowercase letter, otherwise false.
+ * @param {boolean} [throwErr=false] - If true, throws an error when string does not contain lowercase letters. If false, returns false.
+ * @returns {boolean} `true` if the string contains at least one lowercase letter, false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the string does not contain lowercase letters and throwErr is true.
  */
-containsLowerCase(s: string): boolean {}
+containsLowerCase(s: string, throwErr: boolean = false): boolean {}
 
 /**
  * Checks if the given string contains any special characters.
  *
  * @param {string} s - The string to be checked.
- * @returns {boolean} True if the string contains special characters, otherwise false.
+ * @param {boolean} [throwErr=false] - If true, throws an error when string does not contain special characters. If false, returns false.
+ * @returns {boolean} `true` if the string contains special characters, false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the string does not contain special characters and throwErr is true.
  */
-containsSpecialCharacter(s: string): boolean {}
+containsSpecialCharacter(s: string, throwErr: boolean = false): boolean {}
 
 /**
  * Checks if a given string contains a specified number of digits.
@@ -747,12 +807,15 @@ containsSpecialCharacter(s: string): boolean {}
  * @param {string} s - The string to check.
  * @param {number} [min=1] - The minimum number of digits required in the string. Defaults to 1.
  * @param {number|null} [max=null] - The maximum number of digits allowed in the string. If not provided, there is no upper limit.
- * @returns {boolean} True if the string contains the required number of digits, otherwise false.
+ * @param {boolean} [throwErr=false] - If true, throws an error when string does not contain the required number of digits. If false, returns false.
+ * @returns {boolean} `true` if the string contains the required number of digits, false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the string does not contain the required number of digits and throwErr is true.
  */
 containsNumber(
     s: string, 
     min = 1, 
-    max = null
+    max = number | null,
+    throwErr: boolean = false
 ): boolean {}
 
 ```
@@ -811,44 +874,35 @@ const maxDate = new Date('1/1/2200');
  * @param {Date} d - The date to be validated.
  * @param {Date} [min=minDate] - The minimum allowable date. Defaults to `minDate`.
  * @param {Date} [max=maxDate] - The maximum allowable date. Defaults to `maxDate`.
- * @returns {boolean} True if the date is valid and within the specified range, otherwise false.
- *  
- * @remarks
- * This function also check if the value is an instance of the Date object.
+ * @param {boolean} [throwErr=false] - If true, throws an error when date is not valid. If false, returns false.
+ * @returns {boolean} `true` if the date is valid and within the specified range, false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the date is not valid and throwErr is true.
  */
-isValidDate(
-    d: date, 
-    min = minDate, 
-    max = maxDate
-): boolean {}
+isValidDate(d: Date, min: Date = minDate, max: Date = maxDate, throwErr: boolean = false): boolean {}
 
 /**
  * Checks if the given number is a valid timestamp.
  *
- * @param {number} t - The number to check.
+ * @param {unknown} t - The number to check.
  * @param {boolean} [type=true] - An optional boolean parameter to verify the type of t. Defaults to true.
- * @returns {boolean} True if the value is a timestamp, otherwise false.
+ * @param {boolean} [throwErr=false] - If true, throws an error when value is not a valid timestamp. If false, returns false.
+ * @returns {boolean} A boolean indicating whether the number is a timestamp, false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the value is not a valid timestamp and throwErr is true.
  */
-isTimestamp(t: number, type = true): boolean {}
+isTimestamp(t: number, type = true, throwErr: boolean = false): boolean {}
 
 /**
  * Checks if a given timestamp is valid within a specified range.
  *
- * @param {number} t - The timestamp to validate.
- * @param {number} [min=-2208989361000] - The minimum allowed timestamp. Default is -2208989361000,eg 1/1/1900.
- * @param {number} [max=7258114800000] - The maximum allowed timestamp. Default is 7258114800000, eg 1/1/2200).
- * @param {boolean} [type=true] - A boolean indicating the type of timestamp. Default to true.
- * @returns {boolean} True if the timestamp is valid and within the specified range, otherwise false.
- * 
- * @remarks
- * This function also check if the value is timestamp.
+ * @param {unknown} t - The timestamp to validate.
+ * @param {number} [min=-2208989361000] - The minimum allowed timestamp (default is -2208989361000,eg 1/1/1900).
+ * @param {number} [max=7258114800000] - The maximum allowed timestamp (default is 7258114800000, eg 1/1/2200).
+ * @param {boolean} [type=true] - A boolean indicating the type of timestamp (default is true).
+ * @param {boolean} [throwErr=false] - If true, throws an error when timestamp is not valid. If false, returns false.
+ * @returns {boolean} `true` if the timestamp is valid and within the specified range, false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the timestamp is not valid and throwErr is true.
  */
-isValidTimestamp(
-  t: number, 
-  min = -2208989361000, 
-  max = 7258114800000, 
-  type = true
-): boolean {} 
+isValidTimestamp(t: number, min = -2208989361000, max = 7258114800000, type = true, throwErr: boolean = false): boolean {} 
 
 ```
 
@@ -864,13 +918,15 @@ isValidTimestamp(
  * @param {unknown[]} a - The array to check.
  * @param {number} [min=0] - The minimum length of the array (inclusive).
  * @param {number} [max=999999999] - The maximum length of the array (inclusive).
- * @returns {boolean} True if the array length is within the specified range, otherwise false.
+ * @param {boolean} [throwErr=false] - If true, throws an error when array length is not within range. If false, returns false.
+ * @returns {boolean} - Returns `true` if the array length is within the specified range, false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the array length is not within the specified range and throwErr is true.
  */
 isArrayOfLength(
-    a: unknown[], 
-    min = 0, 
-    max = 999999999
-): boolean {}
+  a: unknown[], 
+  min = 0, 
+  max = 999999999,
+  throwErr: boolean = false): boolean {}
 
 /**
  * Checks if a value is present in an array starting from a specified index.
@@ -878,13 +934,11 @@ isArrayOfLength(
  * @param {unknown[]} a - The array to search within.
  * @param {unknown} v - The value to search for.
  * @param {number} [from=0] - The index to start the search from. Defaults to 0.
- * @returns {boolean} True if the value is found in the array, otherwise false.
+ * @param {boolean} [throwErr=false] - If true, throws an error when value is not found in array. If false, returns false.
+ * @returns {boolean} `true` if the value is found in the array, false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the value is not found in the array and throwErr is true.
  */
-isIn(
-    a: unknown[], 
-    v: unknown, 
-    from = 0
-): boolean {}
+isIn(a: unknown[], v: unknown, from = 0, throwErr: boolean = false): boolean {}
 
 ```
 
@@ -919,6 +973,7 @@ let lvl = setLevel("infos"); // lvl = "warn"
 
 /**
  * Checks if a given property exists on an object.
+ * own: boolean - whether to check inherited properties only
  * enumerable: boolean - whether to check enumerable properties only
  *
  * @template K - The type of the property key.
@@ -926,14 +981,16 @@ let lvl = setLevel("infos"); // lvl = "warn"
  * @param {K} k - The property key to check for.
  * @param {boolean} [own=true] - If true, checks if the property is an own property of the object. Defaults to true.
  * @param {boolean} [enumerable=true] - If true, checks if the property is enumerable. Defaults to true.
- * @returns {boolean} True if the property exists on the object based on the specified conditions, otherwise false.
+ * @param {boolean} [throwErr=false] - If true, throws an error when property doesn't exist. If false, returns false.
+ * @returns {boolean} True if the property exists on the object based on the specified conditions, false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the property doesn't exist and throwErr is true.
  */
 isProperty<K extends PropertyKey>(
-    obj: object,
-    k: K,
-    own = true,
-    enumerable = true
-): boolean // obj is Record<K, { [key: PropertyKey]: unknown }>
+  o: object, 
+  k: K, 
+  own = true, 
+  enumerable = true,
+  throwErr: boolean = false): o is Record<K, unknown> // obj is Record<K, { [key: PropertyKey]: unknown }>
 
 ```
 
@@ -966,16 +1023,26 @@ console.log(isProperty("debag", levels)); // false
 /**
  * Checks if the given value is an HTML element.
  *
+ * This function determines if the provided value is an instance of `HTMLElement`.
+ * It first checks if `HTMLElement` is defined as an object and then verifies if
+ * the value is an instance of `HTMLElement`. If `HTMLElement` is not defined,
+ * it falls back to checking if the value is an object with a `nodeType` of 1
+ * and a `nodeName` of type string, which are characteristics of HTML elements.
+ *
  * @param {unknown} h - The value to check.
- * @returns {boolean} True if the value is an HTML element, otherwise false.
+ * @param {boolean} [throwErr=false] - If true, throws an error when value is not an HTML element. If false, returns false.
+ * @returns {boolean} `true` if the value is an HTML element, false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the value is not an HTML element and throwErr is true.
  */
-isHtmlElement(h: unknown): h is HTMLElement {}
+isHtmlElement(h: unknown, throwErr: boolean = false): h is HTMLElement {}
 
 /**
  * Checks if a given string is a valid HTML event attribute.
  *
- * @param {sgtring} h - The string to check.
- * @returns {boolean} True if the string is a valid HTML event attribute, otherwise false.
+ * @param {string} h - The string to check.
+ * @param {boolean} [throwErr=false] - If true, throws an error when value is not a valid HTML event attribute. If false, returns false.
+ * @returns {boolean} `true` if the string is a valid HTML event attribute, false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the value is not a valid HTML event attribute and throwErr is true.
  *
  * @remarks
  * This function checks against a predefined list of HTML event attributes such as `onclick`, `onload`, `onerror`, etc.
@@ -986,15 +1053,21 @@ isHtmlElement(h: unknown): h is HTMLElement {}
  * isHtmlEventAttribute("onunknown"); // returns false
  * ```
  */
-isHtmlEventAttribute(h: string): boolean {}
+isHtmlEventAttribute(h: string, throwErr: boolean = false): boolean {}
 
 /**
  * Checks if the given value is a DOM Node.
  *
+ * This function determines if the provided value is a Node by checking its type and properties.
+ * It works by verifying if the value is an instance of Node when `Node` is an object, or by
+ * checking the presence and types of `nodeType` and `nodeName` properties.
+ *
  * @param {unknown} n - The value to check.
- * @returns {boolean} True if the value is a Node, otherwise false.
+ * @param {boolean} [throwErr=false] - If true, throws an error when value is not a DOM Node. If false, returns false.
+ * @returns {boolean} `true` if the value is a Node, false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the value is not a DOM Node and throwErr is true.
  */
-isNode(n: unknown): n is Node {}
+isNode(n: unknown, throwErr: boolean = false): n is Node {
 
 ```
 
@@ -1024,21 +1097,26 @@ ucfirst(s: string, everyWords = true): string {}
  * @param {string} nickname - The nickname of the user.
  * @param {string} firstName - The first name of the user.
  * @param {string} lastName - The last name of the user.
- * @return {string | false} The normalized nickname.
+ * @param {boolean} [throwErr=false] - If true, throws an error when normalization fails. If false, returns false.
+ * @return {string | false} The normalized nickname, or false if normalization fails (when throwErr is false).
+ * @throws {Error} Throws an error if normalization fails and throwErr is true.
  */
 normalizeNickname(
     nickname: string, 
     firstName: string, 
-    lastName: string
+    lastName: string,
+    throwErr: boolean = false
 ): string | false {}
 
 /**
- * Normalizes a name by capitalizing the first letter of each word.
+ * Normalizes a first name by capitalizing the first letter of each word.
  *
- * @param {string} s - The name to normalize.
- * @return {string | false} The normalized name.
+ * @param {string} s - The first name to normalize.
+ * @param {boolean} [throwErr=false] - If true, throws an error when normalization fails. If false, returns false.
+ * @return {string | false} The normalized first name, or false if normalization fails (when throwErr is false).
+ * @throws {Error} Throws an error if normalization fails and throwErr is true.
  */
-normalizeName(s: string): string | false {}
+normalizeName(s: string, throwErr: boolean = false): string | false {}
 
 /**
  * A function to normalize an email address.
@@ -1046,10 +1124,11 @@ normalizeName(s: string): string | false {}
  * If the string is not a valid email address, the function will return false.
  *
  * @param {string} s - The email address to normalize.
- * @return {string | false} The normalized email address or false if the
- * string is not a valid email address.
+ * @param {boolean} [throwErr=false] - If true, throws an error when normalization fails. If false, returns false.
+ * @return {string | false} The normalized email address, or false if normalization fails (when throwErr is false).
+ * @throws {Error} Throws an error if normalization fails and throwErr is true.
  */
-normalizeEmail(s: string): string | false {}
+normalizeEmail(s: string, throwErr: boolean = false): string | false {}
 
 ```
 
