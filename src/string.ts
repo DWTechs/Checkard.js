@@ -1,6 +1,7 @@
 import type { PasswordOptions } from './types';
 import { isNil } from './primitive';
 import { isJson } from './nonprimitive';
+import { throwError } from './error';
 
 
 /**
@@ -9,15 +10,27 @@ import { isJson } from './nonprimitive';
  * @param {string | undefined | null} s - The string to check.
  * @param {number} [min=0] - The minimum length of the string (inclusive). Default is 0.
  * @param {number} [max=999999999] - The maximum length of the string (inclusive). Default is 999999999.
- * @returns {boolean} `true` if the string length is within the specified range, otherwise `false`.
+ * @param {boolean} [throwErr=false] - If true, throws an error when string length is not within range. If false, returns false.
+ * @returns {boolean} `true` if the string length is within the specified range, false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the string length is not within the specified range and throwErr is true.
  */
 function isStringOfLength(
   s: string | undefined | null,
   min = 0, 
-  max = 999999999 
+  max = 999999999,
+  throwErr: boolean = false
 ): boolean {
+
   const l = s?.length;
-  return (!isNil(l) && l >= min && l <= max) ? true : false;
+  
+  if (!isNil(l) && l >= min && l <= max)
+    return true;
+  
+  if (throwErr)
+    throwError(`string with length in range [${min}, ${max}] (actual length: ${l})`, s);
+  
+  return false;
+
 }
 
 const emailReg = /^(?=[a-z0-9@.!$%&'*+\/=?^_‘{|}~-]{6,254}$)(?=[a-z0-9.!#$%&'*+\/=?^_‘{|}~-]{1,64}@)[a-z0-9!#$%&'*+\/=?^‘{|}~]+(?:[\._-][a-z0-9!#$%&'*+\/=?^‘{|}~]+)*@(?:(?=[a-z0-9-]{1,63}\.)[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+(?=[a-z0-9-]{2,63}$)[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/;
@@ -25,10 +38,20 @@ const emailReg = /^(?=[a-z0-9@.!$%&'*+\/=?^_‘{|}~-]{6,254}$)(?=[a-z0-9.!#$%&'*
  * Checks if the given string is a valid email address.
  *
  * @param {string | undefined | null} s - The string to be checked.
- * @returns {boolean} `true` if the string is a valid email address, otherwise `false`.
+ * @param {boolean} [throwErr=false] - If true, throws an error when value is not a valid email. If false, returns false.
+ * @returns {boolean} `true` if the string is a valid email address, false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the value is not a valid email address and throwErr is true.
  */
-function isEmail(s: string | undefined | null): boolean {
-  return s ? emailReg.test(String(s).toLowerCase()) : false;
+function isEmail(s: string | undefined | null, throwErr: boolean = false): boolean {
+  
+  if (s && emailReg.test(String(s).toLowerCase()))
+    return true;
+  
+  if (throwErr)
+    throwError('valid email address', s);
+  
+  return false;
+
 }
 
 // function isURL(url: unknown): boolean {
@@ -44,10 +67,20 @@ const ipReg = /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-
  * Checks if the given string is a valid IP address.
  *
  * @param {string | undefined | null} s - The string to be checked.
- * @returns {boolean} `true` if the string is a valid IP address, otherwise `false`.
+ * @param {boolean} [throwErr=false] - If true, throws an error when value is not a valid IP address. If false, returns false.
+ * @returns {boolean} `true` if the string is a valid IP address, false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the value is not a valid IP address and throwErr is true.
  */
-function isIpAddress(s: string | undefined | null): boolean {
-  return s ? ipReg.test(String(s)) : false;
+function isIpAddress(s: string | undefined | null, throwErr: boolean = false): boolean {
+  
+  if (s && ipReg.test(String(s)))
+    return true;
+  
+  if (throwErr)
+    throwError('valid IP address', s);
+  
+  return false;
+  
 }
 
 // base64 (non url safe ) regex explained : 
@@ -94,11 +127,22 @@ const b64 =  /^(?=.{1,}$)(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9
  *
  * @param {string | undefined | null} s - The string to check.
  * @param {boolean} [urlEncoded=false] - Optional. If true, checks for URL-safe Base64 encoding. Defaults to false.
- * @returns {boolean} True if the string is a valid Base64 encoded string, false otherwise.
+ * @param {boolean} [throwErr=false] - If true, throws an error when value is not valid Base64. If false, returns false.
+ * @returns {boolean} True if the string is a valid Base64 encoded string, false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the value is not valid Base64 and throwErr is true.
  */
-function isBase64(s: string | undefined | null, urlEncoded = false): boolean {
+function isBase64(s: string | undefined | null, urlEncoded = false, throwErr: boolean = false): boolean {
   const regex = urlEncoded ? b64UrlEncoded : b64;
-  return s ? regex.test(s) : false;
+  
+  if (s && regex.test(s))
+    return true;
+  
+  if (throwErr) {
+    const encodingType = urlEncoded ? 'URL-safe Base64' : 'Base64';
+    throwError(`valid ${encodingType} encoded string`, s);
+  }
+  
+  return false;
 }
 
 
@@ -142,28 +186,34 @@ const b64Reg = /^[A-Za-z0-9\-_]+={0,2}$/;
  * must be valid JSON objects when decoded.
  *
  * @param {string | undefined | null} s - The string to check.
- * @returns {boolean} `true` if the string is a valid JWT, otherwise `false`.
+ * @param {boolean} [throwErr=false] - If true, throws an error when value is not a valid JWT. If false, returns false.
+ * @returns {boolean} `true` if the string is a valid JWT, false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the value is not a valid JWT and throwErr is true.
  */
-function isJWT(s: string | undefined | null): boolean {
-  if (!s)
-    return false;
+function isJWT(s: string | undefined | null, throwErr: boolean = false): boolean {
   
-  const p = s.split('.');
-  if (p.length !== 3)
-    return false;
-
-  const header = p[0];
-  const payload = p[1];
-  const signature = p[3];
-    
-  if (b64Reg.test(header) && b64Reg.test(payload) && b64Reg.test(signature)) {
-    try {
-      return isJson(atob(header)) && isJson(atob(payload));
-    } catch (e) {
-      return false;
+  if (s) {
+    const p = s.split('.');
+    if (p.length === 3) {
+      const [header, payload, signature] = p;
+      if (b64Reg.test(header) && b64Reg.test(payload) && b64Reg.test(signature)) {
+        try {
+          if (isJson(atob(header)) && isJson(atob(payload)))
+            return true;
+        } catch (e) {
+          if (throwErr)
+            throwError('valid JWT', s);
+          return false;
+        }
+      }
     }
   }
+
+  if (throwErr)
+    throwError('valid JWT', s);
+  
   return false;
+
 }
 
 const slugReg = /^[^\s-_](?!.*?[-_]{2,})[a-z0-9-\\][^\s]*[^-_\s]$/;
@@ -173,10 +223,20 @@ const slugReg = /^[^\s-_](?!.*?[-_]{2,})[a-z0-9-\\][^\s]*[^-_\s]$/;
  * A slug is typically a URL-friendly string that contains only lowercase letters, numbers, and hyphens.
  * 
  * @param {string | undefined | null} s - The string to check.
- * @returns {boolean} `true` if the string is a valid slug, `false` otherwise.
+ * @param {boolean} [throwErr=false] - If true, throws an error when value is not a valid slug. If false, returns false.
+ * @returns {boolean} `true` if the string is a valid slug, false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the value is not a valid slug and throwErr is true.
  */
-function isSlug(s: string | undefined | null): boolean {
-  return s ? slugReg.test(s) : false;
+function isSlug(s: string | undefined | null, throwErr: boolean = false): boolean {
+  
+  if (s && slugReg.test(s))
+    return true;
+  
+  if (throwErr)
+    throwError('valid slug', s);
+  
+  return false;
+
 }
 
 const hexadecimal = /^(#|0x|0h)?[0-9A-F]+$/i;
@@ -184,21 +244,41 @@ const hexadecimal = /^(#|0x|0h)?[0-9A-F]+$/i;
  * Checks if the given string is a valid hexadecimal number.
  *
  * @param {string | undefined | null} s - The string to check.
- * @returns {boolean} True if the string is a valid hexadecimal number, false otherwise.
+ * @param {boolean} [throwErr=false] - If true, throws an error when value is not a valid hexadecimal number. If false, returns false.
+ * @returns {boolean} True if the string is a valid hexadecimal number, false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the value is not a valid hexadecimal number and throwErr is true.
  */
-function isHexadecimal(s: string | undefined | null): boolean {
-  return s ? hexadecimal.test(s) : false;
+function isHexadecimal(s: string | undefined | null, throwErr: boolean = false): boolean {
+  
+  if (s && hexadecimal.test(s))
+    return true;
+  
+  if (throwErr)
+    throwError('hexadecimal number', s);
+  
+  return false;
+
 }
 
 const upperCaseReg = /[A-Z]+/;
 /**
  * Checks if the given string contains any uppercase letters.
  *
- * @param {string | undefined | null} s - The string to check.
- * @returns {boolean} `true` if the string contains at least one uppercase letter, otherwise `false`.
+ * @param {string} s - The string to check.
+ * @param {boolean} [throwErr=false] - If true, throws an error when string does not contain uppercase letters. If false, returns false.
+ * @returns {boolean} `true` if the string contains at least one uppercase letter, false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the string does not contain uppercase letters and throwErr is true.
  */
-function containsUpperCase(s: string): boolean {
-  return upperCaseReg.test(s);
+function containsUpperCase(s: string, throwErr: boolean = false): boolean {
+  
+  if (upperCaseReg.test(s))
+    return true;
+  
+  if (throwErr)
+    throwError('string containing uppercase letters', s);
+  
+  return false;
+
 }
 
 const lowerCaseReg = /[a-z]+/;
@@ -206,10 +286,20 @@ const lowerCaseReg = /[a-z]+/;
  * Checks if the given string contains at least one lowercase letter.
  *
  * @param {string} s - The string to check.
- * @returns {boolean} `true` if the string contains at least one lowercase letter, otherwise `false`.
+ * @param {boolean} [throwErr=false] - If true, throws an error when string does not contain lowercase letters. If false, returns false.
+ * @returns {boolean} `true` if the string contains at least one lowercase letter, false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the string does not contain lowercase letters and throwErr is true.
  */
-function containsLowerCase(s: string): boolean {
-  return lowerCaseReg.test(s);
+function containsLowerCase(s: string, throwErr: boolean = false): boolean {
+  
+  if (lowerCaseReg.test(s))
+    return true;
+  
+  if (throwErr)
+    throwError('string containing lowercase letters', s);
+  
+  return false;
+
 }
 
 const specialReg = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?°`€£§]+/;
@@ -217,10 +307,20 @@ const specialReg = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?°`€£§]+/;
  * Checks if the given string contains any special characters.
  *
  * @param {string} s - The string to be checked.
- * @returns {boolean} `true` if the string contains special characters, otherwise `false`.
+ * @param {boolean} [throwErr=false] - If true, throws an error when string does not contain special characters. If false, returns false.
+ * @returns {boolean} `true` if the string contains special characters, false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the string does not contain special characters and throwErr is true.
  */
-function containsSpecialCharacter(s: string): boolean {
-  return specialReg.test(s);
+function containsSpecialCharacter(s: string, throwErr: boolean = false): boolean {
+  
+  if (specialReg.test(s))
+    return true;
+  
+  if (throwErr)
+    throwError('string containing special characters', s);
+  
+  return false;
+
 }
 
 const digit = /\d/; // Matches any digit
@@ -231,20 +331,38 @@ const nonDigit = /[^0-9]/g; // Matches any character that is not a digit
  * @param {string} s - The string to check.
  * @param {number} [min=1] - The minimum number of digits required in the string. Defaults to 1.
  * @param {number|null} [max=null] - The maximum number of digits allowed in the string. If not provided, there is no upper limit.
- * @returns {boolean} `true` if the string contains the required number of digits, otherwise `false`.
+ * @param {boolean} [throwErr=false] - If true, throws an error when string does not contain the required number of digits. If false, returns false.
+ * @returns {boolean} `true` if the string contains the required number of digits, false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the string does not contain the required number of digits and throwErr is true.
  */
-function containsNumber(s: string, min = 1, max: number|null = null): boolean {
+function containsNumber(s: string, min = 1, max: number|null = null, throwErr: boolean = false): boolean {
   
-  if (!digit.test(s)) 
+  if (!digit.test(s)) {
+    if (throwErr) {
+      const range = max ? `[${min}, ${max}]` : `[${min}, ∞)`;
+      throwError(`string containing ${range} digits`, s);
+    }
     return false;
+  }
 
   const nums = s.replace(nonDigit, '');
-  if (!(nums.length >= min))
-    return false;  
-  if (max && !(nums.length <= max))
+  
+  if (!(nums.length >= min)) {
+    if (throwErr) {
+      const range = max ? `[${min}, ${max}]` : `[${min}, ∞)`;
+      throwError(`string containing ${range} digits (actual: ${nums.length})`, s);
+    }
     return false;
+  }
+  
+  if (max && !(nums.length <= max)) {
+    if (throwErr)
+      throwError(`string containing [${min}, ${max}] digits (actual: ${nums.length})`, s);
+    return false;
+  }
     
-  return true;   
+  return true;  
+
 }
 
 const defaultOptions = {
@@ -260,8 +378,10 @@ const defaultOptions = {
  * Checks if a given password string meets the specified validation criteria.
  *
  * @param {string} s - The password string to validate.
- * @param {PasswordOptions} [options=PwdDefaultOptions] - Optional configuration object to specify password validation criteria.
- * @returns {boolean} `true` if the password meets all the specified criteria, `false` otherwise.
+ * @param {PasswordOptions} [options=defaultOptions] - Optional configuration object to specify password validation criteria.
+ * @param {boolean} [throwErr=false] - If true, throws an error when password does not meet criteria. If false, returns false.
+ * @returns {boolean} `true` if the password meets all the specified criteria, false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the password does not meet the specified criteria and throwErr is true.
  *
  * @example
  * ```typescript
@@ -277,14 +397,46 @@ const defaultOptions = {
  * console.log(isValid); // true
  * ```
  */
-function isValidPassword(s: string, options: PasswordOptions = defaultOptions): boolean {
+function isValidPassword(s: string, options: PasswordOptions = defaultOptions, throwErr: boolean = false): boolean {
   const o = { ...defaultOptions, ...options };
   const l = s.length;
-  return l >= o.minLength && l <= o.maxLength
-    && (o.lowerCase ? containsLowerCase(s) : true)
-    && (o.upperCase ? containsUpperCase(s) : true)
-    && (o.number ? containsNumber(s, 1, null) : true)
-    && (o.specialCharacter ? containsSpecialCharacter(s) : true);
+  
+  // Check length
+  if (!(l >= o.minLength && l <= o.maxLength)) {
+    if (throwErr)
+      throwError(`password with length in range [${o.minLength}, ${o.maxLength}] (actual length: ${l})`, s);
+    return false;
+  }
+  
+  // Check lowercase requirement
+  if (o.lowerCase && !containsLowerCase(s)) {
+    if (throwErr)
+      throwError('password containing lowercase letters', s);
+    return false;
+  }
+  
+  // Check uppercase requirement
+  if (o.upperCase && !containsUpperCase(s)) {
+    if (throwErr)
+      throwError('password containing uppercase letters', s);
+    return false;
+  }
+  
+  // Check number requirement
+  if (o.number && !containsNumber(s, 1, null)) {
+    if (throwErr)
+      throwError('password containing numbers', s);
+    return false;
+  }
+  
+  // Check special character requirement
+  if (o.specialCharacter && !containsSpecialCharacter(s)) {
+    if (throwErr)
+      throwError('password containing special characters', s);
+    return false;
+  }
+  
+  return true;
 }
 
 export {

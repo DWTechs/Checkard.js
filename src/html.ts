@@ -1,4 +1,6 @@
 
+import { throwError } from './error';
+
 /**
  * Checks if the given value is an HTML element.
  *
@@ -9,22 +11,33 @@
  * and a `nodeName` of type string, which are characteristics of HTML elements.
  *
  * @param {unknown} h - The value to check.
- * @returns {boolean} `true` if the value is an HTML element, otherwise `false`.
+ * @param {boolean} [throwErr=false] - If true, throws an error when value is not an HTML element. If false, returns false.
+ * @returns {boolean} `true` if the value is an HTML element, false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the value is not an HTML element and throwErr is true.
  */
-function isHtmlElement(h: unknown): h is HTMLElement {
-  return Boolean(typeof HTMLElement === "object"
-    ? h instanceof HTMLElement
-    : h &&
-      typeof h === "object" &&
-      (h as Node).nodeType === 1 &&
-      typeof (h as Node).nodeName === "string"); //DOM2
+function isHtmlElement(h: unknown, throwErr: boolean = false): h is HTMLElement {
+  
+  // Check if HTMLElement is available as a constructor and check instance type
+  if (typeof HTMLElement === "object" && h instanceof HTMLElement 
+      || h // Fallback for environments where HTMLElement is not available (DOM2)
+        && typeof h === "object" // Check if it's an object with HTMLElement characteristics
+        && (h as Node).nodeType === 1 
+        && typeof (h as Node).nodeName === "string")
+    return true;
+  
+  if (throwErr)
+    throwError('HTML element', h);
+  
+  return false;
 }
 
 /**
  * Checks if a given string is a valid HTML event attribute.
  *
- * @param {sgtring} h - The string to check.
- * @returns {boolean} `true` if the string is a valid HTML event attribute, otherwise `false`.
+ * @param {string} h - The string to check.
+ * @param {boolean} [throwErr=false] - If true, throws an error when value is not a valid HTML event attribute. If false, returns false.
+ * @returns {boolean} `true` if the string is a valid HTML event attribute, false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the value is not a valid HTML event attribute and throwErr is true.
  *
  * @remarks
  * This function checks against a predefined list of HTML event attributes such as `onclick`, `onload`, `onerror`, etc.
@@ -35,7 +48,7 @@ function isHtmlElement(h: unknown): h is HTMLElement {
  * isHtmlEventAttribute("onunknown"); // returns false
  * ```
  */
-function isHtmlEventAttribute(h: string): boolean {
+function isHtmlEventAttribute(h: string, throwErr: boolean = false): boolean {
   switch (h) {
     case "onafterprint": // run after the document is printed
     case "onbeforeprint": // run before the document is printed
@@ -110,6 +123,8 @@ function isHtmlEventAttribute(h: string): boolean {
     case "ontoggle": //	Fires when the user opens or closes the <details> element"
       return true;
     default:
+      if (throwErr)
+        throwError('HTML event attribute', h);
       return false;
   }
 }
@@ -122,15 +137,24 @@ function isHtmlEventAttribute(h: string): boolean {
  * checking the presence and types of `nodeType` and `nodeName` properties.
  *
  * @param {unknown} n - The value to check.
- * @returns {boolean} `true` if the value is a Node, otherwise `false`.
+ * @param {boolean} [throwErr=false] - If true, throws an error when value is not a DOM Node. If false, returns false.
+ * @returns {boolean} `true` if the value is a Node, false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the value is not a DOM Node and throwErr is true.
  */
-function isNode(n: unknown): n is Node {
-    return Boolean(typeof Node === "object"
-      ? n instanceof Node
-      : n &&
-        typeof n === "object" &&
-        typeof (n as Node).nodeType === "number" &&
-        typeof (n as Node).nodeName === "string");
+function isNode(n: unknown, throwErr: boolean = false): n is Node {
+    // Check if Node is available as a constructor and check instance type
+    if (typeof Node === "object" && n instanceof Node
+      || n // Fallback for environments where Node is not available (DOM2)
+        && typeof n === "object" // Check if it's an object with Node characteristics
+        && typeof (n as Node).nodeType === "number"  
+        && typeof (n as Node).nodeName === "string"
+    )
+      return true;
+    
+    if (throwErr)
+      throwError('DOM Node', n);
+    
+    return false;
 }
 
 export {

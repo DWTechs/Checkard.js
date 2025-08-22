@@ -17,23 +17,40 @@ const comparisons = {
  * @param {number} a - The first number.
  * @param {Comparator | null} c - The comparator function.
  * @param {number | null} b - The second number.
- * @returns {boolean} - Returns true if the comparison is valid, otherwise false.
+ * @param {boolean} [throwError=false] - If true, throws an error when comparison fails. If false, returns false.
+ * @returns {boolean} - Returns true if the comparison is valid, false if not (when throwError is false).
+ * @throws {Error} Throws an error if the comparison fails and throwError is true.
  */
 function compare(
   a: number, 
   c: Comparator | null, 
-  b: number | null
+  b: number | null,
+  throwError: boolean = false
 ): boolean {
-  if (c) {
-    if (c in comparisons) {
-      if (c === '!0' || c === '0') 
-        return comparisons[c](a);
-      if (b != null)
-        return comparisons[c](a, b);
-    }
+  // If no comparator is provided, return true (no comparison needed)
+  if (!c)
+    return true;
+  
+  // Check if comparator is valid
+  if (!(c in comparisons)) {
+    if (throwError)
+      throw new Error(`Invalid comparator: ${c}. Valid comparators are: ${Object.keys(comparisons).join(', ')}`);    
     return false;
   }
-  return true;
+  
+  // Handle unary comparators (!0 and 0)
+  if (c === '!0' || c === '0')
+    return comparisons[c](a);
+  
+  // Handle binary comparators (require second value)
+  if (b == null) {
+    if (throwError)
+      throw new Error(`Comparator '${c}' requires a second value, but received null`);
+    return false;
+  }
+  
+  // Perform the comparison
+  return comparisons[c](a, b);
 }
 
 /**

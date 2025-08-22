@@ -1,4 +1,6 @@
 
+import { throwError } from './error';
+
 /**
  * Checks if a value is falsy.
  *
@@ -12,10 +14,18 @@
  * NaN.
  *
  * @param {unknown} v - The value to check.
- * @returns {boolean} `true` if the value is truthy, otherwise `false`.
+ * @param {boolean} [throwErr=false] - If true, throws an error when value is not falsy. If false, returns false.
+ * @returns {boolean} `true` if the value is falsy, false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the value is not falsy and throwErr is true.
  */
-function isFalsy(v: unknown): boolean {
-  return !v;
+function isFalsy(v: unknown, throwErr: boolean = false): boolean {
+  if (!v)
+    return true;
+  
+  if (throwErr)
+    throwError('falsy value', v);
+  
+  return false;
 }
 
 
@@ -30,10 +40,18 @@ function isFalsy(v: unknown): boolean {
  * BigInt values: Any BigInt value other than 0n.
  *
  * @param {unknown} v - The value to check.
- * @returns {boolean} `true` if the value is truthy, otherwise `false`.
+ * @param {boolean} [throwErr=false] - If true, throws an error when value is not truthy. If false, returns false.
+ * @returns {boolean} `true` if the value is truthy, false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the value is not truthy and throwErr is true.
  */
-function isTruthy(v: unknown): boolean {
-  return !!v;
+function isTruthy(v: unknown, throwErr: boolean = false): boolean {
+  if (!!v)
+    return true;
+  
+  if (throwErr)
+    throwError('truthy value', v);
+  
+  return false;
 }
 
 export {

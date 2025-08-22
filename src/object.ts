@@ -1,4 +1,6 @@
 
+import { throwError } from './error';
+
 /**
  * Checks if a given property exists on an object.
  * own: boolean - whether to check inherited properties only
@@ -9,25 +11,41 @@
  * @param {K} k - The property key to check for.
  * @param {boolean} [own=true] - If true, checks if the property is an own property of the object. Defaults to true.
  * @param {boolean} [enumerable=true] - If true, checks if the property is enumerable. Defaults to true.
- * @returns {boolean} True if the property exists on the object based on the specified conditions, otherwise false.
+ * @param {boolean} [throwErr=false] - If true, throws an error when property doesn't exist. If false, returns false.
+ * @returns {boolean} True if the property exists on the object based on the specified conditions, false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the property doesn't exist and throwErr is true.
  */
 function isProperty<K extends PropertyKey>(
   o: object, 
   k: K, 
   own = true, 
-  enumerable = true): o is Record<K, unknown>
+  enumerable = true,
+  throwErr: boolean = false): o is Record<K, unknown>
 {
+  let isValid: boolean;
+  
   // enumerable property check
-  if (enumerable)
-    return isEnumerable(o, k, own);
-
+  if (enumerable) 
+    isValid = isEnumerable(o, k, own);
+  
   // own property check
-  if (own) 
-    return Object.prototype.hasOwnProperty.call(o, k);
-
+  else if (own)
+    isValid = Object.prototype.hasOwnProperty.call(o, k);
+  
   // property broad check   
-  return k in o;
-
+  else
+    isValid = k in o;
+  
+  if (isValid)
+    return true;
+  
+  if (throwErr) {
+    const scope = own ? 'own' : 'inherited';
+    const type = enumerable ? 'enumerable' : 'any';
+    throwError(`${scope} ${type} property '${String(k)}'`, o);
+  }
+  
+  return false;
 }
 
 /**
