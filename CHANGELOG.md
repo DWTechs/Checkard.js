@@ -1,6 +1,7 @@
 # 3.4.0 (Aug 22th 2025)
 
-- Functions have a **throwErr** property to throw specific error instead of false 
+- Functions have a **throwErr** property to throw specific error instead of false
+- isBase64 regex now rejects empty strings, improving validation and error handling
 
 # 3.3.0 (Aug 18th 2025)
 
