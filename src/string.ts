@@ -378,8 +378,10 @@ const defaultOptions = {
  * Checks if a given password string meets the specified validation criteria.
  *
  * @param {string} s - The password string to validate.
- * @param {PasswordOptions} [options=PwdDefaultOptions] - Optional configuration object to specify password validation criteria.
- * @returns {boolean} `true` if the password meets all the specified criteria, `false` otherwise.
+ * @param {PasswordOptions} [options=defaultOptions] - Optional configuration object to specify password validation criteria.
+ * @param {boolean} [throwErr=false] - If true, throws an error when password does not meet criteria. If false, returns false.
+ * @returns {boolean} `true` if the password meets all the specified criteria, false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the password does not meet the specified criteria and throwErr is true.
  *
  * @example
  * ```typescript
@@ -395,14 +397,46 @@ const defaultOptions = {
  * console.log(isValid); // true
  * ```
  */
-function isValidPassword(s: string, options: PasswordOptions = defaultOptions): boolean {
+function isValidPassword(s: string, options: PasswordOptions = defaultOptions, throwErr: boolean = false): boolean {
   const o = { ...defaultOptions, ...options };
   const l = s.length;
-  return l >= o.minLength && l <= o.maxLength
-    && (o.lowerCase ? containsLowerCase(s) : true)
-    && (o.upperCase ? containsUpperCase(s) : true)
-    && (o.number ? containsNumber(s, 1, null) : true)
-    && (o.specialCharacter ? containsSpecialCharacter(s) : true);
+  
+  // Check length
+  if (!(l >= o.minLength && l <= o.maxLength)) {
+    if (throwErr)
+      throwError(`password with length in range [${o.minLength}, ${o.maxLength}] (actual length: ${l})`, s);
+    return false;
+  }
+  
+  // Check lowercase requirement
+  if (o.lowerCase && !containsLowerCase(s)) {
+    if (throwErr)
+      throwError('password containing lowercase letters', s);
+    return false;
+  }
+  
+  // Check uppercase requirement
+  if (o.upperCase && !containsUpperCase(s)) {
+    if (throwErr)
+      throwError('password containing uppercase letters', s);
+    return false;
+  }
+  
+  // Check number requirement
+  if (o.number && !containsNumber(s, 1, null)) {
+    if (throwErr)
+      throwError('password containing numbers', s);
+    return false;
+  }
+  
+  // Check special character requirement
+  if (o.specialCharacter && !containsSpecialCharacter(s)) {
+    if (throwErr)
+      throwError('password containing special characters', s);
+    return false;
+  }
+  
+  return true;
 }
 
 export {
