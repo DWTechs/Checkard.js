@@ -23,7 +23,7 @@ Function, object, ascii, boolean, integer, string, json, email...)
 
 - 📦 No dependency
 - 🪶 Very lightweight
-- 🧪 Thoroughly tested
+- 🧪 Thoroughly tested with over 1850 Unit Tests
 - 🚚 Shipped as EcmaScrypt module, CommonJS module and IIFE
 - 📝 Written in Typescript
 - 🌐 Old browsers support

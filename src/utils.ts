@@ -39,18 +39,25 @@ function compare(
   }
   
   // Handle unary comparators (!0 and 0)
-  if (c === '!0' || c === '0')
-    return comparisons[c](a);
-  
+  if (c === '!0' || c === '0') {
+    const result = comparisons[c](a);
+    if (!result && throwError)
+      throw new Error(`Comparison failed: ${a} ${c}`);
+    return result;
+  }
+
   // Handle binary comparators (require second value)
   if (b == null) {
     if (throwError)
       throw new Error(`Comparator '${c}' requires a second value, but received null`);
     return false;
   }
-  
+
   // Perform the comparison
-  return comparisons[c](a, b);
+  const result = comparisons[c](a, b);
+  if (!result && throwError)
+    throw new Error(`Comparison failed: ${a} ${c} ${b}`);
+  return result;
 }
 
 /**

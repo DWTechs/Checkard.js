@@ -1,3 +1,7 @@
+# 3.4.1 (Aug 23th 2025)
+
+- compare() function now throws an error when a comparison fails and throwError is true, for both unary and binary comparators
+
 # 3.4.0 (Aug 22th 2025)
 
 - Functions have a **throwErr** property to throw specific error instead of false

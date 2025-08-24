@@ -42,14 +42,21 @@ function compare(a, c, b, throwError = false) {
             throw new Error(`Invalid comparator: ${c}. Valid comparators are: ${Object.keys(comparisons).join(', ')}`);
         return false;
     }
-    if (c === '!0' || c === '0')
-        return comparisons[c](a);
+    if (c === '!0' || c === '0') {
+        const result = comparisons[c](a);
+        if (!result && throwError)
+            throw new Error(`Comparison failed: ${a} ${c}`);
+        return result;
+    }
     if (b == null) {
         if (throwError)
             throw new Error(`Comparator '${c}' requires a second value, but received null`);
         return false;
     }
-    return comparisons[c](a, b);
+    const result = comparisons[c](a, b);
+    if (!result && throwError)
+        throw new Error(`Comparison failed: ${a} ${c} ${b}`);
+    return result;
 }
 function getTag(t) {
     return t == null ? t === undefined ? '[object Undefined]' : '[object Null]' : toString.call(t);
