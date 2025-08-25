@@ -733,13 +733,13 @@ isJWT(s: unknown, throwErr: boolean = false): boolean {}
 isSlug(s: unknown, throwErr: boolean = false): boolean {}
 
 /**
- * Checks if the given value is a valid hexadecimal number.
+ * Checks if the given value is a valid hexadecimal format.
  * Performs internal string validation using isString() before checking hexadecimal format.
  *
  * @param {unknown} s - The value to check (performs internal string validation).
- * @param {boolean} [throwErr=false] - If true, throws an error when value is not a valid hexadecimal number. If false, returns false.
- * @returns {boolean} True if the value is a valid hexadecimal number, false if not (when throwErr is false).
- * @throws {Error} Throws an error if the value is not a valid hexadecimal number and throwErr is true.
+ * @param {boolean} [throwErr=false] - If true, throws an error when value is not a valid hexadecimal format. If false, returns false.
+ * @returns {boolean} True if the value is a valid hexadecimal format, false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the value is not a valid hexadecimal format and throwErr is true.
  */
 isHexadecimal(s: unknown, throwErr: boolean = false): boolean {}
 
