@@ -650,54 +650,59 @@ isValidFloat( n: number | string | undefined | null,
 
 /**
  * Checks if the length of a given string is within the specified range.
+ * Performs internal string validation using isString() before checking email format
  *
- * @param {string | undefined | null} s - The string to check.
+ * @param {unknown} s - The value to check (performs internal string validation).
  * @param {number} [min=0] - The minimum length of the string (inclusive). Default is 0.
  * @param {number} [max=999999999] - The maximum length of the string (inclusive). Default is 999999999.
  * @param {boolean} [throwErr=false] - If true, throws an error when string length is not within range. If false, returns false.
- * @returns {boolean} `true` if the string length is within the specified range, false if not (when throwErr is false).
- * @throws {Error} Throws an error if the string length is not within the specified range and throwErr is true.
+ * @returns {boolean} `true` if the value is a string and its length is within the specified range, false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the value is not a string and its length is not within the specified range and throwErr is true.
  */
 isStringOfLength(
-  s: string | undefined | null,
+  s: unknown,
   min = 0, 
   max = 999999999,
   throwErr: boolean = false
 ): boolean {}
 
 /**
- * Checks if the given string is a valid email address.
+ * Checks if the given value is a valid email address.
+ * Performs internal string validation using isString() before checking email format.
  *
- * @param {string | undefined | null} s - The string to be checked.
+ * @param {unknown} s - The value to be checked (performs internal string validation).
  * @param {boolean} [throwErr=false] - If true, throws an error when value is not a valid email. If false, returns false.
- * @returns {boolean} `true` if the string is a valid email address, false if not (when throwErr is false).
+ * @returns {boolean} `true` if the value a valid email address, false if not (when throwErr is false).
  * @throws {Error} Throws an error if the value is not a valid email address and throwErr is true.
  */
-isEmail(s: string | undefined | null, throwErr: boolean = false): boolean {}
+isEmail(s: unknown, throwErr: boolean = false): boolean {}
 
 /**
- * Checks if the given string is a valid IP address.
+ * Checks if the given value is a valid IP address.
+ * Performs internal string validation using isString() before checking IP address format.
  *
- * @param {string | undefined | null} s - The string to be checked.
+ * @param {unknown} s - The value to be checked (performs internal string validation).
  * @param {boolean} [throwErr=false] - If true, throws an error when value is not a valid IP address. If false, returns false.
- * @returns {boolean} `true` if the string is a valid IP address, false if not (when throwErr is false).
+ * @returns {boolean} `true` if the value is a valid IP address, false if not (when throwErr is false).
  * @throws {Error} Throws an error if the value is not a valid IP address and throwErr is true.
  */
-isIpAddress(s: string | undefined | null, throwErr: boolean = false): boolean {}
+isIpAddress(s: unknown, throwErr: boolean = false): boolean {}
 
 /**
- * Checks if a given string is a valid Base64 encoded string.
+ * Checks if a given value is a valid Base64 encoded string.
+ * Performs internal string validation using isString() before checking Base64 format.
  *
- * @param {string | undefined | null} s - The string to check.
+ * @param {unknown} s - The value to check (performs internal string validation).
  * @param {boolean} [urlEncoded=false] - Optional. If true, checks for URL-safe Base64 encoding. Defaults to false.
  * @param {boolean} [throwErr=false] - If true, throws an error when value is not valid Base64. If false, returns false.
- * @returns {boolean} True if the string is a valid Base64 encoded string, false if not (when throwErr is false).
- * @throws {Error} Throws an error if the value is not valid Base64 and throwErr is true.
+ * @returns {boolean} True if the value is a valid Base64 encoded string, false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the value is not a valid Base64 and throwErr is true.
  */
-isBase64(s: string | undefined | null, urlEncoded = false, throwErr: boolean = false): boolean {}
+isBase64(s: unknown, urlEncoded = false, throwErr: boolean = false): boolean {}
 
 /**
- * Checks if a given string is a valid JSON Web Token (JWT).
+ * Checks if a given value is a valid JSON Web Token (JWT).
+ * Performs internal string validation using isString() before checking JWT format.
  *
  * A valid JWT consists of three parts separated by dots ('.'):
  * - Header
@@ -707,34 +712,36 @@ isBase64(s: string | undefined | null, urlEncoded = false, throwErr: boolean = f
  * Each part must be a valid Base64 encoded string. Additionally, the header and payload
  * must be valid JSON objects when decoded.
  *
- * @param {string | undefined | null} s - The string to check.
+ * @param {unknown} s - The value to check (performs internal string validation).
  * @param {boolean} [throwErr=false] - If true, throws an error when value is not a valid JWT. If false, returns false.
- * @returns {boolean} `true` if the string is a valid JWT, false if not (when throwErr is false).
- * @throws {Error} Throws an error if the value is not a valid JWT and throwErr is true.
+ * @returns {boolean} `true` if the value is a valid JWT, false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the value not a valid JWT and throwErr is true.
  */
-isJWT(s: string | undefined | null, throwErr: boolean = false): boolean {}
+isJWT(s: unknown, throwErr: boolean = false): boolean {}
 
 /**
- * Checks if the given string is a valid slug.
+ * Checks if the given value is a valid slug.
+ * Performs internal string validation using isString() before checking slug format.
  * 
  * A slug is typically a URL-friendly string that contains only lowercase letters, numbers, and hyphens.
  * 
- * @param {string | undefined | null} s - The string to check.
+ * @param {unknown} s - The value to check (performs internal string validation).
  * @param {boolean} [throwErr=false] - If true, throws an error when value is not a valid slug. If false, returns false.
- * @returns {boolean} `true` if the string is a valid slug, false if not (when throwErr is false).
+ * @returns {boolean} `true` if the value is a valid slug, false if not (when throwErr is false).
  * @throws {Error} Throws an error if the value is not a valid slug and throwErr is true.
  */
-isSlug(s: string | undefined | null, throwErr: boolean = false): boolean {}
+isSlug(s: unknown, throwErr: boolean = false): boolean {}
 
 /**
- * Checks if the given string is a valid hexadecimal number.
+ * Checks if the given value is a valid hexadecimal number.
+ * Performs internal string validation using isString() before checking hexadecimal format.
  *
- * @param {string | undefined | null} s - The string to check.
+ * @param {unknown} s - The value to check (performs internal string validation).
  * @param {boolean} [throwErr=false] - If true, throws an error when value is not a valid hexadecimal number. If false, returns false.
- * @returns {boolean} True if the string is a valid hexadecimal number, false if not (when throwErr is false).
+ * @returns {boolean} True if the value is a valid hexadecimal number, false if not (when throwErr is false).
  * @throws {Error} Throws an error if the value is not a valid hexadecimal number and throwErr is true.
  */
-isHexadecimal(s: string | undefined | null, throwErr: boolean = false): boolean {}
+isHexadecimal(s: unknown, throwErr: boolean = false): boolean {}
 
 
 const PwdDefaultOptions = {

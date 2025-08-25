@@ -1,3 +1,7 @@
+# 3.5.0 (Aug 24th 2025)
+
+- String validation functions now accept `unknown` type and perform internal string type checking using `isString()` for improved type safety: `isStringOfLength()`, `isEmail()`, `isIpAddress()`, `isBase64()`, `isJWT()`, `isSlug()`, `isHexadecimal()` 
+
 # 3.4.1 (Aug 23th 2025)
 
 - compare() function now throws an error when a comparison fails and throwError is true, for both unary and binary comparators
