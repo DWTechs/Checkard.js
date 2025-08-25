@@ -1,5 +1,5 @@
 import type { PasswordOptions } from './types';
-import { isNil } from './primitive';
+import { isNil, isString } from './primitive';
 import { isJson } from './nonprimitive';
 import { throwError } from './error';
 
@@ -7,7 +7,7 @@ import { throwError } from './error';
 /**
  * Checks if the length of a given string is within the specified range.
  *
- * @param {string | undefined | null} s - The string to check.
+ * @param {unknown} v - The value to check
  * @param {number} [min=0] - The minimum length of the string (inclusive). Default is 0.
  * @param {number} [max=999999999] - The maximum length of the string (inclusive). Default is 999999999.
  * @param {boolean} [throwErr=false] - If true, throws an error when string length is not within range. If false, returns false.
@@ -15,20 +15,24 @@ import { throwError } from './error';
  * @throws {Error} Throws an error if the string length is not within the specified range and throwErr is true.
  */
 function isStringOfLength(
-  s: string | undefined | null,
+  v: unknown,
   min = 0, 
   max = 999999999,
   throwErr: boolean = false
 ): boolean {
 
-  const l = s?.length;
-  
-  if (!isNil(l) && l >= min && l <= max)
+  if (!isString(v)) {
+    if (throwErr)
+      throwError(`string with length in range [${min}, ${max}]`, v);
+    return false;
+  }
+
+  const l = v.length;
+  if (l >= min && l <= max)
     return true;
   
   if (throwErr)
-    throwError(`string with length in range [${min}, ${max}] (actual length: ${l})`, s);
-  
+    throwError(`string with length in range [${min}, ${max}] (actual length: ${l})`, v); 
   return false;
 
 }
@@ -37,19 +41,18 @@ const emailReg = /^(?=[a-z0-9@.!$%&'*+\/=?^_‘{|}~-]{6,254}$)(?=[a-z0-9.!#$%&'*
 /**
  * Checks if the given string is a valid email address.
  *
- * @param {string | undefined | null} s - The string to be checked.
+ * @param {unknown} v - The value to check
  * @param {boolean} [throwErr=false] - If true, throws an error when value is not a valid email. If false, returns false.
  * @returns {boolean} `true` if the string is a valid email address, false if not (when throwErr is false).
  * @throws {Error} Throws an error if the value is not a valid email address and throwErr is true.
  */
-function isEmail(s: string | undefined | null, throwErr: boolean = false): boolean {
+function isEmail(v: string | undefined | null, throwErr: boolean = false): boolean {
   
-  if (s && emailReg.test(String(s).toLowerCase()))
+  if (isString(v) && emailReg.test(v.toLowerCase()))
     return true;
   
   if (throwErr)
-    throwError('valid email address', s);
-  
+    throwError('valid email address', v);  
   return false;
 
 }
@@ -66,19 +69,18 @@ const ipReg = /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-
 /**
  * Checks if the given string is a valid IP address.
  *
- * @param {string | undefined | null} s - The string to be checked.
+ * @param {unknown} v - The value to check.
  * @param {boolean} [throwErr=false] - If true, throws an error when value is not a valid IP address. If false, returns false.
  * @returns {boolean} `true` if the string is a valid IP address, false if not (when throwErr is false).
  * @throws {Error} Throws an error if the value is not a valid IP address and throwErr is true.
  */
-function isIpAddress(s: string | undefined | null, throwErr: boolean = false): boolean {
-  
-  if (s && ipReg.test(String(s)))
+function isIpAddress(v: unknown, throwErr: boolean = false): boolean {
+
+  if (isString(v) && ipReg.test(v))
     return true;
   
   if (throwErr)
-    throwError('valid IP address', s);
-  
+    throwError('valid IP address', v);
   return false;
   
 }
@@ -125,23 +127,22 @@ const b64 =  /^(?=.{1,}$)(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9
 /**
  * Checks if a given string is a valid Base64 encoded string.
  *
- * @param {string | undefined | null} s - The string to check.
+ * @param {unknown} v - The value to check.
  * @param {boolean} [urlEncoded=false] - Optional. If true, checks for URL-safe Base64 encoding. Defaults to false.
  * @param {boolean} [throwErr=false] - If true, throws an error when value is not valid Base64. If false, returns false.
  * @returns {boolean} True if the string is a valid Base64 encoded string, false if not (when throwErr is false).
  * @throws {Error} Throws an error if the value is not valid Base64 and throwErr is true.
  */
-function isBase64(s: string | undefined | null, urlEncoded = false, throwErr: boolean = false): boolean {
+function isBase64(v: unknown, urlEncoded = false, throwErr: boolean = false): boolean {
   const regex = urlEncoded ? b64UrlEncoded : b64;
-  
-  if (s && regex.test(s))
+
+  if (isString(v) && regex.test(v))
     return true;
   
   if (throwErr) {
     const encodingType = urlEncoded ? 'URL-safe Base64' : 'Base64';
-    throwError(`valid ${encodingType} encoded string`, s);
-  }
-  
+    throwError(`valid ${encodingType} encoded string`, v);
+  }  
   return false;
 }
 
@@ -185,15 +186,15 @@ const b64Reg = /^[A-Za-z0-9\-_]+={0,2}$/;
  * Each part must be a valid Base64 encoded string. Additionally, the header and payload
  * must be valid JSON objects when decoded.
  *
- * @param {string | undefined | null} s - The string to check.
+ * @param {unknown} v - The value to check.
  * @param {boolean} [throwErr=false] - If true, throws an error when value is not a valid JWT. If false, returns false.
  * @returns {boolean} `true` if the string is a valid JWT, false if not (when throwErr is false).
  * @throws {Error} Throws an error if the value is not a valid JWT and throwErr is true.
  */
-function isJWT(s: string | undefined | null, throwErr: boolean = false): boolean {
-  
-  if (s) {
-    const p = s.split('.');
+function isJWT(v: unknown, throwErr: boolean = false): boolean {
+
+  if (isString(v)) {
+    const p = v.split('.');
     if (p.length === 3) {
       const [header, payload, signature] = p;
       if (b64Reg.test(header) && b64Reg.test(payload) && b64Reg.test(signature)) {
@@ -202,7 +203,7 @@ function isJWT(s: string | undefined | null, throwErr: boolean = false): boolean
             return true;
         } catch (e) {
           if (throwErr)
-            throwError('valid JWT', s);
+            throwError('valid JWT', v);
           return false;
         }
       }
@@ -210,8 +211,7 @@ function isJWT(s: string | undefined | null, throwErr: boolean = false): boolean
   }
 
   if (throwErr)
-    throwError('valid JWT', s);
-  
+    throwError('valid JWT', v);
   return false;
 
 }
@@ -221,20 +221,19 @@ const slugReg = /^[^\s-_](?!.*?[-_]{2,})[a-z0-9-\\][^\s]*[^-_\s]$/;
  * Checks if the given string is a valid slug.
  * 
  * A slug is typically a URL-friendly string that contains only lowercase letters, numbers, and hyphens.
- * 
- * @param {string | undefined | null} s - The string to check.
+ *
+ * @param {unknown} v - The value to check.
  * @param {boolean} [throwErr=false] - If true, throws an error when value is not a valid slug. If false, returns false.
  * @returns {boolean} `true` if the string is a valid slug, false if not (when throwErr is false).
  * @throws {Error} Throws an error if the value is not a valid slug and throwErr is true.
  */
-function isSlug(s: string | undefined | null, throwErr: boolean = false): boolean {
-  
-  if (s && slugReg.test(s))
+function isSlug(v: unknown, throwErr: boolean = false): boolean {
+
+  if (isString(v) && slugReg.test(v))
     return true;
   
   if (throwErr)
-    throwError('valid slug', s);
-  
+    throwError('valid slug', v);
   return false;
 
 }
@@ -243,19 +242,18 @@ const hexadecimal = /^(#|0x|0h)?[0-9A-F]+$/i;
 /**
  * Checks if the given string is a valid hexadecimal number.
  *
- * @param {string | undefined | null} s - The string to check.
+ * @param {unknown} v - The value to check.
  * @param {boolean} [throwErr=false] - If true, throws an error when value is not a valid hexadecimal number. If false, returns false.
  * @returns {boolean} True if the string is a valid hexadecimal number, false if not (when throwErr is false).
  * @throws {Error} Throws an error if the value is not a valid hexadecimal number and throwErr is true.
  */
-function isHexadecimal(s: string | undefined | null, throwErr: boolean = false): boolean {
-  
-  if (s && hexadecimal.test(s))
+function isHexadecimal(v: unknown, throwErr: boolean = false): boolean {
+
+  if (isString(v) && hexadecimal.test(v))
     return true;
   
   if (throwErr)
-    throwError('hexadecimal number', s);
-  
+    throwError('hexadecimal number', v);
   return false;
 
 }
