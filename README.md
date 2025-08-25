@@ -878,14 +878,14 @@ const maxDate = new Date('1/1/2200');
 /**
  * Checks if a given date is valid within a specified range.
  *
- * @param {Date} d - The date to be validated.
+ * @param {unknown} d - The value to be validated (performs internal date validation).
  * @param {Date} [min=minDate] - The minimum allowable date. Defaults to `minDate`.
  * @param {Date} [max=maxDate] - The maximum allowable date. Defaults to `maxDate`.
  * @param {boolean} [throwErr=false] - If true, throws an error when date is not valid. If false, returns false.
- * @returns {boolean} `true` if the date is valid and within the specified range, false if not (when throwErr is false).
- * @throws {Error} Throws an error if the date is not valid and throwErr is true.
+ * @returns {boolean} `true` if the value is a valid date and within the specified range, false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the value is not a valid date or not within the specified range and throwErr is true.
  */
-isValidDate(d: Date, min: Date = minDate, max: Date = maxDate, throwErr: boolean = false): boolean {}
+isValidDate(d: unknown, min: Date = minDate, max: Date = maxDate, throwErr: boolean = false): boolean {}
 
 /**
  * Checks if the given number is a valid timestamp.
