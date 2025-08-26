@@ -874,7 +874,6 @@ if (isValidPassword(password, PwdOptions)) {
 
 const minDate = new Date('1/1/1900');
 const maxDate = new Date('1/1/2200');
-
 /**
  * Checks if a given date is valid within a specified range.
  *
@@ -882,7 +881,7 @@ const maxDate = new Date('1/1/2200');
  * @param {Date} [min=minDate] - The minimum allowable date. Defaults to `minDate`.
  * @param {Date} [max=maxDate] - The maximum allowable date. Defaults to `maxDate`.
  * @param {boolean} [throwErr=false] - If true, throws an error when date is not valid. If false, returns false.
- * @returns {boolean} `true` if the value is a valid date and within the specified range, false if not (when throwErr is false).
+ * @returns {boolean} `true` if the value is a valid date within the specified range, false if not (when throwErr is false).
  * @throws {Error} Throws an error if the value is not a valid date or not within the specified range and throwErr is true.
  */
 isValidDate(d: unknown, min: Date = minDate, max: Date = maxDate, throwErr: boolean = false): boolean {}
@@ -898,6 +897,8 @@ isValidDate(d: unknown, min: Date = minDate, max: Date = maxDate, throwErr: bool
  */
 isTimestamp(t: number, type = true, throwErr: boolean = false): boolean {}
 
+const minTs = -2208989361000; // 1/1/1900
+const maxTs = 7258114800000; // 1/1/2200
 /**
  * Checks if a given timestamp is valid within a specified range.
  *

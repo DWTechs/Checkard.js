@@ -9,81 +9,97 @@ const maxDate = new Date('1/1/2200');
  * Checks if a given date is valid within a specified range.
  *
  * @param {unknown} d - The value to be validated (performs internal date validation).
- * @param {Date} [min=minDate] - The minimum allowable date. Defaults to `minDate`.
- * @param {Date} [max=maxDate] - The maximum allowable date. Defaults to `maxDate`.
+ * @param {Date | number} [min=minDate] - The minimum allowable date (Date object or timestamp). Defaults to `minDate`.
+ * @param {Date | number} [max=maxDate] - The maximum allowable date (Date object or timestamp). Defaults to `maxDate`.
  * @param {boolean} [throwErr=false] - If true, throws an error when date is not valid. If false, returns false.
- * @returns {boolean} `true` if the value is a valid date and within the specified range, false if not (when throwErr is false).
+ * @returns {boolean} `true` if the value is a valid date within the specified range, false if not (when throwErr is false).
  * @throws {Error} Throws an error if the value is not a valid date or not within the specified range and throwErr is true.
  */
-function isValidDate(d: unknown, min: Date = minDate, max: Date = maxDate, throwErr: boolean = false): boolean {
-  
-  // First validate that all inputs are valid dates
-  // This will throw immediately if throwErr=true and any date is invalid
-  if (!isDate(d, throwErr) || !isDate(min, throwErr) || !isDate(max, throwErr))
+function isValidDate(d: unknown, min: Date | number = minDate, max: Date | number = maxDate, throwErr: boolean = false): boolean {
+
+  // First validate that input is a valid date
+  // This will throw immediately if throwErr=true
+  if (!isDate(d, throwErr))
     return false;
-  
+
+  // Convert min to Date if it's a timestamp
+  const from = isDate(min) ? min : isTimestamp(min, false) ? new Date(min) : minDate;
+  // Convert max to Date if it's a timestamp
+  const to = isDate(max) ? max : isTimestamp(max, false) ? new Date(max) : maxDate;
+
   // All dates are valid, now check the range
-  if (d >= min && d <= max)
+  if (d >= from && d <= to)
     return true;
   
   // Range validation failed
   if (throwErr)
-    throwError(`date between ${min.toISOString()} and ${max.toISOString()}`, d);
+    throwError(`date between ${from.toISOString()} and ${to.toISOString()}`, d);
   return false;
 
 }
 
 
 /**
- * Checks if the given number is a valid timestamp.
+ * Checks if the given value is a valid timestamp.
  *
- * @param {unknown} t - The number to check.
- * @param {boolean} [type=true] - An optional boolean parameter to verify the type of t. Defaults to true.
+ * @param {unknown} v - The value to check.
+ * @param {boolean} [type=true] - An optional boolean parameter to verify the type of v. Defaults to true.
  * @param {boolean} [throwErr=false] - If true, throws an error when value is not a valid timestamp. If false, returns false.
- * @returns {boolean} A boolean indicating whether the number is a timestamp, false if not (when throwErr is false).
+ * @returns {boolean} A boolean indicating whether the value is a timestamp, false if not (when throwErr is false).
  * @throws {Error} Throws an error if the value is not a valid timestamp and throwErr is true.
  */
-function isTimestamp(t: number, type = true, throwErr: boolean = false): boolean {
+function isTimestamp<T extends boolean = true>(
+  v: unknown, 
+  type: T = true as T, 
+  throwErr: boolean = false
+): v is T extends true ? number : number | string {
+
   
-  if (isInteger(t, type) && isNum(new Date(Number.parseInt(String(t))).getTime(), type))
+  if (isInteger(v, type) && isNum(new Date(Number.parseInt(String(v))).getTime(), type))
     return true;
   
   if (throwErr)
-    throwError('valid timestamp', t);
+    throwError('valid timestamp', v);
   
   return false;
 
 }
 
+
+const minTs = -2208989361000; // 1/1/1900
+const maxTs = 7258114800000; // 1/1/2200
 /**
  * Checks if a given timestamp is valid within a specified range.
  *
  * @param {unknown} t - The timestamp to validate.
- * @param {number} [min=-2208989361000] - The minimum allowed timestamp (default is -2208989361000,eg 1/1/1900).
- * @param {number} [max=7258114800000] - The maximum allowed timestamp (default is 7258114800000, eg 1/1/2200).
+ * @param {Date | number} [min=minTs] - The minimum allowed timestamp (Date object or timestamp). Defaults to `minTs`.
+ * @param {Date | number} [max=maxTs] - The maximum allowed timestamp (Date object or timestamp). Defaults to `maxTs`.
  * @param {boolean} [type=true] - A boolean indicating the type of timestamp (default is true).
  * @param {boolean} [throwErr=false] - If true, throws an error when timestamp is not valid. If false, returns false.
  * @returns {boolean} `true` if the timestamp is valid and within the specified range, false if not (when throwErr is false).
  * @throws {Error} Throws an error if the timestamp is not valid and throwErr is true.
  */
-function isValidTimestamp(t: number, min = -2208989361000, max = 7258114800000, type = true, throwErr: boolean = false): boolean {
+function isValidTimestamp(t: number, min: Date | number = minTs, max: Date | number = maxTs, type = true, throwErr: boolean = false): boolean {
 
   // First validate that input is a valid timestamp
   // This will throw immediately if throwErr=true and timestamp is invalid
-  if (!isTimestamp(t, type, throwErr)) {
+  if (!isTimestamp(t, type, throwErr))
     return false;
-  }
+
+  // Convert min to timestamp if it's a Date
+  const from = isTimestamp(min, false) ?  min : isDate(min) ? min.getTime() : minTs;
+  // Convert max to timestamp if it's a Date
+  const to = isTimestamp(max, false) ? max : isDate(max) ? max.getTime() : maxTs;
   
   // Timestamp is valid, now check the range
-  if (t >= min && t <= max) {
+  if (t >= from && t <= to)
     return true;
-  }
   
   // Range validation failed
   if (throwErr) {
-    const minDate = new Date(min).toISOString();
-    const maxDate = new Date(max).toISOString();
-    throwError(`timestamp between ${min} (${minDate}) and ${max} (${maxDate})`, t);
+    const minDate = new Date(from).toISOString();
+    const maxDate = new Date(to).toISOString();
+    throwError(`timestamp between ${from} (${minDate}) and ${to} (${maxDate})`, t);
   }
   
   return false;

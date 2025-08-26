@@ -86,6 +86,14 @@ test("sends valid date as string to isValidDate with min & max", () => {
   expect(isValidDate('1/5/1900', '1/1/1900', '1/1/1901')).toBe(false);
 });
 
+test("sends valid date to isValidDate with min & max as string timestamps", () => {
+  expect(isValidDate(new Date('1/5/1900').getTime(), "-2208988800000", "-2177452800000")).toBe(true);
+});
+
+test("sends valid date to isValidDate with min & max as number timestamps", () => {
+  expect(isValidDate(new Date('1/5/1900').getTime(), new Date('1/1/1900').getTime(), new Date('1/1/1901').getTime())).toBe(true);
+});
+
 test("sends date in string format to isValidDate", () => {
   expect(isValidDate('1/1/1900')).toBe(false);
 });
@@ -99,16 +107,32 @@ test("sends current timestamp to isValidDate outside max range", () => {
   expect(isValidDate(date.getTime(), null, new Date('1/1/2020'))).toBe(false);
 });
 
+test("sends current timestamp to isValidDate outside max range. Range is Timestamp", () => {
+  expect(isValidDate(date.getTime(), null, new Date('1/1/2020').getTime())).toBe(false);
+});
+
 test("sends current timestamp to isValidDate outside lower range", () => {
   expect(isValidDate(date.getTime(), new Date('1/1/2010'), new Date('1/1/2020'))).toBe(false);
+});
+
+test("sends current timestamp to isValidDate outside lower range. Range is Timestamp", () => {
+  expect(isValidDate(date.getTime(), new Date('1/1/2010').getTime(), new Date('1/1/2020').getTime())).toBe(false);
 });
 
 test("sends curret timestamp to isValidDate outside min range", () => {
   expect(isValidDate(date.getTime(), new Date('1/1/2060', null))).toBe(false);
 });
 
+test("sends curret timestamp to isValidDate outside min range. Range is Timestamp", () => {
+  expect(isValidDate(date.getTime(), new Date('1/1/2060').getTime(), null)).toBe(false);
+});
+
 test("sends current timestamp to isValidDate outside upper range", () => {
   expect(isValidDate(date.getTime(), new Date('1/1/2050'), new Date('1/1/2060'))).toBe(false);
+});
+
+test("sends current timestamp to isValidDate outside upper range. range are timestamps", () => {
+  expect(isValidDate(date.getTime(), new Date('1/1/2050').getTime(), new Date('1/1/2060').getTime())).toBe(false);
 });
 
 test("sends undefined to isValidDate", () => {
