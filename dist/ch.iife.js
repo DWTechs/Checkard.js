@@ -341,16 +341,16 @@ var ch = (function (exports) {
       return false;
     }
 
-    function isInteger(n, type, throwErr) {
+    function isInteger(v, type, throwErr) {
       if (type === void 0) {
         type = true;
       }
       if (throwErr === void 0) {
         throwErr = false;
       }
-      var _int = Number.parseInt(String(n), 10);
-      if (type ? n === _int : n == _int) return true;
-      if (throwErr) throwError('integer', n);
+      var _int = Number.parseInt(String(v), 10);
+      if (type ? v === _int : v == _int) return true;
+      if (throwErr) throwError('integer', v);
       return false;
     }
     function isFloat(n, type, throwErr) {
@@ -499,7 +499,7 @@ var ch = (function (exports) {
       return false;
     }
 
-    function isStringOfLength(s, min, max, throwErr) {
+    function isStringOfLength(v, min, max, throwErr) {
       if (min === void 0) {
         min = 0;
       }
@@ -509,32 +509,36 @@ var ch = (function (exports) {
       if (throwErr === void 0) {
         throwErr = false;
       }
-      var l = s === null || s === void 0 ? void 0 : s.length;
-      if (!isNil(l) && l >= min && l <= max) return true;
-      if (throwErr) throwError("string with length in range [" + min + ", " + max + "] (actual length: " + l + ")", s);
+      if (!isString(v)) {
+        if (throwErr) throwError("string with length in range [" + min + ", " + max + "]", v);
+        return false;
+      }
+      var l = v.length;
+      if (l >= min && l <= max) return true;
+      if (throwErr) throwError("string with length in range [" + min + ", " + max + "] (actual length: " + l + ")", v);
       return false;
     }
     var emailReg = /^(?=[a-z0-9@.!$%&'*+\/=?^_‘{|}~-]{6,254}$)(?=[a-z0-9.!#$%&'*+\/=?^_‘{|}~-]{1,64}@)[a-z0-9!#$%&'*+\/=?^‘{|}~]+(?:[\._-][a-z0-9!#$%&'*+\/=?^‘{|}~]+)*@(?:(?=[a-z0-9-]{1,63}\.)[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+(?=[a-z0-9-]{2,63}$)[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/;
-    function isEmail(s, throwErr) {
+    function isEmail(v, throwErr) {
       if (throwErr === void 0) {
         throwErr = false;
       }
-      if (s && emailReg.test(String(s).toLowerCase())) return true;
-      if (throwErr) throwError('valid email address', s);
+      if (isString(v) && emailReg.test(v.toLowerCase())) return true;
+      if (throwErr) throwError('valid email address', v);
       return false;
     }
     var ipReg = /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
-    function isIpAddress(s, throwErr) {
+    function isIpAddress(v, throwErr) {
       if (throwErr === void 0) {
         throwErr = false;
       }
-      if (s && ipReg.test(String(s))) return true;
-      if (throwErr) throwError('valid IP address', s);
+      if (isString(v) && ipReg.test(v)) return true;
+      if (throwErr) throwError('valid IP address', v);
       return false;
     }
     var b64UrlEncoded = /^[A-Za-z0-9-_]+$/;
     var b64 = /^(?=.{1,}$)(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/;
-    function isBase64(s, urlEncoded, throwErr) {
+    function isBase64(v, urlEncoded, throwErr) {
       if (urlEncoded === void 0) {
         urlEncoded = false;
       }
@@ -542,20 +546,20 @@ var ch = (function (exports) {
         throwErr = false;
       }
       var regex = urlEncoded ? b64UrlEncoded : b64;
-      if (s && regex.test(s)) return true;
+      if (isString(v) && regex.test(v)) return true;
       if (throwErr) {
         var encodingType = urlEncoded ? 'URL-safe Base64' : 'Base64';
-        throwError("valid " + encodingType + " encoded string", s);
+        throwError("valid " + encodingType + " encoded string", v);
       }
       return false;
     }
     var b64Reg = /^[A-Za-z0-9\-_]+={0,2}$/;
-    function isJWT(s, throwErr) {
+    function isJWT(v, throwErr) {
       if (throwErr === void 0) {
         throwErr = false;
       }
-      if (s) {
-        var p = s.split('.');
+      if (isString(v)) {
+        var p = v.split('.');
         if (p.length === 3) {
           var header = p[0],
             payload = p[1],
@@ -564,31 +568,31 @@ var ch = (function (exports) {
             try {
               if (isJson(atob(header)) && isJson(atob(payload))) return true;
             } catch (e) {
-              if (throwErr) throwError('valid JWT', s);
+              if (throwErr) throwError('valid JWT', v);
               return false;
             }
           }
         }
       }
-      if (throwErr) throwError('valid JWT', s);
+      if (throwErr) throwError('valid JWT', v);
       return false;
     }
     var slugReg = /^[^\s-_](?!.*?[-_]{2,})[a-z0-9-\\][^\s]*[^-_\s]$/;
-    function isSlug(s, throwErr) {
+    function isSlug(v, throwErr) {
       if (throwErr === void 0) {
         throwErr = false;
       }
-      if (s && slugReg.test(s)) return true;
-      if (throwErr) throwError('valid slug', s);
+      if (isString(v) && slugReg.test(v)) return true;
+      if (throwErr) throwError('valid slug', v);
       return false;
     }
     var hexadecimal = /^(#|0x|0h)?[0-9A-F]+$/i;
-    function isHexadecimal(s, throwErr) {
+    function isHexadecimal(v, throwErr) {
       if (throwErr === void 0) {
         throwErr = false;
       }
-      if (s && hexadecimal.test(s)) return true;
-      if (throwErr) throwError('hexadecimal number', s);
+      if (isString(v) && hexadecimal.test(v)) return true;
+      if (throwErr) throwError('hexadecimal number', v);
       return false;
     }
     var upperCaseReg = /[A-Z]+/;
@@ -802,27 +806,32 @@ var ch = (function (exports) {
       if (throwErr === void 0) {
         throwErr = false;
       }
-      if (isDate(d) && d >= min && d <= max) return true;
-      if (throwErr) throwError("date between " + min.toISOString() + " and " + max.toISOString(), d);
+      if (!isDate(d, throwErr)) return false;
+      var from = isDate(min) ? min : isTimestamp(min, false) ? new Date(min) : minDate;
+      var to = isDate(max) ? max : isTimestamp(max, false) ? new Date(max) : maxDate;
+      if (d >= from && d <= to) return true;
+      if (throwErr) throwError("date between " + from.toISOString() + " and " + to.toISOString(), d);
       return false;
     }
-    function isTimestamp(t, type, throwErr) {
+    function isTimestamp(v, type, throwErr) {
       if (type === void 0) {
         type = true;
       }
       if (throwErr === void 0) {
         throwErr = false;
       }
-      if (isInteger(t, type) && isNum(new Date(Number.parseInt(String(t))).getTime(), type)) return true;
-      if (throwErr) throwError('valid timestamp', t);
+      if (isInteger(v, type) && isNum(new Date(Number.parseInt(String(v))).getTime(), type)) return true;
+      if (throwErr) throwError('valid timestamp', v);
       return false;
     }
+    var minTs = -2208989361000;
+    var maxTs = 7258114800000;
     function isValidTimestamp(t, min, max, type, throwErr) {
       if (min === void 0) {
-        min = -2208989361000;
+        min = minTs;
       }
       if (max === void 0) {
-        max = 7258114800000;
+        max = maxTs;
       }
       if (type === void 0) {
         type = true;
@@ -830,11 +839,14 @@ var ch = (function (exports) {
       if (throwErr === void 0) {
         throwErr = false;
       }
-      if (isTimestamp(t, type, throwErr) && t >= min && t <= max) return true;
+      if (!isTimestamp(t, type, throwErr)) return false;
+      var from = isTimestamp(min, false) ? min : isDate(min) ? min.getTime() : minTs;
+      var to = isTimestamp(max, false) ? max : isDate(max) ? max.getTime() : maxTs;
+      if (t >= from && t <= to) return true;
       if (throwErr) {
-        var _minDate = new Date(min).toISOString();
-        var _maxDate = new Date(max).toISOString();
-        throwError("timestamp between " + min + " (" + _minDate + ") and " + max + " (" + _maxDate + ")", t);
+        var _minDate = new Date(from).toISOString();
+        var _maxDate = new Date(to).toISOString();
+        throwError("timestamp between " + from + " (" + _minDate + ") and " + to + " (" + _maxDate + ")", t);
       }
       return false;
     }

@@ -1,5 +1,5 @@
 import type { PasswordOptions } from './types';
-import { isNil, isString } from './primitive';
+import { isString } from './primitive';
 import { isJson } from './nonprimitive';
 import { throwError } from './error';
 

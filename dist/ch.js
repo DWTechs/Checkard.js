@@ -267,12 +267,12 @@ function isIn(a, v, from = 0, throwErr = false) {
     return false;
 }
 
-function isInteger(n, type = true, throwErr = false) {
-    const int = Number.parseInt(String(n), 10);
-    if (type ? n === int : n == int)
+function isInteger(v, type = true, throwErr = false) {
+    const int = Number.parseInt(String(v), 10);
+    if (type ? v === int : v == int)
         return true;
     if (throwErr)
-        throwError('integer', n);
+        throwError('integer', v);
     return false;
 }
 function isFloat(n, type = true, throwErr = false) {
@@ -358,46 +358,51 @@ function isValidFloat(n, min = -999999999.9, max = 999999999.9, type = true, thr
     return false;
 }
 
-function isStringOfLength(s, min = 0, max = 999999999, throwErr = false) {
-    const l = s === null || s === void 0 ? void 0 : s.length;
-    if (!isNil(l) && l >= min && l <= max)
+function isStringOfLength(v, min = 0, max = 999999999, throwErr = false) {
+    if (!isString(v)) {
+        if (throwErr)
+            throwError(`string with length in range [${min}, ${max}]`, v);
+        return false;
+    }
+    const l = v.length;
+    if (l >= min && l <= max)
         return true;
     if (throwErr)
-        throwError(`string with length in range [${min}, ${max}] (actual length: ${l})`, s);
+        throwError(`string with length in range [${min}, ${max}] (actual length: ${l})`, v);
     return false;
 }
 const emailReg = /^(?=[a-z0-9@.!$%&'*+\/=?^_‘{|}~-]{6,254}$)(?=[a-z0-9.!#$%&'*+\/=?^_‘{|}~-]{1,64}@)[a-z0-9!#$%&'*+\/=?^‘{|}~]+(?:[\._-][a-z0-9!#$%&'*+\/=?^‘{|}~]+)*@(?:(?=[a-z0-9-]{1,63}\.)[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+(?=[a-z0-9-]{2,63}$)[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/;
-function isEmail(s, throwErr = false) {
-    if (s && emailReg.test(String(s).toLowerCase()))
+function isEmail(v, throwErr = false) {
+    if (isString(v) && emailReg.test(v.toLowerCase()))
         return true;
     if (throwErr)
-        throwError('valid email address', s);
+        throwError('valid email address', v);
     return false;
 }
 const ipReg = /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
-function isIpAddress(s, throwErr = false) {
-    if (s && ipReg.test(String(s)))
+function isIpAddress(v, throwErr = false) {
+    if (isString(v) && ipReg.test(v))
         return true;
     if (throwErr)
-        throwError('valid IP address', s);
+        throwError('valid IP address', v);
     return false;
 }
 const b64UrlEncoded = /^[A-Za-z0-9-_]+$/;
 const b64 = /^(?=.{1,}$)(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/;
-function isBase64(s, urlEncoded = false, throwErr = false) {
+function isBase64(v, urlEncoded = false, throwErr = false) {
     const regex = urlEncoded ? b64UrlEncoded : b64;
-    if (s && regex.test(s))
+    if (isString(v) && regex.test(v))
         return true;
     if (throwErr) {
         const encodingType = urlEncoded ? 'URL-safe Base64' : 'Base64';
-        throwError(`valid ${encodingType} encoded string`, s);
+        throwError(`valid ${encodingType} encoded string`, v);
     }
     return false;
 }
 const b64Reg = /^[A-Za-z0-9\-_]+={0,2}$/;
-function isJWT(s, throwErr = false) {
-    if (s) {
-        const p = s.split('.');
+function isJWT(v, throwErr = false) {
+    if (isString(v)) {
+        const p = v.split('.');
         if (p.length === 3) {
             const [header, payload, signature] = p;
             if (b64Reg.test(header) && b64Reg.test(payload) && b64Reg.test(signature)) {
@@ -407,30 +412,30 @@ function isJWT(s, throwErr = false) {
                 }
                 catch (e) {
                     if (throwErr)
-                        throwError('valid JWT', s);
+                        throwError('valid JWT', v);
                     return false;
                 }
             }
         }
     }
     if (throwErr)
-        throwError('valid JWT', s);
+        throwError('valid JWT', v);
     return false;
 }
 const slugReg = /^[^\s-_](?!.*?[-_]{2,})[a-z0-9-\\][^\s]*[^-_\s]$/;
-function isSlug(s, throwErr = false) {
-    if (s && slugReg.test(s))
+function isSlug(v, throwErr = false) {
+    if (isString(v) && slugReg.test(v))
         return true;
     if (throwErr)
-        throwError('valid slug', s);
+        throwError('valid slug', v);
     return false;
 }
 const hexadecimal = /^(#|0x|0h)?[0-9A-F]+$/i;
-function isHexadecimal(s, throwErr = false) {
-    if (s && hexadecimal.test(s))
+function isHexadecimal(v, throwErr = false) {
+    if (isString(v) && hexadecimal.test(v))
         return true;
     if (throwErr)
-        throwError('hexadecimal number', s);
+        throwError('hexadecimal number', v);
     return false;
 }
 const upperCaseReg = /[A-Z]+/;
@@ -627,26 +632,36 @@ function isNode(n, throwErr = false) {
 const minDate = new Date('1/1/1900');
 const maxDate = new Date('1/1/2200');
 function isValidDate(d, min = minDate, max = maxDate, throwErr = false) {
-    if (isDate(d) && d >= min && d <= max)
+    if (!isDate(d, throwErr))
+        return false;
+    const from = isDate(min) ? min : isTimestamp(min, false) ? new Date(min) : minDate;
+    const to = isDate(max) ? max : isTimestamp(max, false) ? new Date(max) : maxDate;
+    if (d >= from && d <= to)
         return true;
     if (throwErr)
-        throwError(`date between ${min.toISOString()} and ${max.toISOString()}`, d);
+        throwError(`date between ${from.toISOString()} and ${to.toISOString()}`, d);
     return false;
 }
-function isTimestamp(t, type = true, throwErr = false) {
-    if (isInteger(t, type) && isNum(new Date(Number.parseInt(String(t))).getTime(), type))
+function isTimestamp(v, type = true, throwErr = false) {
+    if (isInteger(v, type) && isNum(new Date(Number.parseInt(String(v))).getTime(), type))
         return true;
     if (throwErr)
-        throwError('valid timestamp', t);
+        throwError('valid timestamp', v);
     return false;
 }
-function isValidTimestamp(t, min = -2208989361000, max = 7258114800000, type = true, throwErr = false) {
-    if (isTimestamp(t, type, throwErr) && t >= min && t <= max)
+const minTs = -2208989361000;
+const maxTs = 7258114800000;
+function isValidTimestamp(t, min = minTs, max = maxTs, type = true, throwErr = false) {
+    if (!isTimestamp(t, type, throwErr))
+        return false;
+    const from = isTimestamp(min, false) ? min : isDate(min) ? min.getTime() : minTs;
+    const to = isTimestamp(max, false) ? max : isDate(max) ? max.getTime() : maxTs;
+    if (t >= from && t <= to)
         return true;
     if (throwErr) {
-        const minDate = new Date(min).toISOString();
-        const maxDate = new Date(max).toISOString();
-        throwError(`timestamp between ${min} (${minDate}) and ${max} (${maxDate})`, t);
+        const minDate = new Date(from).toISOString();
+        const maxDate = new Date(to).toISOString();
+        throwError(`timestamp between ${from} (${minDate}) and ${to} (${maxDate})`, t);
     }
     return false;
 }
