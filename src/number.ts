@@ -4,21 +4,21 @@ import { throwError } from './error';
 /**
  * Checks if a given number is an integer.
  *
- * @param {number | string | undefined | null} n - The number to check.
+ * @param {unknown} v - The value to check.
  * @param {boolean} [type=true] - A boolean indicating whether to use strict equality (===) or loose equality (==) for the comparison. Defaults to true (strict equality).
  * @param {boolean} [throwErr=false] - If true, throws an error when value is not an integer. If false, returns false.
  * @returns {boolean} A boolean indicating whether the number is an integer, false if not (when throwErr is false).
  * @throws {Error} Throws an error if the value is not an integer and throwErr is true.
  */
-function isInteger(n: number | string | undefined | null, type = true, throwErr: boolean = false): boolean {
+function isInteger(v: unknown, type = true, throwErr: boolean = false): boolean {
   
-  const int = Number.parseInt(String(n), 10);
+  const int = Number.parseInt(String(v), 10);
   
-  if (type ? n === int : n == int)
+  if (type ? v === int : v == int)
     return true;
   
   if (throwErr)
-    throwError('integer', n);
+    throwError('integer', v);
   
   return false;
 
@@ -27,7 +27,7 @@ function isInteger(n: number | string | undefined | null, type = true, throwErr:
 /**
  * Checks if a given number is a floating-point number.
  *
- * @param {number | string | undefined | null} n - The number to check.
+ * @param {unknown} v - The value to check.
  * @param {boolean} [type=true] - A boolean indicating whether to use strict equality (===) or loose equality (==) for the comparison. Defaults to true (strict equality).
  * @param {boolean} [throwErr=false] - If true, throws an error when value is not a float. If false, returns false.
  * @returns {boolean} A boolean indicating whether the number is a floating-point number, false if not (when throwErr is false).
@@ -49,7 +49,7 @@ function isFloat(n: number | string | undefined | null, type = true, throwErr: b
 /**
  * Checks if a given number is even.
  *
- * @param {number | string | undefined | null} n - The number to check.
+ * @param {unknown} v - The value to check.
  * @param {boolean} [type=true] - A boolean flag to check the type of n or not (default is true).
  * @param {boolean} [throwErr=false] - If true, throws an error when value is not an even number. If false, returns false.
  * @returns {boolean} `true` if the number is even and an integer, false if not (when throwErr is false).
@@ -70,7 +70,7 @@ function isEven(n: number | string | undefined | null, type = true, throwErr: bo
 /**
  * Determines if a given number is odd.
  *
- * @param {number | string | undefined | null} n - The number to check.
+ * @param {unknown} v - The value to check.
  * @param {boolean} [type=true] - A boolean flag to check the type of n or not (default is true).
  * @param {boolean} [throwErr=false] - If true, throws an error when value is not an odd number. If false, returns false.
  * @returns {boolean} A boolean indicating whether the number is odd, false if not (when throwErr is false).
@@ -90,7 +90,7 @@ function isOdd(n: number | string | undefined | null, type = true, throwErr: boo
 /**
  * Checks if a given number is zero.
  *
- * @param {number | string | undefined | null} n - The number to check.
+ * @param {unknown} v - The value to check.
  * @param {boolean} [type=true] - A boolean indicating whether to use strict equality (===) or loose equality (==) for the comparison. Defaults to true (strict equality).
  * @param {boolean} [throwErr=false] - If true, throws an error when value is not zero. If false, returns false.
  * @returns {boolean} True if the number is zero based on the specified comparison type, false if not (when throwErr is false).
@@ -111,7 +111,7 @@ function isOrigin(n: number | string | undefined | null, type = true, throwErr: 
 /**
  * Checks if a given number is positive.
  *
- * @param {number | string | undefined | null} n - The number to check.
+ * @param {unknown} v - The value to check.
  * @param {boolean} [type=true] - A boolean flag to check the type of n or not (default is true).
  * @param {boolean} [throwErr=false] - If true, throws an error when value is not positive. If false, returns false.
  * @returns {boolean} True if the number is positive and passes the type check, false if not (when throwErr is false).
@@ -132,7 +132,7 @@ function isPositive(n: number | string | undefined | null, type = true, throwErr
 /**
  * Checks if a given number is negative.
  *
- * @param {number | string | undefined | null} n - The number to check.
+ * @param {unknown} v - The value to check.
  * @param {boolean} [type=true] - A boolean flag to check the type of n or not (default is true).
  * @param {boolean} [throwErr=false] - If true, throws an error when value is not negative. If false, returns false.
  * @returns {boolean} True if the number is negative and the type check passes, false if not (when throwErr is false).
@@ -152,7 +152,7 @@ function isNegative(n: number | string | undefined | null, type = true, throwErr
 /**
  * Checks if a given number is a power of two.
  *
- * @param {number | string | undefined | null} n - The number to check.
+ * @param {unknown} v - The value to check.
  * @param {boolean} [type=true] - A boolean flag to check the type of n or not (default is true).
  * @param {boolean} [throwErr=false] - If true, throws an error when value is not a power of two. If false, returns false.
  * @returns {boolean} A boolean indicating whether the number is a power of two, false if not (when throwErr is false).
@@ -173,7 +173,7 @@ function isPowerOfTwo(n: number | string | undefined | null, type = true, throwE
 /**
  * Checks if a given number is an ASCII code.
  *
- * @param {number | undefined | null} n - The number to check.
+ * @param {unknown} v - The value to check.
  * @param {boolean} [ext=true] - Optional boolean to include extended ASCII range (0-255) or not. Defaults to true.
  * @param {boolean} [throwErr=false] - If true, throws an error when value is not a valid ASCII code. If false, returns false.
  * @returns {boolean} `true` if the number is a valid ASCII code, false if not (when throwErr is false).

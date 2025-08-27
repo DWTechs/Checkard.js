@@ -171,3 +171,35 @@ test("sends node to isValidTimestamp", () => {
 test("sends regex to isValidTimestamp", () => {
   expect(isValidTimestamp(/ab+c/i)).toBe(false);
 });
+
+test("sends valid timestamp as string to isValidTimestamp with min & max as string dates", () => {
+  expect(isValidTimestamp(-2208989361302, '1/1/1900', '1/1/1901')).toBe(false);
+});
+
+test("sends invalid timestamp to isValidTimestamp with min & max as string date", () => {
+  expect(isValidTimestamp(new Date('1/5/1800').getTime(), '1/1/1900', '1/1/1901')).toBe(false);
+});
+
+test("sends valid date as string to isValidTimestamp with min & max as string dates", () => {
+  expect(isValidTimestamp('1/5/1900', '1/1/1900', '1/1/1901')).toBe(false);
+});
+
+test("sends valid date to isValidTimestamp with min & max as string timestamps", () => {
+  expect(isValidTimestamp(new Date('1/5/1900').getTime(), "-2208988800000", "-2177452800000")).toBe(true);
+});
+
+test("sends valid date to isValidTimestamp with min & max as number timestamps", () => {
+  expect(isValidTimestamp(new Date('1/5/1900').getTime(), new Date('1/1/1900').getTime(), new Date('1/1/1901').getTime())).toBe(true);
+});
+
+test("sends valid date to isValidTimestamp with min & max as date", () => {
+  expect(isValidTimestamp(new Date('1/5/1900').getTime(), new Date('1/1/1900'), new Date('1/1/1901'))).toBe(true);
+});
+
+test("sends valid date to isValidTimestamp with min as timestamp & max as date", () => {
+  expect(isValidTimestamp(new Date('1/5/1900').getTime(), new Date('1/1/1900').getTime(), new Date('1/1/1901'))).toBe(true);
+});
+
+test("sends valid date to isValidTimestamp with min as date & max as timestamp", () => {
+  expect(isValidTimestamp(new Date('1/5/1900').getTime(), new Date('1/1/1900'), new Date('1/1/1901').getTime())).toBe(true);
+});

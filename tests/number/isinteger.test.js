@@ -113,6 +113,46 @@ test("sends empty array to isInteger", () => {
   expect(isInteger([])).toBe(false);
 });
 
+test("sends array of 1 integer without type checking to isInteger", () => {
+  expect(isInteger([2], false)).toBe(false);
+});
+
+test("sends array of 2 integers without type checking to isInteger", () => {
+  expect(isInteger([2,1], false)).toBe(false);
+});
+
+test("sends array of 1 integer to isInteger", () => {
+  expect(isInteger([2.1])).toBe(false);
+});
+
+test("sends array of 2 integers to isInteger", () => {
+  expect(isInteger([2.1,1.1])).toBe(false);
+});
+
+test("sends 1+true to isInteger", () => {
+  expect(isInteger(1+true)).toBe(true);
+});
+
+test("sends +true to isInteger", () => {
+  expect(isInteger(+true)).toBe(true);
+});
+
+test("sends '+true' to isInteger", () => {
+  expect(isInteger('+true')).toBe(false);
+});
+
+test("sends '+true' without type checking to isInteger", () => {
+  expect(isInteger('+true', false)).toBe(false);
+});
+
+test("sends '8e5' without type checking to isInteger", () => {
+  expect(isInteger('8e5', false)).toBe(false);
+});
+
+test("sends '0x44' without type checking to isInteger", () => {
+  expect(isInteger('0x44', false)).toBe(false);
+});
+
 const json = `{
   "actor": {
     "name": "Tom Cruise",
