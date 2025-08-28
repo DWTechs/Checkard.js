@@ -11,12 +11,13 @@ import { throwError } from './error';
  * @throws {Error} Throws an error if the value is not an integer and throwErr is true.
  */
 function isInteger(v: unknown, type = true, throwErr: boolean = false): boolean {
-  
-  const int = Number.parseInt(String(v), 10);
-  
-  if (type ? v === int : v == int)
-    return true;
-  
+
+  if (isNumber(v, type)) {
+    const int = Number.parseInt(String(v), 10);
+    if (type ? v === int : v == int)
+      return true;
+  }
+
   if (throwErr)
     throwError('integer', v);
   
@@ -33,15 +34,15 @@ function isInteger(v: unknown, type = true, throwErr: boolean = false): boolean 
  * @returns {boolean} A boolean indicating whether the number is a floating-point number, false if not (when throwErr is false).
  * @throws {Error} Throws an error if the value is not a floating-point number and throwErr is true.
  */
-function isFloat(n: number | string | undefined | null, type = true, throwErr: boolean = false): boolean {
-  const num = Number(n);
+function isFloat(v: unknown, type = true, throwErr: boolean = false): boolean {
+  const num = Number(v);
   const modulo = num % 1 !== 0;
   
-  if (type ? (num === n && modulo) : (num == n && modulo))
+  if (type ? (num === v && modulo) : (num == v && modulo))
     return true;
   
   if (throwErr)
-    throwError('floating-point number', n);
+    throwError('floating-point number', v);
   
   return false;
 }
@@ -55,14 +56,14 @@ function isFloat(n: number | string | undefined | null, type = true, throwErr: b
  * @returns {boolean} `true` if the number is even and an integer, false if not (when throwErr is false).
  * @throws {Error} Throws an error if the value is not an even number and throwErr is true.
  */
-function isEven(n: number | string | undefined | null, type = true, throwErr: boolean = false): boolean {
-  
-  if (isInteger(n, type) && !((n as number) & 1))
+function isEven(v: unknown, type = true, throwErr: boolean = false): boolean {
+
+  if (isInteger(v, type) && !((v as number) & 1))
     return true
   
   if (throwErr)
-    throwError('even integer', n);
-  
+    throwError('even integer', v);
+
   return false;
 
 }
@@ -76,13 +77,13 @@ function isEven(n: number | string | undefined | null, type = true, throwErr: bo
  * @returns {boolean} A boolean indicating whether the number is odd, false if not (when throwErr is false).
  * @throws {Error} Throws an error if the value is not an odd number and throwErr is true.
  */
-function isOdd(n: number | string | undefined | null, type = true, throwErr: boolean = false): boolean {
-  
-  if (isInteger(n, type) && Boolean((n as number) & 1))
+function isOdd(v: unknown, type = true, throwErr: boolean = false): boolean {
+
+  if (isInteger(v, type) && Boolean((v as number) & 1))
     return true;
   
   if (throwErr)
-    throwError('odd integer', n);
+    throwError('odd integer', v);
 
   return false;
 }
@@ -96,14 +97,14 @@ function isOdd(n: number | string | undefined | null, type = true, throwErr: boo
  * @returns {boolean} True if the number is zero based on the specified comparison type, false if not (when throwErr is false).
  * @throws {Error} Throws an error if the value is not zero and throwErr is true.
  */
-function isOrigin(n: number | string | undefined | null, type = true, throwErr: boolean = false): boolean {
-  
-  if (type ? n === 0 : n == 0)
+function isOrigin(v: unknown, type = true, throwErr: boolean = false): boolean {
+
+  if (type ? v === 0 : v == 0)
     return true;
   
   if (throwErr)
-    throwError('zero', n);
-  
+    throwError('zero', v);
+
   return false;
 
 }
@@ -117,14 +118,14 @@ function isOrigin(n: number | string | undefined | null, type = true, throwErr: 
  * @returns {boolean} True if the number is positive and passes the type check, false if not (when throwErr is false).
  * @throws {Error} Throws an error if the value is not positive and throwErr is true.
  */
-function isPositive(n: number | string | undefined | null, type = true, throwErr: boolean = false): boolean {
-  
-  if (isNumber(n, type) && n > 0) 
+function isPositive(v: unknown, type = true, throwErr: boolean = false): boolean {
+
+  if (isNumber(v, type) && v > 0)
     return true;
   
   if (throwErr)
-    throwError('positive number', n);
-  
+    throwError('positive number', v);
+
   return false;
 
 }
@@ -138,14 +139,14 @@ function isPositive(n: number | string | undefined | null, type = true, throwErr
  * @returns {boolean} True if the number is negative and the type check passes, false if not (when throwErr is false).
  * @throws {Error} Throws an error if the value is not negative and throwErr is true.
  */
-function isNegative(n: number | string | undefined | null, type = true, throwErr: boolean = false): boolean {
-  
-  if (isNumber(n, type) && n < 0) 
+function isNegative(v: unknown, type = true, throwErr: boolean = false): boolean {
+
+  if (isNumber(v, type) && v < 0)
     return true;
   
   if (throwErr)
-    throwError('negative number', n);
-  
+    throwError('negative number', v);
+
   return false;
 }
 
@@ -158,14 +159,14 @@ function isNegative(n: number | string | undefined | null, type = true, throwErr
  * @returns {boolean} A boolean indicating whether the number is a power of two, false if not (when throwErr is false).
  * @throws {Error} Throws an error if the value is not a power of two and throwErr is true.
  */
-function isPowerOfTwo(n: number | string | undefined | null, type = true, throwErr: boolean = false): boolean {
+function isPowerOfTwo(v: unknown, type = true, throwErr: boolean = false): boolean {
 
-  if (isInteger(n, type) && !isOrigin(n, false) && ((n as number) & (n as number - 1)) === 0)
+  if (isInteger(v, type) && !isOrigin(v, type) && ((v as number) & (v as number - 1)) === 0)
     return true;
     
   if (throwErr)
-    throwError('power of two integer', n);
-  
+    throwError('power of two integer', v);
+
   return false;
 
 }
@@ -179,14 +180,14 @@ function isPowerOfTwo(n: number | string | undefined | null, type = true, throwE
  * @returns {boolean} `true` if the number is a valid ASCII code, false if not (when throwErr is false).
  * @throws {Error} Throws an error if the value is not a valid ASCII code and throwErr is true.
  */
-function isAscii(n: number | undefined | null, ext = true, throwErr: boolean = false): boolean {
-  
-  if (isNumber(n, false) && isInteger(n, false) && ((ext && n >= 0 && n <= 255) || (n >= 0 && n <= 127)))
+function isAscii(v: unknown, ext = true, throwErr: boolean = false): boolean {
+
+  if (isNumber(v, false) && isInteger(v, false) && ((ext && v >= 0 && v <= 255) || (v >= 0 && v <= 127)))
     return true;
   
   if (throwErr) {
     const range = ext ? '0-255' : '0-127';
-    throwError(`ASCII code in range [${range}]`, n);
+    throwError(`ASCII code in range [${range}]`, v);
   }
   
   return false;

@@ -34,7 +34,7 @@ function isHtmlElement(h: unknown, throwErr: boolean = false): h is HTMLElement 
 /**
  * Checks if a given string is a valid HTML event attribute.
  *
- * @param {string} h - The string to check.
+ * @param {unknown} h - The value to check.
  * @param {boolean} [throwErr=false] - If true, throws an error when value is not a valid HTML event attribute. If false, returns false.
  * @returns {boolean} `true` if the string is a valid HTML event attribute, false if not (when throwErr is false).
  * @throws {Error} Throws an error if the value is not a valid HTML event attribute and throwErr is true.
@@ -48,7 +48,7 @@ function isHtmlElement(h: unknown, throwErr: boolean = false): h is HTMLElement 
  * isHtmlEventAttribute("onunknown"); // returns false
  * ```
  */
-function isHtmlEventAttribute(h: string, throwErr: boolean = false): boolean {
+function isHtmlEventAttribute(h: unknown, throwErr: boolean = false): boolean {
   switch (h) {
     case "onafterprint": // run after the document is printed
     case "onbeforeprint": // run before the document is printed

@@ -150,11 +150,11 @@ test("sends array of 2 integers to isTimestamp", () => {
   expect(isTimestamp([2,1])).toBe(false);
 });
 
-test("sends array of 1 integer to isTimestamp", () => {
+test("sends array of 1 float to isTimestamp", () => {
   expect(isTimestamp([2.1])).toBe(false);
 });
 
-test("sends array of 2 integers to isTimestamp", () => {
+test("sends array of 2 floats to isTimestamp", () => {
   expect(isTimestamp([2.1,1.1])).toBe(false);
 });
 

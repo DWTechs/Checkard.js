@@ -175,6 +175,10 @@ test("sends '0x44' without type checking to isNumber", () => {
   expect(isNumber('0x44', false)).toBe(true);
 });
 
+test("sends symbol to isNumber with type = true", () => {
+  expect(isNumber(s1, true)).toBe(false);
+});
+
 test("sends empty array without type checking to isNumber", () => {
   expect(isNumber([], false)).toBe(false);
 });

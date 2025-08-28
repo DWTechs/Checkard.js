@@ -348,101 +348,103 @@ var ch = (function (exports) {
       if (throwErr === void 0) {
         throwErr = false;
       }
-      var _int = Number.parseInt(String(v), 10);
-      if (type ? v === _int : v == _int) return true;
+      if (isNumber(v, type)) {
+        var _int = Number.parseInt(String(v), 10);
+        if (type ? v === _int : v == _int) return true;
+      }
       if (throwErr) throwError('integer', v);
       return false;
     }
-    function isFloat(n, type, throwErr) {
+    function isFloat(v, type, throwErr) {
       if (type === void 0) {
         type = true;
       }
       if (throwErr === void 0) {
         throwErr = false;
       }
-      var num = Number(n);
+      var num = Number(v);
       var modulo = num % 1 !== 0;
-      if (type ? num === n && modulo : num == n && modulo) return true;
-      if (throwErr) throwError('floating-point number', n);
+      if (type ? num === v && modulo : num == v && modulo) return true;
+      if (throwErr) throwError('floating-point number', v);
       return false;
     }
-    function isEven(n, type, throwErr) {
+    function isEven(v, type, throwErr) {
       if (type === void 0) {
         type = true;
       }
       if (throwErr === void 0) {
         throwErr = false;
       }
-      if (isInteger(n, type) && !(n & 1)) return true;
-      if (throwErr) throwError('even integer', n);
+      if (isInteger(v, type) && !(v & 1)) return true;
+      if (throwErr) throwError('even integer', v);
       return false;
     }
-    function isOdd(n, type, throwErr) {
+    function isOdd(v, type, throwErr) {
       if (type === void 0) {
         type = true;
       }
       if (throwErr === void 0) {
         throwErr = false;
       }
-      if (isInteger(n, type) && Boolean(n & 1)) return true;
-      if (throwErr) throwError('odd integer', n);
+      if (isInteger(v, type) && Boolean(v & 1)) return true;
+      if (throwErr) throwError('odd integer', v);
       return false;
     }
-    function isOrigin(n, type, throwErr) {
+    function isOrigin(v, type, throwErr) {
       if (type === void 0) {
         type = true;
       }
       if (throwErr === void 0) {
         throwErr = false;
       }
-      if (type ? n === 0 : n == 0) return true;
-      if (throwErr) throwError('zero', n);
+      if (type ? v === 0 : v == 0) return true;
+      if (throwErr) throwError('zero', v);
       return false;
     }
-    function isPositive(n, type, throwErr) {
+    function isPositive(v, type, throwErr) {
       if (type === void 0) {
         type = true;
       }
       if (throwErr === void 0) {
         throwErr = false;
       }
-      if (isNumber(n, type) && n > 0) return true;
-      if (throwErr) throwError('positive number', n);
+      if (isNumber(v, type) && v > 0) return true;
+      if (throwErr) throwError('positive number', v);
       return false;
     }
-    function isNegative(n, type, throwErr) {
+    function isNegative(v, type, throwErr) {
       if (type === void 0) {
         type = true;
       }
       if (throwErr === void 0) {
         throwErr = false;
       }
-      if (isNumber(n, type) && n < 0) return true;
-      if (throwErr) throwError('negative number', n);
+      if (isNumber(v, type) && v < 0) return true;
+      if (throwErr) throwError('negative number', v);
       return false;
     }
-    function isPowerOfTwo(n, type, throwErr) {
+    function isPowerOfTwo(v, type, throwErr) {
       if (type === void 0) {
         type = true;
       }
       if (throwErr === void 0) {
         throwErr = false;
       }
-      if (isInteger(n, type) && !isOrigin(n, false) && (n & n - 1) === 0) return true;
-      if (throwErr) throwError('power of two integer', n);
+      if (isInteger(v, type) && !isOrigin(v, type) && (v & v - 1) === 0) return true;
+      if (throwErr) throwError('power of two integer', v);
       return false;
     }
-    function isAscii(n, ext, throwErr) {
+    function isAscii(v, ext, throwErr) {
       if (ext === void 0) {
         ext = true;
       }
       if (throwErr === void 0) {
         throwErr = false;
       }
-      if (isNumber(n, false) && isInteger(n, false) && (ext && n >= 0 && n <= 255 || n >= 0 && n <= 127)) return true;
+      if (isNumber(v, false) && isInteger(v, false) && (ext && v >= 0 && v <= 255 || v >= 0 && v <= 127)) return true;
       if (throwErr) {
         var range = ext ? '0-255' : '0-127';
-        throwError("ASCII code in range [" + range + "]", n);
+        throwError("ASCII code in range [" + range + "]", v);
       }
       return false;
     }
@@ -826,7 +828,7 @@ var ch = (function (exports) {
     }
     var minTs = -2208989361000;
     var maxTs = 7258114800000;
-    function isValidTimestamp(t, min, max, type, throwErr) {
+    function isValidTimestamp(v, min, max, type, throwErr) {
       if (min === void 0) {
         min = minTs;
       }
@@ -839,14 +841,15 @@ var ch = (function (exports) {
       if (throwErr === void 0) {
         throwErr = false;
       }
-      if (!isTimestamp(t, type, throwErr)) return false;
-      var from = isTimestamp(min, false) ? min : isDate(min) ? min.getTime() : minTs;
-      var to = isTimestamp(max, false) ? max : isDate(max) ? max.getTime() : maxTs;
-      if (t >= from && t <= to) return true;
+      if (!isTimestamp(v, type, throwErr)) return false;
+      var from = isTimestamp(min, false) ? Number(min) : isDate(min) ? min.getTime() : minTs;
+      var to = isTimestamp(max, false) ? Number(max) : isDate(max) ? max.getTime() : maxTs;
+      var ts = Number(v);
+      if (ts >= from && ts <= to) return true;
       if (throwErr) {
         var _minDate = new Date(from).toISOString();
         var _maxDate = new Date(to).toISOString();
-        throwError("timestamp between " + from + " (" + _minDate + ") and " + to + " (" + _maxDate + ")", t);
+        throwError("timestamp between " + from + " (" + _minDate + ") and " + to + " (" + _maxDate + ")", v);
       }
       return false;
     }

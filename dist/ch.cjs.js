@@ -270,70 +270,72 @@ function isIn(a, v, from = 0, throwErr = false) {
 }
 
 function isInteger(v, type = true, throwErr = false) {
-    const int = Number.parseInt(String(v), 10);
-    if (type ? v === int : v == int)
-        return true;
+    if (isNumber(v, type)) {
+        const int = Number.parseInt(String(v), 10);
+        if (type ? v === int : v == int)
+            return true;
+    }
     if (throwErr)
         throwError('integer', v);
     return false;
 }
-function isFloat(n, type = true, throwErr = false) {
-    const num = Number(n);
+function isFloat(v, type = true, throwErr = false) {
+    const num = Number(v);
     const modulo = num % 1 !== 0;
-    if (type ? (num === n && modulo) : (num == n && modulo))
+    if (type ? (num === v && modulo) : (num == v && modulo))
         return true;
     if (throwErr)
-        throwError('floating-point number', n);
+        throwError('floating-point number', v);
     return false;
 }
-function isEven(n, type = true, throwErr = false) {
-    if (isInteger(n, type) && !(n & 1))
+function isEven(v, type = true, throwErr = false) {
+    if (isInteger(v, type) && !(v & 1))
         return true;
     if (throwErr)
-        throwError('even integer', n);
+        throwError('even integer', v);
     return false;
 }
-function isOdd(n, type = true, throwErr = false) {
-    if (isInteger(n, type) && Boolean(n & 1))
+function isOdd(v, type = true, throwErr = false) {
+    if (isInteger(v, type) && Boolean(v & 1))
         return true;
     if (throwErr)
-        throwError('odd integer', n);
+        throwError('odd integer', v);
     return false;
 }
-function isOrigin(n, type = true, throwErr = false) {
-    if (type ? n === 0 : n == 0)
+function isOrigin(v, type = true, throwErr = false) {
+    if (type ? v === 0 : v == 0)
         return true;
     if (throwErr)
-        throwError('zero', n);
+        throwError('zero', v);
     return false;
 }
-function isPositive(n, type = true, throwErr = false) {
-    if (isNumber(n, type) && n > 0)
+function isPositive(v, type = true, throwErr = false) {
+    if (isNumber(v, type) && v > 0)
         return true;
     if (throwErr)
-        throwError('positive number', n);
+        throwError('positive number', v);
     return false;
 }
-function isNegative(n, type = true, throwErr = false) {
-    if (isNumber(n, type) && n < 0)
+function isNegative(v, type = true, throwErr = false) {
+    if (isNumber(v, type) && v < 0)
         return true;
     if (throwErr)
-        throwError('negative number', n);
+        throwError('negative number', v);
     return false;
 }
-function isPowerOfTwo(n, type = true, throwErr = false) {
-    if (isInteger(n, type) && !isOrigin(n, false) && (n & (n - 1)) === 0)
+function isPowerOfTwo(v, type = true, throwErr = false) {
+    if (isInteger(v, type) && !isOrigin(v, type) && (v & (v - 1)) === 0)
         return true;
     if (throwErr)
-        throwError('power of two integer', n);
+        throwError('power of two integer', v);
     return false;
 }
-function isAscii(n, ext = true, throwErr = false) {
-    if (isNumber(n, false) && isInteger(n, false) && ((ext && n >= 0 && n <= 255) || (n >= 0 && n <= 127)))
+function isAscii(v, ext = true, throwErr = false) {
+    if (isNumber(v, false) && isInteger(v, false) && ((ext && v >= 0 && v <= 255) || (v >= 0 && v <= 127)))
         return true;
     if (throwErr) {
         const range = ext ? '0-255' : '0-127';
-        throwError(`ASCII code in range [${range}]`, n);
+        throwError(`ASCII code in range [${range}]`, v);
     }
     return false;
 }
@@ -653,17 +655,18 @@ function isTimestamp(v, type = true, throwErr = false) {
 }
 const minTs = -2208989361000;
 const maxTs = 7258114800000;
-function isValidTimestamp(t, min = minTs, max = maxTs, type = true, throwErr = false) {
-    if (!isTimestamp(t, type, throwErr))
+function isValidTimestamp(v, min = minTs, max = maxTs, type = true, throwErr = false) {
+    if (!isTimestamp(v, type, throwErr))
         return false;
-    const from = isTimestamp(min, false) ? min : isDate(min) ? min.getTime() : minTs;
-    const to = isTimestamp(max, false) ? max : isDate(max) ? max.getTime() : maxTs;
-    if (t >= from && t <= to)
+    const from = isTimestamp(min, false) ? Number(min) : isDate(min) ? min.getTime() : minTs;
+    const to = isTimestamp(max, false) ? Number(max) : isDate(max) ? max.getTime() : maxTs;
+    const ts = Number(v);
+    if (ts >= from && ts <= to)
         return true;
     if (throwErr) {
         const minDate = new Date(from).toISOString();
         const maxDate = new Date(to).toISOString();
-        throwError(`timestamp between ${from} (${minDate}) and ${to} (${maxDate})`, t);
+        throwError(`timestamp between ${from} (${minDate}) and ${to} (${maxDate})`, v);
     }
     return false;
 }
