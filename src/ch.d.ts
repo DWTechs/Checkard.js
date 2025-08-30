@@ -51,23 +51,23 @@ declare function isIn(a: unknown[],
                       throwErr?: boolean
                      ): boolean;
 
-declare function isInteger(n: number | string | undefined | null, type?: boolean, throwErr?: boolean): boolean;
-declare function isAscii(n: number | undefined | null, ext?: boolean, throwErr?: boolean): boolean;
-declare function isFloat(n: number | string | undefined | null, type?: boolean, throwErr?: boolean): boolean;
-declare function isEven(n: number | string | undefined | null, type?: boolean, throwErr?: boolean): boolean;
-declare function isOdd(n: number | string | undefined | null, type?: boolean, throwErr?: boolean): boolean;
-declare function isOrigin(n: number | string | undefined | null, type?: boolean, throwErr?: boolean): boolean;
-declare function isPositive(n: number | string | undefined | null, type?: boolean, throwErr?: boolean): boolean;
-declare function isNegative(n: number | string | undefined | null, type?: boolean, throwErr?: boolean): boolean;
-declare function isPowerOfTwo(n: number | string | undefined | null, type?: boolean, throwErr?: boolean): boolean;
+declare function isInteger(v: number | string | undefined | null, type?: boolean, throwErr?: boolean): v is number;
+declare function isAscii(v: number | undefined | null, ext?: boolean, throwErr?: boolean): boolean;
+declare function isFloat(v: number | string | undefined | null, type?: boolean, throwErr?: boolean): v is number;
+declare function isEven(v: number | string | undefined | null, type?: boolean, throwErr?: boolean): v is number;
+declare function isOdd(v: number | string | undefined | null, type?: boolean, throwErr?: boolean): v is number;
+declare function isOrigin(v: number | string | undefined | null, type?: boolean, throwErr?: boolean): v is number;
+declare function isPositive(v: number | string | undefined | null, type?: boolean, throwErr?: boolean): v is number;
+declare function isNegative(v: number | string | undefined | null, type?: boolean, throwErr?: boolean): v is number;
+declare function isPowerOfTwo(v: number | string | undefined | null, type?: boolean, throwErr?: boolean): v is number;
 
-declare function isValidNumber(n: number | string | undefined | null, min?: number, max?: number, type?: boolean, throwErr?: boolean): boolean;
-declare function isValidInteger(n: number | string | undefined | null, min?: number, max?: number, type?: boolean, throwErr?: boolean): boolean;
-declare function isValidFloat(n: number | string | undefined | null, min?: number, max?: number, type?: boolean, throwErr?: boolean): boolean;
+declare function isValidNumber(v: number | string | undefined | null, min?: number, max?: number, type?: boolean, throwErr?: boolean): boolean;
+declare function isValidInteger(v: number | string | undefined | null, min?: number, max?: number, type?: boolean, throwErr?: boolean): boolean;
+declare function isValidFloat(v: number | string | undefined | null, min?: number, max?: number, type?: boolean, throwErr?: boolean): boolean;
 
-declare function isHtmlElement(h: unknown, throwErr?: boolean): h is HTMLElement;
-declare function isHtmlEventAttribute(h: string, throwErr?: boolean): boolean;
-declare function isNode(n: unknown, throwErr?: boolean): n is Node;
+declare function isHtmlElement(v: unknown, throwErr?: boolean): v is HTMLElement;
+declare function isHtmlEventAttribute(v: string, throwErr?: boolean): boolean;
+declare function isNode(v: unknown, throwErr?: boolean): v is Node;
 
 declare function isProperty<K extends PropertyKey>(o: object, 
                                                    k: K, 

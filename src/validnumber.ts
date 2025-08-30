@@ -2,28 +2,39 @@ import { isNumber } from './primitive';
 import { isInteger, isFloat } from './number';
 import { throwError } from './error';
 
+const minNum = -999999999;
+const maxNum = 999999999;
 /**
  * Checks if a given value is a valid number within given range.
+ * Performs internal number validation using isNumber() before checking range.
  *
- * @param {number | string | undefined | null} n - value to check
+ * @param {unknown} v - The value to check (performs internal number validation).
  * @param {number} [min=-999999999] - minimal value of the range
  * @param {number} [max=999999999] - maximal value of the range
  * @param {boolean} [type=true] - do type check
  * @param {boolean} [throwErr=false] - If true, throws an error when value is not a valid number in range. If false, returns false.
- * @returns {boolean} true if the value is a valid number, false if not (when throwErr is false)
- * @throws {Error} Throws an error if the value is not a valid number in range and throwErr is true.
+ * @returns {boolean} true if the value is a valid number within the specified range, false if not (when throwErr is false)
+ * @throws {Error} Throws an error if the value is not a valid number or not within the specified range and throwErr is true.
  */
-function isValidNumber( n: number | string | undefined | null, 
-                        min = -999999999, 
-                        max = 999999999,
+function isValidNumber( v: unknown, 
+                        min = minNum, 
+                        max = maxNum,
                         type = true,
-                        throwErr: boolean = false ): boolean {
+                        throwErr: boolean = false ): v is number {
   
-  if (isNumber(n, type) && n >= min && n <= max)
+  // First validate that v is a valid number
+  if (!isNumber(v, type, null, null, throwErr))
+    return false;
+  
+  // Convert min & max to number if it's valid, otherwise use default
+  const minVal = isNumber(min, false) ? min : -999999999;
+  const maxVal = isNumber(max, false) ? max : 999999999;
+  
+  if (v >= minVal && v <= maxVal)
     return true;
-  
+
   if (throwErr)
-    throwError(`valid number in range [${min}, ${max}]`, n);
+    throwError(`valid number in range [${minVal}, ${maxVal}]`, v);
   
   return false;
 
@@ -31,26 +42,38 @@ function isValidNumber( n: number | string | undefined | null,
 
 /**
  * Checks if a given value is a valid integer within given range.
+ * Performs internal integer validation using isInteger() before checking range.
  *
- * @param {number | string | undefined | null} n - value to check
+ * @param {unknown} v - The value to check (performs internal integer validation).
  * @param {number} [min=-999999999] - minimal value of the range
  * @param {number} [max=999999999] - maximal value of the range
  * @param {boolean} [type=true] - do type check
  * @param {boolean} [throwErr=false] - If true, throws an error when value is not a valid integer in range. If false, returns false.
- * @returns {boolean} true if the value is a valid integer, false if not (when throwErr is false)
- * @throws {Error} Throws an error if the value is not a valid integer in range and throwErr is true.
+ * @returns {boolean} true if the value is a valid integer within the specified range, false if not (when throwErr is false)
+ * @throws {Error} Throws an error if the value is not a valid integer or not within the specified range and throwErr is true.
  */
-function isValidInteger( n: number | string | undefined | null, 
-                         min = -999999999, 
-                         max = 999999999,
-                         type = true,
-                         throwErr: boolean = false ): boolean {
+function isValidInteger<T extends boolean = true>(
+  v: unknown, 
+  min: number = -999999999, 
+  max: number = 999999999,
+  type: T = true as T,
+  throwErr: boolean = false 
+): v is T extends true ? number : number | string {
   
-  if (isInteger(n, type) && (n as number) >= min && (n as number) <= max)
+  if (!isInteger(v, type, throwErr))
+    return false;
+  
+  // Convert min & max to number if it's valid, otherwise use default
+  const minVal = isNumber(min, false) ? min as number : -999999999;
+  const maxVal = isNumber(max, false) ? max as number : 999999999;
+
+  const numVal = v as number;
+  if (numVal >= minVal && numVal <= maxVal)
     return true;
   
+  // Range validation failed
   if (throwErr)
-    throwError(`valid integer in range [${min}, ${max}]`, n);
+    throwError(`valid integer in range [${minVal}, ${maxVal}]`, v);
   
   return false;
 

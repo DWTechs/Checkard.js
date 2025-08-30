@@ -1,27 +1,33 @@
 
 import { throwError } from './error';
+import { isObject } from './nonprimitive';
 
 /**
  * Checks if a given property exists on an object.
+ * Performs internal object validation using isObject() before checking property.
  * own: boolean - whether to check inherited properties only
  * enumerable: boolean - whether to check enumerable properties only
  *
  * @template K - The type of the property key.
- * @param {object} obj - The object to check the property on.
+ * @param {unknown} o - The value to check the property on (performs internal object validation).
  * @param {K} k - The property key to check for.
  * @param {boolean} [own=true] - If true, checks if the property is an own property of the object. Defaults to true.
  * @param {boolean} [enumerable=true] - If true, checks if the property is enumerable. Defaults to true.
  * @param {boolean} [throwErr=false] - If true, throws an error when property doesn't exist. If false, returns false.
- * @returns {boolean} True if the property exists on the object based on the specified conditions, false if not (when throwErr is false).
- * @throws {Error} Throws an error if the property doesn't exist and throwErr is true.
+ * @returns {boolean} True if the value is an object and the property exists based on the specified conditions, false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the value is not an object or the property doesn't exist and throwErr is true.
  */
 function isProperty<K extends PropertyKey>(
-  o: object, 
+  o: unknown, 
   k: K, 
   own = true, 
   enumerable = true,
   throwErr: boolean = false): o is Record<K, unknown>
 {
+  // First validate that o is an object
+  if (!isObject(o, true, throwErr))
+    return false;
+
   let isValid: boolean;
   
   // enumerable property check
