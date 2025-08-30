@@ -7,10 +7,14 @@ import { throwError } from './error';
  * @param {unknown} v - The value to check.
  * @param {boolean} [type=true] - A boolean indicating whether to use strict equality (===) or loose equality (==) for the comparison. Defaults to true (strict equality).
  * @param {boolean} [throwErr=false] - If true, throws an error when value is not an integer. If false, returns false.
- * @returns {boolean} A boolean indicating whether the number is an integer, false if not (when throwErr is false).
+ * @returns {boolean} A boolean indicating whether the number is an integer (or number|string if type=false), false if not (when throwErr is false).
  * @throws {Error} Throws an error if the value is not an integer and throwErr is true.
  */
-function isInteger(v: unknown, type = true, throwErr: boolean = false): boolean {
+function isInteger<T extends boolean = true>(
+    v: unknown, 
+    type: T = true as T, 
+    throwErr: boolean = false
+  ): v is T extends true ? number : number | string {
 
   if (isNumber(v, type)) {
     const int = Number.parseInt(String(v), 10);
@@ -31,15 +35,19 @@ function isInteger(v: unknown, type = true, throwErr: boolean = false): boolean 
  * @param {unknown} v - The value to check.
  * @param {boolean} [type=true] - A boolean indicating whether to use strict equality (===) or loose equality (==) for the comparison. Defaults to true (strict equality).
  * @param {boolean} [throwErr=false] - If true, throws an error when value is not a float. If false, returns false.
- * @returns {boolean} A boolean indicating whether the number is a floating-point number, false if not (when throwErr is false).
+ * @returns {boolean} A boolean indicating whether the number is a floating-point number (or number|string if type=false), false if not (when throwErr is false).
  * @throws {Error} Throws an error if the value is not a floating-point number and throwErr is true.
  */
-function isFloat(v: unknown, type = true, throwErr: boolean = false): boolean {
-  const num = Number(v);
-  const modulo = num % 1 !== 0;
+function isFloat<T extends boolean = true>(
+    v: unknown, 
+    type: T = true as T, 
+    throwErr: boolean = false
+  ): v is T extends true ? number : number | string {
   
-  if (type ? (num === v && modulo) : (num == v && modulo))
-    return true;
+  if (isNumber(v, type)) {
+    if (v as number % 1 !== 0)
+      return true;
+  }
   
   if (throwErr)
     throwError('floating-point number', v);
@@ -51,16 +59,20 @@ function isFloat(v: unknown, type = true, throwErr: boolean = false): boolean {
  * Checks if a given number is even.
  *
  * @param {unknown} v - The value to check.
- * @param {boolean} [type=true] - A boolean flag to check the type of n or not (default is true).
+ * @param {boolean} [type=true] - A boolean indicating whether to use strict equality (===) or loose equality (==) for the comparison. Defaults to true (strict equality).
  * @param {boolean} [throwErr=false] - If true, throws an error when value is not an even number. If false, returns false.
- * @returns {boolean} `true` if the number is even and an integer, false if not (when throwErr is false).
+ * @returns {boolean} A boolean indicating whether the number is even (or number|string if type=false), false if not (when throwErr is false).
  * @throws {Error} Throws an error if the value is not an even number and throwErr is true.
  */
-function isEven(v: unknown, type = true, throwErr: boolean = false): boolean {
+function isEven<T extends boolean = true>(
+    v: unknown, 
+    type: T = true as T, 
+    throwErr: boolean = false
+  ): v is T extends true ? number : number | string {
 
   if (isInteger(v, type) && !((v as number) & 1))
-    return true
-  
+    return true;
+
   if (throwErr)
     throwError('even integer', v);
 
@@ -72,12 +84,16 @@ function isEven(v: unknown, type = true, throwErr: boolean = false): boolean {
  * Determines if a given number is odd.
  *
  * @param {unknown} v - The value to check.
- * @param {boolean} [type=true] - A boolean flag to check the type of n or not (default is true).
+ * @param {boolean} [type=true] - A boolean indicating whether to use strict equality (===) or loose equality (==) for the comparison. Defaults to true (strict equality).
  * @param {boolean} [throwErr=false] - If true, throws an error when value is not an odd number. If false, returns false.
- * @returns {boolean} A boolean indicating whether the number is odd, false if not (when throwErr is false).
+ * @returns {boolean} A boolean indicating whether the number is odd (or number|string if type=false), false if not (when throwErr is false).
  * @throws {Error} Throws an error if the value is not an odd number and throwErr is true.
  */
-function isOdd(v: unknown, type = true, throwErr: boolean = false): boolean {
+function isOdd<T extends boolean = true>(
+    v: unknown, 
+    type: T = true as T, 
+    throwErr: boolean = false
+  ): v is T extends true ? number : number | string {
 
   if (isInteger(v, type) && Boolean((v as number) & 1))
     return true;
@@ -113,14 +129,18 @@ function isOrigin(v: unknown, type = true, throwErr: boolean = false): boolean {
  * Checks if a given number is positive.
  *
  * @param {unknown} v - The value to check.
- * @param {boolean} [type=true] - A boolean flag to check the type of n or not (default is true).
+ * @param {boolean} [type=true] - A boolean indicating whether to use strict equality (===) or loose equality (==) for the comparison. Defaults to true (strict equality).
  * @param {boolean} [throwErr=false] - If true, throws an error when value is not positive. If false, returns false.
- * @returns {boolean} True if the number is positive and passes the type check, false if not (when throwErr is false).
+ * @returns {boolean} A boolean indicating whether the number is positive (or number|string if type=false), false if not (when throwErr is false).
  * @throws {Error} Throws an error if the value is not positive and throwErr is true.
  */
-function isPositive(v: unknown, type = true, throwErr: boolean = false): boolean {
+function isPositive<T extends boolean = true>(
+  v: unknown, 
+  type: T = true as T, 
+  throwErr: boolean = false
+): v is T extends true ? number : number | string {
 
-  if (isNumber(v, type) && v > 0)
+  if (isNumber(v, type) && Number(v) > 0)
     return true;
   
   if (throwErr)
@@ -134,14 +154,18 @@ function isPositive(v: unknown, type = true, throwErr: boolean = false): boolean
  * Checks if a given number is negative.
  *
  * @param {unknown} v - The value to check.
- * @param {boolean} [type=true] - A boolean flag to check the type of n or not (default is true).
+ * @param {boolean} [type=true] - A boolean indicating whether to use strict equality (===) or loose equality (==) for the comparison. Defaults to true (strict equality).
  * @param {boolean} [throwErr=false] - If true, throws an error when value is not negative. If false, returns false.
- * @returns {boolean} True if the number is negative and the type check passes, false if not (when throwErr is false).
+ * @returns {boolean} A boolean indicating whether the number is negative (or number|string if type=false), false if not (when throwErr is false).
  * @throws {Error} Throws an error if the value is not negative and throwErr is true.
  */
-function isNegative(v: unknown, type = true, throwErr: boolean = false): boolean {
+function isNegative<T extends boolean = true>(
+  v: unknown, 
+  type: T = true as T, 
+  throwErr: boolean = false
+): v is T extends true ? number : number | string {
 
-  if (isNumber(v, type) && v < 0)
+  if (isNumber(v, type) && Number(v) < 0)
     return true;
   
   if (throwErr)
@@ -154,12 +178,16 @@ function isNegative(v: unknown, type = true, throwErr: boolean = false): boolean
  * Checks if a given number is a power of two.
  *
  * @param {unknown} v - The value to check.
- * @param {boolean} [type=true] - A boolean flag to check the type of n or not (default is true).
+ * @param {boolean} [type=true] - A boolean indicating whether to use strict equality (===) or loose equality (==) for the comparison. Defaults to true (strict equality).
  * @param {boolean} [throwErr=false] - If true, throws an error when value is not a power of two. If false, returns false.
- * @returns {boolean} A boolean indicating whether the number is a power of two, false if not (when throwErr is false).
+ * @returns {boolean} A boolean indicating whether the number is a power of two (or number|string if type=false), false if not (when throwErr is false).
  * @throws {Error} Throws an error if the value is not a power of two and throwErr is true.
  */
-function isPowerOfTwo(v: unknown, type = true, throwErr: boolean = false): boolean {
+function isPowerOfTwo<T extends boolean = true>(
+    v: unknown, 
+    type: T = true as T, 
+    throwErr: boolean = false
+): v is T extends true ? number : number | string {
 
   if (isInteger(v, type) && !isOrigin(v, type) && ((v as number) & (v as number - 1)) === 0)
     return true;
@@ -177,12 +205,12 @@ function isPowerOfTwo(v: unknown, type = true, throwErr: boolean = false): boole
  * @param {unknown} v - The value to check.
  * @param {boolean} [ext=true] - Optional boolean to include extended ASCII range (0-255) or not. Defaults to true.
  * @param {boolean} [throwErr=false] - If true, throws an error when value is not a valid ASCII code. If false, returns false.
- * @returns {boolean} `true` if the number is a valid ASCII code, false if not (when throwErr is false).
+ * @returns {boolean} A boolean indicating whether the number is a valid ASCII code (number|string), false if not (when throwErr is false).
  * @throws {Error} Throws an error if the value is not a valid ASCII code and throwErr is true.
  */
-function isAscii(v: unknown, ext = true, throwErr: boolean = false): boolean {
+function isAscii(v: unknown, ext = true, throwErr: boolean = false): v is number | string {
 
-  if (isNumber(v, false) && isInteger(v, false) && ((ext && v >= 0 && v <= 255) || (v >= 0 && v <= 127)))
+  if (isNumber(v, false) && isInteger(v, false) && ((ext && Number(v) >= 0 && Number(v) <= 255) || (Number(v) >= 0 && Number(v) <= 127)))
     return true;
   
   if (throwErr) {

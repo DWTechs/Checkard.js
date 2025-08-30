@@ -293,6 +293,7 @@ var ch = (function (exports) {
       if (throwErr === void 0) {
         throwErr = false;
       }
+      if (!isObject(o, true, throwErr)) return false;
       var isValid;
       if (enumerable) isValid = isEnumerable(o, k, own);else if (own) isValid = Object.prototype.hasOwnProperty.call(o, k);else isValid = k in o;
       if (isValid) return true;
@@ -362,9 +363,9 @@ var ch = (function (exports) {
       if (throwErr === void 0) {
         throwErr = false;
       }
-      var num = Number(v);
-      var modulo = num % 1 !== 0;
-      if (type ? num === v && modulo : num == v && modulo) return true;
+      if (isNumber(v, type)) {
+        if (v % 1 !== 0) return true;
+      }
       if (throwErr) throwError('floating-point number', v);
       return false;
     }
@@ -408,7 +409,7 @@ var ch = (function (exports) {
       if (throwErr === void 0) {
         throwErr = false;
       }
-      if (isNumber(v, type) && v > 0) return true;
+      if (isNumber(v, type) && Number(v) > 0) return true;
       if (throwErr) throwError('positive number', v);
       return false;
     }
@@ -419,7 +420,7 @@ var ch = (function (exports) {
       if (throwErr === void 0) {
         throwErr = false;
       }
-      if (isNumber(v, type) && v < 0) return true;
+      if (isNumber(v, type) && Number(v) < 0) return true;
       if (throwErr) throwError('negative number', v);
       return false;
     }
@@ -441,7 +442,7 @@ var ch = (function (exports) {
       if (throwErr === void 0) {
         throwErr = false;
       }
-      if (isNumber(v, false) && isInteger(v, false) && (ext && v >= 0 && v <= 255 || v >= 0 && v <= 127)) return true;
+      if (isNumber(v, false) && isInteger(v, false) && (ext && Number(v) >= 0 && Number(v) <= 255 || Number(v) >= 0 && Number(v) <= 127)) return true;
       if (throwErr) {
         var range = ext ? '0-255' : '0-127';
         throwError("ASCII code in range [" + range + "]", v);
@@ -449,12 +450,14 @@ var ch = (function (exports) {
       return false;
     }
 
-    function isValidNumber(n, min, max, type, throwErr) {
+    var minNum = -999999999;
+    var maxNum = 999999999;
+    function isValidNumber(v, min, max, type, throwErr) {
       if (min === void 0) {
-        min = -999999999;
+        min = minNum;
       }
       if (max === void 0) {
-        max = 999999999;
+        max = maxNum;
       }
       if (type === void 0) {
         type = true;
@@ -462,11 +465,15 @@ var ch = (function (exports) {
       if (throwErr === void 0) {
         throwErr = false;
       }
-      if (isNumber(n, type) && n >= min && n <= max) return true;
-      if (throwErr) throwError("valid number in range [" + min + ", " + max + "]", n);
+      if (!isNumber(v, type, null, null, throwErr)) return false;
+      var minVal = isNumber(min, false) ? min : -999999999;
+      var maxVal = isNumber(max, false) ? max : 999999999;
+      var numVal = v;
+      if (numVal >= minVal && numVal <= maxVal) return true;
+      if (throwErr) throwError("valid number in range [" + minVal + ", " + maxVal + "]", v);
       return false;
     }
-    function isValidInteger(n, min, max, type, throwErr) {
+    function isValidInteger(v, min, max, type, throwErr) {
       if (min === void 0) {
         min = -999999999;
       }
@@ -479,8 +486,12 @@ var ch = (function (exports) {
       if (throwErr === void 0) {
         throwErr = false;
       }
-      if (isInteger(n, type) && n >= min && n <= max) return true;
-      if (throwErr) throwError("valid integer in range [" + min + ", " + max + "]", n);
+      if (!isInteger(v, type, throwErr)) return false;
+      var minVal = isNumber(min, false) ? min : -999999999;
+      var maxVal = isNumber(max, false) ? max : 999999999;
+      var numVal = v;
+      if (numVal >= minVal && numVal <= maxVal) return true;
+      if (throwErr) throwError("valid integer in range [" + minVal + ", " + maxVal + "]", v);
       return false;
     }
     function isValidFloat(n, min, max, type, throwErr) {

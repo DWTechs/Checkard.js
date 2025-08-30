@@ -222,6 +222,8 @@ function isTruthy(v, throwErr = false) {
 }
 
 function isProperty(o, k, own = true, enumerable = true, throwErr = false) {
+    if (!isObject(o, true, throwErr))
+        return false;
     let isValid;
     if (enumerable)
         isValid = isEnumerable(o, k, own);
@@ -278,10 +280,10 @@ function isInteger(v, type = true, throwErr = false) {
     return false;
 }
 function isFloat(v, type = true, throwErr = false) {
-    const num = Number(v);
-    const modulo = num % 1 !== 0;
-    if (type ? (num === v && modulo) : (num == v && modulo))
-        return true;
+    if (isNumber(v, type)) {
+        if (v % 1 !== 0)
+            return true;
+    }
     if (throwErr)
         throwError('floating-point number', v);
     return false;
@@ -308,14 +310,14 @@ function isOrigin(v, type = true, throwErr = false) {
     return false;
 }
 function isPositive(v, type = true, throwErr = false) {
-    if (isNumber(v, type) && v > 0)
+    if (isNumber(v, type) && Number(v) > 0)
         return true;
     if (throwErr)
         throwError('positive number', v);
     return false;
 }
 function isNegative(v, type = true, throwErr = false) {
-    if (isNumber(v, type) && v < 0)
+    if (isNumber(v, type) && Number(v) < 0)
         return true;
     if (throwErr)
         throwError('negative number', v);
@@ -329,7 +331,7 @@ function isPowerOfTwo(v, type = true, throwErr = false) {
     return false;
 }
 function isAscii(v, ext = true, throwErr = false) {
-    if (isNumber(v, false) && isInteger(v, false) && ((ext && v >= 0 && v <= 255) || (v >= 0 && v <= 127)))
+    if (isNumber(v, false) && isInteger(v, false) && ((ext && Number(v) >= 0 && Number(v) <= 255) || (Number(v) >= 0 && Number(v) <= 127)))
         return true;
     if (throwErr) {
         const range = ext ? '0-255' : '0-127';
@@ -338,18 +340,30 @@ function isAscii(v, ext = true, throwErr = false) {
     return false;
 }
 
-function isValidNumber(n, min = -999999999, max = 999999999, type = true, throwErr = false) {
-    if (isNumber(n, type) && n >= min && n <= max)
+const minNum = -999999999;
+const maxNum = 999999999;
+function isValidNumber(v, min = minNum, max = maxNum, type = true, throwErr = false) {
+    if (!isNumber(v, type, null, null, throwErr))
+        return false;
+    const minVal = isNumber(min, false) ? min : -999999999;
+    const maxVal = isNumber(max, false) ? max : 999999999;
+    const numVal = v;
+    if (numVal >= minVal && numVal <= maxVal)
         return true;
     if (throwErr)
-        throwError(`valid number in range [${min}, ${max}]`, n);
+        throwError(`valid number in range [${minVal}, ${maxVal}]`, v);
     return false;
 }
-function isValidInteger(n, min = -999999999, max = 999999999, type = true, throwErr = false) {
-    if (isInteger(n, type) && n >= min && n <= max)
+function isValidInteger(v, min = -999999999, max = 999999999, type = true, throwErr = false) {
+    if (!isInteger(v, type, throwErr))
+        return false;
+    const minVal = isNumber(min, false) ? min : -999999999;
+    const maxVal = isNumber(max, false) ? max : 999999999;
+    const numVal = v;
+    if (numVal >= minVal && numVal <= maxVal)
         return true;
     if (throwErr)
-        throwError(`valid integer in range [${min}, ${max}]`, n);
+        throwError(`valid integer in range [${minVal}, ${maxVal}]`, v);
     return false;
 }
 function isValidFloat(n, min = -999999999.9, max = 999999999.9, type = true, throwErr = false) {

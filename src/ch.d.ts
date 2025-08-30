@@ -13,12 +13,12 @@ export type { Comparator, PasswordOptions };
 declare function isBoolean(v: unknown, throwErr?: boolean): v is boolean;
 declare function isTruthy(v: unknown, throwErr?: boolean): boolean;
 declare function isFalsy(v: unknown, throwErr?: boolean): boolean;
-declare function isNumber(v: unknown, 
-                          type?: boolean, 
+declare function isNumber<T extends boolean = true>(v: unknown, 
+                          type?: T, 
                           comparator?: Comparator | null, 
                           limit?: number | null,
                           throwErr?: boolean
-                         ): v is number;
+                         ): v is T extends true ? number : number | string;
 declare function isString(v: unknown, 
                           comparator?: Comparator | null, 
                           limit?: number | null,
@@ -51,16 +51,37 @@ declare function isIn(a: unknown[],
                       throwErr?: boolean
                      ): boolean;
 
-declare function isInteger(v: number | string | undefined | null, type?: boolean, throwErr?: boolean): v is number;
-declare function isAscii(v: number | undefined | null, ext?: boolean, throwErr?: boolean): boolean;
-declare function isFloat(v: number | string | undefined | null, type?: boolean, throwErr?: boolean): v is number;
-declare function isEven(v: number | string | undefined | null, type?: boolean, throwErr?: boolean): v is number;
-declare function isOdd(v: number | string | undefined | null, type?: boolean, throwErr?: boolean): v is number;
-declare function isOrigin(v: number | string | undefined | null, type?: boolean, throwErr?: boolean): v is number;
-declare function isPositive(v: number | string | undefined | null, type?: boolean, throwErr?: boolean): v is number;
-declare function isNegative(v: number | string | undefined | null, type?: boolean, throwErr?: boolean): v is number;
-declare function isPowerOfTwo(v: number | string | undefined | null, type?: boolean, throwErr?: boolean): v is number;
-
+declare function isInteger<T extends boolean = true>(v: unknown, 
+                                                     type?: T, 
+                                                     throwErr?: boolean
+                                                    ): v is T extends true ? number : number | string;
+declare function isAscii(v: unknown, ext?: boolean, throwErr?: boolean): v is number | string;
+declare function isFloat<T extends boolean = true>(v: unknown, 
+                                                   type?: T, 
+                                                   throwErr?: boolean
+                                                  ): v is T extends true ? number : number | string;
+declare function isEven<T extends boolean = true>(v: unknown, 
+                                                  type?: T, 
+                                                  throwErr?: boolean
+                                                 ): v is T extends true ? number : number | string;
+declare function isOdd<T extends boolean = true>(v: unknown, 
+                                                 type?: T, 
+                                                 throwErr?: boolean
+                                                ): v is T extends true ? number : number | string;
+declare function isOrigin(v: unknown, type?: boolean, throwErr?: boolean): boolean;
+declare function isPositive<T extends boolean = true>(v: unknown, 
+                                                      type?: T, 
+                                                      throwErr?: boolean
+                                                     ): v is T extends true ? number : number | string;
+declare function isNegative<T extends boolean = true>(v: unknown, 
+                                                      type?: T, 
+                                                      throwErr?: boolean
+                                                     ): v is T extends true ? number : number | string;
+declare function isPowerOfTwo<T extends boolean = true>(v: unknown, 
+                                                        type?: T, 
+                                                        throwErr?: boolean
+                                                       ): v is T extends true ? number : number | string;
+                                                       
 declare function isValidNumber(v: number | string | undefined | null, min?: number, max?: number, type?: boolean, throwErr?: boolean): boolean;
 declare function isValidInteger(v: number | string | undefined | null, min?: number, max?: number, type?: boolean, throwErr?: boolean): boolean;
 declare function isValidFloat(v: number | string | undefined | null, min?: number, max?: number, type?: boolean, throwErr?: boolean): boolean;

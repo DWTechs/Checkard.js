@@ -30,7 +30,8 @@ function isValidNumber( v: unknown,
   const minVal = isNumber(min, false) ? min : -999999999;
   const maxVal = isNumber(max, false) ? max : 999999999;
   
-  if (v >= minVal && v <= maxVal)
+  const numVal = v as number;
+  if (numVal >= minVal && numVal <= maxVal)
     return true;
 
   if (throwErr)
@@ -64,8 +65,8 @@ function isValidInteger<T extends boolean = true>(
     return false;
   
   // Convert min & max to number if it's valid, otherwise use default
-  const minVal = isNumber(min, false) ? min as number : -999999999;
-  const maxVal = isNumber(max, false) ? max as number : 999999999;
+  const minVal = isNumber(min, false) ? min : -999999999;
+  const maxVal = isNumber(max, false) ? max : 999999999;
 
   const numVal = v as number;
   if (numVal >= minVal && numVal <= maxVal)

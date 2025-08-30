@@ -33,15 +33,15 @@ function isBoolean( v: unknown, throwErr: boolean = false ): v is boolean {
  * @param {Comparator | null} [comparator=null] - An optional comparator function to compare the value. Defaults to `null`.
  * @param {number | null} [limit=null] - An optional limit to compare the value against. Defaults to `null`.
  * @param {boolean} [throwErr=false] - If true, throws an error when comparison fails. If false, returns false.
- * @returns {boolean} `true` if the value is a number and passes all checks, otherwise `false`.
+ * @returns {boolean} `true` if the value is a number (or number|string if type=false) and passes all checks, otherwise `false`.
  * @throws {Error} Throws an error if the comparison fails and throwError is true.
  */
-function isNumber(v: unknown, 
-                  type = true,
+function isNumber<T extends boolean = true>(v: unknown, 
+                  type: T = true as T,
                   comparator: Comparator | null = null, 
                   limit: number | null = null,
                   throwErr: boolean = false
-                 ): v is number {
+                 ): v is T extends true ? number : number | string {
 
   if (isSymbol(v) || v?.constructor === Array || !isNum(v, type)) {
     if (throwErr) 

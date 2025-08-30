@@ -1,182 +1,271 @@
 import { isInteger } from "../../dist/ch";
 
-test("sends NaN to isInteger", () => {
-  expect(isInteger(Number.NaN)).toBe(false);
-});
-
-test("sends null to isInteger", () => {
-  expect(isInteger(null)).toBe(false);
-});
-
-test("sends undefined to isInteger", () => {
-  expect(isInteger(undefined)).toBe(false);
-});
 
 const s1 = Symbol();
-test("sends symbol to isInteger", () => {
-  expect(isInteger(s1)).toBe(false);
-});
-
-test("sends true to isInteger", () => {
-  expect(isInteger(true)).toBe(false);
-});
-
-test("sends false to isInteger", () => {
-  expect(isInteger(false)).toBe(false);
-});
-
-test("sends string to isInteger", () => {
-  expect(isInteger("string")).toBe(false);
-});
-
-test("sends figure as string to isInteger", () => {
-  expect(isInteger("1")).toBe(false);
-});
-
-test("sends number as string to isInteger", () => {
-  expect(isInteger("89")).toBe(false);
-});
-
-test("sends number in string to isInteger", () => {
-  expect(isInteger("89rt")).toBe(false);
-});
-
-test("sends figure as string to isInteger without typeCheck", () => {
-  expect(isInteger("1", false)).toBe(true);
-});
-
-test("sends number as string to isInteger without typeCheck", () => {
-  expect(isInteger("89", false)).toBe(true);
-});
-
-test("sends number in string to isInteger without typeCheck", () => {
-  expect(isInteger("89rt", false)).toBe(false);
-});
-
-test("sends float as string to isInteger", () => {
-  expect(isInteger("1.5")).toBe(false);
-});
-
-test("sends number in string to isInteger", () => {
-  expect(isInteger("8.9rt")).toBe(false);
-});
-
-test("sends float as string to isInteger without typeCheck", () => {
-  expect(isInteger("1.5", false)).toBe(false);
-});
-
-test("sends float in string to isInteger without typeCheck", () => {
-  expect(isInteger("8.9rt", false)).toBe(false);
-});
-
-test("sends valid timestamp as string to isinteger", () => {
-  expect(isInteger("7258114800001")).toBe(false);
-});
-
-test("sends valid timestamp as string to isinteger, no type check", () => {
-  expect(isInteger("7258114800001", false)).toBe(true);
-});
-
-test("sends positive even integer to isInteger", () => {
-  expect(isInteger(2)).toBe(true);
-});
-
-test("sends positive odd integer to isInteger", () => {
-  expect(isInteger(1)).toBe(true);
-});
-
-test("sends zero to isInteger", () => {
-  expect(isInteger(0)).toBe(true);
-});
-
-test("sends positive float to isInteger", () => {
-  expect(isInteger(1.1)).toBe(false);
-});
-
-test("sends negative odd integer to isInteger", () => {
-  expect(isInteger(-1)).toBe(true);
-});
-
-test("sends negative even integer to isInteger", () => {
-  expect(isInteger(-2)).toBe(true);
-});
-
-test("sends negative float to isInteger", () => {
-  expect(isInteger(-1.1)).toBe(false);
-});
-
-test("sends object to isInteger", () => {
-  expect(isInteger({})).toBe(false);
-});
-
-test("sends empty array to isInteger", () => {
-  expect(isInteger([])).toBe(false);
-});
-
-test("sends array of 1 integer without type checking to isInteger", () => {
-  expect(isInteger([2], false)).toBe(false);
-});
-
-test("sends array of 2 integers without type checking to isInteger", () => {
-  expect(isInteger([2,1], false)).toBe(false);
-});
-
-test("sends array of 1 integer to isInteger", () => {
-  expect(isInteger([2.1])).toBe(false);
-});
-
-test("sends array of 2 integers to isInteger", () => {
-  expect(isInteger([2.1,1.1])).toBe(false);
-});
-
-test("sends 1+true to isInteger", () => {
-  expect(isInteger(1+true)).toBe(true);
-});
-
-test("sends +true to isInteger", () => {
-  expect(isInteger(+true)).toBe(true);
-});
-
-test("sends '+true' to isInteger", () => {
-  expect(isInteger('+true')).toBe(false);
-});
-
-test("sends '+true' without type checking to isInteger", () => {
-  expect(isInteger('+true', false)).toBe(false);
-});
-
-test("sends '8e5' without type checking to isInteger", () => {
-  expect(isInteger('8e5', false)).toBe(false);
-});
-
-test("sends '0x44' without type checking to isInteger", () => {
-  expect(isInteger('0x44', false)).toBe(false);
-});
-
 const json = `{
-  "actor": {
-    "name": "Tom Cruise",
-    "age": 56,
-    "Born At": "Syracuse, NY",
-    "Birthdate": "July 3 1962",
-    "photo": "https://jsonformatter.org/img/tom-cruise.jpg"
-  }
-}`;
+    "actor": {
+      "name": "Tom Cruise",
+      "age": 56,
+      "Born At": "Syracuse, NY",
+      "Birthdate": "July 3 1962",
+      "photo": "https://jsonformatter.org/img/tom-cruise.jpg"
+    }
+  }`;
+const invalidjson = `{
+    "actor: {
+      "name": "Tom Cruise",
+      "age": 56
+      "Born At": "Syracuse, NY",
+      "Birthdate": "July 3 1962",
+      "photo": "https://jsonformatter.org/img/tom-cruise.jpg"
+    }
+  }`;
 
-test("sends json to isInteger", () => {
-  expect(isInteger(json)).toBe(false);
+describe("type = true", () => {
+  
+  test("sends NaN to isInteger", () => {
+    expect(isInteger(Number.NaN)).toBe(false);
+  });
+
+  test("sends null to isInteger", () => {
+    expect(isInteger(null)).toBe(false);
+  });
+
+  test("sends undefined to isInteger", () => {
+    expect(isInteger(undefined)).toBe(false);
+  });
+
+  test("sends symbol to isInteger", () => {
+    expect(isInteger(s1)).toBe(false);
+  });
+
+  test("sends true to isInteger", () => {
+    expect(isInteger(true)).toBe(false);
+  });
+
+  test("sends false to isInteger", () => {
+    expect(isInteger(false)).toBe(false);
+  });
+
+  test("sends string to isInteger", () => {
+    expect(isInteger("string")).toBe(false);
+  });
+
+  test("sends figure as string to isInteger", () => {
+    expect(isInteger("1")).toBe(false);
+  });
+
+  test("sends number as string to isInteger", () => {
+    expect(isInteger("89")).toBe(false);
+  });
+
+  test("sends number in string to isInteger", () => {
+    expect(isInteger("89rt")).toBe(false);
+  });
+
+  test("sends float as string to isInteger", () => {
+    expect(isInteger("1.5")).toBe(false);
+  });
+
+  test("sends number in string to isInteger", () => {
+    expect(isInteger("8.9rt")).toBe(false);
+  });
+
+  test("sends valid timestamp as string to isinteger", () => {
+    expect(isInteger("7258114800001")).toBe(false);
+  });
+
+
+  test("sends positive even integer to isInteger", () => {
+    expect(isInteger(2)).toBe(true);
+  });
+
+  test("sends positive odd integer to isInteger", () => {
+    expect(isInteger(1)).toBe(true);
+  });
+
+  test("sends zero to isInteger", () => {
+    expect(isInteger(0)).toBe(true);
+  });
+
+  test("sends positive float to isInteger", () => {
+    expect(isInteger(1.1)).toBe(false);
+  });
+
+  test("sends negative odd integer to isInteger", () => {
+    expect(isInteger(-1)).toBe(true);
+  });
+
+  test("sends negative even integer to isInteger", () => {
+    expect(isInteger(-2)).toBe(true);
+  });
+
+  test("sends negative float to isInteger", () => {
+    expect(isInteger(-1.1)).toBe(false);
+  });
+
+  test("sends object to isInteger", () => {
+    expect(isInteger({})).toBe(false);
+  });
+
+  test("sends empty array to isInteger", () => {
+    expect(isInteger([])).toBe(false);
+  });
+
+  test("sends array of 1 integer to isInteger", () => {
+    expect(isInteger([2.1])).toBe(false);
+  });
+
+  test("sends array of 2 integers to isInteger", () => {
+    expect(isInteger([2.1,1.1])).toBe(false);
+  });
+
+  test("sends 1+true to isInteger", () => {
+    expect(isInteger(1+true)).toBe(true);
+  });
+
+  test("sends +true to isInteger", () => {
+    expect(isInteger(+true)).toBe(true);
+  });
+
+  test("sends '+true' to isInteger", () => {
+    expect(isInteger('+true')).toBe(false);
+  });
+
+  test("sends json to isInteger", () => {
+    expect(isInteger(json)).toBe(false);
+  });
+
+  test("sends invalid json to isInteger", () => {
+    expect(isInteger(invalidjson)).toBe(false);
+  });
+
 });
 
-const invalidjson = `{
-  "actor: {
-    "name": "Tom Cruise",
-    "age": 56
-    "Born At": "Syracuse, NY",
-    "Birthdate": "July 3 1962",
-    "photo": "https://jsonformatter.org/img/tom-cruise.jpg"
-  }
-}`;
+describe("type = false", () => {
 
-test("sends invalid json to isInteger", () => {
-  expect(isInteger(invalidjson)).toBe(false);
+  test("sends NaN to isInteger without typeCheck", () => {
+    expect(isInteger(Number.NaN, false)).toBe(false);
+  });
+
+  test("sends null to isInteger without typeCheck", () => {
+    expect(isInteger(null, false)).toBe(false);
+  });
+
+  test("sends undefined to isInteger without typeCheck", () => {
+    expect(isInteger(undefined, false)).toBe(false);
+  });
+
+  test("sends symbol to isInteger", () => {
+    expect(isInteger(s1, false)).toBe(false);
+  });
+
+  test("sends true to isInteger without typeCheck", () => {
+    expect(isInteger(true, false)).toBe(false);
+  });
+
+  test("sends false to isInteger without typeCheck", () => {
+    expect(isInteger(false, false)).toBe(false);
+  });
+
+  test("sends string to isInteger without typeCheck", () => {
+    expect(isInteger("string", false)).toBe(false);
+  });
+
+  test("sends positive even integer to isInteger without typeCheck", () => {
+    expect(isInteger(2, false)).toBe(true);
+  });
+
+  test("sends positive odd integer to isInteger without typeCheck", () => {
+    expect(isInteger(1, false)).toBe(true);
+  });
+
+  test("sends zero to isInteger without typeCheck", () => {
+    expect(isInteger(0, false)).toBe(true);
+  });
+
+  test("sends positive float to isInteger without typeCheck", () => {
+    expect(isInteger(1.1, false)).toBe(false);
+  });
+
+  test("sends negative odd integer to isInteger without typeCheck", () => {
+    expect(isInteger(-1, false)).toBe(true);
+  });
+
+  test("sends negative even integer to isInteger without typeCheck", () => {
+    expect(isInteger(-2, false)).toBe(true);
+  });
+
+  test("sends figure as string to isInteger without typeCheck", () => {
+    expect(isInteger("1", false)).toBe(true);
+  });
+
+  test("sends number as string to isInteger without typeCheck", () => {
+    expect(isInteger("89", false)).toBe(true);
+  });
+
+  test("sends number in string to isInteger without typeCheck", () => {
+    expect(isInteger("89rt", false)).toBe(false);
+  });
+
+  test("sends float as string to isInteger without typeCheck", () => {
+    expect(isInteger("1.5", false)).toBe(false);
+  });
+
+  test("sends float in string to isInteger without typeCheck", () => {
+    expect(isInteger("8.9rt", false)).toBe(false);
+  });
+
+  test("sends valid timestamp as string to isinteger, no type check", () => {
+    expect(isInteger("7258114800001", false)).toBe(true);
+  });
+
+  test("sends array of 1 integer without type checking to isInteger", () => {
+    expect(isInteger([2], false)).toBe(false);
+  });
+
+  test("sends array of 2 integers without type checking to isInteger", () => {
+    expect(isInteger([2,1], false)).toBe(false);
+  });
+
+  test("sends object to isInteger without typeCheck", () => {
+    expect(isInteger({}, false)).toBe(false);
+  });
+
+  test("sends empty array to isInteger without typeCheck", () => {
+    expect(isInteger([], false)).toBe(false);
+  });
+
+  test("sends '+true' without type checking to isInteger", () => {
+    expect(isInteger('+true', false)).toBe(false);
+  });
+
+  test("sends array of 2 integers to isInteger without typeCheck", () => {
+    expect(isInteger([2.1,1.1], false)).toBe(false);
+  });
+
+  test("sends 1+true to isInteger without typeCheck", () => {
+    expect(isInteger(1+true, false)).toBe(true);
+  });
+
+  test("sends +true to isInteger without typeCheck", () => {
+    expect(isInteger(+true, false)).toBe(true);
+  });
+
+  test("sends '8e5' without type checking to isInteger", () => {
+    expect(isInteger('8e5', false)).toBe(false);
+  });
+
+  test("sends '0x44' without type checking to isInteger", () => {
+    expect(isInteger('0x44', false)).toBe(false);
+  });
+
+  test("sends json to isInteger", () => {
+    expect(isInteger(json, false)).toBe(false);
+  });
+
+  test("sends invalid json to isInteger", () => {
+    expect(isInteger(invalidjson, false)).toBe(false);
+  });
+
 });
