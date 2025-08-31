@@ -68,8 +68,8 @@ describe('isTruthy throwErr tests', () => {
       expect(() => isTruthy(0*5, true)).toThrow();
     });
 
-    test('should throw for Math.min() with no arguments', () => {
-      expect(() => isTruthy(Math.min(), true)).toThrow();
+    test('should not throw for Math.min() with no arguments', () => {
+      expect(() => isTruthy(Math.min(), true)).not.toThrow();
     });
 
     test('should throw for void 0', () => {
@@ -114,8 +114,8 @@ describe('isTruthy throwErr tests', () => {
       expect(() => isTruthy(0 ** 5, true)).toThrow();
     });
 
-    test('should throw for Math.floor(0.9) - 1', () => {
-      expect(() => isTruthy(Math.floor(0.9) - 1, true)).toThrow();
+    test('should not throw for Math.floor(0.9) - 1', () => {
+      expect(() => isTruthy(Math.floor(0.9) - 1, true)).not.toThrow();
     });
   });
 

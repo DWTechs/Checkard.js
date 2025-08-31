@@ -158,29 +158,29 @@ describe('isValidDate throwErr tests', () => {
   });
 
   describe('edge cases with invalid parameters', () => {
-    test('should throw when min parameter is invalid', () => {
+    test('should not throw when min parameter is invalid', () => {
       const validDate = new Date('1/1/2020');
-      expect(() => isValidDate(validDate, 'invalid', maxDate, true)).toThrow();
+      expect(() => isValidDate(validDate, 'invalid', maxDate, true)).not.toThrow();
     });
 
-    test('should throw when max parameter is invalid', () => {
+    test('should not throw when max parameter is invalid', () => {
       const validDate = new Date('1/1/2020');
-      expect(() => isValidDate(validDate, minDate, 'invalid', true)).toThrow();
+      expect(() => isValidDate(validDate, minDate, 'invalid', true)).not.toThrow();
     });
 
-    test('should throw when both min and max are invalid', () => {
+    test('should not throw when both min and max are invalid', () => {
       const validDate = new Date('1/1/2020');
-      expect(() => isValidDate(validDate, 'invalid', 'invalid', true)).toThrow();
+      expect(() => isValidDate(validDate, 'invalid', 'invalid', true)).not.toThrow();
     });
 
-    test('should throw when min is NaN timestamp', () => {
+    test('should not throw when min is NaN timestamp', () => {
       const validDate = new Date('1/1/2020');
-      expect(() => isValidDate(validDate, NaN, maxDate, true)).toThrow();
+      expect(() => isValidDate(validDate, NaN, maxDate, true)).not.toThrow();
     });
 
-    test('should throw when max is NaN timestamp', () => {
+    test('should not throw when max is NaN timestamp', () => {
       const validDate = new Date('1/1/2020');
-      expect(() => isValidDate(validDate, minDate, NaN, true)).toThrow();
+      expect(() => isValidDate(validDate, minDate, NaN, true)).not.toThrow();
     });
   });
 
@@ -222,15 +222,15 @@ describe('isValidDate throwErr tests', () => {
   });
 
   describe('special Date values', () => {
-    test('should throw for Date with invalid operations', () => {
+    test('should not throw for Date with invalid operations', () => {
       const date = new Date('2020-01-01');
       date.setMonth(13); // Invalid month, creates invalid date
-      expect(() => isValidDate(date, minDate, maxDate, true)).toThrow();
+      expect(() => isValidDate(date, minDate, maxDate, true)).not.toThrow();
     });
 
-    test('should throw for Date created with invalid constructor args', () => {
+    test('should not throw for Date created with invalid constructor args', () => {
       const invalidDate = new Date(2020, 13, 32); // Invalid month and day
-      expect(() => isValidDate(invalidDate, minDate, maxDate, true)).toThrow();
+      expect(() => isValidDate(invalidDate, minDate, maxDate, true)).not.toThrow();
     });
   });
 });

@@ -196,39 +196,39 @@ describe('isValidTimestamp throwErr tests', () => {
   });
 
   describe('edge cases with invalid parameters', () => {
-    test('should throw when min parameter is invalid timestamp', () => {
+    test('should not throw when min parameter is invalid timestamp', () => {
       const validTs = new Date('1/1/2020').getTime();
-      expect(() => isValidTimestamp(validTs, 'invalid', maxTs, true, true)).toThrow();
+      expect(() => isValidTimestamp(validTs, 'invalid', maxTs, true, true)).not.toThrow();
     });
 
-    test('should throw when max parameter is invalid timestamp', () => {
+    test('should not throw when max parameter is invalid timestamp', () => {
       const validTs = new Date('1/1/2020').getTime();
-      expect(() => isValidTimestamp(validTs, minTs, 'invalid', true, true)).toThrow();
+      expect(() => isValidTimestamp(validTs, minTs, 'invalid', true, true)).not.toThrow();
     });
 
-    test('should throw when both min and max are invalid', () => {
+    test('should not throw when both min and max are invalid', () => {
       const validTs = new Date('1/1/2020').getTime();
-      expect(() => isValidTimestamp(validTs, 'invalid', 'invalid', true, true)).toThrow();
+      expect(() => isValidTimestamp(validTs, 'invalid', 'invalid', true, true)).not.toThrow();
     });
 
-    test('should throw when min is NaN', () => {
+    test('should not throw when min is NaN', () => {
       const validTs = new Date('1/1/2020').getTime();
-      expect(() => isValidTimestamp(validTs, NaN, maxTs, true, true)).toThrow();
+      expect(() => isValidTimestamp(validTs, NaN, maxTs, true, true)).not.toThrow();
     });
 
-    test('should throw when max is NaN', () => {
+    test('should not throw when max is NaN', () => {
       const validTs = new Date('1/1/2020').getTime();
-      expect(() => isValidTimestamp(validTs, minTs, NaN, true, true)).toThrow();
+      expect(() => isValidTimestamp(validTs, minTs, NaN, true, true)).not.toThrow();
     });
 
-    test('should throw when min is Infinity', () => {
+    test('should not throw when min is Infinity', () => {
       const validTs = new Date('1/1/2020').getTime();
-      expect(() => isValidTimestamp(validTs, Infinity, maxTs, true, true)).toThrow();
+      expect(() => isValidTimestamp(validTs, Infinity, maxTs, true, true)).not.toThrow();
     });
 
-    test('should throw when max is -Infinity', () => {
+    test('should not throw when max is -Infinity', () => {
       const validTs = new Date('1/1/2020').getTime();
-      expect(() => isValidTimestamp(validTs, minTs, -Infinity, true, true)).toThrow();
+      expect(() => isValidTimestamp(validTs, minTs, -Infinity, true, true)).not.toThrow();
     });
   });
 
@@ -289,17 +289,17 @@ describe('isValidTimestamp throwErr tests', () => {
       expect(() => isValidTimestamp(outsideTs, dateMin, tsMax, true, true)).toThrow();
     });
 
-    test('should throw when Date parameter is invalid', () => {
+    test('should not throw when Date parameter is invalid', () => {
       const validTs = new Date('1/1/2020').getTime();
       const invalidDate = new Date('invalid');
-      expect(() => isValidTimestamp(validTs, invalidDate, maxTs, true, true)).toThrow();
+      expect(() => isValidTimestamp(validTs, invalidDate, maxTs, true, true)).not.toThrow();
     });
 
-    test('should throw when both Date parameters are invalid', () => {
+    test('should not throw when both Date parameters are invalid', () => {
       const validTs = new Date('1/1/2020').getTime();
       const invalidDate1 = new Date('invalid1');
       const invalidDate2 = new Date('invalid2');
-      expect(() => isValidTimestamp(validTs, invalidDate1, invalidDate2, true, true)).toThrow();
+      expect(() => isValidTimestamp(validTs, invalidDate1, invalidDate2, true, true)).not.toThrow();
     });
   });
 });

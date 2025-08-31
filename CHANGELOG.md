@@ -1,10 +1,11 @@
-# 3.5.0 (Aug 24th 2025)
+# 3.5.0 (Aug 31st 2025)
 
-- String validation functions now accept `unknown` type and perform internal string type checking using `isString()` for improved type safety: `isStringOfLength()`, `isEmail()`, `isIpAddress()`, `isBase64()`, `isJWT()`, `isSlug()`, `isHexadecimal()`
-- `isValidDate()` and `isValidTimestamp()` functions now accept `unknown` type and perform internal date and timestamp type checking using `isDate()` and `isTimestamp()` for improved type safety. `min` and `max` parameters can be of type date or timestamp.
-- `isTimestamp()` function now accepts `unknown` type and performs internal timestamp type checking using `isInteger()` for improved type safety. The function now returns `is number` instead of boolean.
+- All validation functions now accept `unknown` type and perform internal type checking
+- For `isValidDate()` and `isValidTimestamp()`, `min` and `max` parameters can be of type date or timestamp.
 - Improved `isDate()` function to return false when date = date.setDate(NaN)
-- Improved `isEmail()` function to return false when Top-Level Domain starts with a number 
+- Improved `isEmail()` function to return false when Top-Level Domain starts with a number
+- Improved `isValidTimestamp()` function to have better min and max conversions
+- Improved test suite to more than 3200 tests with enhanced accuracy and edge case coverage
 
 # 3.4.1 (Aug 23th 2025)
 

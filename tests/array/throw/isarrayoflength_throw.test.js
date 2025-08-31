@@ -111,8 +111,8 @@ describe('isArrayOfLength throwErr tests', () => {
   });
 
   describe('with negative minimum values', () => {
-    test('should throw for empty array when min is negative and length is below max', () => {
-      expect(() => isArrayOfLength([], -5, 0, true)).toThrow();
+    test('should not throw for empty array when min is negative and length is below max', () => {
+      expect(() => isArrayOfLength([], -5, 0, true)).not.toThrow();
     });
 
     test('should throw for array that exceeds max when min is negative', () => {
