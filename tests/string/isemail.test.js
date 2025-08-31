@@ -129,6 +129,10 @@ test("sends abc.def@mail.c to isEmail", () => {
   expect(isEmail("abc.def@mail.c")).toBe(false);
 });
 
+test('sends abc.def@mail.1com to isEmail', () => {
+  expect(isEmail('abc.def@mail.1com')).toBe(false);
+});
+
 test("sends abc.def@mail#archive.com to isEmail", () => {
   expect(isEmail("abc.def@mail#archive.com")).toBe(false);
 });

@@ -86,10 +86,20 @@ function isValidTimestamp(v: unknown, min: Date | number = minTs, max: Date | nu
   if (!isTimestamp(v, type, throwErr))
     return false;
 
-  // Convert min to timestamp if it's a Date
-  const from = isTimestamp(min, false) ? Number(min) : isDate(min) ? min.getTime() : minTs;
-  // Convert max to timestamp if it's a Date
-  const to = isTimestamp(max, false) ? Number(max) : isDate(max) ? max.getTime() : maxTs;
+  // Convert min to timestamp if it's a Date, with validation for invalid dates
+  let from = minTs;
+  if (isTimestamp(min, false))
+    from = Number(min);
+  else if (isDate(min))
+    from = min.getTime();
+
+  // Convert max to timestamp if it's a Date, with validation for invalid dates
+  let to = maxTs;
+  if (isTimestamp(max, false))
+    to = Number(max);
+  else if (isDate(max))
+    to = max.getTime();
+  
   // Convert v to number for comparison
   const ts = Number(v);
   

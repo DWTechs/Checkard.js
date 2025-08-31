@@ -192,7 +192,7 @@ function isRegex(v, type = true, throwErr = false) {
     }
 }
 function isDate(v, throwErr = false) {
-    if (!Number.isNaN(v) && v instanceof Date)
+    if (v instanceof Date && !Number.isNaN(v.getTime()))
         return true;
     if (throwErr)
         throwError('Date', v);
@@ -387,7 +387,7 @@ function isStringOfLength(v, min = 0, max = 999999999, throwErr = false) {
         throwError(`string with length in range [${min}, ${max}] (actual length: ${l})`, v);
     return false;
 }
-const emailReg = /^(?=[a-z0-9@.!$%&'*+\/=?^_‘{|}~-]{6,254}$)(?=[a-z0-9.!#$%&'*+\/=?^_‘{|}~-]{1,64}@)[a-z0-9!#$%&'*+\/=?^‘{|}~]+(?:[\._-][a-z0-9!#$%&'*+\/=?^‘{|}~]+)*@(?:(?=[a-z0-9-]{1,63}\.)[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+(?=[a-z0-9-]{2,63}$)[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/;
+const emailReg = /^(?=[a-z0-9@.!$%&'*+\/=?^_'{|}~-]{6,254}$)(?=[a-z0-9.!#$%&'*+\/=?^_'{|}~-]{1,64}@)[a-z0-9!#$%&'*+\/=?^'{|}~]+(?:[\._-][a-z0-9!#$%&'*+\/=?^'{|}~]+)*@(?:(?=[a-z0-9-]{1,63}\.)[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+(?=[a-z][a-z0-9-]{1,62}$)[a-z](?:[a-z0-9-]*[a-z0-9])?$/;
 function isEmail(v, throwErr = false) {
     if (isString(v) && emailReg.test(v.toLowerCase()))
         return true;
@@ -670,8 +670,16 @@ const maxTs = 7258114800000;
 function isValidTimestamp(v, min = minTs, max = maxTs, type = true, throwErr = false) {
     if (!isTimestamp(v, type, throwErr))
         return false;
-    const from = isTimestamp(min, false) ? Number(min) : isDate(min) ? min.getTime() : minTs;
-    const to = isTimestamp(max, false) ? Number(max) : isDate(max) ? max.getTime() : maxTs;
+    let from = minTs;
+    if (isTimestamp(min, false))
+        from = Number(min);
+    else if (isDate(min))
+        from = min.getTime();
+    let to = maxTs;
+    if (isTimestamp(max, false))
+        to = Number(max);
+    else if (isDate(max))
+        to = max.getTime();
     const ts = Number(v);
     if (ts >= from && ts <= to)
         return true;

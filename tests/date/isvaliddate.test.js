@@ -119,11 +119,11 @@ test("sends current date to isValidDate outside lower range. Range is Timestamp"
   expect(isValidDate(date, new Date('1/1/2010').getTime(), new Date('1/1/2020').getTime())).toBe(false);
 });
 
-test("sends curret date to isValidDate outside min range", () => {
-  expect(isValidDate(date, new Date('1/1/2060', null))).toBe(false);
+test("sends current date to isValidDate outside min range", () => {
+  expect(isValidDate(date, new Date('1/1/2060'), null)).toBe(false);
 });
 
-test("sends curret date to isValidDate outside min range. Range is Timestamp", () => {
+test("sends current date to isValidDate outside min range. Range is Timestamp", () => {
   expect(isValidDate(date, new Date('1/1/2060').getTime(), null)).toBe(false);
 });
 

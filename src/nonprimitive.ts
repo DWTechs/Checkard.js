@@ -118,7 +118,7 @@ function isRegex(v: unknown, type = true, throwErr: boolean = false): v is RegEx
  */
 function isDate(v: unknown, throwErr: boolean = false): v is Date {
  
-  if (!Number.isNaN(v) && v instanceof Date)
+  if (v instanceof Date && !Number.isNaN(v.getTime()))
     return true;
   
   if (throwErr)
