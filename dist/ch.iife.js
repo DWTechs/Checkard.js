@@ -283,7 +283,7 @@ var ch = (function (exports) {
       return false;
     }
 
-    function isProperty(o, k, own, enumerable, throwErr) {
+    function isProperty(v, k, own, enumerable, throwErr) {
       if (own === void 0) {
         own = true;
       }
@@ -293,14 +293,14 @@ var ch = (function (exports) {
       if (throwErr === void 0) {
         throwErr = false;
       }
-      if (!isObject(o, true, throwErr)) return false;
+      if (!isObject(v, true, throwErr)) return false;
       var isValid;
-      if (enumerable) isValid = isEnumerable(o, k, own);else if (own) isValid = Object.prototype.hasOwnProperty.call(o, k);else isValid = k in o;
+      if (enumerable) isValid = isEnumerable(v, k, own);else if (own) isValid = Object.prototype.hasOwnProperty.call(v, k);else isValid = k in v;
       if (isValid) return true;
       if (throwErr) {
         var scope = own ? 'own' : 'inherited';
         var type = enumerable ? 'enumerable' : 'any';
-        throwError(scope + " " + type + " property '" + String(k) + "'", o);
+        throwError(scope + " " + type + " property '" + String(k) + "'", v);
       }
       return false;
     }
@@ -315,7 +315,7 @@ var ch = (function (exports) {
       return false;
     }
 
-    function isArrayOfLength(a, min, max, throwErr) {
+    function isArrayOfLength(v, min, max, throwErr) {
       if (min === void 0) {
         min = 0;
       }
@@ -325,9 +325,13 @@ var ch = (function (exports) {
       if (throwErr === void 0) {
         throwErr = false;
       }
-      var n = a === null || a === void 0 ? void 0 : a.length;
+      if (!isArray(v)) {
+        if (throwErr) throwError("array with length in range [" + min + ", " + max + "]", v);
+        return false;
+      }
+      var n = v.length;
       if (n >= min && n <= max) return true;
-      if (throwErr) throwError("array length [" + min + ", " + max + "]", a);
+      if (throwErr) throwError("array with length in range [" + min + ", " + max + "] (actual length: " + n + ")", v);
       return false;
     }
     function isIn(a, v, from, throwErr) {
@@ -466,8 +470,8 @@ var ch = (function (exports) {
         throwErr = false;
       }
       if (!isNumber(v, type, null, null, throwErr)) return false;
-      var minVal = isNumber(min, false) ? min : -999999999;
-      var maxVal = isNumber(max, false) ? max : 999999999;
+      var minVal = isNumber(min, false) ? min : minNum;
+      var maxVal = isNumber(max, false) ? max : maxNum;
       var numVal = v;
       if (numVal >= minVal && numVal <= maxVal) return true;
       if (throwErr) throwError("valid number in range [" + minVal + ", " + maxVal + "]", v);
@@ -475,10 +479,10 @@ var ch = (function (exports) {
     }
     function isValidInteger(v, min, max, type, throwErr) {
       if (min === void 0) {
-        min = -999999999;
+        min = minNum;
       }
       if (max === void 0) {
-        max = 999999999;
+        max = maxNum;
       }
       if (type === void 0) {
         type = true;
@@ -487,19 +491,21 @@ var ch = (function (exports) {
         throwErr = false;
       }
       if (!isInteger(v, type, throwErr)) return false;
-      var minVal = isNumber(min, false) ? min : -999999999;
-      var maxVal = isNumber(max, false) ? max : 999999999;
+      var minVal = isNumber(min, false) ? min : minNum;
+      var maxVal = isNumber(max, false) ? max : maxNum;
       var numVal = v;
       if (numVal >= minVal && numVal <= maxVal) return true;
       if (throwErr) throwError("valid integer in range [" + minVal + ", " + maxVal + "]", v);
       return false;
     }
-    function isValidFloat(n, min, max, type, throwErr) {
+    var minFloat = -999999999.9;
+    var maxFloat = 999999999.9;
+    function isValidFloat(v, min, max, type, throwErr) {
       if (min === void 0) {
-        min = -999999999.9;
+        min = minFloat;
       }
       if (max === void 0) {
-        max = 999999999.9;
+        max = maxFloat;
       }
       if (type === void 0) {
         type = true;
@@ -507,8 +513,12 @@ var ch = (function (exports) {
       if (throwErr === void 0) {
         throwErr = false;
       }
-      if (isFloat(n, type) && n >= min && n <= max) return true;
-      if (throwErr) throwError("valid float in range [" + min + ", " + max + "]", n);
+      if (!isFloat(v, type, throwErr)) return false;
+      var minVal = isNumber(min, false) ? min : minFloat;
+      var maxVal = isNumber(max, false) ? max : maxFloat;
+      var numValue = v;
+      if (numValue >= minVal && numValue <= maxVal) return true;
+      if (throwErr) throwError("valid float in range [" + minVal + ", " + maxVal + "]", v);
       return false;
     }
 
@@ -708,19 +718,19 @@ var ch = (function (exports) {
       return true;
     }
 
-    function isHtmlElement(h, throwErr) {
+    function isHtmlElement(v, throwErr) {
       if (throwErr === void 0) {
         throwErr = false;
       }
-      if (typeof HTMLElement === "object" && h instanceof HTMLElement || h && typeof h === "object" && h.nodeType === 1 && typeof h.nodeName === "string") return true;
-      if (throwErr) throwError('HTML element', h);
+      if (typeof HTMLElement === "object" && v instanceof HTMLElement || v && typeof v === "object" && v.nodeType === 1 && typeof v.nodeName === "string") return true;
+      if (throwErr) throwError('HTML element', v);
       return false;
     }
-    function isHtmlEventAttribute(h, throwErr) {
+    function isHtmlEventAttribute(v, throwErr) {
       if (throwErr === void 0) {
         throwErr = false;
       }
-      switch (h) {
+      switch (v) {
         case "onafterprint":
         case "onbeforeprint":
         case "onbeforeunload":
@@ -794,22 +804,22 @@ var ch = (function (exports) {
         case "ontoggle":
           return true;
         default:
-          if (throwErr) throwError('HTML event attribute', h);
+          if (throwErr) throwError('HTML event attribute', v);
           return false;
       }
     }
-    function isNode(n, throwErr) {
+    function isNode(v, throwErr) {
       if (throwErr === void 0) {
         throwErr = false;
       }
-      if (typeof Node === "object" && n instanceof Node || n && typeof n === "object" && typeof n.nodeType === "number" && typeof n.nodeName === "string") return true;
-      if (throwErr) throwError('DOM Node', n);
+      if (typeof Node === "object" && v instanceof Node || v && typeof v === "object" && typeof v.nodeType === "number" && typeof v.nodeName === "string") return true;
+      if (throwErr) throwError('DOM Node', v);
       return false;
     }
 
     var minDate = new Date('1/1/1900');
     var maxDate = new Date('1/1/2200');
-    function isValidDate(d, min, max, throwErr) {
+    function isValidDate(v, min, max, throwErr) {
       if (min === void 0) {
         min = minDate;
       }
@@ -819,11 +829,11 @@ var ch = (function (exports) {
       if (throwErr === void 0) {
         throwErr = false;
       }
-      if (!isDate(d, throwErr)) return false;
+      if (!isDate(v, throwErr)) return false;
       var from = isDate(min) ? min : isTimestamp(min, false) ? new Date(min) : minDate;
       var to = isDate(max) ? max : isTimestamp(max, false) ? new Date(max) : maxDate;
-      if (d >= from && d <= to) return true;
-      if (throwErr) throwError("date between " + from.toISOString() + " and " + to.toISOString(), d);
+      if (v >= from && v <= to) return true;
+      if (throwErr) throwError("date between " + from.toISOString() + " and " + to.toISOString(), v);
       return false;
     }
     function isTimestamp(v, type, throwErr) {

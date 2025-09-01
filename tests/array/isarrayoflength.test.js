@@ -34,11 +34,11 @@ test("sends array of length 3 to isArrayOfLength(0,3)", () => {
 });
 
 test("sends node to isArrayOfLength", () => {
-  expect(isArrayOfLength(node)).toBe(true);
+  expect(isArrayOfLength(node)).toBe(false);
 });
 
 test("sends string to isArrayOfLength", () => {
-  expect(isArrayOfLength("string")).toBe(true);
+  expect(isArrayOfLength("string")).toBe(false);
 });
 
 test("sends empty array to isArrayOfLength", () => {
@@ -66,11 +66,11 @@ test("sends array to isArrayOfLength", () => {
 });
 
 test("sends invalid json to isArrayOfLength", () => {
-  expect(isArrayOfLength(invalidjson)).toBe(true);
+  expect(isArrayOfLength(invalidjson)).toBe(false);
 });
 
 test("sends function to isArrayOfLength", () => {
-  expect(isArrayOfLength(testFunction)).toBe(true);
+  expect(isArrayOfLength(testFunction)).toBe(false);
 });
 
 test("sends array to isArrayOfLength with length test between 2 and 4", () => {
@@ -94,7 +94,7 @@ test("sends empty array of length 0 to isArrayOfLength with negative min and max
 });
 
 test("sends string of length 6 to isArrayOfLength with length test between 2 and 6", () => {
-  expect(isArrayOfLength("string", 2, 6)).toBe(true);
+  expect(isArrayOfLength("string", 2, 6)).toBe(false);
 });
 
 test("sends string of length 6 to isArrayOfLength with length test between 2 and 5", () => {
@@ -166,7 +166,7 @@ test("sends array of length 3 to isArrayOfLength(4,5)", () => {
 });
 
 test("sends json to isArrayOfLength", () => {
-  expect(isArrayOfLength(json)).toBe(true);
+  expect(isArrayOfLength(json)).toBe(false);
 });
 
 test("sends htmlElement to isArrayOfLength", () => {
