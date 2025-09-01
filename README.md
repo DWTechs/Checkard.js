@@ -591,54 +591,57 @@ Valid number methods take a number as parameter and check of the number lies in 
 
 /**
  * Checks if a given value is a valid number within given range.
+ * Performs internal number validation using isNumber() before checking range.
  *
- * @param {number | string | undefined | null} n - value to check
+ * @param {unknown} v - The value to check (performs internal number validation).
  * @param {number} [min=-999999999] - minimal value of the range
  * @param {number} [max=999999999] - maximal value of the range
  * @param {boolean} [type=true] - do type check
  * @param {boolean} [throwErr=false] - If true, throws an error when value is not a valid number in range. If false, returns false.
- * @returns {boolean} true if the value is a valid number, false if not (when throwErr is false)
- * @throws {Error} Throws an error if the value is not a valid number in range and throwErr is true.
+ * @returns {boolean} A boolean indicating whether the number is a valid number (or number|string if type=false), false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the value is not a valid number or not within the specified range and throwErr is true.
  */
-isValidNumber( n: number | string | undefined | null, 
+isValidNumber<T extends boolean = true>( v: unknown, 
   min = -999999999, 
   max = 999999999,
-  type = true,
-  throwErr: boolean = false ): boolean {}
+  type: T = true as T,
+  throwErr: boolean = false ): v is T extends true ? number : number | string {}
 
 /**
  * Checks if a given value is a valid integer within given range.
+ * Performs internal integer validation using isInteger() before checking range.
  *
- * @param {number | string | undefined | null} n - value to check
+ * @param {unknown} v - The value to check (performs internal integer validation).
  * @param {number} [min=-999999999] - minimal value of the range
  * @param {number} [max=999999999] - maximal value of the range
  * @param {boolean} [type=true] - do type check
  * @param {boolean} [throwErr=false] - If true, throws an error when value is not a valid integer in range. If false, returns false.
- * @returns {boolean} true if the value is a valid integer, false if not (when throwErr is false)
- * @throws {Error} Throws an error if the value is not a valid integer in range and throwErr is true.
+ * @returns {boolean} A boolean indicating whether the number is a valid integer (or number|string if type=false), false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the value is not a valid integer or not within the specified range and throwErr is true.
  */
-isValidInteger( n: number | string | undefined | null, 
+isValidInteger<T extends boolean = true>( v: unknown, 
   min = -999999999, 
   max = 999999999,
-  type = true,
-  throwErr: boolean = false ): boolean {}
+  type: T = true as T,
+  throwErr: boolean = false ): v is T extends true ? number : number | string {}
 
 /**
  * Checks if a given value is a valid float within given range.
+ * Performs internal float validation using isFloat() before checking range.
  *
- * @param {number | string | undefined | null} n - value to check
+ * @param {unknown} v - The value to check (performs internal float validation).
  * @param {number} [min=-999999999.9] - minimal value of the range
  * @param {number} [max=999999999.9] - maximal value of the range
  * @param {boolean} [type=true] - do type check
  * @param {boolean} [throwErr=false] - If true, throws an error when value is not a valid float in range. If false, returns false.
- * @returns {boolean} true if the value is a valid float, false if not (when throwErr is false)
+ * @returns {boolean} A boolean indicating whether the number is a valid float (or number|string if type=false), false if not (when throwErr is false).
  * @throws {Error} Throws an error if the value is not a valid float in range and throwErr is true.
  */
-isValidFloat( n: number | string | undefined | null, 
+isValidFloat<T extends boolean = true>( v: unknown, 
   min = -999999999.9, 
   max = 999999999.9,
-  type = true,
-  throwErr: boolean = false ): boolean {}
+  type: T = true as T,
+  throwErr: boolean = false ): v is T extends true ? number : number | string {}
 
 ```
 
@@ -660,45 +663,45 @@ isValidFloat( n: number | string | undefined | null,
  * @throws {Error} Throws an error if the value is not a string and its length is not within the specified range and throwErr is true.
  */
 isStringOfLength(
-  s: unknown,
+  v: unknown,
   min = 0, 
   max = 999999999,
   throwErr: boolean = false
-): boolean {}
+): v is string {}
 
 /**
  * Checks if the given value is a valid email address.
  * Performs internal string validation using isString() before checking email format.
  *
- * @param {unknown} s - The value to be checked (performs internal string validation).
+ * @param {unknown} v - The value to be checked (performs internal string validation).
  * @param {boolean} [throwErr=false] - If true, throws an error when value is not a valid email. If false, returns false.
  * @returns {boolean} `true` if the value a valid email address, false if not (when throwErr is false).
  * @throws {Error} Throws an error if the value is not a valid email address and throwErr is true.
  */
-isEmail(s: unknown, throwErr: boolean = false): boolean {}
+isEmail(v: unknown, throwErr: boolean = false): v is string {}
 
 /**
  * Checks if the given value is a valid IP address.
  * Performs internal string validation using isString() before checking IP address format.
  *
- * @param {unknown} s - The value to be checked (performs internal string validation).
+ * @param {unknown} v - The value to be checked (performs internal string validation).
  * @param {boolean} [throwErr=false] - If true, throws an error when value is not a valid IP address. If false, returns false.
  * @returns {boolean} `true` if the value is a valid IP address, false if not (when throwErr is false).
  * @throws {Error} Throws an error if the value is not a valid IP address and throwErr is true.
  */
-isIpAddress(s: unknown, throwErr: boolean = false): boolean {}
+isIpAddress(v: unknown, throwErr: boolean = false): v is string {}
 
 /**
  * Checks if a given value is a valid Base64 encoded string.
  * Performs internal string validation using isString() before checking Base64 format.
  *
- * @param {unknown} s - The value to check (performs internal string validation).
+ * @param {unknown} v - The value to check (performs internal string validation).
  * @param {boolean} [urlEncoded=false] - Optional. If true, checks for URL-safe Base64 encoding. Defaults to false.
  * @param {boolean} [throwErr=false] - If true, throws an error when value is not valid Base64. If false, returns false.
  * @returns {boolean} True if the value is a valid Base64 encoded string, false if not (when throwErr is false).
  * @throws {Error} Throws an error if the value is not a valid Base64 and throwErr is true.
  */
-isBase64(s: unknown, urlEncoded = false, throwErr: boolean = false): boolean {}
+isBase64(v: unknown, urlEncoded = false, throwErr: boolean = false): v is string {}
 
 /**
  * Checks if a given value is a valid JSON Web Token (JWT).
@@ -712,12 +715,12 @@ isBase64(s: unknown, urlEncoded = false, throwErr: boolean = false): boolean {}
  * Each part must be a valid Base64 encoded string. Additionally, the header and payload
  * must be valid JSON objects when decoded.
  *
- * @param {unknown} s - The value to check (performs internal string validation).
+ * @param {unknown} v - The value to check (performs internal string validation).
  * @param {boolean} [throwErr=false] - If true, throws an error when value is not a valid JWT. If false, returns false.
  * @returns {boolean} `true` if the value is a valid JWT, false if not (when throwErr is false).
  * @throws {Error} Throws an error if the value not a valid JWT and throwErr is true.
  */
-isJWT(s: unknown, throwErr: boolean = false): boolean {}
+isJWT(v: unknown, throwErr: boolean = false): v is string {}
 
 /**
  * Checks if the given value is a valid slug.
@@ -725,23 +728,23 @@ isJWT(s: unknown, throwErr: boolean = false): boolean {}
  * 
  * A slug is typically a URL-friendly string that contains only lowercase letters, numbers, and hyphens.
  * 
- * @param {unknown} s - The value to check (performs internal string validation).
+ * @param {unknown} v - The value to check (performs internal string validation).
  * @param {boolean} [throwErr=false] - If true, throws an error when value is not a valid slug. If false, returns false.
  * @returns {boolean} `true` if the value is a valid slug, false if not (when throwErr is false).
  * @throws {Error} Throws an error if the value is not a valid slug and throwErr is true.
  */
-isSlug(s: unknown, throwErr: boolean = false): boolean {}
+isSlug(v: unknown, throwErr: boolean = false): v is string {}
 
 /**
  * Checks if the given value is a valid hexadecimal format.
  * Performs internal string validation using isString() before checking hexadecimal format.
  *
- * @param {unknown} s - The value to check (performs internal string validation).
+ * @param {unknown} v - The value to check (performs internal string validation).
  * @param {boolean} [throwErr=false] - If true, throws an error when value is not a valid hexadecimal format. If false, returns false.
  * @returns {boolean} True if the value is a valid hexadecimal format, false if not (when throwErr is false).
  * @throws {Error} Throws an error if the value is not a valid hexadecimal format and throwErr is true.
  */
-isHexadecimal(s: unknown, throwErr: boolean = false): boolean {}
+isHexadecimal(v: unknown, throwErr: boolean = false): v is string {}
 
 
 const PwdDefaultOptions = {
@@ -884,33 +887,33 @@ const maxDate = new Date('1/1/2200');
  * @returns {boolean} `true` if the value is a valid date within the specified range, false if not (when throwErr is false).
  * @throws {Error} Throws an error if the value is not a valid date or not within the specified range and throwErr is true.
  */
-isValidDate(d: unknown, min: Date = minDate, max: Date = maxDate, throwErr: boolean = false): boolean {}
+isValidDate(d: unknown, min: Date | number = minDate, max: Date | number = maxDate, throwErr: boolean = false): d is Date {}
 
 /**
- * Checks if the given number is a valid timestamp.
+ * Checks if the given value is a valid timestamp.
  *
- * @param {unknown} t - The number to check.
- * @param {boolean} [type=true] - An optional boolean parameter to verify the type of t. Defaults to true.
+ * @param {unknown} v - The value to check.
+ * @param {boolean} [type=true] - An optional boolean parameter to verify the type of v. Defaults to true.
  * @param {boolean} [throwErr=false] - If true, throws an error when value is not a valid timestamp. If false, returns false.
- * @returns {boolean} A boolean indicating whether the number is a timestamp, false if not (when throwErr is false).
+ * @returns {boolean} A boolean indicating whether the value is a timestamp (or number|string if type=false), false if not (when throwErr is false).
  * @throws {Error} Throws an error if the value is not a valid timestamp and throwErr is true.
  */
-isTimestamp(t: number, type = true, throwErr: boolean = false): boolean {}
+isTimestamp<T extends boolean = true>(v: unknown, type: T = true as T, throwErr: boolean = false): v is T extends true ? number : number | string {}
 
 const minTs = -2208989361000; // 1/1/1900
 const maxTs = 7258114800000; // 1/1/2200
 /**
  * Checks if a given timestamp is valid within a specified range.
  *
- * @param {unknown} t - The timestamp to validate.
- * @param {number} [min=-2208989361000] - The minimum allowed timestamp (default is -2208989361000,eg 1/1/1900).
- * @param {number} [max=7258114800000] - The maximum allowed timestamp (default is 7258114800000, eg 1/1/2200).
+ * @param {unknown} v - The value to check.
+ * @param {Date | number} [min=minTs] - The minimum allowed timestamp (Date object or timestamp). Defaults to `minTs`.
+ * @param {Date | number} [max=maxTs] - The maximum allowed timestamp (Date object or timestamp). Defaults to `maxTs`.
  * @param {boolean} [type=true] - A boolean indicating the type of timestamp (default is true).
  * @param {boolean} [throwErr=false] - If true, throws an error when timestamp is not valid. If false, returns false.
- * @returns {boolean} `true` if the timestamp is valid and within the specified range, false if not (when throwErr is false).
+ * @returns {boolean} A boolean indicating whether the value is a valid timestamp (or number|string if type=false), false if not (when throwErr is false).
  * @throws {Error} Throws an error if the timestamp is not valid and throwErr is true.
  */
-isValidTimestamp(t: number, min = -2208989361000, max = 7258114800000, type = true, throwErr: boolean = false): boolean {} 
+isValidTimestamp<T extends boolean = true>(v: unknown, min: Date | number = minTs, max: Date | number = maxTs, type: T = true as T, throwErr: boolean = false): v is T extends true ? number : number | string {} 
 
 ```
 
