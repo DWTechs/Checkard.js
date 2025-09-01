@@ -15,7 +15,12 @@ const maxDate = new Date('1/1/2200');
  * @returns {boolean} `true` if the value is a valid date within the specified range, false if not (when throwErr is false).
  * @throws {Error} Throws an error if the value is not a valid date or not within the specified range and throwErr is true.
  */
-function isValidDate(v: unknown, min: Date | number = minDate, max: Date | number = maxDate, throwErr: boolean = false): v is Date {
+function isValidDate(
+  v: unknown, 
+  min: Date | number = minDate, 
+  max: Date | number = maxDate, 
+  throwErr: boolean = false
+): v is Date {
 
   // First validate that input is a valid date
   // This will throw immediately if throwErr=true

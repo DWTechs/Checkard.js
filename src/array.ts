@@ -48,7 +48,12 @@ function isArrayOfLength<T = unknown>(
  * @returns {boolean} `true` if the value is found in the array, false if not (when throwErr is false).
  * @throws {Error} Throws an error if the value is not found in the array and throwErr is true.
  */
-function isIn(a: unknown[], v: unknown, from = 0, throwErr: boolean = false): boolean {
+function isIn(
+  a: unknown[], 
+  v: unknown, 
+  from = 0, 
+  throwErr: boolean = false
+): boolean {
 
   if (a.includes(v, from))
     return true;

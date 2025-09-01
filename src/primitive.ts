@@ -11,7 +11,10 @@ import type { Comparator } from './types';
  * @returns {boolean} True if the value is a boolean, false if not (when throwErr is false).
  * @throws {Error} Throws an error if the value is not a boolean and throwErr is true.
  */
-function isBoolean( v: unknown, throwErr: boolean = false ): v is boolean {
+function isBoolean(
+  v: unknown, 
+  throwErr: boolean = false 
+): v is boolean {
   
   if (typeof v === "boolean")
     return true;
@@ -36,12 +39,13 @@ function isBoolean( v: unknown, throwErr: boolean = false ): v is boolean {
  * @returns {boolean} `true` if the value is a number (or number|string if type=false) and passes all checks, otherwise `false`.
  * @throws {Error} Throws an error if the comparison fails and throwError is true.
  */
-function isNumber<T extends boolean = true>(v: unknown, 
-                  type: T = true as T,
-                  comparator: Comparator | null = null, 
-                  limit: number | null = null,
-                  throwErr: boolean = false
-                 ): v is T extends true ? number : number | string {
+function isNumber<T extends boolean = true>(
+  v: unknown, 
+  type: T = true as T,
+  comparator: Comparator | null = null, 
+  limit: number | null = null,
+  throwErr: boolean = false
+): v is T extends true ? number : number | string {
 
   if (isSymbol(v) || v?.constructor === Array || !isNum(v, type)) {
     if (throwErr) 
@@ -63,11 +67,12 @@ function isNumber<T extends boolean = true>(v: unknown,
  * @returns {boolean} `true` if the value is a string and meets the comparator and limit conditions, otherwise `false`.
  * @throws {Error} Throws an error if the comparison fails and throwError is true.
  */
-function isString(v: unknown, 
-                  comparator: Comparator | null = null, 
-                  limit: number | null = null,
-                  throwErr: boolean = false
-                 ): v is string {
+function isString(
+  v: unknown, 
+  comparator: Comparator | null = null, 
+  limit: number | null = null,
+  throwErr: boolean = false
+): v is string {
   
   if (!isStr(v)) {
     if (throwErr)
@@ -86,7 +91,10 @@ function isString(v: unknown,
  * @returns {boolean} True if the value is a symbol, false if not (when throwErr is false).
  * @throws {Error} Throws an error if the value is not a symbol and throwErr is true.
  */
-function isSymbol(v: unknown, throwErr: boolean = false): v is symbol {
+function isSymbol(
+  v: unknown, 
+  throwErr: boolean = false
+): v is symbol {
   const type = typeof v;
   if (type === 'symbol' || (type === 'object' && v != null && getTag(v) === '[object Symbol]'))
     return true;
@@ -105,7 +113,10 @@ function isSymbol(v: unknown, throwErr: boolean = false): v is symbol {
  * @returns `true` if the value is `null` or `undefined`, false if not (when throwErr is false).
  * @throws {Error} Throws an error if the value is not null or undefined and throwErr is true.
  */
-function isNil(v: unknown, throwErr: boolean = false): v is null | undefined {
+function isNil(
+  v: unknown, 
+  throwErr: boolean = false
+): v is null | undefined {
   if (v == null)
     return true;
   
@@ -123,7 +134,10 @@ function isNil(v: unknown, throwErr: boolean = false): v is null | undefined {
  * @returns `true` if the value is `null`, false if not (when throwErr is false).
  * @throws {Error} Throws an error if the value is not null and throwErr is true.
  */
-function isNull(v: unknown, throwErr: boolean = false): v is null {
+function isNull(
+  v: unknown, 
+  throwErr: boolean = false
+): v is null {
   if (v === null)
     return true;
   
@@ -141,7 +155,10 @@ function isNull(v: unknown, throwErr: boolean = false): v is null {
  * @returns `true` if the value is `undefined`, false if not (when throwErr is false).
  * @throws {Error} Throws an error if the value is not undefined and throwErr is true.
  */
-function isUndefined(v: unknown, throwErr: boolean = false): v is undefined {
+function isUndefined(
+  v: unknown, 
+  throwErr: boolean = false
+): v is undefined {
   if (v === undefined)
     return true;
   
