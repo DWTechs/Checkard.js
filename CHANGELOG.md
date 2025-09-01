@@ -1,7 +1,10 @@
 # 3.5.0 (Aug 31st 2025)
 
 - All validation functions now accept `unknown` type and perform internal type checking
-- For `isValidDate()` and `isValidTimestamp()`, `min` and `max` parameters can be of type date or timestamp.
+- All validation functions now return a type predicate (e.g., `v is string`) instead of a boolean. Except for `isFalsy()` and `isTruthy()` still return boolean values.
+- All contain functions remain unchanged and continue to return boolean values.
+- All normalize functions remain unchanged and continue to return string | false
+- For both `isValidDate()` and `isValidTimestamp()`, `min` and `max` parameters can be of type date or timestamp.
 - Improved `isDate()` function to return false when date = date.setDate(NaN)
 - Improved `isEmail()` function to return false when Top-Level Domain starts with a number
 - Improved `isValidTimestamp()` function to have better min and max conversions
@@ -14,7 +17,7 @@
 # 3.4.0 (Aug 22th 2025)
 
 - Functions have a **throwErr** property to throw specific error instead of false
-- isBase64 regex now rejects empty strings, improving validation and error handling
+- isBase64 regex now rejects empty strings
 
 # 3.3.0 (Aug 18th 2025)
 

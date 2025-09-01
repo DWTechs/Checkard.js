@@ -1,30 +1,41 @@
 
+import { isArray } from './nonprimitive';
 import { throwError } from './error';
 
 /**
  * Checks if the length of an array is within the specified range.
+ * Performs internal array validation using isArray() before checking length.
  *
- * @param {unknown[]} a - The array to check.
+ * @template T - The type of elements in the array.
+ * @param {unknown} v - The value to check (performs internal array validation).
  * @param {number} [min=0] - The minimum length of the array (inclusive).
  * @param {number} [max=999999999] - The maximum length of the array (inclusive).
  * @param {boolean} [throwErr=false] - If true, throws an error when array length is not within range. If false, returns false.
- * @returns {boolean} - Returns `true` if the array length is within the specified range, false if not (when throwErr is false).
- * @throws {Error} Throws an error if the array length is not within the specified range and throwErr is true.
+ * @returns {boolean} - Returns `true` if the value is an array and its length is within the specified range, false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the value is not an array or its length is not within the specified range and throwErr is true.
  */
-function isArrayOfLength(
-  a: unknown[], 
+function isArrayOfLength<T = unknown>(
+  v: unknown, 
   min = 0, 
   max = 999999999,
-  throwErr: boolean = false): boolean 
-{
-    const n = a?.length;
-    if (n >= min && n <= max)
-        return true;
-    
+  throwErr: boolean = false
+): v is T[] {
+  
+  // First validate that v is an array
+  if (!isArray<T>(v)) {
     if (throwErr)
-        throwError(`array length [${min}, ${max}]`, a);
-    
+      throwError(`array with length in range [${min}, ${max}]`, v);
     return false;
+  }
+
+  const n = v.length;
+  if (n >= min && n <= max)
+    return true;
+    
+  if (throwErr)
+    throwError(`array with length in range [${min}, ${max}] (actual length: ${n})`, v);
+    
+  return false;
 }
 
 /**

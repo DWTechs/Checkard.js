@@ -8,18 +8,18 @@ const maxDate = new Date('1/1/2200');
 /**
  * Checks if a given date is valid within a specified range.
  *
- * @param {unknown} d - The value to be validated (performs internal date validation).
+ * @param {unknown} v - The value to be validated (performs internal date validation).
  * @param {Date | number} [min=minDate] - The minimum allowable date (Date object or timestamp). Defaults to `minDate`.
  * @param {Date | number} [max=maxDate] - The maximum allowable date (Date object or timestamp). Defaults to `maxDate`.
  * @param {boolean} [throwErr=false] - If true, throws an error when date is not valid. If false, returns false.
  * @returns {boolean} `true` if the value is a valid date within the specified range, false if not (when throwErr is false).
  * @throws {Error} Throws an error if the value is not a valid date or not within the specified range and throwErr is true.
  */
-function isValidDate(d: unknown, min: Date | number = minDate, max: Date | number = maxDate, throwErr: boolean = false): boolean {
+function isValidDate(v: unknown, min: Date | number = minDate, max: Date | number = maxDate, throwErr: boolean = false): v is Date {
 
   // First validate that input is a valid date
   // This will throw immediately if throwErr=true
-  if (!isDate(d, throwErr))
+  if (!isDate(v, throwErr))
     return false;
 
   // Convert min to Date if it's a timestamp
@@ -28,12 +28,12 @@ function isValidDate(d: unknown, min: Date | number = minDate, max: Date | numbe
   const to = isDate(max) ? max : isTimestamp(max, false) ? new Date(max) : maxDate;
 
   // All dates are valid, now check the range
-  if (d >= from && d <= to)
+  if (v >= from && v <= to)
     return true;
   
   // Range validation failed
   if (throwErr)
-    throwError(`date between ${from.toISOString()} and ${to.toISOString()}`, d);
+    throwError(`date between ${from.toISOString()} and ${to.toISOString()}`, v);
   return false;
 
 }
@@ -76,10 +76,16 @@ const maxTs = 7258114800000; // 1/1/2200
  * @param {Date | number} [max=maxTs] - The maximum allowed timestamp (Date object or timestamp). Defaults to `maxTs`.
  * @param {boolean} [type=true] - A boolean indicating the type of timestamp (default is true).
  * @param {boolean} [throwErr=false] - If true, throws an error when timestamp is not valid. If false, returns false.
- * @returns {boolean} `true` if the timestamp is valid and within the specified range, false if not (when throwErr is false).
+ * @returns {boolean} A boolean indicating whether the value is a valid timestamp (or number|string if type=false), false if not (when throwErr is false).
  * @throws {Error} Throws an error if the timestamp is not valid and throwErr is true.
  */
-function isValidTimestamp(v: unknown, min: Date | number = minTs, max: Date | number = maxTs, type = true, throwErr: boolean = false): boolean {
+function isValidTimestamp<T extends boolean = true>(
+  v: unknown, 
+  min: Date | number = minTs, 
+  max: Date | number = maxTs, 
+  type: T = true as T, 
+  throwErr: boolean = false
+): v is T extends true ? number : number | string {
 
   // First validate that input is a valid timestamp
   // This will throw immediately if throwErr=true and timestamp is invalid

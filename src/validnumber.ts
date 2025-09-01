@@ -27,9 +27,9 @@ function isValidNumber( v: unknown,
     return false;
   
   // Convert min & max to number if it's valid, otherwise use default
-  const minVal = isNumber(min, false) ? min : -999999999;
-  const maxVal = isNumber(max, false) ? max : 999999999;
-  
+  const minVal = isNumber(min, false) ? min : minNum;
+  const maxVal = isNumber(max, false) ? max : maxNum;
+
   const numVal = v as number;
   if (numVal >= minVal && numVal <= maxVal)
     return true;
@@ -55,8 +55,8 @@ function isValidNumber( v: unknown,
  */
 function isValidInteger<T extends boolean = true>(
   v: unknown, 
-  min: number = -999999999, 
-  max: number = 999999999,
+  min: number = minNum, 
+  max: number = maxNum,
   type: T = true as T,
   throwErr: boolean = false 
 ): v is T extends true ? number : number | string {
@@ -65,8 +65,8 @@ function isValidInteger<T extends boolean = true>(
     return false;
   
   // Convert min & max to number if it's valid, otherwise use default
-  const minVal = isNumber(min, false) ? min : -999999999;
-  const maxVal = isNumber(max, false) ? max : 999999999;
+  const minVal = isNumber(min, false) ? min : minNum;
+  const maxVal = isNumber(max, false) ? max : maxNum;
 
   const numVal = v as number;
   if (numVal >= minVal && numVal <= maxVal)
@@ -75,34 +75,48 @@ function isValidInteger<T extends boolean = true>(
   // Range validation failed
   if (throwErr)
     throwError(`valid integer in range [${minVal}, ${maxVal}]`, v);
-  
   return false;
 
 }
 
+const minFloat = -999999999.9;
+const maxFloat = 999999999.9;
 /**
  * Checks if a given value is a valid float within given range.
+ * Performs internal float validation using isFloat() before checking range.
  *
- * @param {number | string | undefined | null} n - value to check
+ * @param {unknown} v - The value to check (performs internal float validation).
  * @param {number} [min=-999999999.9] - minimal value of the range
  * @param {number} [max=999999999.9] - maximal value of the range
  * @param {boolean} [type=true] - do type check
  * @param {boolean} [throwErr=false] - If true, throws an error when value is not a valid float in range. If false, returns false.
- * @returns {boolean} true if the value is a valid float, false if not (when throwErr is false)
+ * @returns {boolean} A boolean indicating whether the number is a valid float (or number|string if type=false), false if not (when throwErr is false).
  * @throws {Error} Throws an error if the value is not a valid float in range and throwErr is true.
  */
-function isValidFloat( n: number | string | undefined | null, 
-                       min = -999999999.9, 
-                       max = 999999999.9,
-                       type = true,
-                       throwErr: boolean = false ): boolean {
+function isValidFloat<T extends boolean = true>(
+  v: unknown,
+  min: number = minFloat,
+  max: number = maxFloat,
+  type: T = true as T,
+  throwErr: boolean = false 
+): v is T extends true ? number : number | string {
   
-  if (isFloat(n, type) && (n as number) >= min && (n as number) <= max)
+  // First validate that v is a valid float
+  if (!isFloat(v, type, throwErr))
+    return false;
+  
+  // Convert min & max to number if it's valid, otherwise use default
+  const minVal = isNumber(min, false) ? min as number : minFloat;
+  const maxVal = isNumber(max, false) ? max as number : maxFloat;
+
+  // v is guaranteed to be a number at this point due to isFloat check
+  const numValue = v as number;
+  if (numValue >= minVal && numValue <= maxVal)
     return true;
   
+  // Range validation failed
   if (throwErr)
-    throwError(`valid float in range [${min}, ${max}]`, n);
-  
+    throwError(`valid float in range [${minVal}, ${maxVal}]`, v);
   return false;
   
 }

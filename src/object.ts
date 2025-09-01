@@ -9,7 +9,7 @@ import { isObject } from './nonprimitive';
  * enumerable: boolean - whether to check enumerable properties only
  *
  * @template K - The type of the property key.
- * @param {unknown} o - The value to check the property on (performs internal object validation).
+ * @param {unknown} v - The value to check the property on (performs internal object validation).
  * @param {K} k - The property key to check for.
  * @param {boolean} [own=true] - If true, checks if the property is an own property of the object. Defaults to true.
  * @param {boolean} [enumerable=true] - If true, checks if the property is enumerable. Defaults to true.
@@ -18,37 +18,37 @@ import { isObject } from './nonprimitive';
  * @throws {Error} Throws an error if the value is not an object or the property doesn't exist and throwErr is true.
  */
 function isProperty<K extends PropertyKey>(
-  o: unknown, 
+  v: unknown, 
   k: K, 
   own = true, 
   enumerable = true,
-  throwErr: boolean = false): o is Record<K, unknown>
+  throwErr: boolean = false): v is Record<K, unknown>
 {
-  // First validate that o is an object
-  if (!isObject(o, true, throwErr))
+  // First validate that v is an object
+  if (!isObject(v, true, throwErr))
     return false;
 
   let isValid: boolean;
   
   // enumerable property check
   if (enumerable) 
-    isValid = isEnumerable(o, k, own);
+    isValid = isEnumerable(v, k, own);
   
   // own property check
   else if (own)
-    isValid = Object.prototype.hasOwnProperty.call(o, k);
+    isValid = Object.prototype.hasOwnProperty.call(v, k);
   
   // property broad check   
   else
-    isValid = k in o;
-  
+    isValid = k in v;
+
   if (isValid)
     return true;
   
   if (throwErr) {
     const scope = own ? 'own' : 'inherited';
     const type = enumerable ? 'enumerable' : 'any';
-    throwError(`${scope} ${type} property '${String(k)}'`, o);
+    throwError(`${scope} ${type} property '${String(k)}'`, v);
   }
   
   return false;

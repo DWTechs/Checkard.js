@@ -110,10 +110,14 @@ function isOdd<T extends boolean = true>(
  * @param {unknown} v - The value to check.
  * @param {boolean} [type=true] - A boolean indicating whether to use strict equality (===) or loose equality (==) for the comparison. Defaults to true (strict equality).
  * @param {boolean} [throwErr=false] - If true, throws an error when value is not zero. If false, returns false.
- * @returns {boolean} True if the number is zero based on the specified comparison type, false if not (when throwErr is false).
+ * @returns {boolean} A boolean indicating whether the number is zero (or number|string if type=false), false if not (when throwErr is false).
  * @throws {Error} Throws an error if the value is not zero and throwErr is true.
  */
-function isOrigin(v: unknown, type = true, throwErr: boolean = false): boolean {
+function isOrigin<T extends boolean = true>(
+  v: unknown, 
+  type: T = true as T, 
+  throwErr: boolean = false
+): v is T extends true ? number : number | string {
 
   if (type ? v === 0 : v == 0)
     return true;

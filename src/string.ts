@@ -8,7 +8,7 @@ import { throwError } from './error';
  * Checks if the length of a given string is within the specified range.
  * Performs internal string validation using isString() before checking email format
  *
- * @param {unknown} s - The value to check (performs internal string validation).
+ * @param {unknown} v - The value to check (performs internal string validation).
  * @param {number} [min=0] - The minimum length of the string (inclusive). Default is 0.
  * @param {number} [max=999999999] - The maximum length of the string (inclusive). Default is 999999999.
  * @param {boolean} [throwErr=false] - If true, throws an error when string length is not within range. If false, returns false.
@@ -20,7 +20,7 @@ function isStringOfLength(
   min = 0, 
   max = 999999999,
   throwErr: boolean = false
-): boolean {
+): v is string {
 
   if (!isString(v)) {
     if (throwErr)
@@ -43,12 +43,12 @@ const emailReg = /^(?=[a-z0-9@.!$%&'*+\/=?^_'{|}~-]{6,254}$)(?=[a-z0-9.!#$%&'*+\
  * Checks if the given value is a valid email address.
  * Performs internal string validation using isString() before checking email format.
  *
- * @param {unknown} s - The value to be checked (performs internal string validation).
+ * @param {unknown} v - The value to be checked (performs internal string validation).
  * @param {boolean} [throwErr=false] - If true, throws an error when value is not a valid email. If false, returns false.
  * @returns {boolean} `true` if the value a valid email address, false if not (when throwErr is false).
  * @throws {Error} Throws an error if the value is not a valid email address and throwErr is true.
  */
-function isEmail(v: string | undefined | null, throwErr: boolean = false): boolean {
+function isEmail(v: unknown, throwErr: boolean = false): v is string {
   
   if (isString(v) && emailReg.test(v.toLowerCase()))
     return true;
@@ -72,12 +72,12 @@ const ipReg = /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-
  * Checks if the given value is a valid IP address.
  * Performs internal string validation using isString() before checking IP address format.
  *
- * @param {unknown} s - The value to be checked (performs internal string validation).
+ * @param {unknown} v - The value to be checked (performs internal string validation).
  * @param {boolean} [throwErr=false] - If true, throws an error when value is not a valid IP address. If false, returns false.
  * @returns {boolean} `true` if the value is a valid IP address, false if not (when throwErr is false).
  * @throws {Error} Throws an error if the value is not a valid IP address and throwErr is true.
  */
-function isIpAddress(v: unknown, throwErr: boolean = false): boolean {
+function isIpAddress(v: unknown, throwErr: boolean = false): v is string {
 
   if (isString(v) && ipReg.test(v))
     return true;
@@ -131,13 +131,13 @@ const b64 =  /^(?=.{1,}$)(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9
  * Checks if a given value is a valid Base64 encoded string.
  * Performs internal string validation using isString() before checking Base64 format.
  *
- * @param {unknown} s - The value to check (performs internal string validation).
+ * @param {unknown} v - The value to check (performs internal string validation).
  * @param {boolean} [urlEncoded=false] - Optional. If true, checks for URL-safe Base64 encoding. Defaults to false.
  * @param {boolean} [throwErr=false] - If true, throws an error when value is not valid Base64. If false, returns false.
  * @returns {boolean} True if the value is a valid Base64 encoded string, false if not (when throwErr is false).
  * @throws {Error} Throws an error if the value is not a valid Base64 and throwErr is true.
  */
-function isBase64(v: unknown, urlEncoded = false, throwErr: boolean = false): boolean {
+function isBase64(v: unknown, urlEncoded = false, throwErr: boolean = false): v is string {
   const regex = urlEncoded ? b64UrlEncoded : b64;
 
   if (isString(v) && regex.test(v))
@@ -191,12 +191,12 @@ const b64Reg = /^[A-Za-z0-9\-_]+={0,2}$/;
  * Each part must be a valid Base64 encoded string. Additionally, the header and payload
  * must be valid JSON objects when decoded.
  *
- * @param {unknown} s - The value to check (performs internal string validation).
+ * @param {unknown} v - The value to check (performs internal string validation).
  * @param {boolean} [throwErr=false] - If true, throws an error when value is not a valid JWT. If false, returns false.
  * @returns {boolean} `true` if the value is a valid JWT, false if not (when throwErr is false).
  * @throws {Error} Throws an error if the value not a valid JWT and throwErr is true.
  */
-function isJWT(v: unknown, throwErr: boolean = false): boolean {
+function isJWT(v: unknown, throwErr: boolean = false): v is string {
 
   if (isString(v)) {
     const p = v.split('.');
@@ -228,12 +228,12 @@ const slugReg = /^[^\s-_](?!.*?[-_]{2,})[a-z0-9-\\][^\s]*[^-_\s]$/;
  * 
  * A slug is typically a URL-friendly string that contains only lowercase letters, numbers, and hyphens.
  * 
- * @param {unknown} s - The value to check (performs internal string validation).
+ * @param {unknown} v - The value to check (performs internal string validation).
  * @param {boolean} [throwErr=false] - If true, throws an error when value is not a valid slug. If false, returns false.
  * @returns {boolean} `true` if the value is a valid slug, false if not (when throwErr is false).
  * @throws {Error} Throws an error if the value is not a valid slug and throwErr is true.
  */
-function isSlug(v: unknown, throwErr: boolean = false): boolean {
+function isSlug(v: unknown, throwErr: boolean = false): v is string {
 
   if (isString(v) && slugReg.test(v))
     return true;
@@ -249,12 +249,12 @@ const hexadecimal = /^(#|0x|0h)?[0-9A-F]+$/i;
  * Checks if the given value is a valid hexadecimal format.
  * Performs internal string validation using isString() before checking hexadecimal format.
  *
- * @param {unknown} s - The value to check (performs internal string validation).
+ * @param {unknown} v - The value to check (performs internal string validation).
  * @param {boolean} [throwErr=false] - If true, throws an error when value is not a valid hexadecimal format. If false, returns false.
  * @returns {boolean} True if the value is a valid hexadecimal format, false if not (when throwErr is false).
  * @throws {Error} Throws an error if the value is not a valid hexadecimal format and throwErr is true.
  */
-function isHexadecimal(v: unknown, throwErr: boolean = false): boolean {
+function isHexadecimal(v: unknown, throwErr: boolean = false): v is string {
 
   if (isString(v) && hexadecimal.test(v))
     return true;
