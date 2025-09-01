@@ -943,23 +943,6 @@ function containsNumber(
 
 ```
 
-#### Note 
-
-String methods take a string as parameter.  
-Use **isString()** method before any string method if you are not sure about the variable type you will receive.
-
-Example : 
-
-```javascript
-
-import { isString, isEmail } from "@dwtechs/checkard";
-
-if (isString(value) && isEmail(value)) {
-  // value is an email
-}
-
-```
-
 Usage example for isValidPassword: 
 
 ```javascript
