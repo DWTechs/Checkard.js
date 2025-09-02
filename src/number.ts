@@ -11,10 +11,10 @@ import { throwError } from './error';
  * @throws {Error} Throws an error if the value is not an integer and throwErr is true.
  */
 function isInteger<T extends boolean = true>(
-    v: unknown, 
-    type: T = true as T, 
-    throwErr: boolean = false
-  ): v is T extends true ? number : number | string {
+  v: unknown, 
+  type: T = true as T, 
+  throwErr: boolean = false
+): v is T extends true ? number : number | string {
 
   if (isNumber(v, type)) {
     const int = Number.parseInt(String(v), 10);
@@ -39,10 +39,10 @@ function isInteger<T extends boolean = true>(
  * @throws {Error} Throws an error if the value is not a floating-point number and throwErr is true.
  */
 function isFloat<T extends boolean = true>(
-    v: unknown, 
-    type: T = true as T, 
-    throwErr: boolean = false
-  ): v is T extends true ? number : number | string {
+  v: unknown, 
+  type: T = true as T, 
+  throwErr: boolean = false
+): v is T extends true ? number : number | string {
   
   if (isNumber(v, type)) {
     if (v as number % 1 !== 0)
@@ -65,10 +65,10 @@ function isFloat<T extends boolean = true>(
  * @throws {Error} Throws an error if the value is not an even number and throwErr is true.
  */
 function isEven<T extends boolean = true>(
-    v: unknown, 
-    type: T = true as T, 
-    throwErr: boolean = false
-  ): v is T extends true ? number : number | string {
+  v: unknown, 
+  type: T = true as T, 
+  throwErr: boolean = false
+): v is T extends true ? number : number | string {
 
   if (isInteger(v, type) && !((v as number) & 1))
     return true;
@@ -90,10 +90,10 @@ function isEven<T extends boolean = true>(
  * @throws {Error} Throws an error if the value is not an odd number and throwErr is true.
  */
 function isOdd<T extends boolean = true>(
-    v: unknown, 
-    type: T = true as T, 
-    throwErr: boolean = false
-  ): v is T extends true ? number : number | string {
+  v: unknown, 
+  type: T = true as T, 
+  throwErr: boolean = false
+): v is T extends true ? number : number | string {
 
   if (isInteger(v, type) && Boolean((v as number) & 1))
     return true;
@@ -188,9 +188,9 @@ function isNegative<T extends boolean = true>(
  * @throws {Error} Throws an error if the value is not a power of two and throwErr is true.
  */
 function isPowerOfTwo<T extends boolean = true>(
-    v: unknown, 
-    type: T = true as T, 
-    throwErr: boolean = false
+  v: unknown, 
+  type: T = true as T, 
+  throwErr: boolean = false
 ): v is T extends true ? number : number | string {
 
   if (isInteger(v, type) && !isOrigin(v, type) && ((v as number) & (v as number - 1)) === 0)
@@ -212,7 +212,11 @@ function isPowerOfTwo<T extends boolean = true>(
  * @returns {boolean} A boolean indicating whether the number is a valid ASCII code (number|string), false if not (when throwErr is false).
  * @throws {Error} Throws an error if the value is not a valid ASCII code and throwErr is true.
  */
-function isAscii(v: unknown, ext = true, throwErr: boolean = false): v is number | string {
+function isAscii(
+  v: unknown, 
+  ext = true, 
+  throwErr: boolean = false
+): v is number | string {
 
   if (isNumber(v, false) && isInteger(v, false) && ((ext && Number(v) >= 0 && Number(v) <= 255) || (Number(v) >= 0 && Number(v) <= 127)))
     return true;

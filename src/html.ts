@@ -15,7 +15,10 @@ import { throwError } from './error';
  * @returns {boolean} `true` if the value is an HTML element, false if not (when throwErr is false).
  * @throws {Error} Throws an error if the value is not an HTML element and throwErr is true.
  */
-function isHtmlElement(v: unknown, throwErr: boolean = false): v is HTMLElement {
+function isHtmlElement(
+  v: unknown, 
+  throwErr: boolean = false
+): v is HTMLElement {
   
   // Check if HTMLElement is available as a constructor and check instance type
   if (typeof HTMLElement === "object" && v instanceof HTMLElement
@@ -48,7 +51,10 @@ function isHtmlElement(v: unknown, throwErr: boolean = false): v is HTMLElement 
  * isHtmlEventAttribute("onunknown"); // returns false
  * ```
  */
-function isHtmlEventAttribute(v: unknown, throwErr: boolean = false): v is string {
+function isHtmlEventAttribute(
+  v: unknown, 
+  throwErr: boolean = false
+): v is string {
   switch (v) {
     case "onafterprint": // run after the document is printed
     case "onbeforeprint": // run before the document is printed
@@ -141,7 +147,10 @@ function isHtmlEventAttribute(v: unknown, throwErr: boolean = false): v is strin
  * @returns {boolean} `true` if the value is a Node, false if not (when throwErr is false).
  * @throws {Error} Throws an error if the value is not a DOM Node and throwErr is true.
  */
-function isNode(v: unknown, throwErr: boolean = false): v is Node {
+function isNode(
+  v: unknown, 
+  throwErr: boolean = false
+): v is Node {
     // Check if Node is available as a constructor and check instance type
     if (typeof Node === "object" && v instanceof Node
       || v // Fallback for environments where Node is not available (DOM2)

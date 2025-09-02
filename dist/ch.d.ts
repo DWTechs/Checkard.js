@@ -66,11 +66,11 @@ declare function isRegex(v: unknown, type?: boolean, throwErr?: boolean): v is R
 declare function isDate(v: unknown, throwErr?: boolean): v is Date;
 declare function isFunction(v: unknown, throwErr?: boolean): v is (...args: unknown[]) => unknown;
 
-declare function isArrayOfLength<T = unknown>(a: Array<T>, 
+declare function isArrayOfLength<T = unknown>(v: unknown, 
                                               min?: number, 
                                               max?: number,
                                               throwErr?: boolean
-                                             ): boolean;
+                                             ): v is T[];
 declare function isIn(a: unknown[], 
                       v: unknown, 
                       from?: number,
@@ -94,7 +94,10 @@ declare function isOdd<T extends boolean = true>(v: unknown,
                                                  type?: T, 
                                                  throwErr?: boolean
                                                 ): v is T extends true ? number : number | string;
-declare function isOrigin(v: unknown, type?: boolean, throwErr?: boolean): boolean;
+declare function isOrigin<T extends boolean = true>(v: unknown, 
+                                             type?: T, 
+                                             throwErr?: boolean
+                                            ): v is T extends true ? number : number | string;
 declare function isPositive<T extends boolean = true>(v: unknown, 
                                                       type?: T, 
                                                       throwErr?: boolean
@@ -108,46 +111,64 @@ declare function isPowerOfTwo<T extends boolean = true>(v: unknown,
                                                         throwErr?: boolean
                                                        ): v is T extends true ? number : number | string;
                                                        
-declare function isValidNumber(v: number | string | undefined | null, min?: number, max?: number, type?: boolean, throwErr?: boolean): boolean;
-declare function isValidInteger(v: number | string | undefined | null, min?: number, max?: number, type?: boolean, throwErr?: boolean): boolean;
-declare function isValidFloat(v: number | string | undefined | null, min?: number, max?: number, type?: boolean, throwErr?: boolean): boolean;
+declare function isValidNumber<T extends boolean = true>(v: unknown, 
+                                                 min?: number, 
+                                                 max?: number, 
+                                                 type?: T, 
+                                                 throwErr?: boolean
+                                                ): v is T extends true ? number : number | string;
+declare function isValidInteger<T extends boolean = true>(v: unknown, 
+                                                  min?: number, 
+                                                  max?: number, 
+                                                  type?: T, 
+                                                  throwErr?: boolean
+                                                 ): v is T extends true ? number : number | string;
+declare function isValidFloat<T extends boolean = true>(v: unknown, 
+                                                min?: number, 
+                                                max?: number, 
+                                                type?: T, 
+                                                throwErr?: boolean
+                                               ): v is T extends true ? number : number | string;
 
 declare function isHtmlElement(v: unknown, throwErr?: boolean): v is HTMLElement;
-declare function isHtmlEventAttribute(v: string, throwErr?: boolean): boolean;
+declare function isHtmlEventAttribute(v: unknown, throwErr?: boolean): v is string;
 declare function isNode(v: unknown, throwErr?: boolean): v is Node;
 
-declare function isProperty<K extends PropertyKey>(o: object, 
+declare function isProperty<K extends PropertyKey>(v: unknown, 
                                                    k: K, 
                                                    own?: boolean, 
                                                    enumerable?: boolean,
                                                    throwErr?: boolean
-                                                  ): o is Record<K, unknown>;
+                                                  ): v is Record<K, unknown>;
 
-declare function isStringOfLength(s: string | undefined | null, min?: number, max?: number, throwErr?: boolean): boolean;
-declare function isEmail(s: string | undefined | null, throwErr?: boolean): boolean;
-declare function isIpAddress(s: string | undefined | null, throwErr?: boolean): boolean;
-declare function isBase64(s: string | undefined | null, urlEncoded?: boolean, throwErr?: boolean): boolean;
-declare function isJWT(s: string | undefined | null, throwErr?: boolean): boolean;
-declare function isSlug(s: string | undefined | null, throwErr?: boolean): boolean;
-declare function isHexadecimal(s: string | undefined | null, throwErr?: boolean): boolean;
+declare function isStringOfLength(v: unknown, min?: number, max?: number, throwErr?: boolean): v is string;
+declare function isEmail(v: unknown, throwErr?: boolean): v is string;
+declare function isIpAddress(v: unknown, throwErr?: boolean): v is string;
+declare function isBase64(v: unknown, urlEncoded?: boolean, throwErr?: boolean): v is string;
+declare function isJWT(v: unknown, throwErr?: boolean): v is string;
+declare function isSlug(v: unknown, throwErr?: boolean): v is string;
+declare function isHexadecimal(v: unknown, throwErr?: boolean): v is string;
 declare function containsUpperCase(s: string, throwErr?: boolean): boolean;
 declare function containsLowerCase(s: string, throwErr?: boolean): boolean;
 declare function containsSpecialCharacter(s: string, throwErr?: boolean): boolean;
 declare function containsNumber(s: string, min?: number, max?: number | null, throwErr?: boolean): boolean;
 declare function isValidPassword(s: string, options?: PasswordOptions, throwErr?: boolean): boolean;
 
-declare function isValidDate(d: Date, 
-                             min?: Date, 
-                             max?: Date,
+declare function isValidDate(v: unknown, 
+                             min?: Date | number, 
+                             max?: Date | number,
                              throwErr?: boolean
-                            ): boolean;
-declare function isTimestamp(t: number, type?: boolean, throwErr?: boolean): t is number;
-declare function isValidTimestamp(t: number, 
-                                  min?: number, 
-                                  max?: number, 
-                                  type?: boolean,
-                                  throwErr?: boolean
-                                 ): boolean;
+                            ): v is Date;
+declare function isTimestamp<T extends boolean = true>(v: unknown, 
+                                               type?: T, 
+                                               throwErr?: boolean
+                                              ): v is T extends true ? number : number | string;
+declare function isValidTimestamp<T extends boolean = true>(v: unknown, 
+                                                    min?: Date | number, 
+                                                    max?: Date | number, 
+                                                    type?: T,
+                                                    throwErr?: boolean
+                                                   ): v is T extends true ? number : number | string;
 
 declare function ucfirst(s: string, everyWords?: boolean, throwErr?: boolean): string;
 declare function normalizeNickname(nickname: string, 

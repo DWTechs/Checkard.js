@@ -223,22 +223,22 @@ function isTruthy(v, throwErr = false) {
     return false;
 }
 
-function isProperty(o, k, own = true, enumerable = true, throwErr = false) {
-    if (!isObject(o, true, throwErr))
+function isProperty(v, k, own = true, enumerable = true, throwErr = false) {
+    if (!isObject(v, true, throwErr))
         return false;
     let isValid;
     if (enumerable)
-        isValid = isEnumerable(o, k, own);
+        isValid = isEnumerable(v, k, own);
     else if (own)
-        isValid = Object.prototype.hasOwnProperty.call(o, k);
+        isValid = Object.prototype.hasOwnProperty.call(v, k);
     else
-        isValid = k in o;
+        isValid = k in v;
     if (isValid)
         return true;
     if (throwErr) {
         const scope = own ? 'own' : 'inherited';
         const type = enumerable ? 'enumerable' : 'any';
-        throwError(`${scope} ${type} property '${String(k)}'`, o);
+        throwError(`${scope} ${type} property '${String(k)}'`, v);
     }
     return false;
 }
@@ -255,12 +255,17 @@ function isEnumerable(obj, key, own) {
     return false;
 }
 
-function isArrayOfLength(a, min = 0, max = 999999999, throwErr = false) {
-    const n = a === null || a === void 0 ? void 0 : a.length;
+function isArrayOfLength(v, min = 0, max = 999999999, throwErr = false) {
+    if (!isArray(v)) {
+        if (throwErr)
+            throwError(`array with length in range [${min}, ${max}]`, v);
+        return false;
+    }
+    const n = v.length;
     if (n >= min && n <= max)
         return true;
     if (throwErr)
-        throwError(`array length [${min}, ${max}]`, a);
+        throwError(`array with length in range [${min}, ${max}] (actual length: ${n})`, v);
     return false;
 }
 function isIn(a, v, from = 0, throwErr = false) {
@@ -347,8 +352,8 @@ const maxNum = 999999999;
 function isValidNumber(v, min = minNum, max = maxNum, type = true, throwErr = false) {
     if (!isNumber(v, type, null, null, throwErr))
         return false;
-    const minVal = isNumber(min, false) ? min : -999999999;
-    const maxVal = isNumber(max, false) ? max : 999999999;
+    const minVal = isNumber(min, false) ? min : minNum;
+    const maxVal = isNumber(max, false) ? max : maxNum;
     const numVal = v;
     if (numVal >= minVal && numVal <= maxVal)
         return true;
@@ -356,11 +361,11 @@ function isValidNumber(v, min = minNum, max = maxNum, type = true, throwErr = fa
         throwError(`valid number in range [${minVal}, ${maxVal}]`, v);
     return false;
 }
-function isValidInteger(v, min = -999999999, max = 999999999, type = true, throwErr = false) {
+function isValidInteger(v, min = minNum, max = maxNum, type = true, throwErr = false) {
     if (!isInteger(v, type, throwErr))
         return false;
-    const minVal = isNumber(min, false) ? min : -999999999;
-    const maxVal = isNumber(max, false) ? max : 999999999;
+    const minVal = isNumber(min, false) ? min : minNum;
+    const maxVal = isNumber(max, false) ? max : maxNum;
     const numVal = v;
     if (numVal >= minVal && numVal <= maxVal)
         return true;
@@ -368,11 +373,18 @@ function isValidInteger(v, min = -999999999, max = 999999999, type = true, throw
         throwError(`valid integer in range [${minVal}, ${maxVal}]`, v);
     return false;
 }
-function isValidFloat(n, min = -999999999.9, max = 999999999.9, type = true, throwErr = false) {
-    if (isFloat(n, type) && n >= min && n <= max)
+const minFloat = -999999999.9;
+const maxFloat = 999999999.9;
+function isValidFloat(v, min = minFloat, max = maxFloat, type = true, throwErr = false) {
+    if (!isFloat(v, type, throwErr))
+        return false;
+    const minVal = isNumber(min, false) ? min : minFloat;
+    const maxVal = isNumber(max, false) ? max : maxFloat;
+    const numValue = v;
+    if (numValue >= minVal && numValue <= maxVal)
         return true;
     if (throwErr)
-        throwError(`valid float in range [${min}, ${max}]`, n);
+        throwError(`valid float in range [${minVal}, ${maxVal}]`, v);
     return false;
 }
 
@@ -544,19 +556,19 @@ function isValidPassword(s, options = defaultOptions, throwErr = false) {
     return true;
 }
 
-function isHtmlElement(h, throwErr = false) {
-    if (typeof HTMLElement === "object" && h instanceof HTMLElement
-        || h
-            && typeof h === "object"
-            && h.nodeType === 1
-            && typeof h.nodeName === "string")
+function isHtmlElement(v, throwErr = false) {
+    if (typeof HTMLElement === "object" && v instanceof HTMLElement
+        || v
+            && typeof v === "object"
+            && v.nodeType === 1
+            && typeof v.nodeName === "string")
         return true;
     if (throwErr)
-        throwError('HTML element', h);
+        throwError('HTML element', v);
     return false;
 }
-function isHtmlEventAttribute(h, throwErr = false) {
-    switch (h) {
+function isHtmlEventAttribute(v, throwErr = false) {
+    switch (v) {
         case "onafterprint":
         case "onbeforeprint":
         case "onbeforeunload":
@@ -631,33 +643,33 @@ function isHtmlEventAttribute(h, throwErr = false) {
             return true;
         default:
             if (throwErr)
-                throwError('HTML event attribute', h);
+                throwError('HTML event attribute', v);
             return false;
     }
 }
-function isNode(n, throwErr = false) {
-    if (typeof Node === "object" && n instanceof Node
-        || n
-            && typeof n === "object"
-            && typeof n.nodeType === "number"
-            && typeof n.nodeName === "string")
+function isNode(v, throwErr = false) {
+    if (typeof Node === "object" && v instanceof Node
+        || v
+            && typeof v === "object"
+            && typeof v.nodeType === "number"
+            && typeof v.nodeName === "string")
         return true;
     if (throwErr)
-        throwError('DOM Node', n);
+        throwError('DOM Node', v);
     return false;
 }
 
 const minDate = new Date('1/1/1900');
 const maxDate = new Date('1/1/2200');
-function isValidDate(d, min = minDate, max = maxDate, throwErr = false) {
-    if (!isDate(d, throwErr))
+function isValidDate(v, min = minDate, max = maxDate, throwErr = false) {
+    if (!isDate(v, throwErr))
         return false;
     const from = isDate(min) ? min : isTimestamp(min, false) ? new Date(min) : minDate;
     const to = isDate(max) ? max : isTimestamp(max, false) ? new Date(max) : maxDate;
-    if (d >= from && d <= to)
+    if (v >= from && v <= to)
         return true;
     if (throwErr)
-        throwError(`date between ${from.toISOString()} and ${to.toISOString()}`, d);
+        throwError(`date between ${from.toISOString()} and ${to.toISOString()}`, v);
     return false;
 }
 function isTimestamp(v, type = true, throwErr = false) {

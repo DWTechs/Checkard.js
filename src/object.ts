@@ -22,8 +22,8 @@ function isProperty<K extends PropertyKey>(
   k: K, 
   own = true, 
   enumerable = true,
-  throwErr: boolean = false): v is Record<K, unknown>
-{
+  throwErr: boolean = false
+): v is Record<K, unknown> {
   // First validate that v is an object
   if (!isObject(v, true, throwErr))
     return false;

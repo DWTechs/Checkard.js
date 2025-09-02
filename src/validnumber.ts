@@ -16,11 +16,13 @@ const maxNum = 999999999;
  * @returns {boolean} true if the value is a valid number within the specified range, false if not (when throwErr is false)
  * @throws {Error} Throws an error if the value is not a valid number or not within the specified range and throwErr is true.
  */
-function isValidNumber( v: unknown, 
-                        min = minNum, 
-                        max = maxNum,
-                        type = true,
-                        throwErr: boolean = false ): v is number {
+function isValidNumber( 
+  v: unknown, 
+  min = minNum, 
+  max = maxNum,
+  type = true,
+  throwErr: boolean = false
+): v is number {
   
   // First validate that v is a valid number
   if (!isNumber(v, type, null, null, throwErr))

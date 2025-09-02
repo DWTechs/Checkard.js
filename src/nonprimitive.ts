@@ -14,7 +14,11 @@ import type { Comparator } from './types';
  * @returns {v is object & T} - Returns true if the value is an object (and non-empty if specified), false if not (when throwErr is false).
  * @throws {Error} Throws an error if the value is not an object and throwErr is true.
  */
-function isObject<T = unknown>(v: unknown, empty = false, throwErr: boolean = false): v is object & T {
+function isObject<T = unknown>(
+  v: unknown, 
+  empty = false, 
+  throwErr: boolean = false
+): v is object & T {
 
   if (v !== null && typeof v === "object" && !isArray(v) && (empty ? !!Object.keys(v).length : true))
     return true;
@@ -61,7 +65,10 @@ function isArray<T = unknown>(
  * @returns {boolean} `true` if the input is a valid JSON string, false if not (when throwErr is false).
  * @throws {Error} Throws an error if the value is not valid JSON and throwErr is true.
  */
-function isJson(v: unknown, throwErr: boolean = false): v is JSON {
+function isJson(
+  v: unknown, 
+  throwErr: boolean = false
+): v is JSON {
   
   if (isString(v, ">", 0)) {
     try {
@@ -89,7 +96,11 @@ function isJson(v: unknown, throwErr: boolean = false): v is JSON {
  * @returns {boolean} `true` if `v` is a RegExp or can be converted to a RegExp, false if not (when throwErr is false).
  * @throws {Error} Throws an error if the value is not a RegExp and throwErr is true.
  */
-function isRegex(v: unknown, type = true, throwErr: boolean = false): v is RegExp {
+function isRegex(
+  v: unknown, 
+  type = true, 
+  throwErr: boolean = false
+): v is RegExp {
   if (type) {
     if (v instanceof RegExp)
       return true;
@@ -116,7 +127,10 @@ function isRegex(v: unknown, type = true, throwErr: boolean = false): v is RegEx
  * @returns {boolean} True if the value is a Date object and not NaN, false if not (when throwErr is false).
  * @throws {Error} Throws an error if the value is not a valid Date and throwErr is true.
  */
-function isDate(v: unknown, throwErr: boolean = false): v is Date {
+function isDate(
+  v: unknown, 
+  throwErr: boolean = false
+): v is Date {
  
   if (v instanceof Date && !Number.isNaN(v.getTime()))
     return true;
@@ -135,7 +149,10 @@ function isDate(v: unknown, throwErr: boolean = false): v is Date {
  * @returns {boolean} A boolean indicating whether the value is a function, false if not (when throwErr is false).
  * @throws {Error} Throws an error if the value is not a function and throwErr is true.
  */
-function isFunction(v: unknown, throwErr: boolean = false): v is (...args: unknown[]) => unknown {
+function isFunction(
+  v: unknown, 
+  throwErr: boolean = false
+): v is (...args: unknown[]) => unknown {
   
   if (Boolean(v && getTag(v) === "[object Function]"))
     return true;

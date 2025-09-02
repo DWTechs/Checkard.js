@@ -9,7 +9,10 @@ import { throwError } from './error';
  * @param {boolean} everyWords - A flag to indicate whether to capitalize every word or just the first letter of the whole string.
  * @return {string} The string with the first letter of each word capitalized.
  */
-function ucfirst(s: string, everyWords = true): string {
+function ucfirst(
+  s: string, 
+  everyWords = true
+): string {
   const newStr = s.toLowerCase();
   if (everyWords) {
     const words = newStr.split(" ");
@@ -36,7 +39,12 @@ function ucfirst(s: string, everyWords = true): string {
  * @return {string | false} The normalized nickname, or false if normalization fails (when throwErr is false).
  * @throws {Error} Throws an error if normalization fails and throwErr is true.
  */
-function normalizeNickname(nickname: string, firstName: string, lastName: string, throwErr: boolean = false): string | false {
+function normalizeNickname(
+  nickname: string, 
+  firstName: string, 
+  lastName: string, 
+  throwErr: boolean = false
+): string | false {
 
   if (!(isString(nickname, '!0') || (isString(firstName, '!0') && isString(lastName, '!0')))) {
     if (throwErr)
@@ -55,7 +63,10 @@ function normalizeNickname(nickname: string, firstName: string, lastName: string
  * @return {string | false} The normalized first name, or false if normalization fails (when throwErr is false).
  * @throws {Error} Throws an error if normalization fails and throwErr is true.
  */
-function normalizeName(s: string, throwErr: boolean = false): string | false {
+function normalizeName(
+  s: string, 
+  throwErr: boolean = false
+): string | false {
   if (!isString(s, '!0')) {
     if (throwErr)
       throwError('non-empty string', s);
@@ -75,7 +86,10 @@ function normalizeName(s: string, throwErr: boolean = false): string | false {
  * @return {string | false} The normalized email address, or false if normalization fails (when throwErr is false).
  * @throws {Error} Throws an error if normalization fails and throwErr is true.
  */
-function normalizeEmail(s: string, throwErr: boolean = false): string | false {
+function normalizeEmail(
+  s: string, 
+  throwErr: boolean = false
+): string | false {
   if (!isEmail(s)) {
     if (throwErr)
       throwError('valid email address', s);
@@ -96,7 +110,11 @@ function normalizeEmail(s: string, throwErr: boolean = false): string | false {
  * @param {string} lastName - The last name of the user.
  * @return {string | false} The normalized nickname.
  */
-function createNickname(nickname: string, firstName: string, lastName: string): string | false {
+function createNickname(
+  nickname: string, 
+  firstName: string, 
+  lastName: string
+): string | false {
   const n = nickname || firstName[0] + lastName; // first letter of first name + last name
   return n.toLowerCase()
           .normalize("NFD") // remove accents

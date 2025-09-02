@@ -18,7 +18,10 @@ import { throwError } from './error';
  * @returns {boolean} `true` if the value is falsy, false if not (when throwErr is false).
  * @throws {Error} Throws an error if the value is not falsy and throwErr is true.
  */
-function isFalsy(v: unknown, throwErr: boolean = false): boolean {
+function isFalsy(
+  v: unknown, 
+  throwErr: boolean = false
+): boolean {
   if (!v)
     return true;
   
@@ -44,7 +47,10 @@ function isFalsy(v: unknown, throwErr: boolean = false): boolean {
  * @returns {boolean} `true` if the value is truthy, false if not (when throwErr is false).
  * @throws {Error} Throws an error if the value is not truthy and throwErr is true.
  */
-function isTruthy(v: unknown, throwErr: boolean = false): boolean {
+function isTruthy(
+  v: unknown, 
+  throwErr: boolean = false
+): boolean {
   if (!!v)
     return true;
   
