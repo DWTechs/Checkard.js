@@ -27,12 +27,12 @@ https://github.com/DWTechs/Checkard.js
 
 type Comparator = '='|'<'|'>'|'<='|'>='|'!='|'!0'|'0';
 type PasswordOptions = {
-  lowerCase: boolean;
-  upperCase: boolean;
-  number: boolean;
-  specialCharacter: boolean;
-  maxLength: number;
-  minLength: number;
+    lowerCase: boolean;
+    upperCase: boolean;
+    number: boolean;
+    specialCharacter: boolean;
+    maxLength: number;
+    minLength: number;
 };
 export type { Comparator, PasswordOptions };
 
@@ -170,7 +170,7 @@ declare function isValidTimestamp<T extends boolean = true>(v: unknown,
                                                     throwErr?: boolean
                                                    ): v is T extends true ? number : number | string;
 
-declare function ucfirst(s: string, everyWords?: boolean, throwErr?: boolean): string;
+declare function ucfirst(s: string, everyWords?: boolean): string;
 declare function normalizeNickname(nickname: string, 
                                    firstName: string, 
                                    lastName: string,
