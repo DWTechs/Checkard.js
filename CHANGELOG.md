@@ -1,3 +1,7 @@
+# 3.5.1 (Sep 05th 2025)
+
+- Update error messages
+
 # 3.5.0 (Aug 31st 2025)
 
 - All validation functions now accept `unknown` type and perform internal type checking

@@ -53,34 +53,36 @@ var ch = (function (exports) {
         return a == 0;
       }
     };
+    var ComparatorsToString = Object.keys(comparisons).join(', ');
     function compare(a, c, b, throwError) {
       if (throwError === void 0) {
         throwError = false;
       }
       if (!c) return true;
       if (!(c in comparisons)) {
-        if (throwError) throw new Error("Invalid comparator: " + c + ". Valid comparators are: " + Object.keys(comparisons).join(', '));
+        if (throwError) throw new Error("Comparison failed because of an invalid comparator : '" + c + "'. Valid comparators are: " + ComparatorsToString);
         return false;
       }
       if (c === '!0' || c === '0') {
         var _result = comparisons[c](a);
-        if (!_result && throwError) throw new Error("Comparison failed: " + a + " " + c);
+        if (!_result && throwError) throw new Error("Comparison failed because " + a + " is not '" + c + "'");
         return _result;
       }
       if (b == null) {
-        if (throwError) throw new Error("Comparator '" + c + "' requires a second value, but received null");
+        if (throwError) throw new Error("Comparison failed because Comparator '" + c + "' requires a second value");
         return false;
       }
       var result = comparisons[c](a, b);
-      if (!result && throwError) throw new Error("Comparison failed: " + a + " " + c + " " + b);
+      if (!result && throwError) throw new Error("Comparison failed because " + a + " " + c + " " + b + " returned false");
       return result;
     }
     function getTag(t) {
       return t == null ? t === undefined ? '[object Undefined]' : '[object Null]' : toString.call(t);
     }
 
-    function throwError(expectedType, actualValue) {
-      throw new Error("Expected " + expectedType + ", but received " + typeof actualValue + ": " + String(actualValue));
+    function throwError(expectedType, actualValue, causedBy) {
+      var c = causedBy ? ". " + causedBy : '';
+      throw new Error("Checkard: Expected " + expectedType + ", but received " + typeof actualValue + ": " + String(actualValue) + c);
     }
 
     function isNum(v, type, throwErr) {
@@ -134,7 +136,12 @@ var ch = (function (exports) {
         if (throwErr) throwError('number', v);
         return false;
       }
-      return compare(v, comparator, limit, throwErr);
+      try {
+        return compare(v, comparator, limit, throwErr);
+      } catch (err) {
+        throwError('valid number', v, err.message);
+        return false;
+      }
     }
     function isString(v, comparator, limit, throwErr) {
       if (comparator === void 0) {
@@ -150,7 +157,12 @@ var ch = (function (exports) {
         if (throwErr) throwError('string', v);
         return false;
       }
-      return compare(v.length, comparator, limit, throwErr);
+      try {
+        return compare(v.length, comparator, limit, throwErr);
+      } catch (err) {
+        throwError('valid string', v, err.message);
+        return false;
+      }
     }
     function isSymbol(v, throwErr) {
       if (throwErr === void 0) {
@@ -211,7 +223,12 @@ var ch = (function (exports) {
         if (throwErr) throwError('array', v);
         return false;
       }
-      return compare(v.length, comparator, limit, throwErr);
+      try {
+        return compare(v.length, comparator, limit, throwErr);
+      } catch (err) {
+        throwError('valid array', v, err.message);
+        return false;
+      }
     }
     function isJson(v, throwErr) {
       if (throwErr === void 0) {

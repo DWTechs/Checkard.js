@@ -44,6 +44,23 @@ test("sends empty string to isString with empty check using '!empty' comparator"
 
 test("sends empty string to isString with empty check using '!empty' comparator with third param at zero", () => {
   expect(() => isString("", "!0", 0, true)).toThrow();
+
+  let caughtError;
+  try {
+    isString("", "!0", 0, true);
+  } catch (err) {
+    caughtError = err;
+  }
+  
+  // Verify error was thrown
+  expect(caughtError).toBeDefined();
+  
+  // Display the error stack
+  console.log('\n=== Error Stack Information ===');
+  console.log('Main Error Stack:');
+  console.log(caughtError.stack);  
+  console.log('================================\n');
+
 });
 
 test("sends false to isString", () => {

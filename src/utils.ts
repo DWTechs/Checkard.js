@@ -10,6 +10,7 @@ const comparisons = {
   "!0": (a:number) => a != 0, // return true if a is not zero
   "0": (a:number) => a == 0, // return true if a is zero
 };
+const ComparatorsToString = Object.keys(comparisons).join(', ');
 
 /**
  * Compares two numbers using a comparator function.
@@ -34,7 +35,7 @@ function compare(
   // Check if comparator is valid
   if (!(c in comparisons)) {
     if (throwError)
-      throw new Error(`Invalid comparator: ${c}. Valid comparators are: ${Object.keys(comparisons).join(', ')}`);    
+      throw new Error(`Comparison failed because of an invalid comparator : '${c}'. Valid comparators are: ${ComparatorsToString}`);    
     return false;
   }
   
@@ -42,21 +43,21 @@ function compare(
   if (c === '!0' || c === '0') {
     const result = comparisons[c](a);
     if (!result && throwError)
-      throw new Error(`Comparison failed: ${a} ${c}`);
+      throw new Error(`Comparison failed because ${a} is not '${c}'`);
     return result;
   }
 
   // Handle binary comparators (require second value)
   if (b == null) {
     if (throwError)
-      throw new Error(`Comparator '${c}' requires a second value, but received null`);
+      throw new Error(`Comparison failed because Comparator '${c}' requires a second value`);
     return false;
   }
 
   // Perform the comparison
   const result = comparisons[c](a, b);
   if (!result && throwError)
-    throw new Error(`Comparison failed: ${a} ${c} ${b}`);
+    throw new Error(`Comparison failed because ${a} ${c} ${b} returned false`);
   return result;
 }
 

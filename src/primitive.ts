@@ -53,7 +53,12 @@ function isNumber<T extends boolean = true>(
     return false;
   }
 
-  return compare(v, comparator, limit, throwErr);
+  try {
+    return compare(v, comparator, limit, throwErr);
+  } catch (err) {
+    throwError('valid number', v, (err as Error).message);
+    return false;
+  }
   
 }
 
@@ -80,7 +85,12 @@ function isString(
     return false;
   }
   
-  return compare(v.length, comparator, limit, throwErr);
+  try {
+    return compare(v.length, comparator, limit, throwErr);
+  } catch (err) {
+    throwError('valid string', v, (err as Error).message);
+    return false;
+  }
 }
 
 /**

@@ -54,7 +54,12 @@ function isArray<T = unknown>(
     return false;
   }
   
-  return compare(v.length, comparator, limit, throwErr);
+  try {
+    return compare(v.length, comparator, limit, throwErr);
+  } catch (err) {
+    throwError('valid array', v, (err as Error).message);
+    return false;
+  }
 }
 
 /**
