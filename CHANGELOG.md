@@ -1,3 +1,9 @@
+# 3.6.0 (Oct 12th 2025)
+
+- Add isAnsiEscapeCode() functions to check if a value is a valid ANSI escape code
+- Add isLocale() functions to check if a value is a valid locale format
+- Add isTimeZone() functions to check if a value is a valid IANA time zone format
+
 # 3.5.1 (Sep 05th 2025)
 
 - Update error messages

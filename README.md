@@ -857,6 +857,35 @@ const PwdDefaultOptions = {
 };
 
 /**
+ * Checks if the given value is a valid ANSI escape code.
+ * Performs internal string validation using isString() before checking ANSI format.
+ *
+ * @param {unknown} v - The value to be checked (performs internal string validation).
+ * @param {boolean} [throwErr=false] - If true, throws an error when value is not a valid ANSI escape code. If false, returns false.
+ * @returns {boolean} `true` if the value is a valid ANSI escape code, false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the value is not a valid ANSI escape code and throwErr is true.
+ */
+function isAnsiEscapeCode(
+  v: unknown, 
+  throwErr: boolean = false
+): v is string {}
+
+/**
+ * Checks if the given value is a valid locale format.
+ * Performs internal string validation using isString() before checking locale format.
+ *
+ * @param {unknown} v - The value to be checked (performs internal string validation).
+ * @param {boolean} [throwErr=false] - If true, throws an error when value is not a valid locale format. If false, returns false.
+ * @returns {boolean} `true` if the value is a valid locale format, false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the value is not a valid locale format and throwErr is true.
+ */
+function isLocale(
+  v: unknown, 
+  ext: boolean = false, 
+  throwErr: boolean = false
+): v is string {}
+
+/**
  * Checks if a given password string meets the specified validation criteria.
  *
  * @param {string} s - The password string to validate.

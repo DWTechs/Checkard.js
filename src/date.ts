@@ -1,5 +1,6 @@
 import { isNum } from './internal';
 import { isInteger } from './number';
+import { isString } from './primitive';
 import { isDate } from './nonprimitive';
 import { throwError } from './error';
 
@@ -129,8 +130,59 @@ function isValidTimestamp<T extends boolean = true>(
 
 }
 
+
+// Regex to validate IANA timezone format (e.g., Europe/Paris, America/New_York, Asia/Tokyo)
+// Format: Region/City or Region/SubRegion/City
+const timeZoneRegex = /^[A-Z][a-z]+\/[A-Z][a-z_]+(?:\/[A-Z][a-z_]+)?$/;
+/**
+ * Checks if the given value is a valid IANA timezone format.
+ * Performs internal string validation using isString() before checking timezone format.
+ *
+ * @param {unknown} v - The value to be checked (performs internal string validation).
+ * @param {boolean} [throwErr=false] - If true, throws an error when value is not a valid IANA timezone format. If false, returns false.
+ * @returns {boolean} `true` if the value is a valid IANA timezone format, false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the value is not a valid IANA timezone format and throwErr is true.
+ */
+function isTimeZone(v: unknown, throwErr: boolean = false): v is string {
+  if (isString(v, "!0") && timeZoneRegex.test(v))
+    return true;
+
+  if (throwErr)
+    throwError('IANA timezone format', v);
+  return false;
+
+}
+
+
+// Regex to validate locale format (e.g., en-US, fr-FR, ja-JP)
+// Format: 2 lowercase letters, hyphen, 2 uppercase letters
+const localeRegex = /^[a-z]{2}-[A-Z]{2}$/;
+// Extended locale format supporting scripts and variants
+const extendedLocaleRegex = /^[a-z]{2,3}(-[A-Z][a-z]{3})?(-[A-Z]{2})?(-[a-zA-Z0-9]+)*$/;
+/**
+ * Checks if the given value is a valid locale format.
+ * Performs internal string validation using isString() before checking locale format.
+ *
+ * @param {unknown} v - The value to be checked (performs internal string validation).
+ * @param {boolean} [throwErr=false] - If true, throws an error when value is not a valid locale format. If false, returns false.
+ * @returns {boolean} `true` if the value is a valid locale format, false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the value is not a valid locale format and throwErr is true.
+ */
+function isLocale(v: unknown, ext: boolean = false, throwErr: boolean = false): v is string {
+  if (isString(v, "!0") && (ext ? extendedLocaleRegex.test(v) : isString(v, "=", 5) && localeRegex.test(v)))
+    return true;
+  
+  if (throwErr)
+    throwError('valid locale format', v);
+  return false;
+}
+
+
+
 export {
   isValidDate,
   isTimestamp,
-  isValidTimestamp
+  isValidTimestamp,
+  isTimeZone,
+  isLocale
 };

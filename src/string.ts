@@ -284,6 +284,32 @@ function isHexadecimal(
 
 }
 
+
+// Regex to validate ANSI escape codes
+// Matches patterns like \x1b[31m, \x1b[0m, \x1b[1;32m, etc.
+const ansiRegex = /^\\x1b\[\d+(;\d+)*m$/;
+/**
+ * Checks if the given value is a valid ANSI escape code.
+ * Performs internal string validation using isString() before checking ANSI format.
+ *
+ * @param {unknown} v - The value to be checked (performs internal string validation).
+ * @param {boolean} [throwErr=false] - If true, throws an error when value is not a valid ANSI escape code. If false, returns false.
+ * @returns {boolean} `true` if the value is a valid ANSI escape code, false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the value is not a valid ANSI escape code and throwErr is true.
+ */
+function isAnsiEscapeCode(
+  v: unknown,
+  throwErr: boolean = false
+): v is string {
+  if (isString(v, "!0") && ansiRegex.test(v))
+    return true;
+
+  if (throwErr)
+    throwError('ANSI escape code', v);
+  return false;
+  
+}
+
 const upperCaseReg = /[A-Z]+/;
 /**
  * Checks if the given string contains any uppercase letters.
@@ -489,6 +515,7 @@ export {
   isJWT,
   isSlug,
   isHexadecimal,
+  isAnsiEscapeCode,
   isValidPassword,
   containsUpperCase,
   containsLowerCase,
