@@ -2,7 +2,7 @@
 [![License: MIT](https://img.shields.io/npm/l/@dwtechs/checkard.svg?color=brightgreen)](https://opensource.org/licenses/MIT)
 [![npm version](https://badge.fury.io/js/%40dwtechs%2Fcheckard.svg)](https://www.npmjs.com/package/@dwtechs/checkard)
 [![last version release date](https://img.shields.io/github/release-date/DWTechs/Checkard.js)](https://www.npmjs.com/package/@dwtechs/checkard)
-![Jest:coverage](https://img.shields.io/badge/Jest:coverage-98%25-brightgreen.svg)
+![Jest:coverage](https://img.shields.io/badge/Jest:coverage-99%25-brightgreen.svg)
 
 - [Synopsis](#synopsis)
 - [Support](#support)
@@ -23,7 +23,7 @@ Function, object, ascii, boolean, integer, string, json, email...)
 
 - 📦 No dependency
 - 🪶 Very lightweight
-- 🧪 Thoroughly tested with over 3380 Unit Tests
+- 🧪 Thoroughly tested with over 3724 Unit Tests
 - 🚚 Shipped as EcmaScrypt module, CommonJS module and IIFE
 - 📝 Written in Typescript
 - 🌐 Old browsers support

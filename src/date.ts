@@ -133,7 +133,9 @@ function isValidTimestamp<T extends boolean = true>(
 
 // Regex to validate IANA timezone format (e.g., Europe/Paris, America/New_York, Asia/Tokyo)
 // Format: Region/City or Region/SubRegion/City
-const timeZoneRegex = /^[A-Z][a-z]+\/[A-Z][a-z_]+(?:\/[A-Z][a-z_]+)?$/;
+// Supports underscores followed by uppercase letters (e.g., New_York, Los_Angeles, Buenos_Aires)
+// Pattern: Capital letter followed by lowercase letters, with optional underscore+Capital+lowercase sequences
+const timeZoneRegex = /^[A-Z][a-z]+\/[A-Z][a-z]+(?:_[A-Z][a-z]+)*(?:\/[A-Z][a-z]+(?:_[A-Z][a-z]+)*)?$/;
 /**
  * Checks if the given value is a valid IANA timezone format.
  * Performs internal string validation using isString() before checking timezone format.
@@ -158,7 +160,10 @@ function isTimeZone(v: unknown, throwErr: boolean = false): v is string {
 // Format: 2 lowercase letters, hyphen, 2 uppercase letters
 const localeRegex = /^[a-z]{2}-[A-Z]{2}$/;
 // Extended locale format supporting scripts and variants
-const extendedLocaleRegex = /^[a-z]{2,3}(-[A-Z][a-z]{3})?(-[A-Z]{2})?(-[a-zA-Z0-9]+)*$/;
+// Format: language (2-3 lowercase), optional script (Capital + 3 lowercase), optional region (2 uppercase), optional variants (x-...)
+// Variants must start with 'x-' and can only appear after a region or script
+// Matches: en, en-US, zh-Hans, zh-Hans-CN, en-US-x-twain, zh-Hans-CN-x-variant
+const extendedLocaleRegex = /^[a-z]{2,3}(?:-[A-Z][a-z]{3}|-[A-Z]{2})?(?:-[A-Z]{2})?(?:-x-[a-z0-9]+)*$/;
 /**
  * Checks if the given value is a valid locale format.
  * Performs internal string validation using isString() before checking locale format.

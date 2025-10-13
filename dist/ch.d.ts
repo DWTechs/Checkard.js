@@ -64,6 +64,8 @@ declare function isArray<T = unknown>(v: unknown,
 declare function isJson(v: unknown, throwErr?: boolean): v is JSON;
 declare function isRegex(v: unknown, type?: boolean, throwErr?: boolean): v is RegExp;
 declare function isDate(v: unknown, throwErr?: boolean): v is Date;
+declare function isTimeZone(v: unknown, throwErr?: boolean): v is string;
+declare function isLocale(v: unknown, ext?: boolean, throwErr?: boolean): v is string;
 declare function isFunction(v: unknown, throwErr?: boolean): v is (...args: unknown[]) => unknown;
 
 declare function isArrayOfLength<T = unknown>(v: unknown, 
@@ -148,6 +150,7 @@ declare function isBase64(v: unknown, urlEncoded?: boolean, throwErr?: boolean):
 declare function isJWT(v: unknown, throwErr?: boolean): v is string;
 declare function isSlug(v: unknown, throwErr?: boolean): v is string;
 declare function isHexadecimal(v: unknown, throwErr?: boolean): v is string;
+declare function isAnsiEscapeCode(v: unknown, throwErr?: boolean): v is string;
 declare function containsUpperCase(s: string, throwErr?: boolean): boolean;
 declare function containsLowerCase(s: string, throwErr?: boolean): boolean;
 declare function containsSpecialCharacter(s: string, throwErr?: boolean): boolean;
@@ -218,12 +221,15 @@ export { isBoolean,
          isJWT,
          isSlug,
          isHexadecimal,
+         isAnsiEscapeCode,
          containsUpperCase,
          containsLowerCase,
          containsSpecialCharacter,
          containsNumber,
          isValidPassword,
          isDate,
+         isTimeZone,
+         isLocale,
          isValidDate,
          isTimestamp,
          isValidTimestamp,

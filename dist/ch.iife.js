@@ -635,6 +635,15 @@ var ch = (function (exports) {
       if (throwErr) throwError('hexadecimal number', v);
       return false;
     }
+    var ansiRegex = /^\\x1b\[\d+(;\d+)*m$/;
+    function isAnsiEscapeCode(v, throwErr) {
+      if (throwErr === void 0) {
+        throwErr = false;
+      }
+      if (isString(v, "!0") && ansiRegex.test(v)) return true;
+      if (throwErr) throwError('ANSI escape code', v);
+      return false;
+    }
     var upperCaseReg = /[A-Z]+/;
     function containsUpperCase(s, throwErr) {
       if (throwErr === void 0) {
@@ -893,6 +902,28 @@ var ch = (function (exports) {
       }
       return false;
     }
+    var timeZoneRegex = /^[A-Z][a-z]+\/[A-Z][a-z]+(?:_[A-Z][a-z]+)*(?:\/[A-Z][a-z]+(?:_[A-Z][a-z]+)*)?$/;
+    function isTimeZone(v, throwErr) {
+      if (throwErr === void 0) {
+        throwErr = false;
+      }
+      if (isString(v, "!0") && timeZoneRegex.test(v)) return true;
+      if (throwErr) throwError('IANA timezone format', v);
+      return false;
+    }
+    var localeRegex = /^[a-z]{2}-[A-Z]{2}$/;
+    var extendedLocaleRegex = /^[a-z]{2,3}(?:-[A-Z][a-z]{3}|-[A-Z]{2})?(?:-[A-Z]{2})?(?:-x-[a-z0-9]+)*$/;
+    function isLocale(v, ext, throwErr) {
+      if (ext === void 0) {
+        ext = false;
+      }
+      if (throwErr === void 0) {
+        throwErr = false;
+      }
+      if (isString(v, "!0") && (ext ? extendedLocaleRegex.test(v) : isString(v, "=", 5) && localeRegex.test(v))) return true;
+      if (throwErr) throwError('valid locale format', v);
+      return false;
+    }
 
     function ucfirst(s, everyWords) {
       if (everyWords === void 0) {
@@ -951,6 +982,7 @@ var ch = (function (exports) {
     exports.containsNumber = containsNumber;
     exports.containsSpecialCharacter = containsSpecialCharacter;
     exports.containsUpperCase = containsUpperCase;
+    exports.isAnsiEscapeCode = isAnsiEscapeCode;
     exports.isArray = isArray;
     exports.isArrayOfLength = isArrayOfLength;
     exports.isAscii = isAscii;
@@ -970,6 +1002,7 @@ var ch = (function (exports) {
     exports.isIpAddress = isIpAddress;
     exports.isJWT = isJWT;
     exports.isJson = isJson;
+    exports.isLocale = isLocale;
     exports.isNegative = isNegative;
     exports.isNil = isNil;
     exports.isNode = isNode;
@@ -986,6 +1019,7 @@ var ch = (function (exports) {
     exports.isString = isString;
     exports.isStringOfLength = isStringOfLength;
     exports.isSymbol = isSymbol;
+    exports.isTimeZone = isTimeZone;
     exports.isTimestamp = isTimestamp;
     exports.isTruthy = isTruthy;
     exports.isUndefined = isUndefined;

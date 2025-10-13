@@ -488,6 +488,14 @@ function isHexadecimal(v, throwErr = false) {
         throwError('hexadecimal number', v);
     return false;
 }
+const ansiRegex = /^\\x1b\[\d+(;\d+)*m$/;
+function isAnsiEscapeCode(v, throwErr = false) {
+    if (isString(v, "!0") && ansiRegex.test(v))
+        return true;
+    if (throwErr)
+        throwError('ANSI escape code', v);
+    return false;
+}
 const upperCaseReg = /[A-Z]+/;
 function containsUpperCase(s, throwErr = false) {
     if (upperCaseReg.test(s))
@@ -724,6 +732,23 @@ function isValidTimestamp(v, min = minTs, max = maxTs, type = true, throwErr = f
     }
     return false;
 }
+const timeZoneRegex = /^[A-Z][a-z]+\/[A-Z][a-z]+(?:_[A-Z][a-z]+)*(?:\/[A-Z][a-z]+(?:_[A-Z][a-z]+)*)?$/;
+function isTimeZone(v, throwErr = false) {
+    if (isString(v, "!0") && timeZoneRegex.test(v))
+        return true;
+    if (throwErr)
+        throwError('IANA timezone format', v);
+    return false;
+}
+const localeRegex = /^[a-z]{2}-[A-Z]{2}$/;
+const extendedLocaleRegex = /^[a-z]{2,3}(?:-[A-Z][a-z]{3}|-[A-Z]{2})?(?:-[A-Z]{2})?(?:-x-[a-z0-9]+)*$/;
+function isLocale(v, ext = false, throwErr = false) {
+    if (isString(v, "!0") && (ext ? extendedLocaleRegex.test(v) : isString(v, "=", 5) && localeRegex.test(v)))
+        return true;
+    if (throwErr)
+        throwError('valid locale format', v);
+    return false;
+}
 
 function ucfirst(s, everyWords = true) {
     const newStr = s.toLowerCase();
@@ -771,6 +796,7 @@ exports.containsLowerCase = containsLowerCase;
 exports.containsNumber = containsNumber;
 exports.containsSpecialCharacter = containsSpecialCharacter;
 exports.containsUpperCase = containsUpperCase;
+exports.isAnsiEscapeCode = isAnsiEscapeCode;
 exports.isArray = isArray;
 exports.isArrayOfLength = isArrayOfLength;
 exports.isAscii = isAscii;
@@ -790,6 +816,7 @@ exports.isInteger = isInteger;
 exports.isIpAddress = isIpAddress;
 exports.isJWT = isJWT;
 exports.isJson = isJson;
+exports.isLocale = isLocale;
 exports.isNegative = isNegative;
 exports.isNil = isNil;
 exports.isNode = isNode;
@@ -806,6 +833,7 @@ exports.isSlug = isSlug;
 exports.isString = isString;
 exports.isStringOfLength = isStringOfLength;
 exports.isSymbol = isSymbol;
+exports.isTimeZone = isTimeZone;
 exports.isTimestamp = isTimestamp;
 exports.isTruthy = isTruthy;
 exports.isUndefined = isUndefined;
