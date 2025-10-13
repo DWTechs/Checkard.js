@@ -42,6 +42,7 @@ export {  isStringOfLength,
           isJWT,
           isSlug,
           isHexadecimal,
+          isAnsiEscapeCode,
           isValidPassword,
           containsUpperCase,
           containsLowerCase,
@@ -54,7 +55,9 @@ export {  isHtmlElement,
 
 export {  isValidDate,
           isTimestamp,
-          isValidTimestamp } from './date';
+          isValidTimestamp,
+          isLocale,
+          isTimeZone } from './date';
 
 export {  ucfirst,
           normalizeNickname,
