@@ -846,16 +846,6 @@ function isHexadecimal(
   throwErr: boolean = false
 ): v is string {}
 
-
-const PwdDefaultOptions = {
-  lowerCase: true,
-  upperCase: true,
-  number: true,
-  specialCharacter: true,
-  minLength: 12,
-  maxLength: 64,
-};
-
 /**
  * Checks if the given value is a valid ANSI escape code.
  * Performs internal string validation using isString() before checking ANSI format.
@@ -884,6 +874,16 @@ function isLocale(
   ext: boolean = false, 
   throwErr: boolean = false
 ): v is string {}
+
+
+const PwdDefaultOptions = {
+  lowerCase: true,
+  upperCase: true,
+  number: true,
+  specialCharacter: true,
+  minLength: 12,
+  maxLength: 64,
+};
 
 /**
  * Checks if a given password string meets the specified validation criteria.
