@@ -439,6 +439,8 @@ const defaultOptions = {
 };
 
 /**
+ * @deprecated This function will be removed in v4.0.0. Use @dwtechs/passken validation function instead.
+ *
  * Checks if a given password string meets the specified validation criteria.
  *
  * @param {string} s - The password string to validate.
@@ -461,6 +463,7 @@ const defaultOptions = {
  * console.log(isValid); // true
  * ```
  */
+let isValidPasswordWarningShown = false;
 function isValidPassword(
   s: string, 
   options: PasswordOptions = defaultOptions, 
@@ -469,6 +472,15 @@ function isValidPassword(
   const o = { ...defaultOptions, ...options };
   const l = s.length;
   
+  // Show deprecation warning only once
+  if (!isValidPasswordWarningShown && typeof console !== 'undefined' && console.warn) {
+    console.warn(
+      'isValidPassword() is deprecated and will be removed in v4.0.0. ' +
+      'Use @dwtechs/passken validation function instead.'
+    );
+    isValidPasswordWarningShown = true;
+  }
+
   // Check length
   if (!(l >= o.minLength && l <= o.maxLength)) {
     if (throwErr)

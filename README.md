@@ -886,6 +886,8 @@ const PwdDefaultOptions = {
 };
 
 /**
+ * @deprecated ⚠️ This function will be removed in v4.0.0. Use @dwtechs/passken validation function instead.
+ * 
  * Checks if a given password string meets the specified validation criteria.
  *
  * @param {string} s - The password string to validate.

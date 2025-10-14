@@ -23,6 +23,9 @@
     "email": "http://www.lcluber.com/contact",
     "url": "http://www.lcluber.com"
   },
+  "deprecationNotes": {
+    "isValidPassword": "Deprecated in v3.6.0, will be removed in v4.0.0. Use @dwtechs/passken validation function instead."
+  }
   "contributors": [],
   "scripts": {
     "start": "",
