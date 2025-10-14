@@ -712,6 +712,7 @@ var ch = (function (exports) {
       minLength: 12,
       maxLength: 64
     };
+    var isValidPasswordWarningShown = false;
     function isValidPassword(s, options, throwErr) {
       if (options === void 0) {
         options = defaultOptions;
@@ -721,6 +722,10 @@ var ch = (function (exports) {
       }
       var o = Object.assign(Object.assign({}, defaultOptions), options);
       var l = s.length;
+      if (!isValidPasswordWarningShown && typeof console !== 'undefined' && console.warn) {
+        console.warn('isValidPassword() is deprecated and will be removed in v4.0.0. ' + 'Use @dwtechs/passken validation function instead.');
+        isValidPasswordWarningShown = true;
+      }
       if (!(l >= o.minLength && l <= o.maxLength)) {
         if (throwErr) throwError("password with length in range [" + o.minLength + ", " + o.maxLength + "] (actual length: " + l + ")", s);
         return false;

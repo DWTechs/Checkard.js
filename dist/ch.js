@@ -551,9 +551,15 @@ const defaultOptions = {
     minLength: 12,
     maxLength: 64,
 };
+let isValidPasswordWarningShown = false;
 function isValidPassword(s, options = defaultOptions, throwErr = false) {
     const o = Object.assign(Object.assign({}, defaultOptions), options);
     const l = s.length;
+    if (!isValidPasswordWarningShown && typeof console !== 'undefined' && console.warn) {
+        console.warn('isValidPassword() is deprecated and will be removed in v4.0.0. ' +
+            'Use @dwtechs/passken validation function instead.');
+        isValidPasswordWarningShown = true;
+    }
     if (!(l >= o.minLength && l <= o.maxLength)) {
         if (throwErr)
             throwError(`password with length in range [${o.minLength}, ${o.maxLength}] (actual length: ${l})`, s);
