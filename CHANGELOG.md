@@ -12,14 +12,14 @@
 # 3.5.0 (Aug 31st 2025)
 
 - All validation functions now accept `unknown` type and perform internal type checking
-- All validation functions now return a type predicate (e.g., `v is string`) instead of a boolean. Except for `isFalsy()` and `isTruthy()` still return boolean values.
+- All validation functions now return a type predicate (e.g., `v is string`) instead of a boolean. Except for `isFalsy()` and `isTruthy()` still returning boolean values.
 - All contain functions remain unchanged and continue to return boolean values.
 - All normalize functions remain unchanged and continue to return string | false
 - For both `isValidDate()` and `isValidTimestamp()`, `min` and `max` parameters can be of type date or timestamp.
 - Improved `isDate()` function to return false when date = date.setDate(NaN)
 - Improved `isEmail()` function to return false when Top-Level Domain starts with a number
 - Improved `isValidTimestamp()` function to have better min and max conversions
-- Improved test suite to more than 3200 tests with enhanced accuracy and edge case coverage
+- Improved test suite to more than 3200 tests with more edge case coverage
 
 # 3.4.1 (Aug 23th 2025)
 
@@ -32,12 +32,13 @@
 
 # 3.3.0 (Aug 18th 2025)
 
-- Delete b64Encode() and b64Decode() functions
+- Delete b64Encode() and b64Decode() functions. See @dwtechs/Hashitaka for these functionalities
 
 # 3.2.4 (Mar 23th 2025)
 
-- Fix cicular dependency issue
+- Fix circular dependency issue
 - Add performance tests
+- Functions b64Encode() and b64Decode() are deprecated and will be removed in v3.3.0. Use @dwtechs/Hashitaka for these functionalities
 
 # 3.2.3 (Mar 04th 2025)
 
