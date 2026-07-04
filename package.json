@@ -7,20 +7,30 @@
     "type checker"
   ],
   "homepage": "https://github.com/DWTechs/Checkard.js",
-  "main": "dist/ch",
-  "types": "dist/ch",
+  "main": "dist/ch.cjs.js",
+  "module": "dist/ch.js",
+  "types": "dist/ch.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/ch.d.ts",
+      "import": "./dist/ch.js",
+      "require": "./dist/ch.cjs.js"
+    }
+  },
+  "sideEffects": false,
+  "engines": {
+    "node": ">=14"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/DWTechs/Checkard.js"
   },
   "bugs": {
-    "url": "https://github.com/DWTechs/Checkard.js/issues",
-    "email": ""
+    "url": "https://github.com/DWTechs/Checkard.js/issues"
   },
   "license": "MIT",
   "author": {
     "name": "Ludovic Cluber",
-    "email": "http://www.lcluber.com/contact",
     "url": "http://www.lcluber.com"
   },
   "deprecationNotes": {
@@ -28,7 +38,6 @@
   },
   "contributors": [],
   "scripts": {
-    "start": "",
     "prebuild": "npm install",
     "build": "node ./scripts/clear.cjs && tsc -p tsconfig.lib.json && npm run rollup && npm run uglify && node ./scripts/copy.cjs && npm run test",
     "rollup:mjs": "rollup --config rollup.config.mjs",
@@ -55,8 +64,5 @@
     "rollup": "4.24.0",
     "typescript": "5.6.3",
     "uglify-js": "3.19.3"
-  },
-  "dependencies": {
-    
   }
 }
