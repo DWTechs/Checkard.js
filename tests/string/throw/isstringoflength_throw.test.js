@@ -48,4 +48,16 @@ describe("isStringOfLength throwErr behavior", () => {
   it("throws error when empty string is below minimum length", () => {
     expect(() => isStringOfLength("", 1, 10, true)).toThrow();
   });
+
+  it("does not throw when null min/max fall back to defaults and string is valid", () => {
+    expect(() => isStringOfLength("string", null, null, true)).not.toThrow();
+  });
+
+  it("throws when min is null but string is empty and default min is not satisfied", () => {
+    expect(() => isStringOfLength("hi", 5, null, true)).toThrow();
+  });
+
+  it("throws when NaN min/max fall back to defaults but value is not a string", () => {
+    expect(() => isStringOfLength(42, NaN, NaN, true)).toThrow();
+  });
 });

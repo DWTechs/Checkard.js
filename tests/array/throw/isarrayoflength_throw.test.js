@@ -187,4 +187,18 @@ describe('isArrayOfLength throwErr tests', () => {
       expect(() => isArrayOfLength(sparse, 0, 10, true)).toThrow();
     });
   });
+
+  describe('with invalid min/max values falling back to defaults', () => {
+    test('should not throw when null min/max fall back to defaults and array is valid', () => {
+      expect(() => isArrayOfLength([1, 2, 3], null, null, true)).not.toThrow();
+    });
+
+    test('should throw when min is valid but max is null and array exceeds min-only check', () => {
+      expect(() => isArrayOfLength([1], 5, null, true)).toThrow();
+    });
+
+    test('should throw when NaN min/max fall back to defaults but value is not an array', () => {
+      expect(() => isArrayOfLength('not an array', NaN, NaN, true)).toThrow();
+    });
+  });
 });

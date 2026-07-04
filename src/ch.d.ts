@@ -43,8 +43,8 @@ declare function isLocale(v: unknown, ext?: boolean, throwErr?: boolean): v is s
 declare function isFunction(v: unknown, throwErr?: boolean): v is (...args: unknown[]) => unknown;
 
 declare function isArrayOfLength<T = unknown>(v: unknown, 
-                                              min?: number, 
-                                              max?: number,
+                                              min?: number | null, 
+                                              max?: number | null,
                                               throwErr?: boolean
                                              ): v is T[];
 declare function isIn(a: unknown[], 
@@ -117,7 +117,7 @@ declare function isProperty<K extends PropertyKey>(v: unknown,
                                                    throwErr?: boolean
                                                   ): v is Record<K, unknown>;
 
-declare function isStringOfLength(v: unknown, min?: number, max?: number, throwErr?: boolean): v is string;
+declare function isStringOfLength(v: unknown, min?: number | null, max?: number | null, throwErr?: boolean): v is string;
 declare function isEmail(v: unknown, throwErr?: boolean): v is string;
 declare function isIpAddress(v: unknown, throwErr?: boolean): v is string;
 declare function isBase64(v: unknown, urlEncoded?: boolean, throwErr?: boolean): v is string;

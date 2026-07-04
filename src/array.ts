@@ -1,5 +1,6 @@
 
 import { isArray } from './nonprimitive';
+import { isNumber } from './primitive';
 import { throwError } from './error';
 
 /**
@@ -8,32 +9,36 @@ import { throwError } from './error';
  *
  * @template T - The type of elements in the array.
  * @param {unknown} v - The value to check (performs internal array validation).
- * @param {number} [min=0] - The minimum length of the array (inclusive).
- * @param {number} [max=999999999] - The maximum length of the array (inclusive).
+ * @param {number} [min=0] - The minimum length of the array (inclusive). Falls back to 0 if not a valid number (e.g. null, undefined, NaN).
+ * @param {number} [max=999999999] - The maximum length of the array (inclusive). Falls back to 999999999 if not a valid number (e.g. null, undefined, NaN).
  * @param {boolean} [throwErr=false] - If true, throws an error when array length is not within range. If false, returns false.
  * @returns {boolean} - Returns `true` if the value is an array and its length is within the specified range, false if not (when throwErr is false).
  * @throws {Error} Throws an error if the value is not an array or its length is not within the specified range and throwErr is true.
  */
 function isArrayOfLength<T = unknown>(
   v: unknown, 
-  min = 0, 
-  max = 999999999,
+  min: number = 0, 
+  max: number = 999999999,
   throwErr: boolean = false
 ): v is T[] {
   
   // First validate that v is an array
   if (!isArray<T>(v)) {
     if (throwErr)
-      throwError(`array with length in range [${min}, ${max}]`, v);
+      throwError('array', v);
     return false;
   }
 
+  // Convert min & max to number if it's valid, otherwise use default
+  const minVal = isNumber(min, false) ? min : 0;
+  const maxVal = isNumber(max, false) ? max : 999999999;
+
   const n = v.length;
-  if (n >= min && n <= max)
+  if (n >= minVal && n <= maxVal)
     return true;
     
   if (throwErr)
-    throwError(`array with length in range [${min}, ${max}] (actual length: ${n})`, v);
+    throwError(`array with length in range [${minVal}, ${maxVal}] (actual length: ${n})`, v);
     
   return false;
 }

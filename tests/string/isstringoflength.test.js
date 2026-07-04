@@ -75,3 +75,38 @@ const invalidjson = `{
 test("sends invalid json to isStringOfLength", () => {
   expect(isStringOfLength(invalidjson)).toBe(true);
 });
+
+// min/max hardening: null/undefined/NaN/invalid values must fall back to defaults
+// instead of silently breaking the range comparison (min/max default to 0/999999999).
+
+test("sends null min and null max to isStringOfLength falls back to defaults", () => {
+  expect(isStringOfLength("string", null, null)).toBe(true);
+});
+
+test("sends null min to isStringOfLength falls back to 0", () => {
+  expect(isStringOfLength("", null)).toBe(true);
+});
+
+test("sends null max to isStringOfLength falls back to 999999999", () => {
+  expect(isStringOfLength("string", 0, null)).toBe(true);
+});
+
+test("sends undefined min and max to isStringOfLength falls back to defaults", () => {
+  expect(isStringOfLength("string", undefined, undefined)).toBe(true);
+});
+
+test("sends NaN min and max to isStringOfLength falls back to defaults", () => {
+  expect(isStringOfLength("string", NaN, NaN)).toBe(true);
+});
+
+test("sends non-numeric string min/max to isStringOfLength falls back to defaults", () => {
+  expect(isStringOfLength("string", "abc", "def")).toBe(true);
+});
+
+test("sends object min/max to isStringOfLength falls back to defaults", () => {
+  expect(isStringOfLength("string", {}, [])).toBe(true);
+});
+
+test("sends valid min with null max to isStringOfLength still enforces min", () => {
+  expect(isStringOfLength("hi", 5, null)).toBe(false);
+});

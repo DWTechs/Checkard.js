@@ -2,7 +2,7 @@
 [![License: MIT](https://img.shields.io/npm/l/@dwtechs/checkard.svg?color=brightgreen)](https://opensource.org/licenses/MIT)
 [![npm version](https://badge.fury.io/js/%40dwtechs%2Fcheckard.svg)](https://www.npmjs.com/package/@dwtechs/checkard)
 [![last version release date](https://img.shields.io/github/release-date/DWTechs/Checkard.js)](https://www.npmjs.com/package/@dwtechs/checkard)
-![Jest:coverage](https://img.shields.io/badge/Jest:coverage-99%25-brightgreen.svg)
+![Jest:coverage](https://img.shields.io/badge/Jest:coverage-98%25-brightgreen.svg)
 
 - [Synopsis](#synopsis)
 - [Support](#support)
@@ -737,16 +737,16 @@ function isValidFloat<T extends boolean = true>(
  * Performs internal string validation using isString() before checking email format
  *
  * @param {unknown} v - The value to check (performs internal string validation).
- * @param {number} [min=0] - The minimum length of the string (inclusive). Default is 0.
- * @param {number} [max=999999999] - The maximum length of the string (inclusive). Default is 999999999.
+ * @param {number} [min=0] - The minimum length of the string (inclusive). Falls back to 0 if not a valid number (e.g. null, undefined, NaN).
+ * @param {number} [max=999999999] - The maximum length of the string (inclusive). Falls back to 999999999 if not a valid number (e.g. null, undefined, NaN).
  * @param {boolean} [throwErr=false] - If true, throws an error when string length is not within range. If false, returns false.
  * @returns {boolean} `true` if the value is a string and its length is within the specified range, false if not (when throwErr is false).
  * @throws {Error} Throws an error if the value is not a string and its length is not within the specified range and throwErr is true.
  */
 function isStringOfLength(
   v: unknown,
-  min = 0, 
-  max = 999999999,
+  min: number = 0, 
+  max: number = 999999999,
   throwErr: boolean = false
 ): v is string {}
 
@@ -1071,16 +1071,16 @@ function isValidTimestamp<T extends boolean = true>(
  *
  * @template T - The type of elements in the array.
  * @param {unknown} v - The value to check (performs internal array validation).
- * @param {number} [min=0] - The minimum length of the array (inclusive).
- * @param {number} [max=999999999] - The maximum length of the array (inclusive).
+ * @param {number} [min=0] - The minimum length of the array (inclusive). Falls back to 0 if not a valid number (e.g. null, undefined, NaN).
+ * @param {number} [max=999999999] - The maximum length of the array (inclusive). Falls back to 999999999 if not a valid number (e.g. null, undefined, NaN).
  * @param {boolean} [throwErr=false] - If true, throws an error when array length is not within range. If false, returns false.
  * @returns {boolean} - Returns `true` if the value is an array and its length is within the specified range, false if not (when throwErr is false).
  * @throws {Error} Throws an error if the value is not an array or its length is not within the specified range and throwErr is true.
  */
 function isArrayOfLength<T = unknown>(
   v: unknown, 
-  min = 0, 
-  max = 999999999,
+  min: number = 0, 
+  max: number = 999999999,
   throwErr: boolean = false
 ): v is T[] {}
 

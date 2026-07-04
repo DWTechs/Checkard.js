@@ -1,5 +1,5 @@
 import type { PasswordOptions } from './types';
-import { isString } from './primitive';
+import { isString, isNumber } from './primitive';
 import { isJson } from './nonprimitive';
 import { throwError } from './error';
 
@@ -9,31 +9,35 @@ import { throwError } from './error';
  * Performs internal string validation using isString() before checking email format
  *
  * @param {unknown} v - The value to check (performs internal string validation).
- * @param {number} [min=0] - The minimum length of the string (inclusive). Default is 0.
- * @param {number} [max=999999999] - The maximum length of the string (inclusive). Default is 999999999.
+ * @param {number} [min=0] - The minimum length of the string (inclusive). Falls back to 0 if not a valid number (e.g. null, undefined, NaN).
+ * @param {number} [max=999999999] - The maximum length of the string (inclusive). Falls back to 999999999 if not a valid number (e.g. null, undefined, NaN).
  * @param {boolean} [throwErr=false] - If true, throws an error when string length is not within range. If false, returns false.
  * @returns {boolean} `true` if the value is a string and its length is within the specified range, false if not (when throwErr is false).
  * @throws {Error} Throws an error if the value is not a string and its length is not within the specified range and throwErr is true.
  */
 function isStringOfLength(
   v: unknown,
-  min = 0, 
-  max = 999999999,
+  min: number = 0, 
+  max: number = 999999999,
   throwErr: boolean = false
 ): v is string {
 
   if (!isString(v)) {
     if (throwErr)
-      throwError(`string with length in range [${min}, ${max}]`, v);
+      throwError('string', v);
     return false;
   }
 
+  // Convert min & max to number if it's valid, otherwise use default
+  const minVal = isNumber(min, false) ? min : 0;
+  const maxVal = isNumber(max, false) ? max : 999999999;
+
   const l = v.length;
-  if (l >= min && l <= max)
+  if (l >= minVal && l <= maxVal)
     return true;
   
   if (throwErr)
-    throwError(`string with length in range [${min}, ${max}] (actual length: ${l})`, v); 
+    throwError(`string with length in range [${minVal}, ${maxVal}] (actual length: ${l})`, v); 
   return false;
 
 }

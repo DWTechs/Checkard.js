@@ -198,6 +198,41 @@ test("sends true to isArrayOfLength with length test between 2 and 4", () => {
   expect(isArrayOfLength(true, 2, 4)).toBe(false);
 });
 
+// min/max hardening: null/undefined/NaN/invalid values must fall back to defaults
+// instead of silently breaking the range comparison (min/max default to 0/999999999).
+
+test("sends null min and null max to isArrayOfLength falls back to defaults", () => {
+  expect(isArrayOfLength(["white", "grey", "black"], null, null)).toBe(true);
+});
+
+test("sends null min to isArrayOfLength falls back to 0", () => {
+  expect(isArrayOfLength([], null)).toBe(true);
+});
+
+test("sends null max to isArrayOfLength falls back to 999999999", () => {
+  expect(isArrayOfLength(["white", "grey", "black"], 0, null)).toBe(true);
+});
+
+test("sends undefined min and max to isArrayOfLength falls back to defaults", () => {
+  expect(isArrayOfLength(["white", "grey", "black"], undefined, undefined)).toBe(true);
+});
+
+test("sends NaN min and max to isArrayOfLength falls back to defaults", () => {
+  expect(isArrayOfLength(["white", "grey", "black"], NaN, NaN)).toBe(true);
+});
+
+test("sends non-numeric string min/max to isArrayOfLength falls back to defaults", () => {
+  expect(isArrayOfLength(["white", "grey", "black"], "abc", "def")).toBe(true);
+});
+
+test("sends object min/max to isArrayOfLength falls back to defaults", () => {
+  expect(isArrayOfLength(["white", "grey", "black"], {}, [])).toBe(true);
+});
+
+test("sends valid min with null max to isArrayOfLength still enforces min", () => {
+  expect(isArrayOfLength([1], 5, null)).toBe(false);
+});
+
 test("sends false to isArrayOfLength with length test between 2 and 4", () => {
   expect(isArrayOfLength(false, 2, 4)).toBe(false);
 });
@@ -266,8 +301,8 @@ test("sends regex to isArrayOfLength with length test between 2 and 4", () => {
   expect(isArrayOfLength(/ab+c/i, 2, 4)).toBe(false);
 });
 
-test("sends wrong comparator to isArrayOfLength with length test between 2 and 4", () => {
-  expect(isArrayOfLength([2,4], '+', 2)).toBe(false);
+test("sends array of length 2 to isArrayOfLength with length test between 2 and 4", () => {
+  expect(isArrayOfLength([2,4], 2, 4)).toBe(true);
 });
 
 test("sends empty array to isArrayOfLength with length test between 2 and 4", () => {

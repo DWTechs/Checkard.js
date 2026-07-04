@@ -1,3 +1,7 @@
+# 3.6.1 (Jul 3rd 2026)
+
+- Hardened isStringOfLength() and isArrayOfLength() to safely handle invalid min/max values such as null, undefined, NaN or non-numeric inputs by falling back to the documented defaults.
+
 # 3.6.0 (Oct 12th 2025)
 
 - Add isAnsiEscapeCode() functions to check if a value is a valid ANSI escape code
