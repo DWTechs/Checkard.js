@@ -1,3 +1,13 @@
+# 3.7.0 (Aug 25th 2026)
+
+- Add isSet() function to check if a value is a Set, optionally comparing its size
+- Add isSetOfLength() function to check if a value is a Set with size within a given range
+- Fix isAnsiEscapeCode() regex to match the actual ESC control byte (\u001b) instead of the literal text "\x1b", which meant it previously rejected real ANSI escape codes
+- Fix isInteger() to use Number.isInteger() instead of a String()/parseInt() round-trip, which silently misjudged large or exponential-notation integers (e.g. 1e21) as non-integers. Also fixes the same issue in isEven(), isOdd() and isPowerOfTwo(), which call isInteger() internally
+- Fix isTimestamp() to convert to a Date using Number(v) instead of the String()/parseInt() round-trip, which produced a wrong (but coincidentally valid-looking) timestamp for exponential/hex/octal/binary numeric strings. Also affects isValidTimestamp() and isValidInteger(), which build on isTimestamp()/isInteger()
+- Fix isPowerOfTwo() to use repeated division instead of the bitwise `&` trick, which silently truncated operands to 32-bit signed integers and could falsely report large non-powers-of-two (e.g. multiples of 2^32) as powers of two
+- Bump minimum supported Node.js version from 14 to 16. isJWT() relies on the global `atob`, which is only available as a Node.js global since v16; on Node 14/15 it threw `ReferenceError: atob is not defined`
+
 # 3.6.1 (Jul 3rd 2026)
 
 - Hardened isStringOfLength() and isArrayOfLength() to safely handle invalid min/max values such as null, undefined, NaN or non-numeric inputs by falling back to the documented defaults.

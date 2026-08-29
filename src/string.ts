@@ -290,8 +290,9 @@ function isHexadecimal(
 
 
 // Regex to validate ANSI escape codes
-// Matches patterns like \x1b[31m, \x1b[0m, \x1b[1;32m, etc.
-const ansiRegex = /^\\x1b\[\d+(;\d+)*m$/;
+// Matches real escape sequences containing the actual ESC control byte (\u001b),
+// e.g. "\u001b[31m", "\u001b[0m", "\u001b[1;32m", etc.
+const ansiRegex = /^\x1b\[\d+(;\d+)*m$/;
 /**
  * Checks if the given value is a valid ANSI escape code.
  * Performs internal string validation using isString() before checking ANSI format.

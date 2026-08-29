@@ -154,16 +154,19 @@ describe('isTimestamp throwErr tests', () => {
       expect(() => isTimestamp('1640995200.5', false, true)).toThrow();
     });
 
-    test('should throw for string with hex number', () => {
-      expect(() => isTimestamp('0x123456', false, true)).toThrow();
+    // Regression: Number() correctly parses these numeric-literal prefixes (unlike
+    // the old String()/parseInt() round-trip), matching isNum()'s documented
+    // type=false permissiveness (e.g. '0x44' is treated as a valid number).
+    test('should not throw for string with hex number (valid per type=false)', () => {
+      expect(() => isTimestamp('0x123456', false, true)).not.toThrow();
     });
 
-    test('should throw for string with octal number', () => {
-      expect(() => isTimestamp('0o123456', false, true)).toThrow();
+    test('should not throw for string with octal number (valid per type=false)', () => {
+      expect(() => isTimestamp('0o123456', false, true)).not.toThrow();
     });
 
-    test('should throw for string with binary number', () => {
-      expect(() => isTimestamp('0b101010', false, true)).toThrow();
+    test('should not throw for string with binary number (valid per type=false)', () => {
+      expect(() => isTimestamp('0b101010', false, true)).not.toThrow();
     });
   });
 

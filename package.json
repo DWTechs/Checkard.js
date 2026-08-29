@@ -1,6 +1,6 @@
 {
   "name": "@dwtechs/checkard",
-  "version": "3.6.1",
+  "version": "3.7.0",
   "description": "Open source dynamic type checking library for Javascript, Typescript and Node.js to test if a given variable is what it is supposed to be.",
   "keywords": [
     "type checking",
@@ -19,7 +19,7 @@
   },
   "sideEffects": false,
   "engines": {
-    "node": ">=14"
+    "node": ">=16"
   },
   "repository": {
     "type": "git",

@@ -2,7 +2,7 @@
 [![License: MIT](https://img.shields.io/npm/l/@dwtechs/checkard.svg?color=brightgreen)](https://opensource.org/licenses/MIT)
 [![npm version](https://badge.fury.io/js/%40dwtechs%2Fcheckard.svg)](https://www.npmjs.com/package/@dwtechs/checkard)
 [![last version release date](https://img.shields.io/github/release-date/DWTechs/Checkard.js)](https://www.npmjs.com/package/@dwtechs/checkard)
-![Jest:coverage](https://img.shields.io/badge/Jest:coverage-98%25-brightgreen.svg)
+![Jest:coverage](https://img.shields.io/badge/Jest:coverage-100%25-brightgreen.svg)
 
 - [Synopsis](#synopsis)
 - [Support](#support)
@@ -41,7 +41,7 @@ Function, object, ascii, boolean, integer, string, json, email...)
 - opera: 28,
 - safari: 5.1,
 - samsung: 4,
-- Node.js: 14
+- Node.js: 16
 
 Those are the oldest targeted versions. The library should work properly on older devices but we do not support it officially.  
 
@@ -367,6 +367,24 @@ function isArray<T = unknown>(
 ): v is T[] {}
 
 /**
+ * Checks if the given value is a Set and optionally compares its size.
+ *
+ * @template T - The type of elements in the Set.
+ * @param {unknown} v - The value to check.
+ * @param {Comparator | null} [comparator=null] - An optional comparator function to compare the Set size.
+ * @param {number | null} [limit=null] - An optional limit to compare the Set size against.
+ * @param {boolean} [throwErr=false] - If true, throws an error when value is not a Set or comparison fails. If false, returns false.
+ * @returns {boolean} `true` if the value is a Set and meets the comparator and limit conditions, otherwise `false`.
+ * @throws {Error} Throws an error if the value is not a Set or the comparison fails and throwErr is true.
+ */
+function isSet<T = unknown>(
+  v: unknown, 
+  comparator: Comparator | null = null, 
+  limit: number | null = null,
+  throwErr: boolean = false
+): v is Set<T> {}
+
+/**
  * Checks if the given input is a valid JSON string.
  *
  * @param {unknown} v - The input to check.
@@ -461,6 +479,32 @@ let arr = ['dog','cat','bird'];
 
 if (isArray(arr) && !isArrayOfLength(arr, 4, 4)) {
   // array is of type array even if length is not 4
+}
+
+```
+
+Usage example for isSet method: 
+
+```typescript
+
+import { isSet } from "@dwtechs/checkard";
+
+let s = new Set(['dog','cat','bird']);
+
+if (isSet(s)) {
+  // check if s is a Set
+}
+
+if (isSet(s, '!0')) {
+  // s is not empty
+}
+
+if (isSet(s, '=', 2)) {
+  // s is a Set of size 2
+}
+
+if (isSet(s, '>=', 1)) {
+  // s is a Set of size greater than or equal to 1
 }
 
 ```
@@ -1123,6 +1167,47 @@ function setLevel(level: Levels): Levels {
 }
 let lvl = setLevel("error"); // lvl = "error"
 let lvl = setLevel("infos"); // lvl = "warn"
+
+```
+
+
+### Set
+---
+
+```typescript
+
+/**
+ * Checks if the size of a Set is within the specified range.
+ * Performs internal Set validation using isSet() before checking size.
+ *
+ * @template T - The type of elements in the Set.
+ * @param {unknown} v - The value to check (performs internal Set validation).
+ * @param {number} [min=0] - The minimum size of the Set (inclusive). Falls back to 0 if not a valid number (e.g. null, undefined, NaN).
+ * @param {number} [max=999999999] - The maximum size of the Set (inclusive). Falls back to 999999999 if not a valid number (e.g. null, undefined, NaN).
+ * @param {boolean} [throwErr=false] - If true, throws an error when Set size is not within range. If false, returns false.
+ * @returns {boolean} - Returns `true` if the value is a Set and its size is within the specified range, false if not (when throwErr is false).
+ * @throws {Error} Throws an error if the value is not a Set or its size is not within the specified range and throwErr is true.
+ */
+function isSetOfLength<T = unknown>(
+  v: unknown, 
+  min: number = 0, 
+  max: number = 999999999,
+  throwErr: boolean = false
+): v is Set<T> {}
+
+```
+
+Usage example : 
+
+```javascript
+
+import { isSet, isSetOfLength } from "@dwtechs/checkard";
+
+let s = new Set(['dog','cat','bird']);
+
+if (isSet(s) && !isSetOfLength(s, 4, 4)) {
+  // s is of type Set even if size is not 4
+}
 
 ```
 

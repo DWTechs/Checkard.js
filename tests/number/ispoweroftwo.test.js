@@ -160,3 +160,18 @@ const invalidjson = `{
 test("sends invalid json to isPowerOfTwo", () => {
   expect(isPowerOfTwo(invalidjson)).toBe(false);
 });
+
+// Regression: bitwise & truncates operands to 32-bit signed integers, which used to
+// silently mishandle values >= 2^32 (e.g. falsely reporting non-powers-of-two as true).
+test("sends 2^33 to isPowerOfTwo", () => {
+  expect(isPowerOfTwo(2 ** 33)).toBe(true);
+});
+
+test("sends 3 * 2^32 (not a power of two) to isPowerOfTwo", () => {
+  expect(isPowerOfTwo(3 * 2 ** 32)).toBe(false);
+});
+
+test("sends 2^32 + 5 (not a power of two) to isPowerOfTwo", () => {
+  expect(isPowerOfTwo(2 ** 32 + 5)).toBe(false);
+});
+

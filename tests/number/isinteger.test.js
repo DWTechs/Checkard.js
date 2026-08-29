@@ -140,6 +140,20 @@ describe("type = true", () => {
     expect(isInteger(invalidjson)).toBe(false);
   });
 
+  // Regression: Number.isInteger() correctly recognizes large/exponential-notation
+  // integers that the old String()/parseInt() round-trip misjudged (parseInt stops
+  // parsing at the "e" in exponential notation, e.g. parseInt("1e+21") === 1).
+  test("sends a large integer in exponential notation to isInteger", () => {
+    expect(isInteger(1e21)).toBe(true);
+  });
+
+  // At this magnitude, adjacent representable doubles are spaced far more than 1
+  // apart, so no fractional value exists: 1.5e21 is itself a whole number in
+  // floating-point, and Number.isInteger() correctly reports it as an integer.
+  test("sends a large number in exponential notation to isInteger", () => {
+    expect(isInteger(1.5e21)).toBe(true);
+  });
+
 });
 
 describe("type = false", () => {
@@ -253,11 +267,11 @@ describe("type = false", () => {
   });
 
   test("sends '8e5' without type checking to isInteger", () => {
-    expect(isInteger('8e5', false)).toBe(false);
+    expect(isInteger('8e5', false)).toBe(true);
   });
 
   test("sends '0x44' without type checking to isInteger", () => {
-    expect(isInteger('0x44', false)).toBe(false);
+    expect(isInteger('0x44', false)).toBe(true);
   });
 
   test("sends json to isInteger", () => {
@@ -266,6 +280,14 @@ describe("type = false", () => {
 
   test("sends invalid json to isInteger", () => {
     expect(isInteger(invalidjson, false)).toBe(false);
+  });
+
+  test("sends a large integer in exponential notation to isInteger without typeCheck", () => {
+    expect(isInteger(1e21, false)).toBe(true);
+  });
+
+  test("sends a large integer string in exponential notation to isInteger without typeCheck", () => {
+    expect(isInteger("1e21", false)).toBe(true);
   });
 
 });

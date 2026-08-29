@@ -63,6 +63,37 @@ function isArray<T = unknown>(
 }
 
 /**
+ * Checks if the given value is a Set and optionally compares its size.
+ *
+ * @template T - The type of elements in the Set.
+ * @param {unknown} v - The value to check.
+ * @param {Comparator | null} [comparator=null] - An optional comparator function to compare the Set size.
+ * @param {number | null} [limit=null] - An optional limit to compare the Set size against.
+ * @param {boolean} [throwErr=false] - If true, throws an error when value is not a Set or comparison fails. If false, returns false.
+ * @returns {boolean} `true` if the value is a Set and meets the comparator and limit conditions, otherwise `false`.
+ * @throws {Error} Throws an error if the value is not a Set or the comparison fails and throwErr is true.
+ */
+function isSet<T = unknown>(
+  v: unknown, 
+  comparator: Comparator | null = null, 
+  limit: number | null = null,
+  throwErr: boolean = false
+): v is Set<T> {
+
+  if (!(v instanceof Set)) {
+    if (throwErr) throwError('Set', v);
+    return false;
+  }
+
+  try {
+    return compare(v.size, comparator, limit, throwErr);
+  } catch (err) {
+    throwError('valid Set', v, (err as Error).message);
+    return false;
+  }
+}
+
+/**
  * Checks if the given input is a valid JSON string.
  *
  * @param {unknown} v - The input to check.
@@ -172,6 +203,7 @@ function isFunction(
 export {
   isObject,
   isArray,
+  isSet,
   isJson,
   isRegex,
   isDate,

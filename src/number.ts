@@ -16,11 +16,8 @@ function isInteger<T extends boolean = true>(
   throwErr: boolean = false
 ): v is T extends true ? number : number | string {
 
-  if (isNumber(v, type)) {
-    const int = Number.parseInt(String(v), 10);
-    if (type ? v === int : v == int)
-      return true;
-  }
+  if (isNumber(v, type) && Number.isInteger(Number(v)))
+    return true;
 
   if (throwErr)
     throwError('integer', v);
@@ -193,9 +190,19 @@ function isPowerOfTwo<T extends boolean = true>(
   throwErr: boolean = false
 ): v is T extends true ? number : number | string {
 
-  if (isInteger(v, type) && !isOrigin(v, type) && ((v as number) & (v as number - 1)) === 0)
-    return true;
-    
+  if (isInteger(v, type) && !isOrigin(v, type)) {
+    const num = Number(v);
+    // Repeated division avoids the 32-bit truncation that plain bitwise operators
+    // apply to their operands, which would silently mishandle values >= 2^32.
+    if (num > 0) {
+      let n = num;
+      while (n % 2 === 0)
+        n /= 2;
+      if (n === 1)
+        return true;
+    }
+  }
+
   if (throwErr)
     throwError('power of two integer', v);
 

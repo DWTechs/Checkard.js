@@ -61,7 +61,7 @@ function isTimestamp<T extends boolean = true>(
 ): v is T extends true ? number : number | string {
 
   
-  if (isInteger(v, type) && isNum(new Date(Number.parseInt(String(v))).getTime(), type))
+  if (isInteger(v, type) && isNum(new Date(Number(v)).getTime(), type))
     return true;
   
   if (throwErr)

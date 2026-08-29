@@ -8,6 +8,7 @@ export {  isBoolean,
         
 export {  isObject,
           isArray,
+          isSet,
           isJson,
           isRegex,
           isDate,
@@ -20,6 +21,8 @@ export {  isProperty } from './object';
 
 export {  isArrayOfLength,
           isIn } from './array';
+
+export {  isSetOfLength } from './set';
 
 export {  isAscii,
           isInteger,

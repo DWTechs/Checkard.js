@@ -35,6 +35,11 @@ declare function isArray<T = unknown>(v: unknown,
                                       limit?: number | null,
                                       throwErr?: boolean
                                      ): v is T[];
+declare function isSet<T = unknown>(v: unknown, 
+                                    comparator?: Comparator | null, 
+                                    limit?: number | null,
+                                    throwErr?: boolean
+                                   ): v is Set<T>;
 declare function isJson(v: unknown, throwErr?: boolean): v is JSON;
 declare function isRegex(v: unknown, type?: boolean, throwErr?: boolean): v is RegExp;
 declare function isDate(v: unknown, throwErr?: boolean): v is Date;
@@ -47,6 +52,11 @@ declare function isArrayOfLength<T = unknown>(v: unknown,
                                               max?: number | null,
                                               throwErr?: boolean
                                              ): v is T[];
+declare function isSetOfLength<T = unknown>(v: unknown, 
+                                            min?: number | null, 
+                                            max?: number | null,
+                                            throwErr?: boolean
+                                           ): v is Set<T>;
 declare function isIn(a: unknown[], 
                       v: unknown, 
                       from?: number,
@@ -168,7 +178,9 @@ export { isBoolean,
          isObject,
          isProperty,
          isArray,
+         isSet,
          isArrayOfLength,
+         isSetOfLength,
          isIn,
          isAscii,
          isInteger,

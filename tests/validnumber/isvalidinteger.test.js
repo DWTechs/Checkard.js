@@ -162,12 +162,25 @@ test("sends '0x44' to isValidInteger", () => {
   expect(isValidInteger('0x44')).toBe(false);
 });
 
+// Note: isValidInteger's signature is (v, min, max, type, throwErr) - passing
+// `false` here sets `min` (which falls back to the default since it's not a
+// valid number), not `type`, so these still run with the default type=true.
 test("sends '8e5' without type checking to isValidInteger", () => {
   expect(isValidInteger('8e5', false)).toBe(false);
 });
 
 test("sends '0x44' without type checking to isValidInteger", () => {
   expect(isValidInteger('0x44', false)).toBe(false);
+});
+
+// These correctly pass `type=false` in its actual 4th positional slot
+// (v, min, max, type), unlike the tests above which pass it as `min`.
+test("sends '8e5' with type=false (correct arg position) to isValidInteger", () => {
+  expect(isValidInteger('8e5', undefined, undefined, false)).toBe(true);
+});
+
+test("sends '0x44' with type=false (correct arg position) to isValidInteger", () => {
+  expect(isValidInteger('0x44', undefined, undefined, false)).toBe(true);
 });
 
 test("sends 8e5 to isValidInteger", () => {
